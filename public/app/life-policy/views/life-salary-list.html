@@ -1,0 +1,124 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <!--<big-breadcrumbs items="['Table', 'Data Tables']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <div smart-include="app/layout/partials/sub-header.tpl.html"></div>-->
+    </div>
+    <!-- widget grid -->
+    <!--<section widget-grid id="widget-grid">-->
+
+
+    <div class="row">
+       <article class="col-sm-12">
+            <span>
+                <button ng-click="vm.refreshSalaries()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredSalaries()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <!--<label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>-->
+                <!--<button ng-show="$rootScope.user.role != '出单员'" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付</button>-->
+            </span>
+
+
+            <div class="salaries-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.salaryTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.salaries" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.salaryTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            <thead>
+                                <tr>
+                                    <th field-name="year" display-name="年度" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            年度
+                                        </div>
+                                        <div>
+                                            <div class="tr-ng-column-filter">
+                                                <input type="text" class="form-control input-sm" ng-model="vm.filterSettings.year" ng-change="vm.filterChanged()">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th field-name="month" display-name="月份" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            月份
+                                        </div>
+                                        <div>
+                                            <div class="tr-ng-column-filter">
+                                                <input type="text" class="form-control input-sm" ng-model="vm.filterSettings.month" ng-change="vm.filterChanged()">
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th field-name="manager.name" cell-width="8em" display-name="主管姓名" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            主管姓名
+                                        </div>
+                                            <div class="tr-ng-column-filter">
+                                                <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
+
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.manager" ng-options="m._id as m.name for m in vm.managers | orderBy:['py']"
+                                                ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                    </th>
+                                    <th field-name="title" display-name="职级" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            营业部
+                                        </div>
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                    </th>
+                                    <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            出单员
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th field-name="salary_total" display-name="底薪合计" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="taxed_salary_total" display-name="底薪合计(税后)" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td field-name="year"></td>
+                                    <td field-name="month"></td>
+                                    <td field-name="manager.name"></td>
+                                    <td field-name="title"></td>
+                                    <td field-name="organization.name"></td>
+                                    <td field-name="seller.name"></td>
+                                    <td field-name="salary_total"></td>
+                                    <td field-name="taxed_salary_total"></td>
+                                    <td>
+                                        <!--<button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>-->
+                                        <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

@@ -1,0 +1,82 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <button ng-click="vm.refreshClicked()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>                     
+            </span>
+
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            <thead>
+                                <tr>
+                                    <th field-name="created_at" display-name="出单时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <!--<th field-name="applicant" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="plate" display-name="车牌号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务来源
+                                        </div>
+                                        <div class="tr-ng-column-filter">
+                                            <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
+                                                <ui-select-match class="input-md">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </th>
+                                    <th field-name="company" display-name="保险公司" display-format="getCompanyName:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="policy_name" display-name="险种名称" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <!--<th field-name="fee" display-name="保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="income_rate" display-name="跟单比例(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <!--<th field-name="payment_substract_rate" display-name="结算扣(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="payment" display-name="结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="profit" display-name="毛利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_remarks" display-name="支付备注" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td field-name="client.name"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

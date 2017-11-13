@@ -1,0 +1,102 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <!--<big-breadcrumbs items="['Table', 'Data Tables']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <div smart-include="app/layout/partials/sub-header.tpl.html"></div>-->
+    </div>
+    <!-- widget grid -->
+    <!--<section widget-grid id="widget-grid">-->
+
+
+    <div class="row">
+        <article class="col-sm-12">
+            <span>
+                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <!--<label ng-show="user.role!='出单员'"> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>-->
+            
+            </span>
+
+
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            <thead>
+                                <tr>
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <!--<th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="applicant.name" display-name="被保险人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="client.name" cell-width="8em"  display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务来源
+                                        </div>
+                                        <div class="tr-ng-column-filter">
+                                            <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
+                                                <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </th>
+                                    <!--<th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            营业部
+                                        </div>
+                                        <div ng-show="user.role!='出单员'">
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
+                                                ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th field-name="total_payment" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="paid_at" display-name="支付日期" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_bank" display-name="转账备注" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td field-name="client.name"></td>
+                                    <td field-name="organization.name"></td>
+                                    <td>
+                                        <button ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>   
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

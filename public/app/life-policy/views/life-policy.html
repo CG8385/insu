@@ -1,0 +1,389 @@
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <div>
+                <button ng-show="(user.role=='出单员' && !vm.editable) || user.role=='管理员'" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+            </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>保单详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+
+                        <form name="policyForm" id="policyForm" class="smart-form" novalidate>
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <header>
+                                    基本信息
+                                </header>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">保险公司</label>
+                                        <label class="select">
+                                            <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
+                                            validator="required">
+                                                <option value="">请选择保险公司</option>
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">保单号</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="policy_no" ng-model="vm.policy.policy_no" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-1">
+                                        <label class="label">保单年度</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="stage" ng-model="vm.policy.stage" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">总单保费</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="total_fee" price ng-model="vm.policy.total_fee" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">标准保费</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="standard_fee" price ng-model="vm.policy.standard_fee"
+                                            validator="required">
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                   <section class="col col-1">
+                                        <label class="label">保单性质</label>
+                                        <label class="select">
+                                            <select name="sex" class="input-lg" ng-model="vm.policy.policy_type" validator="required">
+                                                <option value=""></option>
+                                                <option value="首保">首保</option>
+                                                <option value="续保">续保</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">交单日</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="submit_date" placeholder="交单日" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.submit_date">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">生效日</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="effective_date" placeholder="生效日" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.effective_date">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">回执回销日</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="receipt_date" placeholder="回销日" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.receipt_date">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">业务所属发票号</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="invoice_no" ng-model="vm.policy.invoice_no">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">开票日期</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="invoice_date" placeholder="开票日" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.invoice_date">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <header>
+                                    险种信息栏
+                                </header>
+                                <div class="row" data-ng-repeat="subPolicy in vm.policy.sub_policies">
+                                    <section class="col col-2">
+                                        <label class="label">被保人</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="insurant" ng-model="subPolicy.insurant" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">险种名称</label>
+                                        <label class="select">
+                                            <select name='policy_name' class="input-lg" ng-model="subPolicy.policy_name" ng-options="c._id as c.name for c in vm.policyNames | orderBy:['name']"
+                                            validator="required">
+                                                <option value="">请选择险种名称</option>
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">缴费年限</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="year" ng-model="subPolicy.year" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">保费</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateZYFee(subPolicy)" validator="required">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">结算费</label>
+                                        <section class="col col-3 no-padding">
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="payment_rate" price ng-model="subPolicy.payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                validator="required">
+                                            </label>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="payment" price ng-model="subPolicy.payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                </div>
+                                <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addSubPolicy()">添加一行</button>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">结算费(税前合计)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="payment_total" price ng-model="vm.policy.payment_total" ng-disabled=true>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">结算费(扣5%税后)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true>
+                                        </label>
+                                    </section>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <header>
+                                    客户信息栏
+                                </header>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <section class="col col-4 no-padding">
+                                            <label class="label">投保人</label>
+                                            <label class="input">
+                                                <input class="input-lg" name="applicant" ng-model="vm.policy.applicant.name">
+                                            </label>
+                                        </section>
+                                        <section class="col col-8">
+                                            <label class="label">身份证号</label>
+                                            <label class="input">
+                                                <input class="input-lg" name="identity" ng-model="vm.policy.applicant.identity">
+                                            </label>
+                                        </section>
+                                    </section>
+
+                                    <section class="col col-2">
+                                        <label class="label">电话</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="phone" ng-model="vm.policy.applicant.phone" validator="phone">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">联系地址</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="address" ng-model="vm.policy.applicant.address">
+                                        </label>
+                                    </section>
+                                    <section class="col col-1">
+                                        <label class="label">性别</label>
+                                        <label class="select">
+                                            <select name="sex" class="input-lg" ng-model="vm.policy.applicant.sex">
+                                                <option value=""></option>
+                                                <option value="男">男</option>
+                                                <option value="女">女</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">出生日期</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="applicant_birthday" placeholder="yyyy-mm-dd"  ng-model="vm.policy.applicant.birthday" validator="date">
+                                        </label>
+                                    </section>
+                                </div>
+
+                                <div class="row" data-ng-repeat="insurant in vm.policy.insurants">
+                                    <section class="col col-4">
+                                        <section class="col col-4 no-padding">
+                                            <label class="label">被保险人</label>
+                                            <label class="input">
+                                                <input class="input-lg" name="insurant_name" ng-model="insurant.name">
+                                            </label>
+                                        </section>
+                                        <section class="col col-8">
+                                            <label class="label">身份证号</label>
+                                            <label class="input">
+                                                <input class="input-lg" name="identity" ng-model="insurant.identity">
+                                            </label>
+                                        </section>
+                                    </section>
+
+                                    <section class="col col-2">
+                                        <label class="label">电话</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="phone" ng-model="insurant.phone" validator="phone">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">联系地址</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="address" ng-model="insurant.address">
+                                        </label>
+                                    </section>
+                                    <section class="col col-1">
+                                        <label class="label">性别</label>
+                                        <label class="select">
+                                            <select name="sex" class="input-lg" ng-model="insurant.sex">
+                                                <option value=""></option>
+                                                <option value="男">男</option>
+                                                <option value="女">女</option>
+                                            </select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">出生日期</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="insurant_birthday" placeholder="yyyy-mm-dd" ng-model="insurant.birthday" validator="date">
+                                        </label>
+                                    </section>
+                                    
+                                </div>
+                                <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addInsurant()">添加一行</button>
+                            </fieldset>
+
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <header>
+                                    结算汇总信息
+                                </header>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">结算费(税后)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">业务员</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">增员奖(税后)</label>
+                                        <section class="col col-3 no-padding">
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="zy_rate" price ng-model="vm.policy.zy_rate" ng-change="vm.updateZYPayment()"
+                                                validator="required">
+                                            </label>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="zy_payment" price ng-model="vm.policy.zy_payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">增员人</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 164px;" ng-model="vm.zy_clientInfo" theme="select2" ng-disabled="!vm.editable">
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>              
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">直属经理</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 164px;" ng-model="vm.managerInfo" theme="select2" ng-disabled="!vm.editable">
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="manager in vm.managers| filter: $select.search">
+                                                    <div ng-bind-html="manager.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">直属总监</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 164px;" ng-model="vm.directorInfo" theme="select2" ng-disabled="!vm.editable">
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="manager in vm.managers| filter: $select.search">
+                                                    <div ng-bind-html="manager.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-5">
+                                        <label class="label">所属机构</label>
+                                        <label class="select">
+                                            <select name='organization' class="input-lg" ng-model="vm.policy.organization"
+                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
+                                                <option value="">请选择所属机构</option>
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="optional-input-field-set" ng-disabled=true>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">出单员</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input class="input-lg" name="cdy" ng-model="vm.sellerInfo.name">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <footer>
+                                <span>
+                                    <button ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
+                                    </button>
+                                    <button class="btn btn-primary" ng-show="vm.editable"
+                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

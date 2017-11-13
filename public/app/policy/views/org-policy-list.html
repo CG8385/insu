@@ -1,0 +1,102 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <button ng-click="vm.refreshClicked()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <label ng-show="vm.isShowBulkPayButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.income.toFixed(2)}}  结算费总额:{{vm.summary.payment.toFixed(2)}}  毛利润总额:{{vm.summary.profit.toFixed(2)}}</label>
+                <button ng-show="vm.isShowBulkPayButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>
+                <button ng-show="vm.isShowBulkPayButton" ng-click="vm.bulkDelete()" class="btn btn-primary">批量删除选中的保单</button>                        
+            </span>
+
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            <thead>
+                                <tr>
+                                    <th display-align="center" cell-width="2em">
+                                        <div class="tr-ng-title">&nbsp;</div>
+                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                    </th>
+                                    <th field-name="created_at" display-name="出单时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <!--<th field-name="applicant" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="plate" display-name="车牌号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务来源
+                                        </div>
+                                        <div class="tr-ng-column-filter">
+                                            <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
+                                                <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </th>
+                                    <th field-name="company" display-name="保险公司" display-format="getCompanyName:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="policy_name" display-name="险种名称" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="fee" display-name="保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="income_rate" display-name="跟单比例(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_substract_rate" display-name="结算扣(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment" display-name="结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
+                                        </div>
+                                    </td>
+                                    <td field-name="client.name"></td>
+                                    <!--<td field-name="organization.name"></td>
+                                    <td field-name="seller.name"></td>
+                                    <td>
+                                        <button ng-show="vm.isShowReviewButton(gridItem)" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
+                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        <div class="row">
+                            <section class="col col-4">
+                                <button class="btn btn-primary" ng-show="vm.pageSize < vm.policyTotalCount" ng-click="vm.showAll()">在一页显示所有符合筛选条件的保单(最多300条一页)</button>
+                            </section>
+                        </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

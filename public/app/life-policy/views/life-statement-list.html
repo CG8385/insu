@@ -1,0 +1,85 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <!--<big-breadcrumbs items="['Table', 'Data Tables']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <div smart-include="app/layout/partials/sub-header.tpl.html"></div>-->
+    </div>
+    <!-- widget grid -->
+    <!--<section widget-grid id="widget-grid">-->
+
+
+    <div class="row">
+       <article class="col-sm-12">
+            <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                
+                <button ng-click="vm.refreshStatements()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredStatements()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+            </span>
+
+
+            <div class="statements-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.salaryTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.statements" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.statementTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            <thead>
+                                <tr>
+                                   <th field-name="company.name" display-name="保险公司" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            保险公司
+                                        </div>
+                                            <div class="tr-ng-column-filter">
+                                                <select class="form-control input-sm" ng-model="vm.filterSettings.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
+                                                ng-change="vm.filterChanged()">
+                                                    <option value="" selected></option>
+                                                </select>
+                                            </div>
+                                    </th>
+                                    <th field-name="issue_date" display-name="开票日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="invoice_no" display-name="发票号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="invoice_amount" display-name="开票金额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="new_policy_income" display-name="新保手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="renewal_income" display-name="续保手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="other_income" display-name="其他手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td field-name="company.name"></td>
+                                    <td field-name="issue_date"></td>
+                                    <td field-name="invoice_no"></td>
+                                    <td field-name="invoice_amount"></td>
+                                    <td field-name="new_policy_income"></td>
+                                    <td field-name="renewal_income"></td>
+                                    <td field-name="other_income"></td>
+                                    <td>
+                                        <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

@@ -1,0 +1,128 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+            </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>分支机构详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+                        <form name="organizationForm" id="organizationForm" class="smart-form" novalidate>
+                            <section class="col col-6">
+                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+
+                                    <div class="row">                                      
+                                            <label class="label">分支机构名称</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" name="organization" ng-model="vm.organization.name" validator="required">
+                                            </label>                                       
+                                    </div>
+                                    
+                                </fieldset>
+                            </section>
+
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="organizationForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                    </button>
+                                    <button validation-submit="organizationForm" class="btn btn-primary" ng-show="vm.editable"
+                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>下属业务员</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.subClients" page-items="15" enable-filtering="false">
+                            <thead>
+                                <tr>
+                                    <th field-name="name" display-name="业务员姓名" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                     <th field-name="identity" display-name="身份证号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="lincense_no" display-name="执业证号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="bank" display-name="开户行" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!--<td>
+                                        <button ng-click="vm.remove(gridItem._id)" class="btn btn-primary btn-sm">从</button>                                   
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkAssign()" class="btn btn-primary">批量添加选中业务员到该营业部</button>
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>待分配业务员</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.wildClients" page-items="50" enable-filtering="false">
+                            <thead>
+                                <tr>
+                                    <th display-name="选择" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="name" display-name="业务员姓名" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                     <th field-name="identity" display-name="身份证号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="lincense_no" display-name="执业证号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="bank" display-name="开户行" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

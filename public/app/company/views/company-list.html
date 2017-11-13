@@ -1,0 +1,54 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <select name='cat' class="input-sm" data-ng-change="vm.level1Changed()" ng-model="vm.setting.level1Company" ng-options="c._id as c.name for c in vm.level1Companies">
+                <option value="">选择所属一级保险公司</option>
+             </select>
+             <select name='cat' class="input-sm" data-ng-show="vm.level!='二级'" ng-disabled="!vm.setting.level1Company" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Company" ng-options="c._id as c.name for c in vm.level2Companies">
+                <option value="">选择所属二级保险公司</option>
+             </select>
+             <select name='cat' class="input-sm" data-ng-show="vm.level=='四级'" ng-disabled="!vm.setting.level2Company" data-ng-change="vm.level3Changed()" ng-model="vm.setting.level3Company" ng-options="c._id as c.name for c in vm.level3Companies">
+                <option value="">选择所属三级保险公司</option>
+             </select>
+            <button ng-click="vm.addSubCompany()" ng-show="vm.setting.parentId" class="btn btn-primary btn-sm">添加下辖{{vm.level}}保险公司</button>
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>下辖{{vm.level}}保险公司</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.companies" page-items="15" enable-filtering="false">
+                            <thead>
+                                <tr>
+                                    <th field-name="name" display-name="保险公司名称" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <!--<th field-name="contact" display-name="联系人" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="income_rates" display-name="跟单费率" display-format="getIncomeRatesString:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_rates" display-name="结算费率" display-format="getPaymentRatesString:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

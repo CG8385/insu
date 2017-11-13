@@ -1,0 +1,136 @@
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <div>
+                <button ng-show="(user.role=='出单员' && !vm.editable) || user.role=='管理员'" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+            </div>
+            <div class="statements-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>保险公司对账单详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+
+                        <form name="statementForm" id="statementForm" class="smart-form" novalidate>
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="label">保险公司</label>
+                                        <label class="select">
+                                            <select name='company' class="input-lg" ng-model="vm.statement.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
+                                            validator="required">
+                                                <option value="">请选择保险公司</option>
+                                            </select> <i></i>
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">开票日期</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" class="input-lg" name="issue_date" placeholder="请输入开票日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.statement.issue_date">
+                                        </label>
+                                    </section> 
+                                    <section class="col col-3">
+                                            <label class="label">发票号码</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-key"></i>
+                                                <input type="text" class="input-lg" placeholder="请输入发票号码" name="invoice_no" ng-model="vm.statement.invoice_no" validator="required">
+                                            </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">对接人</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                <input type="text" class="input-lg" placeholder="请输入对接人" name="contact" ng-model="vm.statement.contact" validator="required">
+                                            </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">开票金额</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="invoice_amount" price ng-model="vm.statement.invoice_amount" validator="required">
+                                            </label>                              
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">新保保费</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="new_policy_fee" price ng-model="vm.statement.new_policy_fee" validator="required">
+                                            </label>                              
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">新保手续费</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="new_policy_income" price ng-model="vm.statement.new_policy_income" validator="required">
+                                            </label>                              
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">续保保费</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="renewal_fee" price ng-model="vm.statement.renewal_fee" validator="required">
+                                            </label>                              
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">续保手续费</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="renewal_income" price ng-model="vm.statement.renewal_income" validator="required">
+                                            </label>                              
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">其他手续费</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-cny"></i>
+                                                <input type="text" class="input-lg" name="other_income" price ng-model="vm.statement.other_income" validator="required">
+                                            </label>                              
+                                    </section>
+                                </div>                                  
+                            </fieldset>
+
+
+                            <fieldset class="optional-input-field-set" ng-disabled=true>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">出单员</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input class="input-lg" name="cdy" ng-model="vm.sellerInfo.name">
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+                            <footer>
+                                <span>
+                                    <button validation-submit="statementForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
+                                    </button>
+                                    <button validation-submit="statementForm" class="btn btn-primary" ng-show="vm.editable"
+                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

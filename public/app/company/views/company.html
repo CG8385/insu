@@ -1,0 +1,194 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+            </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>保险公司详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+                        <form name="companyForm" id="companyForm" class="smart-form" novalidate>
+                            <section class="col col-6">
+                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                    <div class="row">
+                                        <label class="label">上级保险公司</label>
+                                        <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
+                                       </label>
+                                        <!--<label class="select" ng-show = "vm.level == "二级">
+                                            <select name='cat' class="input-lg"  ng-model="vm.company.catogory"
+                                                    ng-options="c._id as c.name for c in vm.companyCatogories" validator="required">
+                                                <option value="">请选择所属一级保险公司</option>
+                                            </select> <i></i>
+                                        </label>-->
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">级别</label>
+                                        <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" ng-disabled="true" name="level" ng-model="vm.company.level">
+                                            </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">保险公司名称</label>
+                                        <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" name="company" ng-model="vm.company.name" validator="required">
+                                            </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">联系人</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input type="text" class="input-lg" name="contact" ng-model="vm.company.contact">
+                                        </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">联系电话</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input type="text" class="input-lg" name="phone" ng-model="vm.company.phone" validator="phone">
+                                        </label>
+                                    </div>
+                                    <!--<div class="row">
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="rates_based_on_taxed" ng-model="vm.company.rates_based_on_taxed">
+                                            <i></i>费率基于不含税保费</label>
+                                    </div>-->
+                                </fieldset>
+                            </section>
+
+
+
+                            <section class="clear col col-10">
+                                <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.toggleSetRate()">设置指导费率</button>
+                                <div class="row" ng-show="vm.showRateEditor">
+                                    <section class="col col-3">
+                                        <section class="col col-6">
+                                            <label class="label">交强险跟单(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="mandatory_income_rate" price ng-model="vm.current_rate.mandatory_income">
+                                                </label>
+                                        </section>
+
+                                        <section class="col col-6">
+                                            <label class="label">交强险结算(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="mandatory_payment_rate" price ng-model="vm.current_rate.mandatory_payment">
+                                                </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <section class="col col-6">
+                                            <label class="label">商业险跟单(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="commercial_income_rate" price ng-model="vm.current_rate.commercial_income">
+                                                </label>
+                                        </section>
+
+                                        <section class="col col-6">
+                                            <label class="label">商业险结算(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="commercial_payment_rate" price ng-model="vm.current_rate.commercial_payment">
+                                                </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <section class="col col-6">
+                                            <label class="label">车船税跟单(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="tax_income_rate" price ng-model="vm.current_rate.tax_income">
+                                                </label>
+                                        </section>
+
+                                        <section class="col col-6">
+                                            <label class="label">车船税结算(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="tax_payment_rate" price ng-model="vm.current_rate.tax_payment">
+                                                </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <section class="col col-6">
+                                            <label class="label">其他险跟单(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="other_income_rate" price ng-model="vm.current_rate.other_income">
+                                                </label>
+                                        </section>
+
+                                        <section class="col col-6">
+                                            <label class="label">其他险结算(%)</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" name="other_payment_rate" price ng-model="vm.current_rate.other_payment">
+                                                </label>
+                                        </section>
+                                    </section>
+                                </div>
+                            </section>
+
+                            <div class="clear col col-10 rates-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                                <!--<header>
+                                    <h2>历史费率</h2>
+                                </header>-->
+                                <label>历史费率</label>
+                                <div>
+                                    <div class="widget-body no-padding table-responsive">
+
+                                        <table class="table-striped table-condensed" tr-ng-grid items="vm.company.rates" page-items="15" enable-filtering="false">
+                                            <thead>
+                                                <tr>
+                                                    <th field-name="set_at" display-name="设置日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                                    </th>
+                                                    <th field-name="mandatory_income" display-name="交强险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="mandatory_payment" display-name="交强险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="commercial_income" display-name="商业险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="commercial_payment" display-name="商业险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="tax_income" display-name="车船税跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="tax_payment" display-name="车船税结算(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="other_income" display-name="其他险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+                                                    <th field-name="other_payment" display-name="其他险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="companyForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                    </button>
+                                    <button validation-submit="companyForm" class="btn btn-primary" ng-show="vm.editable"
+                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

@@ -1,0 +1,118 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+
+*{
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+input, label, select, option, textarea, button, fieldset, legend {
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family:"Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
+.logo
+{
+	height: 4em;
+	width: 4em;
+}
+
+.login-info a span {
+	font-size: 1.7em;
+}
+
+.policies-table{
+	padding-top: 3px;
+    min-height: 300px;
+}
+
+.payment-info-panel{
+	margin: 0.5em,1em,2em,0em;
+	font-size: large;
+	color: darkblue;
+}
+
+td button {
+	margin-right: 0.5em;
+}
+
+.validation-valid {
+    color: #0074D9;
+}
+
+.validation-invalid {
+    color: #FF4136;
+}
+
+.clear{
+	clear: both;
+}
+
+.thumb{
+	width: 30px;
+	height: 30px;
+}
+
+.height-limit{
+	max-height: 800px;
+	overflow: scroll;
+}
+
+.no-padding{
+	padding: 0;
+}
+
+.percent{
+	padding-top: 50%;
+    padding-left: 0.3em;
+}
+
+.magnify-container {
+  border: 1px solid #ccc;
+  margin: auto;
+  position: relative;
+}
+
+.magnify-container .magnify-glass {
+    width: 200px;
+    height: 200px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85),
+      0 0 7px 7px rgba(0, 0, 0, 0.25),
+      inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85),
+      0 0 7px 7px rgba(0, 0, 0, 0.25),
+      inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85),
+      0 0 7px 7px rgba(0, 0, 0, 0.25),
+      inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    background-repeat: no-repeat;
+    z-index: 999;
+  }
+  .magnify-container .magnify-image {
+    width: 100%;
+    height: 100%;
+  }

@@ -1,0 +1,35 @@
+<h5 class="center">我的近7日保单</h5>
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+                        <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>车牌号</th>
+                                    <th>投保人</th>
+                                    <!--<th><i class="fa fa-fw fa-cny"></i>保单总额</th>-->
+                                    <th>手续费</th>
+                                    <!--<th><i class="fa fa-fw fa-rocket"></i>保单状态</th>-->
+                                    <th>支付日期</th>
+                                    <th>支付凭证号</th>
+                                  </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="policy in vm.policies |orderBy: 'created_at'">
+                                    <td>{{policy.plate_province}}{{policy.plate_no}}</td>
+                                    <td>{{policy.applicant.name}}</td>
+                                    <!--<td>{{policy.mandatory_fee + policy.commercial_fee + policy.tax_fee | currency:"￥"}}</td>-->
+                                    <td>{{policy.total_payment | currency:"￥" | formatPayment }}</td>
+                                    <td>{{policy.paid_at | formatPaidDate | date:"yyyy-MM-dd"}}</td>
+                                    <td>{{policy.payment_proof}}</td>
+                                </tr>
+                           </tbody>
+                        </table>
+
+ 
+        </article>
+    </div>
+
+</div>

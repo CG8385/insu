@@ -1,0 +1,42 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>保险公司</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.companies" page-items="15" enable-filtering="false">
+                            <thead>
+                                <tr>
+                                    <th field-name="name" display-name="保险公司名称" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="contact" display-name="联系人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="catogory.name" display-name="所属一级保险公司" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

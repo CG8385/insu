@@ -1,0 +1,191 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+            </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <h2>车险业务员详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+                        <form name="individualForm" id="individualForm" class="smart-form" novalidate>
+                            <section class="col col-5">
+                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                    <div class="row">                                      
+                                            <label class="label">业务员姓名</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" name="name" ng-model="vm.client.name" validator="required">
+                                            </label>
+                                       
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">所属营业部</label>
+                                        <label class="select">
+                                            <select name='organization' class="input-lg" ng-model="vm.client.organization"
+                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
+                                                <option value="">请选择所属营业部</option>
+                                            </select> <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="row">                                      
+                                            <label class="label">执业证号</label>
+                                             <input type="file" style="display: none;" class = "input-lg" accept=".jpg,.png,.bmp" id="mandatory_file_selector" name="mandatory_file_selector"
+                                             onchange="angular.element(this).scope().vm.uploadLicensePhoto(this.files);"/>
+                                            
+                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file"  
+       	                                     onclick="mandatory_file_selector.click()">上传扫描件</button>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" name="license_no" ng-model="vm.client.license_no" validator="required">
+                                            </label>
+                                       
+                                    </div>
+                                    <div class="row">
+                                        
+                                            <label class="label">收款人姓名</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                <input type="text" class="input-lg" name="payee" ng-model="vm.client.payee" validator="required">
+                                            </label>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        
+                                            <label class="label">联系电话</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-phone"></i>
+                                                <input type="text" class="input-lg" name="phone" ng-model="vm.client.phone" validator="phone">
+                                            </label>
+                                       
+                                    </div>
+                                    <div class="row">
+                                        
+                                            <label class="label">收款人身份证号</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-key"></i>
+                                                <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="identity">
+                                            </label>
+                                       
+                                    </div>
+                                    <div class="row">
+                                       
+                                            <label class="label">开户行</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-bank"></i>
+                                                <input type="text" class="input-lg" name="bank" ng-model="vm.client.bank" validator="required">
+                                            </label>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        
+                                            <label class="label">收款账号</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-bank"></i>
+                                                <input type="text" class="input-lg" name="account" ng-model="vm.client.account" validator="required,number">
+                                            </label>
+                                        
+                                    </div>
+                                </fieldset>
+                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable" data-ng-repeat="other_account in vm.client.other_accounts">
+                                    <div class="row">
+                                        <label class="label">开户行</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-bank"></i>
+                                            <input type="text" class="input-lg" name="other_bank" ng-model="other_account.bank">
+                                        </label>
+                                    </div>
+                                    <div class="row">
+
+                                        <label class="label">收款账号</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-bank"></i>
+                                            <input type="text" class="input-lg" name="other_account" ng-model="other_account.account" validator="number">
+                                        </label>
+
+                                    </div>
+                                </fieldset>
+                                <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addAccount()">添加收款账户</button>
+                            </section>
+                            <section class="col col-7">
+                                <img ng-show="vm.client.license_photo" width="650"  src=vm.getPhotoUrl()>
+                            </section>
+
+                            <!--<section ng-show=false class="col col-6 height-limit"> 
+                                <div>
+                                    <h5>已绑定微信帐户</h5>
+                                    <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>微信头像</th>
+                                                <th>微信昵称</th>
+                                                <th>备注名</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="wechat in vm.bindedWechats">
+                                                <td><img class="thumb" ng-src="{{wechat.headimgurl}}"></td>
+                                                <td>{{wechat.nickname}}</td>
+                                                <td>{{wechat.remark}}</td>
+                                                <td>
+                                                    <button ng-show="vm.editable" class="btn btn-primary" ng-click="vm.unbindWechat($index)">解绑定</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                
+                                <div ng-show="vm.editable">
+                                    <h5>全部微信帐户</h5>
+                                    <table class="table table-striped table-bordered table-hover table-responsive" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>微信头像</th>
+                                                <th>微信昵称</th>
+                                                <th>备注名</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="wechat in vm.wechats">
+                                                <td><img class="thumb" ng-src="{{wechat.headimgurl}}"></td>
+                                                <td>{{wechat.nickname}}</td>
+                                                <td>{{wechat.remark}}</td>
+                                                <td>
+                                                    <button class="btn btn-primary" ng-click="vm.bindWechat(wechat)">绑定</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </section>-->
+
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="individualForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                    </button>
+                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.editable"
+                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>
