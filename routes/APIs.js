@@ -10,11 +10,12 @@ var companies = require('./companies.js');
 var companyCatogories = require('./companyCatogories.js');
 var policyNames = require('./policyNames.js');
 var orgPolicies = require('./orgPolicies.js');
+var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var router = express.Router();
 
 /* GET home page. */
-// router.use('/', ensureAuthenticated);
+router.use('/', ensureAuthenticated);
 router.use('/orders', orders);
 router.use('/clients', clients);
 router.use('/policies', policies);
@@ -26,6 +27,7 @@ router.use('/life-salaries', lifeSalaries);
 router.use('/life-statements', lifeStatements);
 router.use('/policy-names', policyNames);
 router.use('/org-policies', orgPolicies);
+router.use('/migrate', migrate);
 router.use('/sts', sts);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
