@@ -38,6 +38,7 @@
     "swagger-ui-express": "^2.0.10",
     "wechat": "^2.0.3",
     "wechat-api": "^1.23.0",
-    "wechat-oauth": "^1.1.0"
+    "wechat-oauth": "^1.1.0",
+    "yamljs": "^0.3.0"
   }
 }
