@@ -1,0 +1,198 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: InsuSys REST API
+  description: 红叶保险代理人管理系统后端API文档
+# during dev, should point to your local machine
+host: api.xxxxxx.com
+# basePath prefixes all resource paths 
+basePath: /api/v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /users/phone-verification:
+    get:
+      tags:
+      - "users"
+      summary: "触发发送短信验证码 (TODO)"
+      description: ""
+      parameters:
+        - name: phone
+          in: query
+          description: 手机号
+          required: true
+          type: string
+      responses:
+        200:
+          description: 发送成功
+        # responses may fall through to errors
+        default:
+          description: 发送失败
+    post:
+        tags:
+        - "users"
+        summary: "验证手机号和短信验证码 (TODO)"
+        description: ""
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+        - in: "body"
+          name: "body"
+          description: "包含手机号和验证码"
+          required: true
+          schema:
+            $ref: "#/definitions/PhoneVerification"
+        responses:
+          200:
+            description: 验证成功
+          400:
+            description: 验证失败
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "注册用户 (TODO)"
+      description: ""
+      parameters:
+        - name: "newUser"
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/NewUser"
+      responses:
+        200:
+          description: "注册成功"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "注册失败"
+          schema:
+            $ref: "#/definitions/Error"
+  /users/login:
+    post:
+      tags:
+        - "users"
+      summary: "用户登陆 (TODO)"
+      description: ""
+      parameters:
+        - name: authentication
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Authentication"
+      responses:
+        "200":
+          description: "登陆成功"
+          schema:
+            $ref: "#/definitions/Token"
+        "403":
+          description: "登陆失败"
+          schema:
+            $ref: "#/definitions/Error"
+  /users/{userId}:
+    get:
+      tags:
+      - "users"
+      summary: "通过id获取用户信息 (TODO)"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "用户id"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "操作成功"
+          schema:
+            $ref: "#/definitions/User"
+        401:
+          description: "未授权"
+        404:
+          description: "没有找到id对应的用户"
+      security:
+      - Bearer: []
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  PhoneVerification:
+    required:
+      - phone
+      - code
+    properties:
+      phone:
+        type: string
+      code:
+        type: string
+  Authentication:
+    type: object
+    properties:
+      phone:
+        type: string
+        example: "13888888888"
+      password:
+        type: string
+        example: "password"
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+        example: "关羽"
+      phone:
+        type: string
+        example: "13888888888"
+      role:
+        type: string
+        enum: ["业务员","财务","管理员","超级管理员"]
+  NewUser:
+    type: object
+    properties:
+      name:
+        type: string
+        example: "赵飞"
+      phone:
+        type: string
+        example: "13888888888"
+      role:
+        type: string
+        enum: ["业务员","财务","管理员","超级管理员"]
+        
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: |
+     如访问受保护的API，需要在请求头部的Authorization字段中填写有效的jwt token
+     
+     JWT token通过调用/users/login api，成功登录后中返回字段中包含token
+  
+     'Authorization' header 格式:
+  
+         Bearer xxxxxx.yyyyyyy.zzzzzz
