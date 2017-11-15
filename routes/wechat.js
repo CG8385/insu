@@ -13,7 +13,7 @@ var client = new OAuth(appConfig.app_id, appConfig.app_secret);
 
 var api = new WechatAPI(appConfig.app_id, appConfig.app_secret);
 
-var menu = JSON.stringify(require('../test/data/menu.json'));
+// var menu = JSON.stringify(require('../test/data/menu.json'));
 // api.createMenu(menu, function (err, result) {
 //   if (err) {
 //     console.log(err);
