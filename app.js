@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apis);
 app.use('/', routes);
-// app.use('/users', users);
+app.use('/users', users);
 app.use('/wechat', wechat);
 
 // passport config
