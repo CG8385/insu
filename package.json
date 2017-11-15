@@ -19,6 +19,7 @@
     "express": "~4.13.1",
     "express-flash": "0.0.2",
     "express-session": "^1.12.1",
+    "iconv-lite": "^0.4.19",
     "json2csv": "^3.11.5",
     "less-middleware": "1.0.x",
     "log4js": "^0.6.29",
