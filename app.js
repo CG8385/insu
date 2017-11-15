@@ -15,9 +15,10 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var apis = require('./routes/APIs');
 var wechat = require('./routes/wechat');
+var compression = require('compression');
 
 var app = express();
-
+app.use(compression());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 var ejs = require('ejs'); 
