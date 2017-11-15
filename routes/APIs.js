@@ -15,7 +15,7 @@ var sts = require('./sts.js');
 var router = express.Router();
 
 /* GET home page. */
-router.use('/', ensureAuthenticated);
+// router.use('/', ensureAuthenticated);
 router.use('/orders', orders);
 router.use('/clients', clients);
 router.use('/policies', policies);
@@ -29,9 +29,6 @@ router.use('/policy-names', policyNames);
 router.use('/org-policies', orgPolicies);
 router.use('/migrate', migrate);
 router.use('/sts', sts);
-router.get('/test', function(req, res, next){
-    req.send("I am auto upgrading");
-});
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
