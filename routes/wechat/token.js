@@ -27,6 +27,7 @@ router.get('/callback', async function (req, res) {
 router.get('/updatemenu', async function(eq, res, next) {
     var menu = JSON.stringify(require('../../test/data/menu.json'));
     await api.createMenuAsync(menu);
+    res.json(menu);
 });
 
 module.exports = router;
