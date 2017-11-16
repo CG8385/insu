@@ -27,7 +27,8 @@ router.get('/callback', async function (req, res) {
         res.json(result.data.openid);
     }catch(err){
         //do nothing
-        res.json(err)
+        const url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/api/v1/token/callback', '', 'snsapi_base');
+        res.redirect(url)
     }
 
     // });
