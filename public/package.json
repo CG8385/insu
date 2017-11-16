@@ -26,6 +26,7 @@
     "angular-cookies": "^1.4.8",
     "angular-validation": "^1.4.1",
     "chai": "^3.4.1",
+    "graceful-fs": "^4.1.11",
     "querystring": "^0.2.0"
   }
 }

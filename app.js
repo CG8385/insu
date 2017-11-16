@@ -14,7 +14,7 @@ var log4js = require('./utils/logger.js');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var apis = require('./routes/APIs');
-var wechat = require('./routes/wechat');
+var wechatapi = require('./routes/wechat/api');
 var compression = require('compression');
 
 var app = express();
@@ -64,7 +64,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, showExplo
 app.use('/api', apis);
 app.use('/', routes);
 app.use('/users', users);
-app.use('/wechat', wechat);
+app.use('/wechat/api/v1', wechatapi);
 
 // passport config
 var User = require('./models/user')(db);
