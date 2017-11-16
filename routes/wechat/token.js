@@ -21,8 +21,8 @@ router.get('/callback', async function (req, res) {
     const code = req.query.code;
     try{
         let result = client.getAccessTokenAsync(code);
-        let openId = result.data.openid;
-        res.json({openId: openId});
+        // let openId = result.data.openid;
+        res.json(result);
     }catch(e){
         res.send(e);
     }
