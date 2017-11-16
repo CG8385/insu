@@ -1,0 +1,10 @@
+{
+  "button": [
+    {
+      "type": "view",
+      "name": "Get Token",
+      "url": "http://api.kifugo.com/wechat/api/v1/token"
+    }
+  ]
+}
+

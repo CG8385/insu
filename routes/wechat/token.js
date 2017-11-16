@@ -25,7 +25,7 @@ router.get('/callback', async function (req, res) {
 });
 
 router.get('/updatemenu', async function(eq, res, next) {
-    var menu = JSON.stringify(require('../../test/data/menu.json'));
+    var menu = JSON.stringify(require('../../menu.json'));
     await api.createMenuAsync(menu);
     res.json(menu);
 });
