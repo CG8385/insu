@@ -19,7 +19,7 @@ router.get('/', function(eq, res, next) {
 
 router.get('/callback', async function (req, res) {
     const code = req.query.code;
-    result = await client.getAccessTokenAsync(code)
+    result = await client.getAccessTokenAsync(code);
         // let accessToken = result.data.access_token;
         // let openId = result.data.openid;
         // res.json({openId: openId});
