@@ -25,8 +25,9 @@ router.get('/callback', async function (req, res) {
         // let openId = result.data.openid;
         // res.json({openId: openId});
         res.json(result.data.openid);
-    }catch(e){
+    }catch(err){
         //do nothing
+        res.json(err)
     }
 
     // });
