@@ -13,7 +13,7 @@ api = Promise.promisifyAll(api);
 
 
 router.get('/', function(eq, res, next) {
-    const url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/api/v1/token/callback', '', 'snsapi_userinfo');
+    const url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/api/v1/token/callback', '', 'snsapi_base');
     res.redirect(url)
 });
 
