@@ -20,9 +20,10 @@ router.get('/', function(eq, res, next) {
 router.get('/callback', async function (req, res) {
     const code = req.query.code;
     client.getAccessToken(code, function (err, result) {
-        let accessToken = result.data.access_token;
-        let openId = result.data.openid;
-        res.json({openId: openId});
+        // let accessToken = result.data.access_token;
+        // let openId = result.data.openid;
+        // res.json({openId: openId});
+        res.json(result);
     });
 
 });
