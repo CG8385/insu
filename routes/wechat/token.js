@@ -6,7 +6,7 @@ var WechatAPI = require('wechat-api');
 var appConfig = require('../../common.js').config();
 
 var client = new OAuth(appConfig.app_id, appConfig.app_secret);
-// client = Promise.promisifyAll(client);
+client = Promise.promisifyAll(client);
 
 var api = new WechatAPI(appConfig.app_id, appConfig.app_secret);
 api = Promise.promisifyAll(api);
@@ -19,15 +19,14 @@ router.get('/', function(eq, res, next) {
 
 router.get('/callback', async function (req, res) {
     const code = req.query.code;
-    client.getAccessToken(code, function (err, result) {
-        res.json(result);
-        // var accessToken = result.data.access_token;
-        // let openId = result.data.openid;
-        // res.json({openId: openId});
-    });
-    // let result = client.getAccessTokenAsync(code);
-    // let openId = result.data.openid;
-    
+    try{
+        let result = client.getAccessTokenAsync(code);
+        let openId = result.data.openid;
+        res.json({openId: openId});
+    }catch(e){
+        res.send(e);
+    }
+
 });
 
 router.get('/updatemenu', async function(eq, res, next) {
