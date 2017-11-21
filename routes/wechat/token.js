@@ -14,7 +14,7 @@ api = Promise.promisifyAll(api);
 
 router.get('/', function(eq, res, next) {
     const url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/api/v1/token/callback', '', 'snsapi_base');
-    res.redirect(url)
+    res.redirect(url);
 });
 
 router.get('/callback', async function (req, res) {
@@ -28,7 +28,7 @@ router.get('/callback', async function (req, res) {
     }catch(err){
         //do nothing
         const url = client.getAuthorizeURL('http://' + appConfig.domain + '/wechat/api/v1/token/callback', '', 'snsapi_base');
-        res.redirect(url)
+        res.redirect(url);
     }
 
     // });

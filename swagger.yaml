@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: "0.0.1"
+  version: "0.0.2"
   title: InsuSys API
   description: 红叶保险代理人管理系统后端API文档
 # during dev, should point to your local machine
