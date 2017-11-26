@@ -1,19 +1,142 @@
 var express = require('express');
 var db = require('../utils/database.js').connection;
+var Promise = require('bluebird');
 var Company = require('../models/company.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
+var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Policy = require('../models/policy.js')(db);
 var LifePolicy = require('../models/life-policy.js')(db);
+var OrgPolicy = require('../models/org-policy.js')(db);
+var Rule = require('../models/rule.js')(db);
+var Migrate = require('../models/migrate.js')(db);
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
 
-router.get('/', async function(req, res, next) {
-    let c = await Company.findOne({name: '南京平安'}).exec();
-    let id = c._id;
-    let policy = await Policy.findOne({level4_company: id}).exec();
-    res.json(policy);
-});
+router.get('/test', asyncMiddleware(async (req, res, next) => {
+    let p = await Policy.findOne({frame_no: {"$nin": [ null, "0" ]}}).exec();
+    res.json(p);
+}));
 
+router.get('/step1', asyncMiddleware(async (req, res, next) => {
+    let log = [];
+    let r = null;
+    let c = await Company.findOne({level:'二级', name: '新华人寿保险股份有限公司南京直属营业部'}).exec();
+    let n = await Company.findOne({level:'二级', name: '新华人寿保险股份有限公司江苏分公司'}).exec();
+    c.parent = n._id;
+    c.level = '三级';
+    c = await c.save();
+    r = await Policy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+    r = await OrgPolicy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+    
+    n = await Company.findOne({level:'二级', name: '中国太平洋财产保险股份有限公司江苏省分公司'}).exec();
+    let cs = await Company.find({level:'二级', name: /中国太平洋财产保险股份有限公司南京.*/}).exec();
+    r = await Company.update({level:'二级', name: /中国太平洋财产保险股份有限公司南京.*/}, {level:'三级', parent: n._id}, {multi: true});
+    cs.forEach(async function(x){
+        r = await Policy.update({level2_company: x._id}, {level2_company: n._id, level3_company: x._id}, {multi: true});
+        log.push(r);
+        r = await OrgPolicy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+        log.push(r);
+    });
+    
+
+    n = await Company.findOne({level:'二级', name: '中国平安财产保险股份有限公司江苏省分公司'}).exec();
+    cs = await Company.find({level:'二级',  name: /中国平安.*南京.*/}).exec();
+    r = await Company.update({level:'二级', name: /中国平安.*南京.*/}, {level:'三级', parent: n._id}, {multi: true});
+    log.push(r);
+    cs.forEach(async function(x){
+        r = await Policy.update({level2_company: x._id}, {level2_company: n._id, level3_company: x._id}, {multi: true});
+        log.push(r);
+        r = await OrgPolicy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+        log.push(r);
+    });
+
+    c = await Company.findOne({level:'二级', name: '永诚财产保险股份有限公司南京支公司'}).exec();
+    let a = await Company.findOne({level:'二级', name: /永诚财产保险股份有限公司江苏分公司非营业.*/}).exec();
+    n = new Company({level:'二级', name: '永诚财产保险股份有限公司江苏分公司', catogory: a.catogory, contact: a.contact, phone: a.phone});
+    n = await n.save();
+    c.parent = n._id;
+    c.level = '三级';
+    c = await c.save();
+    r = await Policy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+    r = await OrgPolicy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+
+    c = await Company.findOne({level:'二级', name: /中国大地财产保险股份有限公司宿迁中心支公司.*/}).exec();
+    n = new Company({level:'二级', name: '中国大地财产保险股份有限公司江苏分公司', catogory: c.catogory});
+    n = await n.save();
+    c.parent = n._id;
+    c.level = '三级';
+    c = await c.save();
+    r = await Policy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+    r = await OrgPolicy.update({level2_company: c._id}, {level2_company: n._id, level3_company: c._id}, {multi: true});
+    log.push(r);
+
+    c = await Company.findOne({level:'三级', name: /浙商财产保险股份有限公司江苏分公司  睢宁支公司.*/}).exec();
+    n = await Company.findOne({level:'三级', name: '浙商财产保险股份有限公司徐州中心支公司'}).exec();
+    c.parent = n._id;
+    c.level = '四级';
+    c.name = '浙商财产保险股份有限公司睢宁分公司（单交强含税）';
+    c = await c.save();
+    r = await Policy.update({level3_company: c._id}, {level3_company: n._id, level4_company: c._id}, {multi: true});
+    log.push(r);
+    r = await OrgPolicy.update({level3_company: c._id}, {level3_company: n._id, level4_company: c._id}, {multi: true});
+    log.push(r);
+
+    c = await Company.remove({level:'四级', name: /中国平安财产保险股份有限公司徐州中心支公司新车小车.*/});
+    res.json(log);
+}));
+
+router.get('/step2', asyncMiddleware(async (req, res, next) => {
+    let result = [];
+    let companies = await Company.find({level: {$exists: true}}).exec();
+    for(let i = 0; i < companies.length; i++){
+        let company = companies[i];
+        let j = company.name.lastIndexOf('营业部');
+        if(j != -1){
+            j += 3;
+        }else{
+            j = company.name.lastIndexOf('公司') + 2;
+        }
+        if(j == company.name.length){ continue; }
+        let name = company.name.substring(0, j);
+        let ruleName = company.name.substring(j);
+        console.log(company.name + "=======" + name + " : " + ruleName);
+        let c = await Company.findOne({level:company.level, name: name}).exec();
+        if(!c){
+            c = new Company({name: name, contact: company.contact, phone: company.phone, catogory: company.catogory, level: company.level, parent: company.parent});
+            c = await c.save();
+        }
+        let migrate = new Migrate({old: company._id, new: c._id});
+        let rule = null;
+        if(company.rates){
+            let rate = company.rates[0];
+            rule = new Rule(rate);
+            rule.company = c._id;
+            rule.name = ruleName;
+            rule = await rule.save();
+            migrate.rule = rule._id;
+        }
+        r = await Policy.update({level2_company: migrate.old}, {level2_company: migrate.new, rule: migrate.rule}, {multi: true});
+        r = await Policy.update({level3_company: migrate.old}, {level3_company: migrate.new, rule: migrate.rule}, {multi: true});
+        r = await Policy.update({level4_company: migrate.old}, {level4_company: migrate.new, rule: migrate.rule}, {multi: true});
+        await Company.remove({_id: migrate.old});
+        migrate.save();
+        result.push(migrate);
+
+    }
+    res.json(result);
+    
+}));
+
+router.get('/rules', asyncMiddleware(async (req, res, next) => {
+    let rules = await Rule.find().exec();
+    res.json(rules);
+}));
 
 module.exports = router;

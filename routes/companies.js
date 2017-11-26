@@ -1,5 +1,6 @@
 var express = require('express');
 var db = require('../utils/database.js').connection;
+var Promise = require('bluebird');
 var Company = require('../models/company.js')(db);
 var router = express.Router();
 var Q = require('q');
