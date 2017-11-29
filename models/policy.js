@@ -63,6 +63,7 @@ var schema = new mongoose.Schema({
   rates_based_on_taxed : Boolean,
   mandatory_policy_photo: String,
   commercial_policy_photo: String,
+  comment: String
 });
 
 schema.index({policy_status: 1, client: 1, organization: 1, created_at: 1});

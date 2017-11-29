@@ -5,7 +5,8 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
     old: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     new: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
-    rule: { type: mongoose.Schema.Types.ObjectId, ref: 'Rule' }
+    rule: { type: mongoose.Schema.Types.ObjectId, ref: 'Rule' },
+    comment: String
 });
 
 mongoose.model('Migrate', schema);

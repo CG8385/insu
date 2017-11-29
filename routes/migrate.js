@@ -105,8 +105,8 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         }
         if(j == company.name.length){ continue; }
         let name = company.name.substring(0, j);
-        let ruleName = company.name.substring(j);
-        console.log(company.name + "=======" + name + " : " + ruleName);
+        let ruleName = company.name.substring(j).trim();
+        console.log(company.name + "=======" + name + "     +     " + ruleName);
         let c = await Company.findOne({level:company.level, name: name}).exec();
         if(!c){
             c = new Company({name: name, contact: company.contact, phone: company.phone, catogory: company.catogory, level: company.level, parent: company.parent});
@@ -114,7 +114,9 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         }
         let migrate = new Migrate({old: company._id, new: c._id});
         let rule = null;
-        if(company.rates){
+        if(ruleName.indexOf('（财险）') != -1){
+            migrate.comment = ruleName;
+        }else if(company.rates){
             let rate = company.rates[0];
             rule = new Rule(rate);
             rule.company = c._id;
@@ -122,11 +124,11 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
             rule = await rule.save();
             migrate.rule = rule._id;
         }
-        r = await Policy.update({level2_company: migrate.old}, {level2_company: migrate.new, rule: migrate.rule}, {multi: true});
-        r = await Policy.update({level3_company: migrate.old}, {level3_company: migrate.new, rule: migrate.rule}, {multi: true});
-        r = await Policy.update({level4_company: migrate.old}, {level4_company: migrate.new, rule: migrate.rule}, {multi: true});
+        r = await Policy.update({level2_company: migrate.old}, {level2_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
+        r = await Policy.update({level3_company: migrate.old}, {level3_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
+        r = await Policy.update({level4_company: migrate.old}, {level4_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
         await Company.remove({_id: migrate.old});
-        migrate.save();
+        migrate = await migrate.save();
         result.push(migrate);
 
     }
