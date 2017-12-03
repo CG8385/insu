@@ -18,6 +18,7 @@ function makePy(str) {
 	//处理arrResult,返回所有可能的拼音首字母串数组
 	return mkRslt(arrResult);
 }
+
 function checkCh(ch) {
 	var uni = ch.charCodeAt(0);
 	//如果不在汉字处理范围之内,返回原字符,也可以调用自己的处理函数
@@ -50,7 +51,7 @@ function mkRslt(arr) {
 			}
 		}
 	}
-	return arrRslt;
+	return arrRslt[0];
 }
 
 module.exports = makePy;

@@ -4,7 +4,7 @@ var Client = require('../models/client.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
-var mkPy = require('../utils/pinyin.js');
+var makePy = require('../utils/pinyin');
 
 router.get('/', function(req, res, next) {
   var query = {};
@@ -40,12 +40,13 @@ router.get('/', function(req, res, next) {
 
   Client.find(query)
   .populate('organization')
+  .sort({py: 1})
   .exec()
   .then(function(clients){
     for(var i = 0; i<clients.length; i++){
       var name = clients[i].name;
-      var py = mkPy(name);
-      clients[i].py = py;
+      // var py = makePy(name);
+      // clients[i].py = py;
     }
     res.json(clients);
   },
@@ -73,6 +74,7 @@ router.post('/', function (req, res) {
       res.status(400).send('系统中已存在该业务员名称');
     } else {
       var client = new Client(data);
+      client.py = makePy(data.name);
       client.save(function (err, savedClient, numAffected) {
         if (err) {
           logger.error(err);
@@ -92,6 +94,7 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         client.name = req.body.name;
+        client.py = makePy(req.body.name);
         client.short_name = req.body.short_name;
         client.client_type = req.body.client_type;
         client.identity = req.body.identity;

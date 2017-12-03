@@ -13,6 +13,9 @@ var OrgPolicy = require('../models/org-policy.js')(db);
 var Rule = require('../models/rule.js')(db);
 var Migrate = require('../models/migrate.js')(db);
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var makePy = require('../utils/pinyin');
+var Client = require('../models/client.js')(db);
+var Organization = require('../models/organization.js')(db);
 
 router.get('/test', asyncMiddleware(async (req, res, next) => {
     let p = await Policy.findOne({frame_no: {"$nin": [ null, "0" ]}}).exec();
@@ -195,6 +198,36 @@ router.get('/step3', asyncMiddleware(async (req, res, next) => {
         console.log(r);
     }
     res.json(cs);
+}));
+
+router.get('/step4', asyncMiddleware(async (req, res, next) => {
+    let rules = await Rule.find().exec();
+    rules.forEach(function(rule){
+        rule.py = makePy(rule.name)[0];
+        rule.save();
+    });
+    let clients = await Client.find().exec();
+    clients.forEach(function(client){
+        client.py = makePy(client.name);
+        client.save();
+    });
+    let companies = await Company.find().exec();
+    companies.forEach(function(c){
+        c.py = makePy(c.name);
+        c.save();
+    });
+
+    companies = await CompanyCatogory.find().exec();
+    companies.forEach(function(c){
+        c.py = makePy(c.name);
+        c.save();
+    });
+    let os = await Organization.find().exec();
+        os.forEach(function(o){
+        o.py = makePy(o.name);
+        o.save();
+    });
+    res.send("拼音生成完毕");
 }));
 
 router.get('/rules', asyncMiddleware(async (req, res, next) => {

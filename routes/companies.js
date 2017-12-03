@@ -9,10 +9,12 @@ var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Rule = require('../models/rule.js')(db);
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var makePy = require('../utils/pinyin');
 
 router.get('/', function (req, res, next) {
   Company.find({ level: undefined })
     .populate('catogory')
+    .sort({py: -1})
     .exec()
     .then(function (companies) {
       res.json(companies);
@@ -26,6 +28,7 @@ router.get('/', function (req, res, next) {
 router.get('/level2', function (req, res) {
   Company.find({ level: "二级" })
     .populate('catogory')
+    .sort({py: -1})
     .exec()
     .then(function (companies) {
       res.json(companies);
@@ -39,6 +42,7 @@ router.get('/level2', function (req, res) {
 router.get('/level3', function (req, res) {
   Company.find({ level: "三级" })
     .populate('catogory')
+    .sort({py: -1})
     .exec()
     .then(function (companies) {
       res.json(companies);
@@ -52,6 +56,7 @@ router.get('/level3', function (req, res) {
 router.get('/level4', function (req, res) {
   Company.find({ level: "四级" })
     .populate('catogory')
+    .sort({py: -1})
     .exec()
     .then(function (companies) {
       res.json(companies);
@@ -138,6 +143,7 @@ router.get('/:id', function (req, res) {
 
 router.get('/:id/rules', function (req, res) {
   Rule.find({ company: req.params.id })
+    .sort({py: 1})
     .exec()
     .then(function (rules) {
       res.status(200).json(rules);
@@ -156,6 +162,7 @@ router.put('/rules/:id', asyncMiddleware(async (req, res, next) => {
   let data = req.body;
   let rule = await Rule.findOne({ _id: req.params.id }).exec();
   rule.name = data.name;
+  rule.py = makePy(data.name);
   rule.mandatory_income=data.mandatory_income,
   rule.mandatory_payment=data.mandatory_payment,
   rule.commercial_income=data.commercial_income,
@@ -172,6 +179,7 @@ router.post('/rules', asyncMiddleware(async (req, res, next) => {
   let data = req.body;
   let rule = new Rule();
   rule.name = data.name;
+  rule.py = makePy(data.name);
   rule.mandatory_income=data.mandatory_income,
   rule.mandatory_payment=data.mandatory_payment,
   rule.commercial_income=data.commercial_income,
@@ -199,6 +207,7 @@ router.post('/', function (req, res) {
       res.status(400).send('系统中已存在该公司名称');
     } else {
       var company = new Company(data);
+      rule.py = makePy(data.name);
       company.save(function (err, savedCompany, numAffected) {
         if (err) {
           logger.error(err);
@@ -217,6 +226,7 @@ router.put('/:id', function (req, res) {
     if (err)
       res.send(err);
     company.name = req.body.name;
+    rule.py = makePy(req.body.name);
     company.contact = req.body.contact;
     company.phone = req.body.phone;
     company.catogory = req.body.catogory;
@@ -247,6 +257,7 @@ router.delete('/:id', function (req, res) {
 
 router.get('/sub/:parentId', function (req, res) {
   Company.find({ parent: req.params.parentId })
+    .sort({py: -1})
     .exec()
     .then(function (companies) {
       if (companies.length > 0) {

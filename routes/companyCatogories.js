@@ -4,6 +4,7 @@ var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
+var makePy = require('../utils/pinyin');
 
 router.get('/', function(req, res, next) {
   CompanyCatogory.find().exec()
@@ -34,6 +35,7 @@ router.post('/', function (req, res) {
       res.status(400).send('系统中已存在该一级公司名称');
     } else {
       var companyCatogory = new CompanyCatogory(data);
+      companyCatogory.py = makePy(data.name);
       companyCatogory.save(function (err, savedCompanyCatogory, numAffected) {
         if (err) {
           logger.error(err);
@@ -52,8 +54,7 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         companyCatogory.name = req.body.name;
-        // company.contact = req.body.contact;
-        // company.phone = req.body.phone;
+        companyCatogory.py = makePy(req.body.name);
         companyCatogory.save(function (err) {
             if (err){
               logger.error(err);

@@ -4,9 +4,12 @@ var Organization = require('../models/organization.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
+var makePy = require('../utils/pinyin');
 
 router.get('/', function(req, res, next) {
-  Organization.find().exec()
+  Organization.find()
+  .sort({py: 1})
+  .exec()
   .then(function(organizations){
     res.json(organizations);
   },
@@ -34,6 +37,7 @@ router.post('/', function (req, res) {
       res.status(400).send('系统中已存在该分支机构名称');
     } else {
       var organization = new Organization(data);
+      organization.py = makePy(data.name);
       organization.save(function (err, savedOrganization, numAffected) {
         if (err) {
           logger.error(err);
@@ -52,6 +56,7 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         organization.name = req.body.name;
+        organization.py = makePy(req.body.name);
         organization.save(function (err) {
             if (err){
               logger.error(err);
