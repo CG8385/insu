@@ -7,7 +7,9 @@ var logger = require('../utils/logger.js');
 var makePy = require('../utils/pinyin');
 
 router.get('/', function(req, res, next) {
-  CompanyCatogory.find().exec()
+  CompanyCatogory.find()
+  .sort({py: -1})
+  .exec()
   .then(function(companyCatogories){
     res.json(companyCatogories);
   },
