@@ -7,9 +7,11 @@ var Q = require('q');
 var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
+var Rule = require('../models/rule.js')(db);
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
 
 router.get('/', function (req, res, next) {
-  Company.find({level:undefined})
+  Company.find({ level: undefined })
     .populate('catogory')
     .exec()
     .then(function (companies) {
@@ -22,7 +24,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/level2', function (req, res) {
-  Company.find({level:"二级"})
+  Company.find({ level: "二级" })
     .populate('catogory')
     .exec()
     .then(function (companies) {
@@ -35,7 +37,7 @@ router.get('/level2', function (req, res) {
 });
 
 router.get('/level3', function (req, res) {
-  Company.find({level:"三级"})
+  Company.find({ level: "三级" })
     .populate('catogory')
     .exec()
     .then(function (companies) {
@@ -48,7 +50,7 @@ router.get('/level3', function (req, res) {
 });
 
 router.get('/level4', function (req, res) {
-  Company.find({level:"四级"})
+  Company.find({ level: "四级" })
     .populate('catogory')
     .exec()
     .then(function (companies) {
@@ -61,44 +63,44 @@ router.get('/level4', function (req, res) {
 });
 
 router.get('/excel', async function (req, res) {
-  let companies2 = await Company.find({level:"二级"}).populate('catogory').exec();
+  let companies2 = await Company.find({ level: "二级" }).populate('catogory').exec();
   let json2csv = require('json2csv');
   let fields = [
-      'level1',
-      'level2',
-      'level3',
-      'level4'
-      ];
+    'level1',
+    'level2',
+    'level3',
+    'level4'
+  ];
   let fieldNames = [
-      '一级',
-      '二级',
-      '三级',
-      '四级'
+    '一级',
+    '二级',
+    '三级',
+    '四级'
   ];
   let arr = [];
-  for(let j = 0; j < companies2.length; j++){
+  for (let j = 0; j < companies2.length; j++) {
     let level2 = companies2[j];
     let level1 = level2.catogory;
-    let level2Subs= await Company.find({level:"三级", parent: level2._id}).exec();
+    let level2Subs = await Company.find({ level: "三级", parent: level2._id }).exec();
     console.log("level 2 processing " + j);
-    if(level2Subs.length == 0){
+    if (level2Subs.length == 0) {
       let row = {};
       row.level1 = level1.name;
       row.level2 = level2.name;
       arr.push(row);
     }
-    for(let k = 0; k < level2Subs.length; k++){
-      console.log("level 3 processing"+ k);
+    for (let k = 0; k < level2Subs.length; k++) {
+      console.log("level 3 processing" + k);
       let level3 = level2Subs[k];
-      let level3Subs = await Company.find({level:"四级", parent: level3._id}).exec();
-      if(level3Subs.length == 0){
+      let level3Subs = await Company.find({ level: "四级", parent: level3._id }).exec();
+      if (level3Subs.length == 0) {
         let row = {};
         row.level1 = level1.name;
         row.level2 = level2.name;
         row.level3 = level3.name;
         arr.push(row);
       }
-      for(let l = 0; l < level3Subs.length; l++){
+      for (let l = 0; l < level3Subs.length; l++) {
         let level4 = level3Subs[l];
         let row = {};
         row.level1 = level1.name;
@@ -107,7 +109,7 @@ router.get('/excel', async function (req, res) {
         row.level4 = level4.name;
         arr.push(row);
       }
-        
+
     }
 
   }
@@ -134,9 +136,65 @@ router.get('/:id', function (req, res) {
     });
 });
 
+router.get('/:id/rules', function (req, res) {
+  Rule.find({ company: req.params.id })
+    .exec()
+    .then(function (rules) {
+      res.status(200).json(rules);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/rules/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await Rule.findOne({ _id: req.params.id }).populate('company').exec();
+  res.status(200).json(rule);
+}));
+
+router.put('/rules/:id', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let rule = await Rule.findOne({ _id: req.params.id }).exec();
+  rule.name = data.name;
+  rule.mandatory_income=data.mandatory_income,
+  rule.mandatory_payment=data.mandatory_payment,
+  rule.commercial_income=data.commercial_income,
+  rule.commercial_payment=data.commercial_payment,
+  rule.tax_income= data.tax_income,
+  rule.tax_payment=data.tax_payment,
+  rule.other_income=data.other_income,
+  rule.other_payment=data.other_payment
+  await rule.save();
+  res.json({ message: '费率政策已成功更新' });
+}));
+
+router.post('/rules', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let rule = new Rule();
+  rule.name = data.name;
+  rule.mandatory_income=data.mandatory_income,
+  rule.mandatory_payment=data.mandatory_payment,
+  rule.commercial_income=data.commercial_income,
+  rule.commercial_payment=data.commercial_payment,
+  rule.tax_income= data.tax_income,
+  rule.tax_payment=data.tax_payment,
+  rule.other_income=data.other_income,
+  rule.other_payment=data.other_payment
+  rule.company = data.company._id;
+  await rule.save();
+  res.json({ message: '费率政策已成功保存' });
+}));
+
+router.delete('/rules/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await Rule.findOne({_id: req.params.id}).exec();
+  logger.info(req.user.name + " 删除了一条费率政策，费率政策名称为：" + rule.name + "。" + req.clientIP);
+  await rule.remove();
+  res.json({ message: '费率政策已成功删除' });
+}));
+
 router.post('/', function (req, res) {
   var data = req.body;
-  Company.find({ name: data.name, level:{$exists:true} }, function (err, companies) {
+  Company.find({ name: data.name, level: { $exists: true } }, function (err, companies) {
     if (companies.length > 0) {
       res.status(400).send('系统中已存在该公司名称');
     } else {
@@ -194,7 +252,7 @@ router.get('/sub/:parentId', function (req, res) {
       if (companies.length > 0) {
         res.status(200).json(companies);
       } else {
-        Company.find({ catogory: req.params.parentId, level:"二级" })
+        Company.find({ catogory: req.params.parentId, level: "二级" })
           .exec()
           .then(function (companies) {
             res.status(200).json(companies);

@@ -1,0 +1,107 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon">
+                        <i class="fa fa-info"></i>
+                    </span>
+                    <h2>费率政策</h2>
+                </header>
+                <div>
+                    <div class="widget-body">
+                        <form name="ruleForm" id="ruleForm" class="smart-form" novalidate>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">所属保险公司</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" ng-disabled="true" name="company" ng-model="vm.rule.company.name">
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">政策名称</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="name"  ng-model="vm.rule.name">
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
+                                    <label class="label">交强险跟单(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="mandatory_income_rate" price ng-model="vm.rule.mandatory_income">
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <label class="label">交强险结算(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="mandatory_payment_rate" price ng-model="vm.rule.mandatory_payment">
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-3">
+                                    <label class="label">商业险跟单(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="commercial_income_rate" price ng-model="vm.rule.commercial_income">
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <label class="label">商业险结算(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="commercial_payment_rate" price ng-model="vm.rule.commercial_payment">
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-3">
+                                    <label class="label">车船税跟单(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="tax_income_rate" price ng-model="vm.rule.tax_income">
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <label class="label">车船税结算(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="tax_payment_rate" price ng-model="vm.rule.tax_payment">
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-3">
+                                    <label class="label">其他险跟单(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="other_income_rate" price ng-model="vm.rule.other_income">
+                                    </label>
+                                </section>
+
+                                <section class="col col-3">
+                                    <label class="label">其他险结算(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="other_payment_rate" price ng-model="vm.rule.other_payment">
+                                    </label>
+                                </section>
+                            </div>
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="ruleForm" class="btn btn-primary" ng-click="vm.submitAndBack()">保存
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

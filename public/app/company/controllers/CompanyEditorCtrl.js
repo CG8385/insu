@@ -4,6 +4,7 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     var vm = this;
     vm.company = {};
     vm.companyCatogories = [];
+    vm.rules = [];
     vm.editable = false;
     vm.currentLevel = "";
     vm.parentName = "";
@@ -61,15 +62,19 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
                 vm.company = company;
                 vm.setParentName();
             });
+        CompanyService.getRules(companyId)
+            .then(function (rules) {
+                vm.rules = rules;
+            });
     }
 
 
-    vm.toggleSetRate = function(){
+    vm.toggleSetRate = function () {
         vm.showRateEditor = !vm.showRateEditor;
-        if(vm.showRateEditor){
+        if (vm.showRateEditor) {
             vm.current_rate = {};
             vm.current_rate.set_at = Date.now();
-        }else{
+        } else {
             vm.current_rate = undefined;
         }
     }
@@ -85,8 +90,8 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     }
 
     vm.submit = function () {
-        if(vm.current_rate){
-            if(!vm.company.rates){
+        if (vm.current_rate) {
+            if (!vm.company.rates) {
                 vm.company.rates = [];
             }
             vm.company.rates.unshift(vm.current_rate);
@@ -122,6 +127,40 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             }, function (err) { });
     };
 
+    vm.refreshRules = function () {
+        CompanyService.getRules(vm.company._id)
+        .then(function (rules) {
+            vm.rules = rules;
+        });
+    };
+
+    vm.editRule = function (ruleId) {
+        $state.go("app.company.rule.view", { ruleId: ruleId, previousState: $state.current.name });
+    }
+
+    vm.deleteRule = function (ruleId) {
+        $.SmartMessageBox({
+            title: "删除费率政策",
+            content: "确认删除该费率政策？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteRule(ruleId)
+                    .then(function () {
+                        vm.refreshRules();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    }
+
+    vm.addRule = function () {
+        $state.go("app.company.rule.new", { companyId: vm.company._id, previousState: $state.current.name });
+       
+    }
 
 
 });

@@ -95,6 +95,7 @@ router.get('/step1', asyncMiddleware(async (req, res, next) => {
 router.get('/step2', asyncMiddleware(async (req, res, next) => {
     let result = [];
     let companies = await Company.find({level: {$exists: true}}).exec();
+    let ruleCompanyIds = [];
     for(let i = 0; i < companies.length; i++){
         let company = companies[i];
         let j = company.name.lastIndexOf('营业部');
@@ -122,6 +123,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
             rule.company = c._id;
             rule.name = ruleName;
             rule = await rule.save();
+            ruleCompanyIds.push(rule.company);
             migrate.rule = rule._id;
         }
         r = await Policy.update({level2_company: migrate.old}, {level2_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
@@ -129,11 +131,70 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         r = await Policy.update({level4_company: migrate.old}, {level4_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
         await Company.remove({_id: migrate.old});
         migrate = await migrate.save();
-        result.push(migrate);
-
     }
-    res.json(result);
-    
+
+    let c1 = await Company.findOne({level:'三级', name: '中国人民财产保险股份有限公司南京支公司第二营业部'}).exec();
+    let c2 = await Company.findOne({level:'三级', name: '中国人民财产保险股份有限公司南京浦口分公司'}).exec();
+    let n = new Company({level:'三级', name: '中国人民财产保险股份有限公司南京支公司', parent: c1.parent, catogory: c1.catogory});
+    n = await n.save();
+    c1.level = '四级';
+    c1.name = '中国人民财产保险股份有限公司南京支公司直属第二营业部';
+    c1.parent = n._id;
+    c2.level = '四级';
+    c2.name = '中国人民财产保险股份有限公司浦口支公司';
+    c2.parent = n._id;
+    await c1.save();
+    await c2.save();
+    await Policy.update({level3_company: c1._id}, {level3_company: n._id, level4_company: c1._id}, {multi: true});
+    await Policy.update({level3_company: c2._id}, {level3_company: n._id, level4_company: c2._id}, {multi: true});
+
+    let c = await Company.findOne({level:'三级', name: '新华人寿保险股份有限公司南京直属营业部'}).exec();
+    n = new Company({level:'三级', name: '新华人寿保险股份有限公司南京分公司', parent: c.parent, catogory: c.catogory});
+    n = await n.save();
+    c.level = '四级';
+    c.name = '新华人寿保险股份有限公司南京分公司直属营业部';
+    c.parent = n._id;
+    await c.save();
+    await Policy.update({level3_company: c._id}, {level3_company: n._id, level4_company: c._id}, {multi: true});
+
+    c = await Company.findOne({level:'三级', name: '阳光财产保险股份有限公司南京江宁支公司'}).exec();
+    n = new Company({level:'三级', name: '阳光财产保险股份有限公司南京支公司', parent: c.parent, catogory: c.catogory});
+    n = await n.save();
+    c.level = '四级';
+    c.name = '阳光财产保险股份有限公司江宁支公司';
+    c.parent = n._id;
+    await c.save();
+    await Policy.update({level3_company: c._id}, {level3_company: n._id, level4_company: c._id}, {multi: true});
+
+    c = await Company.findOne({level:'三级', name: '中国平安财产保险股份有限公司江苏省分公司南京中心支公司'}).exec();
+    n = await Company.findOne({level:'三级', name: '中国平安财产保险股份有限公司南京中心支公司'}).exec();
+    let ttt = await Policy.update({level3_company: c._id}, {level3_company: n._id}, {multi: true});
+    await c.remove();
+
+    res.json(ttt);
+}));
+
+router.get('/step3', asyncMiddleware(async (req, res, next) => {
+    let rules = await Rule.find().exec();
+    let ruleCompanyIds = rules.map(r => r.company);
+    let cs = await Company.find({level:{$in: ['三级','四级']}, _id: {$nin: ruleCompanyIds}, rates: {$exists: true}}).exec();
+    for(let i = 0; i < cs.length; i++){
+        let c = cs[i];
+        if(c.rates.length === 0){
+            continue;
+        }
+        let rate = c.rates[0];
+        rule = new Rule(rate);
+        rule.company = c._id;
+        rule.name = '通用';
+        rule = await rule.save();
+        console.log(rule);
+        let r = await Policy.update({level3_company: c._id}, {rule: rule._id}, {multi: true});
+        console.log(r);
+        r = await Policy.update({level4_company: c._id}, {rule: rule._id}, {multi: true});
+        console.log(r);
+    }
+    res.json(cs);
 }));
 
 router.get('/rules', asyncMiddleware(async (req, res, next) => {

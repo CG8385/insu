@@ -2,11 +2,16 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-click="vm.addRule()" class="btn btn-primary">
+                    <i class="fa fa-calculator"></i>添加费率政策</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-info"></i>
+                    </span>
                     <h2>保险公司详情</h2>
                 </header>
                 <div>
@@ -20,9 +25,9 @@
                                     <div class="row">
                                         <label class="label">上级保险公司</label>
                                         <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
-                                       </label>
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
+                                        </label>
                                         <!--<label class="select" ng-show = "vm.level == "二级">
                                             <select name='cat' class="input-lg"  ng-model="vm.company.catogory"
                                                     ng-options="c._id as c.name for c in vm.companyCatogories" validator="required">
@@ -33,16 +38,16 @@
                                     <div class="row">
                                         <label class="label">级别</label>
                                         <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" ng-disabled="true" name="level" ng-model="vm.company.level">
-                                            </label>
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" ng-disabled="true" name="level" ng-model="vm.company.level">
+                                        </label>
                                     </div>
                                     <div class="row">
                                         <label class="label">保险公司名称</label>
                                         <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" name="company" ng-model="vm.company.name" validator="required">
-                                            </label>
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" name="company" ng-model="vm.company.name" validator="required">
+                                        </label>
                                     </div>
                                     <div class="row">
                                         <label class="label">联系人</label>
@@ -66,9 +71,18 @@
                                 </fieldset>
                             </section>
 
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="companyForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                    </button>
+                                    <button validation-submit="companyForm" class="btn btn-primary" ng-show="vm.editable" ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
 
 
-                            <section class="clear col col-10">
+                        <!-- <section class="clear col col-10">
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.toggleSetRate()">设置指导费率</button>
                                 <div class="row" ng-show="vm.showRateEditor">
                                     <section class="col col-3">
@@ -132,57 +146,52 @@
                                         </section>
                                     </section>
                                 </div>
-                            </section>
+                            </section> -->
 
-                            <div class="clear col col-10 rates-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
-                                <!--<header>
-                                    <h2>历史费率</h2>
-                                </header>-->
-                                <label>历史费率</label>
-                                <div>
-                                    <div class="widget-body no-padding table-responsive">
-
-                                        <table class="table-striped table-condensed" tr-ng-grid items="vm.company.rates" page-items="15" enable-filtering="false">
-                                            <thead>
-                                                <tr>
-                                                    <th field-name="set_at" display-name="设置日期" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
-                                                    </th>
-                                                    <th field-name="mandatory_income" display-name="交强险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="mandatory_payment" display-name="交强险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="commercial_income" display-name="商业险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="commercial_payment" display-name="商业险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="tax_income" display-name="车船税跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="tax_payment" display-name="车船税结算(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="other_income" display-name="其他险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-                                                    <th field-name="other_payment" display-name="其他险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                    </th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                        <div class="rules-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                            <!-- <header>
+                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                    <h2>费率政策</h2>
+                                </header> -->
+                            <div>
+                                <div class="widget-body no-padding table-responsive">
+                                    <table class="table-striped table-condensed" tr-ng-grid items="vm.rules" page-items="15" enable-filtering="false">
+                                        <thead>
+                                            <tr>
+                                                <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="mandatory_income" display-name="交强险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="mandatory_payment" display-name="交强险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="commercial_income" display-name="商业险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="commercial_payment" display-name="商业险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="tax_income" display-name="车船税跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="tax_payment" display-name="车船税结算(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="other_income" display-name="其他险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                                <th field-name="other_payment" display-name="其他险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <button ng-click="vm.editRule(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                                    <button ng-click="vm.deleteRule(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+                        </div>
 
-                            <footer class="clear">
-                                <span>
-                                    <button validation-submit="companyForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
-                                    </button>
-                                    <button validation-submit="companyForm" class="btn btn-primary" ng-show="vm.editable"
-                                            ng-click="vm.submitAndBack()">提交后查看列表
-                                    </button>
-                                </span>
-                            </footer>
-                        </form>
+
 
                     </div>
                 </div>

@@ -12,7 +12,8 @@ var schema = new mongoose.Schema({
     tax_income: Number, 
     tax_payment: Number, 
     other_income: Number, 
-    other_payment: Number
+    other_payment: Number,
+    updated_at: { type: Date },
 });
 
 mongoose.model('Rule', schema);

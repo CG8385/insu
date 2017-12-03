@@ -18,7 +18,10 @@ angular.module('app.company').factory('CompanyService',
                 getCompanyCatogories: getCompanyCatogories,
                 getCompanyCatogory: getCompanyCatogory,
                 deleteCompanyCatogory: deleteCompanyCatogory,
-                
+                getRules: getRules,
+                getRule: getRule,
+                saveRule: saveRule,
+                deleteRule: deleteRule
             });
 
             function saveCompany(company) {
@@ -41,7 +44,7 @@ angular.module('app.company').factory('CompanyService',
                     company.created_at = Date.now();
                     company.updated_at = company.created_at;
                     $http.post('api/companies', company)
-                    // handle success
+                        // handle success
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -49,12 +52,12 @@ angular.module('app.company').factory('CompanyService',
                                 deferred.reject(status);
                             }
                         })
-                    // handle error
+                        // handle error
                         .error(function (err) {
                             deferred.reject(status);
                         });
                 }
-                
+
                 // return promise object
                 return deferred.promise;
             }
@@ -64,7 +67,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.get('api/companies/' + companyId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -72,7 +75,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -86,7 +89,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.delete('api/companies/' + companyId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -94,7 +97,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -102,7 +105,7 @@ angular.module('app.company').factory('CompanyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function getCompanies() {
 
                 // create a new instance of deferred
@@ -110,7 +113,7 @@ angular.module('app.company').factory('CompanyService',
 
                 // send a post request to the server
                 $http.get('api/companies')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -118,7 +121,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -134,7 +137,7 @@ angular.module('app.company').factory('CompanyService',
 
                 // send a post request to the server
                 $http.get('api/companies/sub/' + parentId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -142,7 +145,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -150,7 +153,7 @@ angular.module('app.company').factory('CompanyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function savePolicyName(policyName) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
@@ -171,7 +174,7 @@ angular.module('app.company').factory('CompanyService',
                     policyName.created_at = Date.now();
                     policyName.updated_at = policyName.created_at;
                     $http.post('api/policy-names', policyName)
-                    // handle success
+                        // handle success
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -179,12 +182,12 @@ angular.module('app.company').factory('CompanyService',
                                 deferred.reject(status);
                             }
                         })
-                    // handle error
+                        // handle error
                         .error(function (err) {
                             deferred.reject(status);
                         });
                 }
-                
+
                 // return promise object
                 return deferred.promise;
             }
@@ -194,7 +197,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.get('api/policy-names/' + policyNameId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -202,7 +205,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -216,7 +219,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.delete('api/policy-names/' + policyNameId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -224,7 +227,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -232,7 +235,7 @@ angular.module('app.company').factory('CompanyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function getPolicyNames() {
 
                 // create a new instance of deferred
@@ -240,7 +243,7 @@ angular.module('app.company').factory('CompanyService',
 
                 // send a post request to the server
                 $http.get('api/policy-names')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -248,7 +251,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -264,7 +267,7 @@ angular.module('app.company').factory('CompanyService',
 
                 // send a post request to the server
                 $http.get('api/companycatogories')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -272,7 +275,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -280,7 +283,7 @@ angular.module('app.company').factory('CompanyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function saveCompanyCatogory(companyCatogory) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
@@ -301,7 +304,7 @@ angular.module('app.company').factory('CompanyService',
                     companyCatogory.created_at = Date.now();
                     companyCatogory.updated_at = companyCatogory.created_at;
                     $http.post('api/companycatogories', companyCatogory)
-                    // handle success
+                        // handle success
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -309,12 +312,12 @@ angular.module('app.company').factory('CompanyService',
                                 deferred.reject(status);
                             }
                         })
-                    // handle error
+                        // handle error
                         .error(function (err) {
                             deferred.reject(status);
                         });
                 }
-                
+
                 // return promise object
                 return deferred.promise;
             }
@@ -324,7 +327,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.get('api/companycatogories/' + companyCatogoryId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -332,7 +335,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -346,7 +349,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.delete('api/companycatogories/' + companyCatogoryId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -354,7 +357,7 @@ angular.module('app.company').factory('CompanyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -363,5 +366,109 @@ angular.module('app.company').factory('CompanyService',
                 return deferred.promise;
             }
 
+            function getRules(companyId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get(`api/companies/${companyId}/rules`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getRule(ruleId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get(`api/companies/rules/${ruleId}`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function saveRule(rule) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (rule._id) {
+                    rule.updated_at = Date.now();
+                    $http.put('api/companies/rules/' + rule._id, rule)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    rule.updated_at = Date.now();
+                    $http.post('api/companies/rules', rule)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deleteRule(ruleId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/rules/' + ruleId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
         }]);

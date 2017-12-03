@@ -218,6 +218,42 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
                 }
             }
         })
+        .state('app.company.rule', {
+            abstract: true,
+            data: {
+                title: '费率政策管理'
+            }
+        })
+        .state('app.company.rule.view', {
+            url: '/companies/rule/:ruleId',
+            data: {
+                title: '费率政策'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'RuleEditorController as vm',
+                    templateUrl: 'app/company/views/rule.html'
+                }
+            }
+        })
+        .state('app.company.rule.new', {
+            url: '/companies/rule/new/:companyId',
+            data: {
+                title: '添加费率政策'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'RuleEditorController as vm',
+                    templateUrl: 'app/company/views/rule.html'
+                }
+            }
+        })
         .state('app.company.policyname', {
             abstract: true,
             data: {
