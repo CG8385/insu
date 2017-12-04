@@ -46,25 +46,6 @@ router.post('/', function (req, res) {
   })
 });
 
-// router.get('/bulk-check-all', function (req, res) {
-//   var start = new Date(2016, 10, 1);
-//   var query = Policy.find({policy_status:'已核对',created_at: {$gte: start}});
-//   query
-//     .exec()
-//     .then(function (policies) {
-//       for (var i = 0; i < policies.length; i++) {
-//         policies[i].policy_status = '已支付';
-//         policies[i].save();
-//         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
-//       };
-//       logger.info(req.user.name + " 批量核对通过了保单。" + req.clientIP);
-//       res.json({ date: start, data: policies });
-//     }, function (err) {
-//       logger.error(err);
-//     })
-// });
-
-
 router.get('/', function (req, res) {
   var user = req.user;
   var query = {};
@@ -326,40 +307,6 @@ router.post('/excel', function (req, res) {
       logger.error(err);
     })
 });
-
-// router.get('/to-be-paid', function (req, res) {
-//   var user = req.user;
-//   var query = { policy_status: '待支付' };
-//   if (user.role == '出单员') {
-//     query = { seller: user._id, policy_status: '待支付' };
-//   }
-//   Policy.find(query)
-//     .populate('client seller organization')
-//     .exec()
-//     .then(function (policies) {
-//       res.status(200).json(policies);
-//     }, function (err) {
-//       logger.error(err);
-//       res.status(500).send(err);
-//     });
-// });
-
-// router.get('/paid', function (req, res) {
-//   var user = req.user;
-//   var query = { policy_status: '已支付' };
-//   if (user.role == '出单员') {
-//     query = { seller: user._id, policy_status: '已支付' };
-//   }
-//   Policy.find(query)
-//     .populate('client seller organization')
-//     .exec()
-//     .then(function (policies) {
-//       res.status(200).json(policies);
-//     }, function (err) {
-//       logger.error(err);
-//       res.status(500).send(err);
-//     });
-// });
 
 router.get('/:id', function (req, res) {
   Policy.findOne({ _id: req.params.id })
