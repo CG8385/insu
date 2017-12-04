@@ -181,6 +181,13 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     res.json({message: "finish"});
 }));
 
+router.get('/test', asyncMiddleware(async (req, res, next) => {
+    let rule = new Rule();
+    rule.name = "fuck";
+    r = rule.save();
+    res.json(r);
+}));
+
 router.get('/step3', asyncMiddleware(async (req, res, next) => {
     let rules = await Rule.find().exec();
     let ruleCompanyIds = rules.map(r => r.company);
