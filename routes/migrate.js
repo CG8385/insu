@@ -135,7 +135,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         await Company.remove({_id: migrate.old});
         migrate = await migrate.save();
     }
-    rules = await Rule.find().exec();
+    let rules = await Rule.find().exec();
     console.log("-------");
     console.log(rules);
 
@@ -177,8 +177,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     let ttt = await Policy.update({level3_company: c._id}, {level3_company: n._id}, {multi: true});
     await c.remove();
 
-    let rules = await Rule.find().exec();
-    res.json(rules);
+    res.json({message: "finish"});
 }));
 
 router.get('/step3', asyncMiddleware(async (req, res, next) => {
