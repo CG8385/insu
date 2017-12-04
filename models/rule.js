@@ -17,11 +17,11 @@ var schema = new mongoose.Schema({
     updated_at: { type: Date },
 });
 
-schema.pre('save', function(next){
-    var now = new Date();
-    this.updated_at = now;
-    next();
- });
+// schema.pre('save', function(next){
+//     var now = new Date();
+//     this.updated_at = now;
+//     next();
+//  });
 
 mongoose.model('Rule', schema);
 
