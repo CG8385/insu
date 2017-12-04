@@ -122,7 +122,15 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
             migrate.comment = ruleName;
         }else if(company.rates){
             let rate = company.rates[0];
-            rule = new Rule(rate);
+            rule = new Rule();
+            rule.mandatory_income = rate.mandatory_income;
+            rule.mandatory_payment = rate.mandatory_payment;
+            rule.commercial_income = rate.commercial_income;
+            rule.commercial_payment = rate.commercial_payment;
+            rule.tax_income = rate.tax_income;
+            rule.tax_payment = rate.tax_payment;
+            rule.other_income = rate.other_income;
+            rule.other_payment = rate.other_payment;
             rule.company = c._id;
             rule.name = ruleName;
             rule = await rule.save();
@@ -184,7 +192,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
 router.get('/rrr', asyncMiddleware(async (req, res, next) => {
     let rule = new Rule();
     rule.name = "fuck";
-    r = rule.save();
+    r = await rule.save();
     res.json(r);
 }));
 
