@@ -135,6 +135,9 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         await Company.remove({_id: migrate.old});
         migrate = await migrate.save();
     }
+    let rules = await Rule.find().exec();
+    console.log("-------");
+    console.log(rules);
 
     let c1 = await Company.findOne({level:'三级', name: '中国人民财产保险股份有限公司南京支公司第二营业部'}).exec();
     let c2 = await Company.findOne({level:'三级', name: '中国人民财产保险股份有限公司南京浦口分公司'}).exec();
