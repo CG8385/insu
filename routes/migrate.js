@@ -181,7 +181,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     res.json({message: "finish"});
 }));
 
-router.get('/test', asyncMiddleware(async (req, res, next) => {
+router.get('/rrr', asyncMiddleware(async (req, res, next) => {
     let rule = new Rule();
     rule.name = "fuck";
     r = rule.save();
