@@ -135,7 +135,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         await Company.remove({_id: migrate.old});
         migrate = await migrate.save();
     }
-    let rules = await Rule.find().exec();
+    rules = await Rule.find().exec();
     console.log("-------");
     console.log(rules);
 
