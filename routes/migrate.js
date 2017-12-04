@@ -126,7 +126,6 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
             rule.company = c._id;
             rule.name = ruleName;
             rule = await rule.save();
-            console.log(rule);
             ruleCompanyIds.push(rule.company);
             migrate.rule = rule._id;
         }
@@ -175,7 +174,8 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     let ttt = await Policy.update({level3_company: c._id}, {level3_company: n._id}, {multi: true});
     await c.remove();
 
-    res.json(ttt);
+    let rules = await Rule.find().exec();
+    res.json(rules);
 }));
 
 router.get('/step3', asyncMiddleware(async (req, res, next) => {
