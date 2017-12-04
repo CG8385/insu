@@ -336,25 +336,32 @@
                                 </header>
                                 <div class="row">
                                     <label class="label" style = "margin-left:1em">保险公司</label>
-                                    <section class="col col-4">
+                                    <section class="col col-3">
                                         <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company"
                                             ng-options="c._id as c.name for c in vm.level2Companies">
                                             <option value="">选择二级保险公司</option>
                                         </select>
                                         </section>
-                                        <section class="col col-4">
+                                        <section class="col col-3">
                                             <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
                                                 ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
                                             <option value="">选择三级保险公司</option>
                                             </select>
                                     </section>
-                                    <section class="col col-4">
+                                    <section class="col col-3">
                                         <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
                                             ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
                                             <option value="">选择四级保险公司(如有)</option>
                                             </select>
                                     </section>
-
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.ruleChanged()"
+                                            ng-model="vm.policy.rule" ng-options="c._id as c.name for c in vm.rules">
+                                            <option value="">选择费率政策</option>
+                                            </select>
+                                    </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-4">

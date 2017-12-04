@@ -9,6 +9,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     vm.level2Companies = [];
     vm.level3Companies = [];
     vm.level4Companies = [];
+    vm.rules = [];
     vm.ratesBasedString = "";
     vm.company = {};
 
@@ -57,63 +58,86 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
     }
 
-    vm.applyCompanyRate = function (company) {
-        if (!company || !company.rates || company.rates.length == 0) {
-            vm.policy.mandatory_fee_income_rate = null;
-            vm.policy.mandatory_fee_payment_rate = null;
-            vm.policy.commercial_fee_income_rate = null;
-            vm.policy.commercial_fee_payment_rate = null;
-            vm.policy.tax_fee_income_rate = null;
-            vm.policy.tax_fee_payment_rate = null;
-            vm.policy.other_fee_income_rate = null;
-            vm.policy.other_fee_payment_rate = null;
-            vm.policy.rule_rates = null;
-        } else {
-            var rates = company.rates[0];
-            vm.policy.mandatory_fee_income_rate = rates.mandatory_income;
-            vm.policy.mandatory_fee_payment_rate = rates.mandatory_payment;
-            vm.policy.commercial_fee_income_rate = rates.commercial_income;
-            vm.policy.commercial_fee_payment_rate = rates.commercial_payment;
-            vm.policy.tax_fee_income_rate = rates.tax_income;
-            vm.policy.tax_fee_payment_rate = rates.tax_payment;
-            vm.policy.other_fee_income_rate = rates.other_income;
-            vm.policy.other_fee_payment_rate = rates.other_payment;
-            vm.policy.rule_rates = rates;
+    vm.resetRule = function() {
+        vm.policy.rule = undefined;
+        vm.policy.mandatory_fee_income_rate = null;
+        vm.policy.mandatory_fee_payment_rate = null;
+        vm.policy.commercial_fee_income_rate = null;
+        vm.policy.commercial_fee_payment_rate = null;
+        vm.policy.tax_fee_income_rate = null;
+        vm.policy.tax_fee_payment_rate = null;
+        vm.policy.other_fee_income_rate = null;
+        vm.policy.other_fee_payment_rate = null;
+        vm.policy.rule_rates = null;
+    }
+
+    vm.applyRule = function (rule) {
+        vm.policy.mandatory_fee_income_rate = rule.mandatory_income ? rule.mandatory_income : 0;
+        vm.policy.mandatory_fee_payment_rate = rule.mandatory_payment ? rule.mandatory_payment : 0;
+        vm.policy.commercial_fee_income_rate = rule.commercial_income ? rule.commercial_income : 0;
+        vm.policy.commercial_fee_payment_rate = rule.commercial_payment ? rule.commercial_payment : 0;
+        vm.policy.tax_fee_income_rate = rule.tax_income ? rule.tax_income : 0;
+        vm.policy.tax_fee_payment_rate = rule.tax_payment ? rule.tax_payment : 0;
+        vm.policy.other_fee_income_rate = rule.other_income ? ule.other_income : 0;
+        vm.policy.other_fee_payment_rate = rule.other_payment ? rule.other_payment : 0;
+        vm.policy.rule_rates = rule;
+    }
+
+    vm.loadRules = function(){
+        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
+        if(companyId){
+            PolicyService.getRules(companyId)
+            .then(function(rules){
+                vm.rules = rules;
+            })
+        }else{
+            vm.rules = [];
+        }
+
+    }
+
+    vm.ruleChanged = function () {
+        if(!vm.policy.rule){
+            vm.resetRule();
+        }else{
+            var rule = vm.rules.filter(r=>r._id == vm.policy.rule)[0];
+            vm.applyRule(rule);
         }
     }
 
     vm.level2Changed = function () {
+        vm.resetRule();
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
-            vm.applyCompanyRate(null);
             vm.company = {};
         } else {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
             vm.policy.level1_company = vm.company.catogory._id;
-            vm.applyCompanyRate(vm.company);
         }
         vm.loadLevel3Companies();
+        vm.loadRules();
     }
 
     vm.level3Changed = function () {
+        vm.resetRule();
         if (!vm.policy.level3_company) {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            vm.applyCompanyRate(vm.company);
+            
         } else {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(vm.company);
         }
         vm.loadLevel4Companies();
+        vm.loadRules();
     }
 
     vm.level4Changed = function () {
+        vm.resetRule();
         if (!vm.policy.level4_company) {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
-            vm.applyCompanyRate(vm.company);
         } else {
             vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
-            vm.applyCompanyRate(vm.company);
         }
+        vm.loadRules();
     }
 
     PolicyService.getClients()
@@ -150,6 +174,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                 policy.seller = policy.seller._id;
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
+                vm.loadRules();
             });
     }
 
@@ -539,52 +564,6 @@ angular.module('app.policy').directive('price', function () {
     };
 });
 
-// angular.module('app.policy').filter('propsFilter', function () {
-//     return function (items, props) {
-//         var out = [];
-
-//         if (angular.isArray(items)) {
-//             items.forEach(function (item) {
-//                 var itemMatches = false;
-
-//                 var keys = Object.keys(props);
-//                 for (var i = 0; i < keys.length; i++) {
-//                     var prop = keys[i];
-//                     if (/^[\u4e00-\u9fa5]+$/.test(text)) {
-//                         if (item['name'].indexOf(text) == 0) {
-//                             itemMatches = true;
-//                             break;
-//                         }
-//                     } else {
-//                         var text = props[prop].toUpperCase();
-//                         var pylist = item['py'];
-
-//                         for (var j = 0; j < pylist.length; j++) {
-//                             if (pylist[j].indexOf(text) == 0) {
-//                                 itemMatches = true;
-//                                 break;
-//                             }
-//                         }
-//                         if (itemMatches) {
-//                             break;
-//                         }
-//                     }
-
-
-//                 }
-
-//                 if (itemMatches) {
-//                     out.push(item);
-//                 }
-//             });
-//         } else {
-//             // Let the output be the input untouched
-//             out = items;
-//         }
-
-//         return out;
-//     }
-// });
 
 angular.module('app.policy').directive('infiniteScroll', ['$rootScope', '$window', '$timeout', function ($rootScope, $window, $timeout) {
     return {

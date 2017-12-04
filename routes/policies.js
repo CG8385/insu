@@ -327,39 +327,39 @@ router.post('/excel', function (req, res) {
     })
 });
 
-router.get('/to-be-paid', function (req, res) {
-  var user = req.user;
-  var query = { policy_status: '待支付' };
-  if (user.role == '出单员') {
-    query = { seller: user._id, policy_status: '待支付' };
-  }
-  Policy.find(query)
-    .populate('client seller organization')
-    .exec()
-    .then(function (policies) {
-      res.status(200).json(policies);
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
+// router.get('/to-be-paid', function (req, res) {
+//   var user = req.user;
+//   var query = { policy_status: '待支付' };
+//   if (user.role == '出单员') {
+//     query = { seller: user._id, policy_status: '待支付' };
+//   }
+//   Policy.find(query)
+//     .populate('client seller organization')
+//     .exec()
+//     .then(function (policies) {
+//       res.status(200).json(policies);
+//     }, function (err) {
+//       logger.error(err);
+//       res.status(500).send(err);
+//     });
+// });
 
-router.get('/paid', function (req, res) {
-  var user = req.user;
-  var query = { policy_status: '已支付' };
-  if (user.role == '出单员') {
-    query = { seller: user._id, policy_status: '已支付' };
-  }
-  Policy.find(query)
-    .populate('client seller organization')
-    .exec()
-    .then(function (policies) {
-      res.status(200).json(policies);
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
+// router.get('/paid', function (req, res) {
+//   var user = req.user;
+//   var query = { policy_status: '已支付' };
+//   if (user.role == '出单员') {
+//     query = { seller: user._id, policy_status: '已支付' };
+//   }
+//   Policy.find(query)
+//     .populate('client seller organization')
+//     .exec()
+//     .then(function (policies) {
+//       res.status(200).json(policies);
+//     }, function (err) {
+//       logger.error(err);
+//       res.status(500).send(err);
+//     });
+// });
 
 router.get('/:id', function (req, res) {
   Policy.findOne({ _id: req.params.id })
@@ -367,6 +367,7 @@ router.get('/:id', function (req, res) {
     .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
     .exec()
     .then(function (policy) {
+      console.log(policy);
       res.status(200).json(policy);
     }, function (err) {
       logger.error(err);
