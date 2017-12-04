@@ -110,7 +110,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         if(j == company.name.length){ continue; }
         let name = company.name.substring(0, j);
         let ruleName = company.name.substring(j).trim();
-        // console.log(company.name + "=======" + name + "     +     " + ruleName);
+        console.log(company.name + "=======" + name + "     +     " + ruleName);
         let c = await Company.findOne({level:company.level, name: name}).exec();
         if(!c){
             c = new Company({name: name, contact: company.contact, phone: company.phone, catogory: company.catogory, level: company.level, parent: company.parent});
@@ -137,8 +137,6 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
             ruleCompanyIds.push(rule.company);
             migrate.rule = rule._id;
             let rules = await Rule.find().exec();
-            console.log("-------");
-            console.log(rules);
         }
         r = await Policy.update({level2_company: migrate.old}, {level2_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
         r = await Policy.update({level3_company: migrate.old}, {level3_company: migrate.new, rule: migrate.rule, comment: migrate.comment}, {multi: true});
