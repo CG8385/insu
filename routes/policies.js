@@ -314,7 +314,6 @@ router.get('/:id', function (req, res) {
     .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
     .exec()
     .then(function (policy) {
-      console.log(policy);
       res.status(200).json(policy);
     }, function (err) {
       logger.error(err);
