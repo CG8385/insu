@@ -7,9 +7,13 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.bindedWechats = [];
     vm.editable = false;
     vm.client.other_accounts = [];
+    vm.isInReviewMode = false;
 
     if ($state.is("app.client.individual.new")) {
         vm.editable = true;
+    }else if ($state.is("app.client.pending.review")) {
+        vm.editable = true;
+        vm.isInReviewMode = true;
     }
 
     ClientService.getOrganizations()
@@ -85,12 +89,25 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         vm.bindedWechats.splice(i, 1);
     }
 
+    vm.approve = function(){
+        vm.client.client_type = "个人";
+        ClientService.saveClient(vm.client)
+            .then(function (data) {
+                $.smallBox({
+                    title: "服务器确认信息",
+                    content: "业务员通过审核",
+                    color: "#739E73",
+                    iconSmall: "fa fa-check",
+                    timeout: 5000
+                });
+                $state.go("app.client.pending");
+                
+            }, function (err) { });
+    }
+
 
     vm.submit = function () {
         vm.client.client_type = "个人";
-        vm.client.wechats = vm.bindedWechats.map(function(wechat){
-            return wechat.openid;
-        })
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({

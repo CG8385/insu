@@ -2,7 +2,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="!vm.isInReviewMode"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -11,7 +11,7 @@
                 </header>
                 <div>
                     <div class="widget-body no-padding">
-                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable && !vm.isInReviewMode">
                             <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                         </div>
                         <form name="individualForm" id="individualForm" class="smart-form" novalidate>
@@ -172,10 +172,13 @@
 
                             <footer class="clear">
                                 <span>
-                                    <button validation-submit="individualForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                    <button validation-submit="individualForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable && !vm.isInReviewMode">提交后添加下一条
                                     </button>
-                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.editable"
+                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.editable && !vm.isInReviewMode"
                                             ng-click="vm.submitAndBack()">提交后查看列表
+                                    </button>
+                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.isInReviewMode"
+                                        ng-click="vm.approve()">保存并审核通过
                                     </button>
                                 </span>
                             </footer>

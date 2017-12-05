@@ -4,10 +4,10 @@
     <div class="row">
         <article class="col-sm-12">
 
-            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div class="clients-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>个人业务员</h2>
+                    <h2>待审核业务员</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
@@ -17,22 +17,21 @@
                                 <tr>
                                     <th field-name="name" display-name="业务员姓名" enable-filtering="true" enable-sorting="false">
                                     </th>
-                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="phone" display-name="联系电话" enable-filtering="true" enable-sorting="false">
                                     </th>
-                                    <th field-name="license_no" display-name="执业证号" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="identity" display-name="身份证号" enable-filtering="true" enable-sorting="false">
                                     </th>
                                     <th field-name="bank" display-name="开户行" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="phone" display-name="联系电话" enable-filtering="false" enable-sorting="false">
-                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-click="vm.review(gridItem._id)" class="btn btn-primary btn-sm">审核</button>
                                         <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>                                   
                                     </td>
                                 </tr>

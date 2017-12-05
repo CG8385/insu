@@ -18,8 +18,12 @@ var Client = require('../models/client.js')(db);
 var Organization = require('../models/organization.js')(db);
 
 router.get('/test', asyncMiddleware(async (req, res, next) => {
-    let p = await Policy.findOne({frame_no: {"$nin": [ null, "0" ]}}).exec();
-    res.json(p);
+    let clients = await Client.find({client_type:'个人'}).exec();
+    for(let i = 0; i < 15; i++){
+        clients[i].client_type = "待审核";
+        await clients[i].save()
+    }
+    res.send("done");
 }));
 
 router.get('/step1', asyncMiddleware(async (req, res, next) => {

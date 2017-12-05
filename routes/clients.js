@@ -18,7 +18,9 @@ router.get('/', function(req, res, next) {
         query = {client_type:'个人', organization: { $exists : false }};
       }else if(type == "manager"){
         query = {client_type:'主管', organization: { $exists : false }};
-      }
+      }else if(type == "pending"){
+      query = {client_type:'待审核', organization: { $exists : false }};
+    }
     }else{
       if(type == "organization"){
         query = {client_type:'机构', organization: org};
@@ -26,6 +28,8 @@ router.get('/', function(req, res, next) {
         query = {client_type:'个人', organization: org};
       }else if(type == "manager"){
         query = {client_type:'主管', organization: org};
+      }else if(type == "pending"){
+        query = {client_type:'待审核', organization: org};
       }
     }
   }else{
@@ -35,6 +39,8 @@ router.get('/', function(req, res, next) {
         query = {client_type:'个人'};
       }else if(type == "manager"){
         query = {client_type:'主管'};
+      }else if(type == "pending"){
+        query = {client_type:'待审核'};
       }
   }
 
@@ -45,8 +51,6 @@ router.get('/', function(req, res, next) {
   .then(function(clients){
     for(var i = 0; i<clients.length; i++){
       var name = clients[i].name;
-      // var py = makePy(name);
-      // clients[i].py = py;
     }
     res.json(clients);
   },
@@ -107,6 +111,7 @@ router.put('/:id', function (req, res) {
         client.payment_substract_rate = req.body.payment_substract_rate;
         client.organization = req.body.organization;
         client.license_photo = req.body.license_photo;
+        client.license_no = req.body.license_no;
         
         client.save(function (err) {
             if (err){

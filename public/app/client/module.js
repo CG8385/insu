@@ -25,6 +25,30 @@ angular.module('app.client').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.client.pending', {
+            url: '/clients/pending',
+            data: {
+                title: '待审核业务员'
+            },
+            views: {
+                "content@app": {
+                    controller: 'IndClientReviewListController as vm',
+                    templateUrl: 'app/client/views/ind-client-review-list.html'
+                }
+            }
+        })
+        .state('app.client.pending.review', {
+            url: '/review/:clientId',
+            data: {
+                title: '业务员审核'
+            },
+            views: {
+                "content@app": {
+                    controller: 'IndClientEditorController as vm',
+                    templateUrl: 'app/client/views/Ind-client.html'
+                }
+            }
+        })
         .state('app.client.individual', {
             url: '/clients/individual',
             data: {
