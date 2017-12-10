@@ -8,6 +8,7 @@ angular.module('app.employee').factory('EmployeeService',
                 saveUser: saveUser,
                 getSellers: getSellers,
                 getFinances: getFinances,
+                getRecorders: getRecorders,
                 getUser: getUser,
                 deleteUser: deleteUser,
                 getOrganizations: getOrganizations
@@ -34,7 +35,7 @@ angular.module('app.employee').factory('EmployeeService',
                     user.created_at = Date.now();
                     user.updated_at = user.created_at;
                     $http.post('/users', user)
-                    // handle success
+                        // handle success
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -42,12 +43,12 @@ angular.module('app.employee').factory('EmployeeService',
                                 deferred.reject(status);
                             }
                         })
-                    // handle error
+                        // handle error
                         .error(function (err) {
                             deferred.reject(status);
                         });
                 }
-                
+
                 // return promise object
                 return deferred.promise;
             }
@@ -57,7 +58,7 @@ angular.module('app.employee').factory('EmployeeService',
                 var deferred = $q.defer();
 
                 $http.get('/users/' + userID)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -65,7 +66,7 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -79,7 +80,7 @@ angular.module('app.employee').factory('EmployeeService',
                 var deferred = $q.defer();
 
                 $http.delete('/users/' + userId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -87,7 +88,7 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -103,7 +104,7 @@ angular.module('app.employee').factory('EmployeeService',
 
                 // send a post request to the server
                 $http.get('/users?role=seller')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -111,7 +112,31 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getRecorders() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=recorder')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -127,7 +152,7 @@ angular.module('app.employee').factory('EmployeeService',
 
                 // send a post request to the server
                 $http.get('/users?role=finance')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -135,15 +160,15 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
 
                 // return promise object
                 return deferred.promise;
-            }         
-            
+            }
+
             function getOrganizations() {
 
                 // create a new instance of deferred
@@ -151,7 +176,7 @@ angular.module('app.employee').factory('EmployeeService',
 
                 // send a post request to the server
                 $http.get('/api/organizations')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -159,7 +184,7 @@ angular.module('app.employee').factory('EmployeeService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });

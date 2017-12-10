@@ -40,7 +40,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         })
 
     vm.loadLevel3Companies = function () {
-        console.log(vm.filterSettings);
         if (!vm.filterSettings.level2_company) {
             vm.level3Companies = [];
         } else {

@@ -286,4 +286,34 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.image-policy', {
+            abstract: true,
+            data: {
+                title: '车商车险'
+            }
+        })    
+        .state('app.policy.image-policy.to-be-processed', {
+            url: '/policies/image-policies/to-be-processed',
+            data: {
+                title: '待录入保单照片'
+            },
+            views: {
+                "content@app": {
+                    controller: 'ImagePolicyListController as vm',
+                    templateUrl: 'app/policy/views/image-policy-list.html'
+                }
+            }
+        })
+        .state('app.policy.image-policy.processed', {
+            url: '/policies/image-policies/rocessed',
+            data: {
+                title: '已录入保单照片'
+            },
+            views: {
+                "content@app": {
+                    controller: 'ImagePolicyListController as vm',
+                    templateUrl: 'app/policy/views/image-policy-list.html'
+                }
+            }
+        })
 });

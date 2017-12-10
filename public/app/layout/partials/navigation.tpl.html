@@ -14,6 +14,12 @@
             <li data-menu-collapse>
                  <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险</span></a>
                  <ul>
+                    <li data-ui-sref-active="active" ng-show="user.role=='后台录单员'">
+                        <a data-ui-sref="app.policy.image-policy.to-be-processed">待录入保单照片</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.role=='后台录单员'">
+                        <a data-ui-sref="app.policy.image-policy.processed">已录入保单照片</a>
+                    </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.new1">保单录入</a>
                     </li>
@@ -103,10 +109,16 @@
                         <a data-ui-sref="app.employee.finance">财务账号</a>
                     </li>
                     <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.recorder">后台录单员账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.seller.new">添加出单员账号</a>
                     </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.finance.new">添加财务账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.recorder.new">添加后台录单员账号</a>
                     </li>
                 </ul>
             </li>

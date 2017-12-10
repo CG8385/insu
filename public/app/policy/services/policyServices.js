@@ -26,7 +26,9 @@ angular.module('app.policy').factory('PolicyService',
                 uploadFile: uploadFile,
                 getCompany: getCompany,
                 updatePhoto: updatePhoto,
-                getRules: getRules
+                getRules: getRules,
+                searchImagePolicies: searchImagePolicies,
+                bulkProcessImagePolicies: bulkProcessImagePolicies,
             });
 
             function getRules(companyId) {
@@ -678,6 +680,71 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
+            function searchImagePolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                var orderBy = "created_at";
+                var orderByReverse = false;
+                if (type == "to-be-processed") {
+                    filterSettings.policy_status = "待录入";
+                    orderByReverse = false;
+                } else if (type == "processed") {
+                    filterSettings.policy_status = "已录入";
+                    orderByReverse = true;
+                }
+
+                var end = new Date(toDate);
+                end.setDate(end.getDate() + 1);
+                var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
+                    filterByFields: filterSettings,
+                    orderBy: orderBy,
+                    orderByReverse: orderByReverse,
+                    requestTrapped: true,
+                    fromDate: fromDate,
+                    toDate: end
+                };
+
+
+                $http.post("/api/image-policies/search", config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkProcessImagePolicies(ids) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/image-policies/bulk-process", ids)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
 
         }]);
