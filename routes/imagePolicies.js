@@ -51,7 +51,7 @@ router.post('/search', asyncMiddleware(async (req, res, next) => {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
-  
+  console.log(conditions);
   let query = ImagePolicy.find(conditions);
   let promise1  = query
   .sort(sortParam)
