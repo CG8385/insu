@@ -11,6 +11,11 @@ var asyncMiddleware = require('../middlewares/asyncMiddleware');
 
 ImagePolicy = Promise.promisifyAll(ImagePolicy);
 
+router.get('/', asyncMiddleware(async (req, res, next) => {
+  let ps = ImagePolicy.find().populate('client').exec();
+  res.status(200).json(ps);
+}));
+
 router.get('/:id', asyncMiddleware(async (req, res, next) => {
   let imagePolicy = ImagePolicy.findOne({ _id: req.params.id }).populate('client').exec();
   res.status(200).json(imagePolicy);
