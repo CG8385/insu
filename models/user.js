@@ -10,7 +10,6 @@ var schema = new mongoose.Schema({
     role: String,
     org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     organization: String,
-    client_id: mongoose.Schema.Types.ObjectId,
     created_at: { type: Date },
     updated_at: { type: Date },
     phone: String

@@ -413,7 +413,7 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (['出单员', '后台录单员'].indexOf(req.user.role) != -1) {
     conditions['seller'] = req.user._id;
   }
 

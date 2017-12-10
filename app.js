@@ -83,6 +83,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   if (process.env.NODE_ENV != 'production') {
     res.status(err.status || 500);
+    console.log(err);
     res.json({status: err.status, message: err.message});
   }else{
     res.status(err.status || 500);
