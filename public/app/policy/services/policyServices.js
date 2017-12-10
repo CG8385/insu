@@ -686,10 +686,10 @@ angular.module('app.policy').factory('PolicyService',
                 var orderBy = "created_at";
                 var orderByReverse = false;
                 if (type == "to-be-processed") {
-                    filterSettings.policy_status = "待录入";
+                    filterSettings.status = "待录入";
                     orderByReverse = false;
                 } else if (type == "processed") {
-                    filterSettings.policy_status = "已录入";
+                    filterSettings.status = "已录入";
                     orderByReverse = true;
                 }
 
