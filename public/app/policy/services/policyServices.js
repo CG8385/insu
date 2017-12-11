@@ -29,6 +29,7 @@ angular.module('app.policy').factory('PolicyService',
                 getRules: getRules,
                 searchImagePolicies: searchImagePolicies,
                 bulkProcessImagePolicies: bulkProcessImagePolicies,
+                processImagePolicy: processImagePolicy,
             });
 
             function getRules(companyId) {
@@ -745,6 +746,25 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
+            function processImagePolicy(id) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post(`/api/image-policies/${id}/process`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
 
+                // return promise object
+                return deferred.promise;
+            }
 
         }]);

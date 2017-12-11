@@ -154,11 +154,6 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         return imagePolicy.status == "待录入";
     };
 
-
-    vm.getUrl = function (imagePolicy) {
-       return imagePolicy.url;
-    };
-
     vm.selectionChanged = function () {
         if (!vm.policies) {
             vm.selectedPolicies = [];
@@ -193,6 +188,33 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
 
+    vm.process = function (imagePolicy) {
+        $.SmartMessageBox({
+            title: "修改保单照片状态",
+            content: "确认已录入该保单？",
+            buttons: '[取消][确认]',
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                PolicyService.processImagePolicy(imagePolicy._id)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单照片状态已更改为已录入",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    }
 
     /*
      * SmartAlerts
