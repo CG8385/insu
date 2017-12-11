@@ -27,6 +27,10 @@
                         total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
+                                    <th display-align="center" cell-width="2em">
+                                                <div class="tr-ng-title">&nbsp;</div>
+                                                <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                    </th>
                                     <th field-name="created_at" display-name="上传时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
