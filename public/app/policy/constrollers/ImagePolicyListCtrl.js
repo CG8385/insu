@@ -155,8 +155,8 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     };
 
 
-    vm.showImage = function (imagePolicy) {
-       
+    vm.getUrl = function (imagePolicy) {
+       return imagePolicy.url;
     };
 
     vm.selectionChanged = function () {
