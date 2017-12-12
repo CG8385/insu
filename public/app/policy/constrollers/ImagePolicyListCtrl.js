@@ -227,7 +227,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                PolicyService.deletePolicy(id)
+                PolicyService.deleteImagePolicy(id)
                     .then(function () {
                         vm.refreshPolicies();
                         // vm.refreshSummary();

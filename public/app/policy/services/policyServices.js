@@ -30,6 +30,7 @@ angular.module('app.policy').factory('PolicyService',
                 searchImagePolicies: searchImagePolicies,
                 bulkProcessImagePolicies: bulkProcessImagePolicies,
                 processImagePolicy: processImagePolicy,
+                deleteImagePolicy: deleteImagePolicy,
             });
 
             function getRules(companyId) {
@@ -750,6 +751,27 @@ angular.module('app.policy').factory('PolicyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 $http.post(`/api/image-policies/${id}/process`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function deleteImagePolicy(id) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/image-policies/' + id)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
