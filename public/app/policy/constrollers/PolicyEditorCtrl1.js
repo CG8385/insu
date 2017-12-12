@@ -256,9 +256,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                     timeout: 5000
                 });
                 vm.policy = {};
-                vm.policy.plate_province = "苏";
                 if (vm.back) {
-                    $state.go("app.policy.to-be-reviewed");
+                    console.log($rootScope.user.role);
+                    if($rootScope.user.role == "后台录单员"){
+                        $state.go("app.policy.to-be-paid");
+                    }else{
+                        $state.go("app.policy.to-be-reviewed");
+                    }
                 }
             }, function (err) { });
     };

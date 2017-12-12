@@ -28,7 +28,11 @@ router.post('/', function (req, res) {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         policy.organization = req.user.org;
-        policy.policy_status = '待审核';
+        if(req.user.role == '后台录单员'){
+          policy.policy_status = '待支付';
+        }else{
+          policy.policy_status = '待审核';
+        }
         policy.save(function (err, policy, numAffected) {
           if (err) {
             logger.error(err);
