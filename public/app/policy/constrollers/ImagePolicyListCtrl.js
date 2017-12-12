@@ -40,7 +40,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.tableHeader = "待录入保单照片";
     }
     else if ($state.is("app.policy.image-policy.processed")) {
-        vm.listType = "rejected";
+        vm.listType = "processed";
         vm.filterSettings = localStorageService.get("image-policy-processed") ? localStorageService.get("image-policy-processed") : {};
         if (vm.filterSettings.client) {
             PolicyService.getClient(vm.filterSettings.client)
