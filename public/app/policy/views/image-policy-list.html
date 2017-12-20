@@ -12,7 +12,7 @@
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshClicked()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>             
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkProcess()" class="btn btn-primary">批量更改状态为已录入</button>
-                <button ng-show="vm.policies.length>0" ng-click="vm.downloadAll()" class="btn btn-primary">批量下载所有待录入保单照片</button>
+                <button ng-show="vm.policies.length>0" ng-click="vm.downloadToBeProcessedImages()" class="btn btn-primary">批量下载所有待录入保单照片</button>
             </span>
 
 

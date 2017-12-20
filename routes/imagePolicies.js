@@ -8,12 +8,28 @@ var logger = require('../utils/logger.js');
 var Client = require('../models/client.js')(db);
 var iconv = require('iconv-lite');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var archiver = require('archiver');
+var request = require('request');
 
 ImagePolicy = Promise.promisifyAll(ImagePolicy);
 
 router.get('/', asyncMiddleware(async (req, res, next) => {
   let ps = await ImagePolicy.find().populate('client').exec();
   res.status(200).json(ps);
+}));
+
+router.get('/download', asyncMiddleware(async (req, res, next) => {
+  let ps = await ImagePolicy.find({status: "待录入"}).populate('client').exec();
+
+  res.setHeader('Content-Type', 'text/zip');
+  res.setHeader("Content-Disposition", "attachment;filename=" + "images.zip");
+  const archiver = archiver('zip');
+
+  ps.forEach(p=>{
+    console.log(p);
+  })
+  res.send("done");
+
 }));
 
 router.get('/:id', asyncMiddleware(async (req, res, next) => {
@@ -51,7 +67,6 @@ router.post('/search', asyncMiddleware(async (req, res, next) => {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
-  console.log(conditions);
   let query = ImagePolicy.find(conditions);
   let promise1  = query
   .sort(sortParam)

@@ -187,6 +187,22 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
     }
 
+    vm.downloadToBeProcessedImages = function () {
+        PolicyService.downloadToBeProcessedImages()
+            .then(function (zip) {
+                var file = new Blob(['\ufeff', zip], {
+                    type: 'application/zip'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'images.zip'
+                })[0].click();
+            })
+    };
+
 
     vm.process = function (imagePolicy) {
         $.SmartMessageBox({

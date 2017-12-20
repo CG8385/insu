@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "aliyun-sdk": "^1.10.19",
+    "archiver": "^2.1.0",
     "bluebird": "^3.5.1",
     "body-parser": "~1.13.2",
     "chai": "^3.4.1",
@@ -33,6 +34,7 @@
     "passport-local-mongoose": "^3.1.0",
     "q": "^1.5.1",
     "querystring": "^0.2.0",
+    "request": "^2.83.0",
     "serve-favicon": "~2.3.0",
     "supertest": "^1.1.0",
     "supertest-session": "^2.0.0",
