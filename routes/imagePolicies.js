@@ -40,9 +40,9 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
   ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
-    const date = dateFormat(p.created_at, "yyyy/mm/dd");
+    const date = dateFormat(p.created_at, "yyyy-mm-dd");
     const stream = request(url);
-    const filename = `${date}-${clientName}-${p.filename}`
+    const filename = `${date}/${clientName}/${p.filename}`
     zip.append(stream, { name: filename });
   })
   zip.finalize();
