@@ -37,7 +37,14 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
     console.log('Archive finished')
   })
   zip.pipe(res);
-  const folder = Date.now().toLocaleString() + "下载";
+  const currentdate = new Date(); 
+  const datetime = "Last Sync: " + currentdate.getDate() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+  const folder = datetime + " 下载";
   ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
