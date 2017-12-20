@@ -11,6 +11,7 @@ var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var archiver = require('archiver');
 var request = require('request');
 var dateFormat = require('dateformat');
+var moment = require('moment');
 
 ImagePolicy = Promise.promisifyAll(ImagePolicy);
 
@@ -37,14 +38,7 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
     console.log('Archive finished')
   })
   zip.pipe(res);
-  const currentdate = new Date(); 
-  const datetime = "Last Sync: " + currentdate.getDate() + "-"
-                + (currentdate.getMonth()+1)  + "-" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-  const folder = datetime + " 下载";
+  const folder = moment().format() + " 下载";
   ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
