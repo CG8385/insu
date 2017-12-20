@@ -42,8 +42,7 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
     const url = p.url;
     const date = dateFormat(p.created_at, "yyyy/mm/dd");
     const stream = request(url);
-    const filename = p.filename;//`${date}/${clientName}/${p.filename}`
-    console.log(filename);
+    const filename = `${date}/${clientName}/${p.filename}`
     zip.append(stream, { name: filename });
   })
   zip.finalize();
