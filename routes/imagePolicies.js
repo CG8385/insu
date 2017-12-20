@@ -10,6 +10,7 @@ var iconv = require('iconv-lite');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var archiver = require('archiver');
 var request = require('request');
+var dateFormat = require('dateformat');
 
 ImagePolicy = Promise.promisifyAll(ImagePolicy);
 
@@ -24,12 +25,17 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
   res.setHeader('Content-Type', 'text/zip');
   res.setHeader("Content-Disposition", "attachment;filename=" + "images.zip");
   const zip = archiver('zip');
-
+  zip.pipe(res);
   ps.forEach(p=>{
-    console.log(p);
-  })
-  res.send("done");
+    const clientName = p.client.name;
+    const url = p.url;
+    const date = dateFormat(p.created_at, "yyyy/mm/dd");
+    const stream = request(url);
+    const filename = `${date}/${clientName}/${p.filename}`
+    zip.append(stream, { name: filename});
 
+  })
+  zip.finalize();
 }));
 
 router.get('/:id', asyncMiddleware(async (req, res, next) => {

@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
     client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client'},
     url: String,
+    filename: String,
     created_at: { type: Date },
     status: String,
     downloaded: Boolean
