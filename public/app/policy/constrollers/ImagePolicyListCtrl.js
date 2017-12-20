@@ -198,10 +198,9 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     vm.downloadToBeProcessedImages = function () {
         PolicyService.downloadToBeProcessedImages()
             .then(function (zip) {
-                var file = new Blob([vm.str2bytes(zip)], {type: "application/zip"});
-                // var file = new Blob(['\ufeff', zip], {
-                //     type: 'application/zip'
-                // });
+                var file = new Blob([zip], {
+                    type: 'application/zip'
+                });
                 var fileURL = window.URL.createObjectURL(file);
                 var anchor = angular.element('<a/>');
                 anchor.attr({
