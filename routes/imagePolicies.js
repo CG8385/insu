@@ -37,12 +37,14 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
     console.log('Archive finished')
   })
   zip.pipe(res);
+  const folder = dateFormat(Date.now(), "yyyy-mm-dd hh:mm:ss") + "下载";
   ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
+
     const date = dateFormat(p.created_at, "yyyy-mm-dd");
     const stream = request(url);
-    const filename = `${date}/${clientName}/${p.filename}`
+    const filename = `${folder}/${date}/${clientName}/${p.filename}`
     zip.append(stream, { name: filename });
   })
   zip.finalize();
