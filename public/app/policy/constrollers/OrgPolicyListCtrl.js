@@ -69,7 +69,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             localStorageService.set('org-paid-toDate', vm.toDate);
         }
         vm.refreshPolicies();
-        vm.refreshSummary();
+        // vm.refreshSummary();
     };
 
     vm.clientFilterChanged = function () {
@@ -87,7 +87,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             localStorageService.set("org-paid-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
-        vm.refreshSummary();
+        // vm.refreshSummary();
     }
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
@@ -95,7 +95,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         }
         vm.pageSize = 15;
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-        vm.refreshSummary();
+        // vm.refreshSummary();
     };
 
     vm.refreshSummary = function () {
@@ -110,11 +110,11 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     
 
     vm.refreshPolicies();
-    vm.refreshSummary();
+    // vm.refreshSummary();
 
     vm.refreshClicked = function(){
         vm.refreshPolicies();
-        vm.refreshSummary();
+        // vm.refreshSummary();
     }
 
     vm.exportFilteredPolicies = function () {

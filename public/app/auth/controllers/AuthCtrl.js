@@ -24,10 +24,12 @@ angular.module('app.auth').controller('AuthCtrl',
                         $rootScope.user = user;
                         if(user.role == "出单员"){
                             $state.go('app.policy.new1');
-                        }else
+                        } else if(user.role == "渠道录单员"){
+                            $state.go('app.policy.dealer.new');
+                        }
+                        else
                         {
                             $state.go('app.policy.to-be-reviewed');
-                            // $state.go('app.policy.to-be-paid');
                         }
                         
                         $scope.disabled = false;

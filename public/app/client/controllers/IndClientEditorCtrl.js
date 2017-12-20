@@ -126,14 +126,33 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     };
 
     vm.uploadLicensePhoto = function (files) {
-        ClientService.uploadFile(file[0], vm.client.license_photo)
+        ClientService.uploadFile(files[0], vm.client.license_photo)
             .then(function (fileName) {
                 vm.client.license_photo = fileName;
             })
     }
+
+    vm.uploadIDPhoto1 = function (files) {
+        ClientService.uploadFile(files[0], vm.client.identity1_filename)
+            .then(function (fileName) {
+                vm.client.identity1_filename = fileName;
+            })
+    }
+
+    vm.uploadIDPhoto2 = function (files) {
+        ClientService.uploadFile(files[0], vm.client.identity2_filename)
+            .then(function (fileName) {
+                vm.client.identity2_filename = fileName;
+            })
+    }
+
     vm.getPhotoUrl = function () {
-        //return "http://image.4006778808.com/" + vm.policy.commercial_policy_photo + "?x-oss-process=style/resize";
-        return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.policy.license_photo + "?x-oss-process=style/resize";
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
+        // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
+    }
+
+    vm.getImageUrl = function (fileName) {
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName + "?x-oss-process=style/resize";
     }
 
 

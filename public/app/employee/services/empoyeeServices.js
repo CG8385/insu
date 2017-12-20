@@ -9,9 +9,11 @@ angular.module('app.employee').factory('EmployeeService',
                 getSellers: getSellers,
                 getFinances: getFinances,
                 getRecorders: getRecorders,
+                getDealers: getDealers,
                 getUser: getUser,
                 deleteUser: deleteUser,
-                getOrganizations: getOrganizations
+                getOrganizations: getOrganizations,
+                getClients: getClients
             });
 
             function saveUser(user) {
@@ -145,6 +147,30 @@ angular.module('app.employee').factory('EmployeeService',
                 return deferred.promise;
             }
 
+            function getDealers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users?role=dealer')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
             function getFinances() {
 
                 // create a new instance of deferred
@@ -176,6 +202,29 @@ angular.module('app.employee').factory('EmployeeService',
 
                 // send a post request to the server
                 $http.get('/api/organizations')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function getClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=organization')
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

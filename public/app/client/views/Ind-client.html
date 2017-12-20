@@ -2,11 +2,14 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="!vm.isInReviewMode"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="!vm.isInReviewMode">
+                    <i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-info"></i>
+                    </span>
                     <h2>车险业务员详情</h2>
                 </header>
                 <div>
@@ -17,80 +20,89 @@
                         <form name="individualForm" id="individualForm" class="smart-form" novalidate>
                             <section class="col col-5">
                                 <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
-                                    <div class="row">                                      
-                                            <label class="label">业务员姓名</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" name="name" ng-model="vm.client.name" validator="required">
-                                            </label>
-                                       
+                                    <div class="row">
+                                        <label class="label">业务员姓名</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" name="name" ng-model="vm.client.name" validator="required">
+                                        </label>
+
                                     </div>
                                     <div class="row">
                                         <label class="label">所属营业部</label>
                                         <label class="select">
-                                            <select name='organization' class="input-lg" ng-model="vm.client.organization"
-                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
+                                            <select name='organization' class="input-lg" ng-model="vm.client.organization" ng-options="o._id as o.name for o in vm.organizations"
+                                                validator="required">
                                                 <option value="">请选择所属营业部</option>
-                                            </select> <i></i>
+                                            </select>
+                                            <i></i>
                                         </label>
                                     </div>
-                                    <div class="row">                                      
-                                            <label class="label">执业证号</label>
-                                             <input type="file" style="display: none;" class = "input-lg" accept=".jpg,.png,.bmp" id="mandatory_file_selector" name="mandatory_file_selector"
-                                             onchange="angular.element(this).scope().vm.uploadLicensePhoto(this.files);"/>
-                                            
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file"  
-       	                                     onclick="mandatory_file_selector.click()">上传扫描件</button>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" name="license_no" ng-model="vm.client.license_no" validator="required">
-                                            </label>
-                                       
+                                    <div class="row">
+                                        <label class="label">执业证号</label>
+                                        <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="mandatory_file_selector" name="mandatory_file_selector"
+                                            onchange="angular.element(this).scope().vm.uploadLicensePhoto(this.files);" />
+
+                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="mandatory_file_selector.click()">上传扫描件</button>
+                                        <a ng-show="vm.client.license_photo" ng-href={ {vm.getPhotoUrl()}} target="_blank">查看扫描件</a>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" name="license_no" ng-model="vm.client.license_no" validator="required">
+                                        </label>
+
                                     </div>
                                     <div class="row">
-                                        
-                                            <label class="label">收款人姓名</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-user"></i>
-                                                <input type="text" class="input-lg" name="payee" ng-model="vm.client.payee" validator="required">
-                                            </label>
-                                        
+
+                                        <label class="label">收款人姓名</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input type="text" class="input-lg" name="payee" ng-model="vm.client.payee" validator="required">
+                                        </label>
+
                                     </div>
                                     <div class="row">
-                                        
-                                            <label class="label">联系电话</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-phone"></i>
-                                                <input type="text" class="input-lg" name="phone" ng-model="vm.client.phone" validator="phone">
-                                            </label>
-                                       
+
+                                        <label class="label">联系电话</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-phone"></i>
+                                            <input type="text" class="input-lg" name="phone" ng-model="vm.client.phone" validator="phone">
+                                        </label>
+
                                     </div>
                                     <div class="row">
-                                        
-                                            <label class="label">收款人身份证号</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-key"></i>
-                                                <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="identity">
-                                            </label>
-                                       
+                                        <label class="label">收款人身份证号</label>
+                                        <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="identity1_file_selector" name="identity1_file_selector"
+                                        onchange="angular.element(this).scope().vm.uploadIDPhoto1(this.files);" />
+                                        <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="identity2_file_selector" name="identity2_file_selector"
+                                        onchange="angular.element(this).scope().vm.uploadIDPhoto2(this.files);" />
+
+                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file1" onclick="identity1_file_selector.click()">上传身份证正面照片</button>
+                                        <a ng-show="vm.client.identity1_filename" ng-href={{vm.getImageUrl(vm.client.identity1_filename)}} target="_blank">查看身份证正面照片</a>
+                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file2" onclick="identity2_file_selector.click()">上传身份证背面照片</button>
+                                        <a ng-show="vm.client.identity2_filename" ng-href={{vm.getImageUrl(vm.client.identity2_filename)}} target="_blank">查看身份证背面照片</a>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-key"></i>
+                                            <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="identity">
+                                        </label>
+
                                     </div>
                                     <div class="row">
-                                       
-                                            <label class="label">开户行</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-bank"></i>
-                                                <input type="text" class="input-lg" name="bank" ng-model="vm.client.bank" validator="required">
-                                            </label>
-                                        
+
+                                        <label class="label">开户行</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-bank"></i>
+                                            <input type="text" class="input-lg" name="bank" ng-model="vm.client.bank" validator="required">
+                                        </label>
+
                                     </div>
                                     <div class="row">
-                                        
-                                            <label class="label">收款账号</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-bank"></i>
-                                                <input type="text" class="input-lg" name="account" ng-model="vm.client.account" validator="required,number">
-                                            </label>
-                                        
+
+                                        <label class="label">收款账号</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-bank"></i>
+                                            <input type="text" class="input-lg" name="account" ng-model="vm.client.account" validator="required,number">
+                                        </label>
+
                                     </div>
                                 </fieldset>
                                 <fieldset class="optional-input-field-set" ng-disabled="!vm.editable" data-ng-repeat="other_account in vm.client.other_accounts">
@@ -114,7 +126,7 @@
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addAccount()">添加收款账户</button>
                             </section>
                             <!-- <section class="col col-7">
-                                <img ng-show="vm.client.license_photo" width="650"  src=vm.getPhotoUrl()>
+                                <img ng-show="vm.client.identity1_filename" width="500" ng-src="{{vm.getImageUrl(vm.client.identity1_filename)}}">
                             </section> -->
 
                             <!--<section ng-show=false class="col col-6 height-limit"> 
@@ -174,11 +186,9 @@
                                 <span>
                                     <button validation-submit="individualForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable && !vm.isInReviewMode">提交后添加下一条
                                     </button>
-                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.editable && !vm.isInReviewMode"
-                                            ng-click="vm.submitAndBack()">提交后查看列表
+                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.editable && !vm.isInReviewMode" ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
-                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.isInReviewMode"
-                                        ng-click="vm.approve()">保存并审核通过
+                                    <button validation-submit="individualForm" class="btn btn-primary" ng-show="vm.isInReviewMode" ng-click="vm.approve()">保存并审核通过
                                     </button>
                                 </span>
                             </footer>

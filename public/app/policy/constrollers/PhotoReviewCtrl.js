@@ -3,6 +3,7 @@
 angular.module('app.policy').controller('PhotoReviewController', function (data, PolicyService) {
     var vm = this;
     vm.policy = data.policy;
+    vm.photoOnly = data.photoOnly;
     
     var companyId = vm.policy.level4_company ? vm.policy.level4_company:  vm.policy.level3_company? vm.policy.level3_company :vm.policy.level2_company? vm.policy.level2_company : null;    
     if(!companyId){

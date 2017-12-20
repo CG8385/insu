@@ -1,9 +1,11 @@
 var express = require('express');
 var passport = require('passport');
 var db = require('../utils/database.js').connection;
-var User = require('../models/user.js')(db);
+var Promise = require('bluebird');
+var User = Promise.promisifyAll(require('../models/user.js')(db));
 var router = express.Router();
 var logger = require('../utils/logger.js');
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
 
 
 router.get('/me', function (req, res, next) {
@@ -128,7 +130,7 @@ router.post('/', function (req, res) {
     if (users.length > 0) {
       res.status(400).send('系统中已存在该账号');
     } else {
-      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, phone: data.phone}), data.password, function (err, user) {
+      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, phone: data.phone, client: data.client}), data.password, function (err, user) {
         if (err) {
           logger.error(err);
           res.status(500).send(err);
@@ -167,9 +169,11 @@ router.get('/', function (req, res, next) {
     query = { role: '财务' };
   } else if (role == "recorder") {
     query = { role: '后台录单员' };
+  } else if (role == "dealer") {
+    query = { role: '渠道录单员' };
   }
   User.find(query)
-  .populate('org')
+  .populate('org client')
   .exec()
     .then(function (users) {
       res.json(users);
@@ -194,26 +198,20 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.put('/:id', function (req, res) {
-  User.findById(req.params.id, function (err, user) {
-    if (err)
-      res.send(err);
-    user.name = req.body.name;
-    user.username = req.body.username;
-    user.org = req.body.org;
-    user.phone = req.body.phone;
-    user.setPassword(req.body.password, function () {
-      user.save(function (err) {
-        if (err) {
-          logger.error(err);
-          res.send(err);
-        }
-
-        logger.info(req.user.name + " 更新了用户账号，用户名为：" + user.username + "。" + req.clientIP);
-        res.json({ message: '用户账号已成功更新' });
-      });
-    });
-  });
-});
+router.put('/:id', asyncMiddleware(async (req, res, next) => {
+  let user = await User.findOne({_id: req.params.id}).exec();
+  user = Promise.promisifyAll(user);
+  user.name = req.body.name;
+  user.username = req.body.username;
+  user.org = req.body.org;
+  user.phone = req.body.phone;
+  user.client = req.body.client;
+  if(req.body.password){
+    await user.setPasswordAsync(req.body.password);
+  }
+  await user.saveAsync();
+  logger.info(req.user.name + " 更新了用户账号，用户名为：" + user.username + "。" + req.clientIP);
+  res.json({ message: '用户账号已成功更新' });
+}));
 
 module.exports = router;

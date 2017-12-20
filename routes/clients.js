@@ -112,6 +112,8 @@ router.put('/:id', function (req, res) {
         client.organization = req.body.organization;
         client.license_photo = req.body.license_photo;
         client.license_no = req.body.license_no;
+        client.identity1_filename = req.body.identity1_filename;
+        client.identity2_filename = req.body.identity2_filename;
         
         client.save(function (err) {
             if (err){

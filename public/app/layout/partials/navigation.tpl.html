@@ -11,7 +11,7 @@
         -->
 
         <ul data-smart-menu>
-            <li data-menu-collapse>
+            <li data-menu-collapse ng-show="user.role != '渠道录单员'">
                  <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险</span></a>
                  <ul>
                     <li data-ui-sref-active="active" ng-show="user.role == '后台录单员'">
@@ -21,7 +21,7 @@
                         <a data-ui-sref="app.policy.image-policy.processed">已录入保单照片</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.policy.new1">保单录入</a>
+                        <a data-ui-sref="app.policy.new1" ng-show="user.role != '财务'">保单录入</a>
                     </li>
                     <li data-ui-sref-active="active" ng-show="user.role != '后台录单员'">
                         <a data-ui-sref="app.policy.rejected">被驳回保单</a>
@@ -38,7 +38,7 @@
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.checked">已核对保单</a>
                     </li>
-                    <li ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" data-ui-sref-active="active">
+                    <!-- <li ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.org-policy.import">车商保单批量导入</a>
                     </li>
                     <li ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" data-ui-sref-active="active">
@@ -46,10 +46,36 @@
                     </li>
                     <li ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.org-policy.paid">已支付车商保单</a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
-            <li data-menu-collapse>
+            <li data-menu-collapse ng-show="user.role != '出单员'">
+                <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险（渠道）</span></a>
+                <ul>
+                   <li data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.dealer.new">保单录入</a>
+                   </li>
+                   <li data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.dealer.to-be-reviewed">待审核保单</a>
+                   </li>
+                   <li data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.dealer.to-be-paid">待支付保单</a>
+                   </li>
+                   <li data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.dealer.paid">已支付保单</a>
+                   </li>
+                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.org-policy.import">保单批量导入</a>
+                   </li>
+                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.org-policy.to-be-paid">待支付批量保单</a>
+                   </li>
+                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                       <a data-ui-sref="app.policy.org-policy.paid">已支付批量保单</a>
+                   </li>
+               </ul>
+           </li>
+            <li data-menu-collapse ng-show="user.role != '渠道录单员'">
                  <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">寿险</span></a>
                  <ul>
                     <li data-ui-sref-active="active">
@@ -112,6 +138,9 @@
                         <a data-ui-sref="app.employee.recorder">后台录单员账号</a>
                     </li>
                     <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.dealer">渠道录单员账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.seller.new">添加出单员账号</a>
                     </li>
                     <li data-ui-sref-active="active">
@@ -119,6 +148,9 @@
                     </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.recorder.new">添加后台录单员账号</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.dealer.new">添加渠道录单员账号</a>
                     </li>
                 </ul>
             </li>
@@ -138,12 +170,6 @@
             <li  ng-show="user.role=='管理员'" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">保险公司管理</span></a>
                 <ul>
-                    <!--<li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.all">保险公司</a>
-                    </li>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.new">添加保险公司</a>
-                    </li>-->
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.company.companycatogory.all">一级保险公司(新版测试)</a>
                     </li>

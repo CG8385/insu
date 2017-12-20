@@ -49,6 +49,18 @@ angular.module('app.employee').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.employee.dealer', {
+            url: '/employees/dealer',
+            data: {
+                title: '渠道录单员'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerListController as vm',
+                    templateUrl: 'app/employee/views/dealer-list.html'
+                }
+            }
+        })
         .state('app.employee.seller.view', {
             url: '／employees/seller/view/:userId',
             data: {
@@ -118,6 +130,30 @@ angular.module('app.employee').config(function ($stateProvider) {
                 "content@app": {
                     controller: 'RecorderEditorController as vm',
                     templateUrl: 'app/employee/views/recorder.html'
+                }
+            }
+        })
+        .state('app.employee.dealer.view', {
+            url: '/employees/dealer/view/:userId',
+            data: {
+                title: '渠道录单员账号查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerEditorController as vm',
+                    templateUrl: 'app/employee/views/dealer.html'
+                }
+            }
+        })
+        .state('app.employee.dealer.new', {
+            url: '/employees/dealer/new',
+            data: {
+                title: '添加渠道录单员账号'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerEditorController as vm',
+                    templateUrl: 'app/employee/views/dealer.html'
                 }
             }
         })

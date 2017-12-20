@@ -316,4 +316,118 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.dealer', {
+            abstract: true,
+            data: {
+                title: '渠道车险'
+            }
+        })
+        .state('app.policy.dealer.new', {
+            url: '/policies/dealer/new',
+            data: {
+                title: '保单录入'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyEditorController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy.html'
+                }
+            }
+        })
+        .state('app.policy.dealer.approve', {
+            url: '/policies/dealer/approve/:policyId',
+            data: {
+                title: '保单审核'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyEditorController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy.html'
+                }
+            }
+        })
+        .state('app.policy.dealer.view', {
+            url: '/policies/dealer/view/:policyId',
+            data: {
+                title: '保单查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyEditorController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy.html'
+                }
+            }
+        })
+        .state('app.policy.dealer.to-be-reviewed', {
+            url: '/policies/dealer/to-be-reviewed',
+            data: {
+                title: '待审核保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyListController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy-review-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.policy.dealer.to-be-paid', {
+            url: '/policies/dealer/to-be-paid',
+            data: {
+                title: '待支付保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyListController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy-to-be-paid-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.policy.dealer.paid', {
+            url: '/policies/dealer/paid',
+            data: {
+                title: '已支付保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'DealerPolicyListController as vm',
+                    templateUrl: 'app/policy/views/dealer-policy-paid-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
 });
