@@ -31,6 +31,7 @@ angular.module('app.policy').factory('PolicyService',
                 bulkProcessImagePolicies: bulkProcessImagePolicies,
                 processImagePolicy: processImagePolicy,
                 deleteImagePolicy: deleteImagePolicy,
+                downloadToBeProcessedImages: downloadToBeProcessedImages
             });
 
             function getRules(companyId) {
