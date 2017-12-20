@@ -23,7 +23,7 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
 
   res.setHeader('Content-Type', 'text/zip');
   res.setHeader("Content-Disposition", "attachment;filename=" + "images.zip");
-  const archiver = archiver('zip');
+  const zip = archiver('zip');
 
   ps.forEach(p=>{
     console.log(p);

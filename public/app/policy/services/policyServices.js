@@ -445,7 +445,6 @@ angular.module('app.policy').factory('PolicyService',
             }
 
             function downloadToBeProcessedImages(){
-                console.log("i am here");
                 var deferred = $q.defer();
                 $http.get("/api/image-policies/download")
                     // handle success
