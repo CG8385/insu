@@ -23,7 +23,7 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
   let ps = await ImagePolicy.find({ status: "待录入" }).populate('client').exec();
 
   res.setHeader('Content-Type', 'text/zip');
-  res.setHeader("Content-Disposition", "attachment;filename=" + "images.zip");
+  res.attachment('images.zip');
   const zip = archiver('zip');
   //better register events before piping
   zip.on('error', function (error) {
@@ -45,7 +45,6 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
     const filename = `${date}/${clientName}/${p.filename}`
     console.log(filename);
     zip.append(stream, { name: filename });
-
   })
   zip.finalize();
 }));
