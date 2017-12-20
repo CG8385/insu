@@ -20,20 +20,31 @@ router.get('/', asyncMiddleware(async (req, res, next) => {
 }));
 
 router.get('/download', asyncMiddleware(async (req, res, next) => {
-  let ps = await ImagePolicy.find({status: "待录入"}).populate('client').exec();
+  let ps = await ImagePolicy.find({ status: "待录入" }).populate('client').exec();
 
   res.setHeader('Content-Type', 'text/zip');
   res.setHeader("Content-Disposition", "attachment;filename=" + "images.zip");
   const zip = archiver('zip');
+  //better register events before piping
+  zip.on('error', function (error) {
+    zip.abort(); //not always useful but might save trouble
+    logger.warn('Unable to archive ' + paths);
+    return res.status(500).send('Error while zipping') //you might want to end the request here
+  });
+
+  zip.on('end', function () {
+    //no need to send a response, if the archive is piped to the response, it'll end it when the stream closes
+    console.log('Archive finished')
+  })
   zip.pipe(res);
-  ps.forEach(p=>{
+  ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
     const date = dateFormat(p.created_at, "yyyy/mm/dd");
     const stream = request(url);
     const filename = `${date}/${clientName}/${p.filename}`
     console.log(filename);
-    zip.append(stream, { name: filename});
+    zip.append(stream, { name: filename });
 
   })
   zip.finalize();
@@ -67,35 +78,35 @@ router.post('/search', asyncMiddleware(async (req, res, next) => {
     sortParam = req.body.orderBy.toString();
   }
 
-  if (req.body.fromDate != undefined && req.body.fromDate !='' && req.body.toDate != undefined) {
+  if (req.body.fromDate != undefined && req.body.fromDate != '' && req.body.toDate != undefined) {
     conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
-  } else if (req.body.fromDate != undefined && req.body.fromDate !='' ) {
+  } else if (req.body.fromDate != undefined && req.body.fromDate != '') {
     conditions['created_at'] = { $gte: req.body.fromDate };
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
   let query = ImagePolicy.find(conditions);
-  let promise1  = query
-  .sort(sortParam)
-  .skip(req.body.currentPage * req.body.pageSize)
-  .limit(req.body.pageSize)
-  .populate('client')
-  .exec();
+  let promise1 = query
+    .sort(sortParam)
+    .skip(req.body.currentPage * req.body.pageSize)
+    .limit(req.body.pageSize)
+    .populate('client')
+    .exec();
   promise2 = ImagePolicy.count(conditions);
   let result = await Promise.all([promise1, promise2]);
-  res.status(200).json({imagePolicies: result[0], totalCount: result[1]});
+  res.status(200).json({ imagePolicies: result[0], totalCount: result[1] });
 }));
 
 
 router.post('/bulk-process', asyncMiddleware(async (req, res, next) => {
   var ids = req.body.imageIds;
-  await ImagePolicy.update({_id: {$in: ids}}, {status: "已录入"}, {multi: true});
+  await ImagePolicy.update({ _id: { $in: ids } }, { status: "已录入" }, { multi: true });
   logger.info(req.user.name + " 批量更改了保单图片状态。" + req.clientIP);
   res.status(200).json({ message: '保单图片状态已批量更改为已录入' });
 }));
 
 router.post('/:id/process', asyncMiddleware(async (req, res, next) => {
-  let imagePolicy =  await ImagePolicy.findOne({ _id: req.params.id });
+  let imagePolicy = await ImagePolicy.findOne({ _id: req.params.id });
   imagePolicy.status = "已录入";
   imagePolicy.save();
   logger.info(req.user.name + " 更新了一张保单照片的状态。" + req.clientIP);
