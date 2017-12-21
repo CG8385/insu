@@ -30,15 +30,15 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
   zip.on('error', function (error) {
     zip.abort(); //not always useful but might save trouble
     logger.warn('Unable to archive ' + paths);
-    return res.status(500).send('Error while zipping') //you might want to end the request here
+    return res.status(500).send('Error while zipping'); //you might want to end the request here
   });
 
   zip.on('end', function () {
     //no need to send a response, if the archive is piped to the response, it'll end it when the stream closes
-    console.log('Archive finished')
+    console.log('Archive finished');
   })
   zip.pipe(res);
-  const folder = moment().format("YY-M-D@HHmmss") + " 下载";
+  const folder = moment().format("YY-M-D@hmmss") + " 下载";
   ps.forEach(p => {
     const clientName = p.client.name;
     const url = p.url;
