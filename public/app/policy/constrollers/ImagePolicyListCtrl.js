@@ -187,6 +187,10 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
     }
 
+    vm.isShowDownloadAllButton = function () {
+        return $state.is("app.policy.image-policy.to-be-processed") && vm.policies.length > 0
+    }
+
     vm.str2bytes = function (str) {
         var bytes = new Uint8Array(str.length);
         for (var i=0; i<str.length; i++) {
