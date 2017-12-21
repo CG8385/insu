@@ -49,7 +49,7 @@
                     </li> -->
                 </ul>
             </li>
-            <li data-menu-collapse ng-show="user.role != '出单员'">
+            <li data-menu-collapse ng-show="['出单员','后台录单员'].indexOf(user.role) == -1">
                 <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险（渠道）</span></a>
                 <ul>
                    <li data-ui-sref-active="active">
@@ -75,7 +75,7 @@
                    </li>
                </ul>
            </li>
-            <li data-menu-collapse ng-show="user.role != '渠道录单员'">
+            <li data-menu-collapse ng-show="['出单员','后台录单员'].indexOf(user.role) == -1">
                  <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">寿险</span></a>
                  <ul>
                     <li data-ui-sref-active="active">
