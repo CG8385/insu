@@ -3,6 +3,17 @@
 angular.module('app.log').controller('LogListController', function (screenSize, $timeout, $rootScope, $state, $scope, LogService, localStorageService) {
     var vm = this;
     vm.logs = [];
+    vm.operations = [
+        "微信登录",
+        "web登录",
+        "微信端web登录",
+        "获取验证码",
+        "注册新用户",
+        "申请认证",
+        "老代理人注册",
+        "老代理人绑定",
+        "查询保单"
+    ]
 
     vm.infiniteScroll = {};
     vm.infiniteScroll.numToAdd = 20;
@@ -68,11 +79,11 @@ angular.module('app.log').controller('LogListController', function (screenSize, 
     };
 
 
-    var poller = function () {
-        vm.refreshLogs();
-        $timeout(poller, 1000 * 60);
-    };
+    // var poller = function () {
+    //     vm.refreshLogs();
+    //     $timeout(poller, 1000 * 60);
+    // };
 
-    poller();
+    // poller();
 
 });

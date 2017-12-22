@@ -1,27 +1,30 @@
 <!-- MAIN CONTENT -->
 <div id="content">
     <div class="row">
-       <article class="col-sm-12">
+        <article class="col-sm-12">
             <span>
-               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <!-- <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>-->
             </span>
 
 
             <div class="logs-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-table"></i>
+                    </span>
                     <h2>{{vm.tableHeader+' 共'+vm.logTotalCount+'条'}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class="table-striped table-condensed" tr-ng-grid items="vm.logs" page-items="20" enable-filtering="false"
-                        total-items="vm.logTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.logs" page-items="20" enable-filtering="false" total-items="vm.logTotalCount"
+                            on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
                                     <th field-name="logAt" display-name="操作时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd hh:mm:ss'">
@@ -35,16 +38,26 @@
                                         <div class="tr-ng-column-filter">
                                             <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
                                                 <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems"
-                                                     infinite-scroll="vm.addMoreItems()"
-                                                     infinite-scroll-distance="2">
+                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems" infinite-scroll="vm.addMoreItems()"
+                                                    infinite-scroll-distance="2">
                                                     <div ng-bind-html="client.name"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
                                     </th>
 
-                                    <th field-name="operation" display-name="操作" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="operation" display-name="操作" enable-filtering="true" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            操作
+                                        </div>
+                                        <div class="tr-ng-column-filter">
+                                            <ui-select style="min-width: 124px;" ng-model="vm.filterSettings.operation" theme="select2" ng-change="vm.filterChanged()">
+                                                <ui-select-match class="input-xs">{{$select.selected}}</ui-select-match>
+                                                <ui-select-choices repeat="operation in vm.operations | filter: $select.search">
+                                                    <div ng-bind-html="operation"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
                                     </th>
                                     <th field-name="comment" display-name="备注" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -57,6 +70,7 @@
                             <tbody>
                                 <tr>
                                     <td field-name="client.name"></td>
+                                    <td field-name="operation"></td>
                                 </tr>
                             </tbody>
                         </table>
