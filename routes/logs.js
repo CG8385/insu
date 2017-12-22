@@ -17,7 +17,7 @@ router.post('/search', function (req, res) {
     var conditions = {};
   
     for (var key in req.body.filterByFields) {
-      if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+      if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "" && req.body.filterByFields[key].indexOf('全部') == -1) {
         conditions[key] = req.body.filterByFields[key];
       }
     }
