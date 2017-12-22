@@ -26,9 +26,9 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-if (app.get('env') === 'development') {
+// if (app.get('env') === 'development') {
   app.use(logger('dev'));
-}
+// }
 
 app.use(log4jsLogger);
 
@@ -47,18 +47,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// swagger doc config
-
-var swaggerUi = require('swagger-ui-express');
-var YAML = require('yamljs');
-var swaggerDocument = YAML.load('./swagger.yaml');
-
-var showExplorer = false;
-var customCss = '#header { display: none }';
-var options = {}
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, showExplorer, options, customCss, 'nofavicon.ico', "", "InsuSys API"));
 
 app.use('/api', apis);
 app.use('/', routes);
