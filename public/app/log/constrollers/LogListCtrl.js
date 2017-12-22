@@ -4,6 +4,7 @@ angular.module('app.log').controller('LogListController', function (screenSize, 
     var vm = this;
     vm.logs = [];
     vm.operations = [
+        undefined,
         "微信登录",
         "web登录",
         "微信端web登录",
