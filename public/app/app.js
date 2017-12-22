@@ -46,7 +46,8 @@ angular.module('app', [
     'app.client',
     'app.employee',
     'app.organization',
-    'app.company'
+    'app.company',
+    'app.log'
 ])
     .config(function ($provide, $httpProvider) {
 

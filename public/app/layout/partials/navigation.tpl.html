@@ -191,6 +191,11 @@
                 </ul>
             </li>
 
+            <li ng-show="user.role=='管理员'" data-ui-sref-active="active">
+                <a data-ui-sref="app.log" title="日志查询"><i class="fa fa-lg fa-fw fa-log"></i> <span
+                        class="menu-item-parent">日志查询</span></a>
+            </li>
+
             <li data-ui-sref-active="active">
                 <a data-ui-sref="change-password" title="修改密码"><i class="fa fa-lg fa-fw fa-key"></i> <span
                         class="menu-item-parent">修改密码</span></a>

@@ -41,6 +41,8 @@ router.get('/', function(req, res, next) {
         query = {client_type:'主管'};
       }else if(type == "pending"){
         query = {client_type:'待审核'};
+      }else if(type == "binded"){
+        query = {client_type:'个人', openId: { $exists : true }};
       }
   }
 
