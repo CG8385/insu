@@ -42,7 +42,7 @@ router.post('/search', function (req, res) {
       .limit(req.body.pageSize)
       .populate('client','_id name')
       .exec()
-      .then(function (policies) {
+      .then(function (logs) {
         Log.count(conditions, function (err, c) {
           if (err) {
             logger.error(err);
