@@ -80,7 +80,7 @@ angular.module('app.log').factory('LogService',
                 };
 
                 
-                $http.post("/api/life-policies/search", config)
+                $http.post("/api/logs/search", config)
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
