@@ -15,7 +15,6 @@ angular.module('app.log').controller('LogListController', function (screenSize, 
         "申请认证",
         "老代理人注册",
         "老代理人绑定",
-        
     ]
 
     vm.infiniteScroll = {};
