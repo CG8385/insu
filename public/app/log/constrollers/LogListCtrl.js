@@ -6,6 +6,8 @@ angular.module('app.log').controller('LogListController', function (screenSize, 
     vm.operations = [
         "全部操作",
         "微信登录",
+        "查询保单",
+        "上传照片",
         "web登录",
         "微信端web登录",
         "获取验证码",
@@ -13,7 +15,7 @@ angular.module('app.log').controller('LogListController', function (screenSize, 
         "申请认证",
         "老代理人注册",
         "老代理人绑定",
-        "查询保单"
+        
     ]
 
     vm.infiniteScroll = {};
