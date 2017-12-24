@@ -12,7 +12,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     if ($state.is("app.client.individual.new")) {
         vm.editable = true;
     }else if ($state.is("app.client.pending.review")) {
-        vm.editable = false;
+        vm.editable = true;
         vm.isInReviewMode = true;
     }
 

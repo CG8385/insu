@@ -76,11 +76,11 @@
                                         <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="identity2_file_selector" name="identity2_file_selector"
                                         onchange="angular.element(this).scope().vm.uploadIDPhoto2(this.files);" />
 
-                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file1" onclick="identity1_file_selector.click()">上传身份证正面照片</button>
+                                        <!-- <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file1" onclick="identity1_file_selector.click()">上传身份证正面照片</button> -->
                                         <a ng-show="vm.client.identity1_filename" ng-href={{vm.getImageUrl(vm.client.identity1_filename)}} target="_blank">查看身份证正面照片</a>
-                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file2" onclick="identity2_file_selector.click()">上传身份证背面照片</button>
+                                        <!-- <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file2" onclick="identity2_file_selector.click()">上传身份证背面照片</button> -->
                                         <a ng-show="vm.client.identity2_filename" ng-href={{vm.getImageUrl(vm.client.identity2_filename)}} target="_blank">查看身份证背面照片</a>
-                                        <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file3" onclick="identity2_file_selector.click()">上传手持身份证正面照片</button>
+                                        <!-- <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file3" onclick="identity2_file_selector.click()">上传手持身份证正面照片</button> -->
                                         <a ng-show="vm.client.identity3_filename" ng-href={{vm.getImageUrl(vm.client.identity3_filename)}} target="_blank">手持身份证正面照片</a>
                                         <label class="input">
                                             <i class="icon-append fa fa-key"></i>
