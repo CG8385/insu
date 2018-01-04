@@ -75,9 +75,9 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
   var data = req.body;
-  Client.find({ name: data.name }, function (err, clients) {
+  Client.find({ identity: data.identity }, function (err, clients) {
     if (clients.length > 0) {
-      res.status(400).send('系统中已存在该业务员名称');
+      res.status(400).send('系统中已存在该身份证号');
     } else {
       var client = new Client(data);
       client.py = makePy(data.name);
