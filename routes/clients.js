@@ -20,7 +20,9 @@ router.get('/', function(req, res, next) {
         query = {client_type:'主管', organization: { $exists : false }};
       }else if(type == "pending"){
       query = {client_type:'待审核', organization: { $exists : false }};
-    }
+      }else if(type == "dealer"){
+        query = {client_type:'个人', parent: {$exists : true}, organization: { $exists : false }};
+      }
     }else{
       if(type == "organization"){
         query = {client_type:'机构', organization: org};
@@ -30,6 +32,8 @@ router.get('/', function(req, res, next) {
         query = {client_type:'主管', organization: org};
       }else if(type == "pending"){
         query = {client_type:'待审核', organization: org};
+      }else if(type == "dealer"){
+        query = {client_type:'个人', parent: {$exists : true}, organization: org};
       }
     }
   }else{
@@ -43,6 +47,8 @@ router.get('/', function(req, res, next) {
         query = {client_type:'待审核'};
       }else if(type == "binded"){
         query = {client_type:'个人', openId: { $exists : true }};
+      }else if(type == "dealer"){
+        query = {client_type:'个人', parent: {$exists : true}};
       }
   }
 

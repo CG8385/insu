@@ -19,8 +19,33 @@ angular.module('app.policy').factory('DealerPolicyService',
                 bulkApprove: bulkApprove,
                 uploadFile: uploadFile,
                 getCompany: getCompany,
-                updatePhoto: updatePhoto
+                updatePhoto: updatePhoto,
+                getDealerClients: getDealerClients,
             });
+
+            function getDealerClients() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/api/clients?type=dealer')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getCompany(companyId) {
                 // create a new instance of deferred

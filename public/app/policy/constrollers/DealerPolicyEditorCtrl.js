@@ -23,6 +23,14 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.infiniteScroll.currentItems += vm.infiniteScroll.numToAdd;
     };
 
+    DealerPolicyService.getDealerClients()
+    .then(function (clients) {
+        vm.clients = clients.map(function(c){
+            c.displayName = c.name + "(" + c.parent.name + ")";
+            return c;
+        });
+    })
+
 
     DealerPolicyService.getLevel2Companies()
         .then(function (level2Companies) {
@@ -56,52 +64,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         }
     }
 
-    // vm.resetRule = function() {
-    //     vm.policy.rule = undefined;
-    //     vm.policy.mandatory_fee_income_rate = null;
-    //     vm.policy.mandatory_fee_payment_rate = null;
-    //     vm.policy.commercial_fee_income_rate = null;
-    //     vm.policy.commercial_fee_payment_rate = null;
-    //     vm.policy.tax_fee_income_rate = null;
-    //     vm.policy.tax_fee_payment_rate = null;
-    //     vm.policy.other_fee_income_rate = null;
-    //     vm.policy.other_fee_payment_rate = null;
-    //     vm.policy.rule_rates = null;
-    // }
 
-    // vm.applyRule = function (rule) {
-    //     vm.policy.mandatory_fee_income_rate = rule.mandatory_income ? rule.mandatory_income : 0;
-    //     vm.policy.mandatory_fee_payment_rate = rule.mandatory_payment ? rule.mandatory_payment : 0;
-    //     vm.policy.commercial_fee_income_rate = rule.commercial_income ? rule.commercial_income : 0;
-    //     vm.policy.commercial_fee_payment_rate = rule.commercial_payment ? rule.commercial_payment : 0;
-    //     vm.policy.tax_fee_income_rate = rule.tax_income ? rule.tax_income : 0;
-    //     vm.policy.tax_fee_payment_rate = rule.tax_payment ? rule.tax_payment : 0;
-    //     vm.policy.other_fee_income_rate = rule.other_income ? ule.other_income : 0;
-    //     vm.policy.other_fee_payment_rate = rule.other_payment ? rule.other_payment : 0;
-    //     vm.policy.rule_rates = rule;
-    // }
-
-    // vm.loadRules = function(){
-    //     var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-    //     if(companyId){
-    //         PolicyService.getRules(companyId)
-    //         .then(function(rules){
-    //             vm.rules = rules;
-    //         })
-    //     }else{
-    //         vm.rules = [];
-    //     }
-
-    // }
-
-    // vm.ruleChanged = function () {
-    //     if(!vm.policy.rule){
-    //         vm.resetRule();
-    //     }else{
-    //         var rule = vm.rules.filter(r=>r._id == vm.policy.rule)[0];
-    //         vm.applyRule(rule);
-    //     }
-    // }
 
     vm.level2Changed = function () {
         // vm.resetRule();

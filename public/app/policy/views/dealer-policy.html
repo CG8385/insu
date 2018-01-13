@@ -63,10 +63,10 @@
                                 <section class="col col-6">
                                     <label class="label">业务来源(可输入拼音首字母快速选择)</label>
                                     <label class="input">
-                                        <ui-select style="min-width: 364px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
-                                            <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| propsFilter: {name: $select.search}">
-                                                <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                        <ui-select style="min-width: 500x;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
+                                            <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.displayName}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| propsFilter: {displayName: $select.search}">
+                                                <div ng-bind-html="client.displayName | highlight: $select.search"></div>
                                             </ui-select-choices>
                                         </ui-select>
                                     </label>
@@ -249,6 +249,13 @@
                                                 <input type="text" class="input-lg" name="substract" price ng-model="vm.policy.substract" ng-disabled=true>
                                             </label>
                                     </section>
+                                </section>
+                                <section class="col col-3">
+                                        <label class="label">结算费总计</label>
+                                        <label class="input" ng-disabled=true>
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="text" class="input-lg" ng-disabled=true name="total_payment" price ng-model="vm.policy.total_payment">
+                                        </label>
                                 </section>
                             </div>
                         </fieldset>
