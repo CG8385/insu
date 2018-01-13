@@ -10,26 +10,17 @@ var iconv = require('iconv-lite');
 
 router.post('/', function (req, res) {
   var data = req.body;
-  var policy_no = data.policy_no;
-  if(!policy_no){
-    policy_no = "-999";
-  }
-  var mandatory_policy_no = data.mandatory_policy_no;
-  if(!mandatory_policy_no){
-    mandatory_policy_no = "-999";
-  }
-  console.log(data);
-  DealerPolicy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
-    if (policies.length > 0) {
-      res.status(400).send('系统中已存在相同保单号的保单');
-    } else {
+
+  // DealerPolicy.find({ applicant: {name: data.applicant.name}, plate_no: data.plate_no}, function (err, policies) {
+  //   if (policies.length > 0) {
+  //     res.status(400).send('系统中已存在相同保单号的保单');
+  //   } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
       } else if((!data.commercial_policy_photo && !data.mandatory_policy_photo) || !data.agreement_photo){
         res.status(400).send('上传附件不齐全，请确保已上传保单照片和客户知情书');
       }else{
         var policy = new DealerPolicy(data);
-        policy.client = req.user.client;
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
@@ -41,8 +32,8 @@ router.post('/', function (req, res) {
           }
         });
       }
-    }
-  })
+    // }
+  // })
 });
 
 router.post('/excel', function (req, res) {
@@ -197,11 +188,11 @@ router.put('/:id', function (req, res) {
   DealerPolicy.findById(req.params.id, function (err, policy) {
     if (err)
       res.send(err);
-    policy.policy_no = req.body.policy_no;
+    // policy.policy_no = req.body.policy_no;
     policy.plate_no = req.body.plate_no;
     policy.applicant = req.body.applicant;
-    policy.frame_no = req.body.frame_no;
-    policy.engine_no = req.body.engine_no;
+    // policy.frame_no = req.body.frame_no;
+    // policy.engine_no = req.body.engine_no;
     policy.mandatory_fee = req.body.mandatory_fee;
     policy.mandatory_fee_taxed = req.body.mandatory_fee_taxed;
     policy.mandatory_fee_income_rate = req.body.mandatory_fee_income_rate;
@@ -214,14 +205,14 @@ router.put('/:id', function (req, res) {
     policy.policy_status = req.body.policy_status;
     policy.paid_at = req.body.paid_at;
     policy.total_income = req.body.total_income;
-    policy.effective_date = req.body.effective_date;
+    // policy.effective_date = req.body.effective_date;
     policy.level1_company = req.body.level1_company;
     policy.level2_company = req.body.level2_company;
     policy.level3_company = req.body.level3_company;
     policy.level4_company = req.body.level4_company;
     // policy.has_warning = req.body.has_warning;
-    policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
-    policy.submitted_date = req.body.submitted_date;
+    // policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
+    // policy.submitted_date = req.body.submitted_date;
     policy.save(function (err) {
       if (err) {
         logger.error(err);

@@ -139,8 +139,7 @@
                                     <div class="row">
                                             <label class="label">所属车商(仅针对车商代理人)</label>
                                             <label class="select">
-                                                <select name='parent' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers"
-                                                    validator="required">
+                                                <select name='parent' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers">
                                                     <option value="">请选择所属车商</option>
                                                 </select>
                                                 <i></i>

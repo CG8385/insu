@@ -3,20 +3,20 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-  policy_no: { type: String},
-  mandatory_policy_no: { type: String},
+  // policy_no: { type: String},
+  // mandatory_policy_no: { type: String},
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level1_company: { type: mongoose.Schema.Types.ObjectId, ref: 'CompanyCatogory' },
   level2_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level3_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level4_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
-  // rule: { type: mongoose.Schema.Types.ObjectId, ref: 'Rule' },
+
   plate_no: String,
-  submitted_date: {type: Date},
-  effective_date: {type: Date},
-  applicant: { name: String, phone: String, identity: String, address: String, payer: String },
-  frame_no: String,
-  engine_no: String,
+  // submitted_date: {type: Date},
+  // effective_date: {type: Date},
+  applicant: { name: String},
+  // frame_no: String,
+  // engine_no: String,
   mandatory_fee: Number,
   mandatory_fee_taxed: Number,
   mandatory_fee_income_rate: Number,
@@ -35,15 +35,13 @@ var schema = new mongoose.Schema({
   updated_at: { type: Date },
   paid_at: {type: Date},
   total_income: Number,
-  has_warning: Boolean,
+  // has_warning: Boolean,
   rates_based_on_taxed : Boolean,
   mandatory_policy_photo: String,
   commercial_policy_photo: String,
   payment_remarks:String,
   comment: String,
   agreement_photo: String,
-  sign_photo: String,
-  other_photo: String
 });
 
 schema.index({policy_status: 1, client: 1, created_at: 1});
