@@ -26,7 +26,7 @@
                         total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th ng-show="['渠道录单员'].indexOf(user.role) == -1" display-align="center" cell-width="2em">
+                                    <th ng-show="['出单员'].indexOf(user.role) == -1" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
@@ -47,7 +47,7 @@
                                             </ui-select>
                                         </div>
                                     </th>
-                                    <th field-name="applicant.name" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="applicant.payer" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
