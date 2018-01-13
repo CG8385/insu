@@ -127,13 +127,25 @@
                                 </fieldset>
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addAccount()">添加收款账户</button>
                             </section>
-                            <section class="col col-7">
+                            <section class="col col-1">
+                            </section>
+                            <section class="col col-6">
                                 <fieldset class="optional-input-field-set">
                                     <div class="row">
                                         <label class="checkbox">
                                             <input type="checkbox" name="is_dealer_client" ng-model="vm.is_dealer_client">
-                                            <i></i>该业务员为机构代理人</label>
+                                            <i></i>该业务员为车商代理人</label>
                                     </div>
+                                    <div class="row" ng-if="vm.is_dealer_client">
+                                            <label class="label">所属车商</label>
+                                            <label class="select">
+                                                <select name='parent' class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers"
+                                                    validator="required">
+                                                    <option value="">请选择所属车商</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                        </div>
                                 </fieldset>
                             </section>
 

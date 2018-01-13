@@ -8,6 +8,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.editable = false;
     vm.client.other_accounts = [];
     vm.isInReviewMode = false;
+    vm.dealers = [];
 
     if ($state.is("app.client.individual.new")) {
         vm.editable = true;
@@ -19,6 +20,11 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     ClientService.getOrganizations()
         .then(function (organizations) {
             vm.organizations = organizations;
+        })
+    
+    ClientService.getOrgClients()
+        .then(function (dealers) {
+            vm.dealers = dealers;
         })
 
 
