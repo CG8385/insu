@@ -125,7 +125,7 @@ router.put('/:id', function (req, res) {
               res.send(err);
             }
             logger.info(req.user.name + " 更新业务员信息，业务员名为："+ client.name +"。"+ req.clientIP);
-            res.json({message: '业务员信息已成功更新'});
+            res.json({data: client, message: '业务员信息已成功更新'});
         });
 
     });
