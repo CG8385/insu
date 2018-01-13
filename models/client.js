@@ -24,7 +24,8 @@ var schema = new mongoose.Schema({
     openId: String,
     approved_at: { type: Date },
     identity1_filename: String,
-    identity2_filename: String
+    identity2_filename: String,
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
 });
 
 mongoose.model('Client', schema);
