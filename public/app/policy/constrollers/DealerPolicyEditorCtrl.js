@@ -25,10 +25,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
     DealerPolicyService.getDealerClients()
     .then(function (clients) {
-        vm.clients = clients.map(function(c){
-            c.displayName = c.name + "   " + c.parent.name;
-            return c;
-        });
+        vm.clients = clients;
     })
 
 
