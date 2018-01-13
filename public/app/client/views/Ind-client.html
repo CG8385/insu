@@ -128,11 +128,13 @@
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addAccount()">添加收款账户</button>
                             </section>
                             <section class="col col-7">
-                                <div class="row">
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="is_dealer_client" ng-model="vm.is_dealer_client">
-                                        <i></i>该业务员为机构代理人</label>
-                                </div>
+                                <fieldset class="optional-input-field-set">
+                                    <div class="row">
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="is_dealer_client" ng-model="vm.is_dealer_client">
+                                            <i></i>该业务员为机构代理人</label>
+                                    </div>
+                                </fieldset>
                             </section>
 
                             <!--<section ng-show=false class="col col-6 height-limit"> 
