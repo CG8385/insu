@@ -98,7 +98,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.applyRule();
     }
 
-    vm.resetRates = function() {
+    vm.resetRule = function() {
         vm.policy.rule = undefined;
         vm.policy.mandatory_fee_income_rate = null;
         vm.policy.commercial_fee_income_rate = null;
