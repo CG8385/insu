@@ -7,7 +7,7 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
     vm.bindedWechats = [];
     vm.editable = false;
     vm.client.other_accounts = [];
-    vm.deaerLevels = ['一级车商','二级车商','三级车商'];
+    vm.dealerLevels = ['一级车商','二级车商','三级车商'];
     if ($state.is("app.client.organization.new")) {
         vm.editable = true;
     }
