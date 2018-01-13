@@ -108,7 +108,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
     vm.applyRule = function () {
         var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-        var dealerLevel = vm.clientInfo.dealerLevel;
+        var dealerLevel = vm.clientInfo.dealer_level;
         console.log(companyId);
         console.log(dealerLevel);
         if(companyId && dealerLevel){
