@@ -8,7 +8,6 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.editable = false;
     vm.client.other_accounts = [];
     vm.isInReviewMode = false;
-    vm.isDealerClient = false;
     vm.dealers = [];
 
     if ($state.is("app.client.individual.new")) {
@@ -36,7 +35,6 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
-                vm.isDealerClient = client.parent;
                 // LoadWechats();
             });
     }
@@ -93,7 +91,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     }
 
     vm.approve = function(){
-        vm.client.client_type = vm.isDealerClient ? "车商" : "个人";
+        vm.client.client_type = "个人";
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -110,7 +108,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
 
 
     vm.submit = function () {
-        vm.client.client_type = vm.isDealerClient ? "车商" : "个人";
+        vm.client.client_type = "个人";
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -132,6 +130,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.license_photo)
             .then(function (fileName) {
                 vm.client.license_photo = fileName;
+                ClientService.saveClient(vm.client);
             })
     }
 
@@ -139,6 +138,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.identity1_filename)
             .then(function (fileName) {
                 vm.client.identity1_filename = fileName;
+                ClientService.saveClient(vm.client);
             })
     }
 
@@ -146,6 +146,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.identity2_filename)
             .then(function (fileName) {
                 vm.client.identity2_filename = fileName;
+                ClientService.saveClient(vm.client);
             })
     }
 

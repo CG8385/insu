@@ -27,6 +27,16 @@
 
                                     </div>
                                     <div class="row">
+                                            <label class="label">车商等级</label>
+                                            <label class="select">
+                                                <select name='dealer_level' class="input-lg" ng-model="vm.client.dealer_level" ng-options="vm.dealerLevels"
+                                                    validator="required">
+                                                    <option value="">请选择车商等级</option>
+                                                </select>
+                                                <i></i>
+                                            </label>
+                                    </div>
+                                    <div class="row">
                                         <label class="label">营业执照号</label>
                                         <label class="input">
                                                 <i class="icon-append fa fa-key"></i>

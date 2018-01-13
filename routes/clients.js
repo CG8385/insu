@@ -117,7 +117,7 @@ router.put('/:id', function (req, res) {
         client.identity1_filename = req.body.identity1_filename;
         client.identity2_filename = req.body.identity2_filename;
         client.parent = req.body.parent;
-        console.log(client.parent);
+        client.dealer_level = req.body.dealer_level;
         
         client.save(function (err) {
             if (err){
@@ -125,7 +125,7 @@ router.put('/:id', function (req, res) {
               res.send(err);
             }
             logger.info(req.user.name + " 更新业务员信息，业务员名为："+ client.name +"。"+ req.clientIP);
-            res.json({data: client, message: '业务员信息已成功更新'});
+            res.json({message: '业务员信息已成功更新'});
         });
 
     });
