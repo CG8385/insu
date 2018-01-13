@@ -8,6 +8,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.editable = false;
     vm.client.other_accounts = [];
     vm.isInReviewMode = false;
+    vm.isDealerClient = false;
     vm.dealers = [];
 
     if ($state.is("app.client.individual.new")) {
@@ -35,13 +36,9 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
+                vm.isDealerClient = client.client_type === '机构';
                 // LoadWechats();
             });
-    }else{
-        // ClientService.getFollowers()
-        //             .then(function (followers) {
-        //                 vm.wechats = followers;
-        //             });
     }
     
 
@@ -96,7 +93,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     }
 
     vm.approve = function(){
-        vm.client.client_type = "个人";
+        vm.client.client_type = vm.isDealerClient ? "车商" : "个人";
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -113,7 +110,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
 
 
     vm.submit = function () {
-        vm.client.client_type = "个人";
+        vm.client.client_type = vm.isDealerClient ? "车商" : "个人";
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({

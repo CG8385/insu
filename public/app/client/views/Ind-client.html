@@ -136,7 +136,7 @@
                                             <input type="checkbox" name="is_dealer_client" ng-model="vm.is_dealer_client">
                                             <i></i>该业务员为车商代理人</label>
                                     </div>
-                                    <div class="row" ng-if="vm.is_dealer_client">
+                                    <div class="row" ng-if="vm.isDealerClient">
                                             <label class="label">所属车商</label>
                                             <label class="select">
                                                 <select name='parent' class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers"
