@@ -140,7 +140,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.loadRules();
     }
 
-    PolicyService.getClients()
+    PolicyService.getIndividualClients()
         .then(function (clients) {
             vm.clients = clients;
         })
