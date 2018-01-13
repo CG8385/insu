@@ -109,14 +109,17 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
     vm.applyRule = function () {
         var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
         var dealerLevel = vm.clientInfo.dealerLevel;
+        console.log(companyId);
+        console.log(dealerLevel);
         if(companyId && dealerLevel){
             PolicyService.getRules(companyId)
             .then(function(rules){
-                var rules = rules.filter((r)=>r.name == vm.dealerLevel);
-                if(rules && rules.length > 0){
-                    vm.policy.rule = rules[0];
-                    vm.policy.mandatory_fee_income_rate = rule.mandatory_income ? rule.mandatory_income : 0;
-                    vm.policy.commercial_fee_income_rate = rule.commercial_income ? rule.commercial_income : 0;
+                console.log(rules);
+                var foundRules = rules.filter((r)=>r.name == vm.dealerLevel);
+                if(foundRules && foundRules.length > 0){
+                    vm.policy.rule = foundRules[0];
+                    vm.policy.mandatory_fee_income_rate = vm.policy.rule.mandatory_income ? vm.policy.rule.mandatory_income : 0;
+                    vm.policy.commercial_fee_income_rate = vm.policy.rule.commercial_income ? vm.policy.rule.commercial_income : 0;
                     vm.updateFee();
                 }
             })
