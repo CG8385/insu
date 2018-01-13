@@ -70,6 +70,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function (req, res) {
   Client.findOne({_id: req.params.id})
+    .populate(parent)
     .exec()
     .then(function(client){
        res.status(200).json(client);
