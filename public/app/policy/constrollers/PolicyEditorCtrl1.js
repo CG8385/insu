@@ -69,6 +69,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.policy.other_fee_income_rate = null;
         vm.policy.other_fee_payment_rate = null;
         vm.policy.rule_rates = null;
+        vm.updateFee();
     }
 
     vm.applyRule = function (rule) {
@@ -81,6 +82,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.policy.other_fee_income_rate = rule.other_income ? ule.other_income : 0;
         vm.policy.other_fee_payment_rate = rule.other_payment ? rule.other_payment : 0;
         vm.policy.rule_rates = rule;
+        vm.updateFee();
     }
 
     vm.loadRules = function(){
