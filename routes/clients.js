@@ -117,6 +117,7 @@ router.put('/:id', function (req, res) {
         client.identity1_filename = req.body.identity1_filename;
         client.identity2_filename = req.body.identity2_filename;
         client.parent = req.body.parent;
+        console.log(client.parent);
         
         client.save(function (err) {
             if (err){
