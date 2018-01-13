@@ -47,7 +47,7 @@ router.get('/', function(req, res, next) {
   }
 
   Client.find(query)
-  .populate('organization')
+  .populate('organization parent')
   .sort({py: 1})
   .exec()
   .then(function(clients){

@@ -36,7 +36,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
-                vm.isDealerClient = client.client_type === '机构';
+                vm.isDealerClient = client.parent;
                 // LoadWechats();
             });
     }
