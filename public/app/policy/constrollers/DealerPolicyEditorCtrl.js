@@ -98,6 +98,45 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         // vm.loadRules();
     }
 
+    vm.resetRates = function() {
+        vm.policy.rule = undefined;
+        vm.policy.mandatory_fee_income_rate = null;
+        vm.policy.commercial_fee_income_rate = null;
+        vm.policy.rule_rates = null;
+        vm.updateFee();
+    }
+
+    vm.applyRule = function () {
+        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
+        var dealerLevel = vm.clientInfo.dealerLevel;
+        if(companyId && dealerLevel){
+            PolicyService.getRules(companyId)
+            .then(function(rules){
+                var rules = rules.filter((r)=>r.name == vm.dealerLevel);
+                if(rules && rules.length > 0){
+                    vm.policy.rule = rules[0];
+                    vm.policy.mandatory_fee_income_rate = rule.mandatory_income ? rule.mandatory_income : 0;
+                    vm.policy.commercial_fee_income_rate = rule.commercial_income ? rule.commercial_income : 0;
+                    vm.updateFee();
+                }
+            })
+        }
+        
+    }
+
+    vm.loadRules = function(){
+        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
+        if(companyId){
+            PolicyService.getRules(companyId)
+            .then(function(rules){
+                vm.rules = rules;
+            })
+        }else{
+            vm.rules = [];
+        }
+
+    }
+
     vm.editable = false;
     if ($state.is("app.policy.dealer.new")) {
         vm.editable = true;

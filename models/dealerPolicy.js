@@ -10,7 +10,7 @@ var schema = new mongoose.Schema({
   level2_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level3_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level4_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
-
+  rule: { type: mongoose.Schema.Types.ObjectId, ref: 'Rule' },
   plate_no: String,
   // submitted_date: {type: Date},
   // effective_date: {type: Date},
