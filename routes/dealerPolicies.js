@@ -211,7 +211,7 @@ router.put('/:id', function (req, res) {
     policy.level3_company = req.body.level3_company;
     policy.level4_company = req.body.level4_company;
     // policy.has_warning = req.body.has_warning;
-    // policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
+    policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
     // policy.submitted_date = req.body.submitted_date;
     policy.save(function (err) {
       if (err) {
