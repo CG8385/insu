@@ -67,7 +67,6 @@ angular.module('app.policy').controller('PolicyEditorController', function ($sco
     };
 
     vm.pay = function () {
-        console.log("I have entered");
         $.SmartMessageBox({
             title: "修改保单状态",
             content: "确认已支付该保单？",
