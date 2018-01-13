@@ -64,7 +64,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
 
     vm.level2Changed = function () {
-        // vm.resetRule();
+        vm.resetRule();
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
             vm.company = {};
@@ -73,11 +73,11 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             vm.policy.level1_company = vm.company.catogory._id;
         }
         vm.loadLevel3Companies();
-        // vm.loadRules();
+        vm.applyRule();
     }
 
     vm.level3Changed = function () {
-        // vm.resetRule();
+        vm.resetRule();
         if (!vm.policy.level3_company) {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
             
@@ -85,17 +85,17 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         }
         vm.loadLevel4Companies();
-        // vm.loadRules();
+        vm.applyRule();
     }
 
     vm.level4Changed = function () {
-        // vm.resetRule();
+        vm.resetRule();
         if (!vm.policy.level4_company) {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         } else {
             vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
         }
-        // vm.loadRules();
+        vm.applyRule();
     }
 
     vm.resetRates = function() {
@@ -122,19 +122,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             })
         }
         
-    }
-
-    vm.loadRules = function(){
-        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-        if(companyId){
-            PolicyService.getRules(companyId)
-            .then(function(rules){
-                vm.rules = rules;
-            })
-        }else{
-            vm.rules = [];
-        }
-
     }
 
     vm.editable = false;
