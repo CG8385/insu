@@ -124,7 +124,6 @@ router.put('/:id', function (req, res) {
         client.identity2_filename = req.body.identity2_filename;
         client.parent = req.body.parent;
         client.dealer_level = req.body.dealer_level;
-        
         client.save(function (err) {
             if (err){
               logger.error(err);
