@@ -210,7 +210,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         var policyIds = vm.getSelectedPolicyIds();
         $.SmartMessageBox({
             title: "批量修改保单状态",
-            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 跟单费共计:" + vm.summary.total_income.toFixed(2),
+            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 结算共计:" + vm.summary.total_payment.toFixed(2),
             buttons: '[取消][确认]',
             input: "text",
             placeholder: "可填写转账银行与日期备注"
