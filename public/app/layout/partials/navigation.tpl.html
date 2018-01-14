@@ -52,7 +52,7 @@
             <li data-menu-collapse ng-show="['后台录单员'].indexOf(user.role) == -1">
                 <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险（渠道）</span></a>
                 <ul>
-                   <li data-ui-sref-active="active">
+                   <li data-ui-sref-active="active" ng-show="user.role != '财务'">
                        <a data-ui-sref="app.policy.dealer.new">保单录入</a>
                    </li>
                    <li data-ui-sref-active="active">
