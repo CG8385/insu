@@ -11,6 +11,8 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
     vm.rules = [];
     vm.ratesBasedString = "";
     vm.company = {};
+    vm.dealers = [];
+    vm.clients = [];
 
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
@@ -80,6 +82,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
     vm.dealerChanged = function () {
         vm.resetRule();
+        vm.policy.dealer = vm.dealerInfo._id;
         vm.loadDealerClients();
         vm.applyRule();
     }
