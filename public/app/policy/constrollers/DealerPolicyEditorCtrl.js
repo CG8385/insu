@@ -345,6 +345,9 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         var divideBy = vm.policy.rates_based_on_taxed ? 106 : 100;
 
         vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / divideBy;
+        console.log(vm.policy.mandatory_fee);
+        console.log(vm.policy.mandatory_fee_income_rate);
+        console.log(divideBy);
         if (vm.policy.mandatory_fee_income) {
             vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
         }
