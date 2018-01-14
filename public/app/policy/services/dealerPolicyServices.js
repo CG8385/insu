@@ -46,12 +46,12 @@ angular.module('app.policy').factory('DealerPolicyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function getDealerClients(dealerId) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                var url = dealerId ? '/api/sub-clients?parent=' + dealerId : '/api/clients?type=dealer'
+                var url = dealerId ? '/api/clients/sub?parent=' + dealerId : '/api/clients?type=dealer'
 
                 // send a post request to the server
                 $http.get(url)
