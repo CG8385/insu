@@ -60,7 +60,7 @@
                                         <input type="text" class="input-lg" name="policy_no" ng-model="vm.policy.policy_no">
                                     </label>
                                 </section> -->
-                                <section class="col col-6">
+                                <section class="col col-4">
                                         <label class="label">车商(可输入拼音首字母快速选择)</label>
                                         <label class="input">
                                             <ui-select style="min-width: 500px;" ng-model="vm.dealerInfo" theme="select2" ng-disabled="!vm.editable" data-ng-change="vm.dealerChanged()">
@@ -104,53 +104,7 @@
                                         <input class="input-lg" name="payer" ng-model="vm.policy.applicant.payer" validator="required">
                                     </label>
                                 </section>
-                                <!-- <section class="col col-3">
-                                    <label class="label">被保险人</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-user"></i>
-                                        <input class="input-lg" name="name" ng-model="vm.policy.applicant.name" validator="required">
-                                    </label>
-                                </section>
-                                <section class="col col-2">
-                                    <label class="label">电话</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-phone"></i>
-                                        <input class="input-lg" name="phone" ng-model="vm.policy.applicant.phone" validator="required,phone">
-                                    </label>
-                                </section> -->
                             </div>
-                            <!-- <div class="row">
-                                <section class="col col-3">
-                                    <label class="label">投保人身份证号</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-key"></i>
-                                        <input class="input-lg" name="identity" ng-model="vm.policy.applicant.identity" validator="required">
-                                    </label>
-                                </section>
-                                <section class="col col-3">
-                                    <label class="label">车架号</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-car"></i>
-                                        <input class="input-lg" name="frame_no" ng-model="vm.policy.frame_no" validator="required">
-                                    </label>
-                                </section>
-                                <section class="col col-2">
-                                    <label class="label">提交日期</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-calendar"></i>
-                                        <input type="text" class="input-lg" name="submitted_date" placeholder="请输入提交日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.policy.submitted_date" validator="required">
-                                    </label>
-                                </section>
-                                <section class="col col-2">
-                                    <label class="label">生效日期</label>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-calendar"></i>
-                                        <input type="text" class="input-lg" name="effective_date" placeholder="请输入生效日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.policy.effective_date" validator="required">
-                                    </label>
-                                </section>
-                            </div> -->
                         </fieldset>
                         <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
                             <header>
@@ -252,7 +206,7 @@
                                     <label class="label">扣除运营成本</label>
                                     <section class="col col-3 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" ng-disabled=true name="substract_rate" price ng-model="vm.policy.substract_rate">
+                                                <input type="text" class="input-lg" ng-disabled=true name="payment_substract_rate" price ng-model="vm.policy.payment_substract_rate">
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">

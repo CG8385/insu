@@ -83,8 +83,10 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
     vm.dealerChanged = function () {
         vm.resetRule();
         vm.policy.dealer = vm.dealerInfo._id;
+        vm.policy.payment_substract_rate = vm.dealerInfo.payment_substract_rate;
         vm.loadDealerClients();
         vm.applyRule();
+        vm.updateFee();
     }
 
 
@@ -100,6 +102,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         }
         vm.loadLevel3Companies();
         vm.applyRule();
+        vm.updateFee();
     }
 
     vm.level3Changed = function () {
@@ -112,6 +115,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         }
         vm.loadLevel4Companies();
         vm.applyRule();
+        vm.updateFee();
     }
 
     vm.level4Changed = function () {
@@ -122,6 +126,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
         }
         vm.applyRule();
+        vm.updateFee();
     }
 
     vm.resetRule = function() {
@@ -143,7 +148,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                     vm.policy.rule = foundRules[0];
                     vm.policy.mandatory_fee_income_rate = vm.policy.rule.mandatory_income ? vm.policy.rule.mandatory_income : 0;
                     vm.policy.commercial_fee_income_rate = vm.policy.rule.commercial_income ? vm.policy.rule.commercial_income : 0;
-                    vm.updateFee();
                 }
             })
         }
