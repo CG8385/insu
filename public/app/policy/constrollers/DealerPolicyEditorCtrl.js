@@ -261,7 +261,20 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.policy = {};
+                var old = vm.policy;
+                vm.policy = {
+                    client: old.client, 
+                    level1_company: old.level1_company, 
+                    level2_company: old.level2_company, 
+                    level3_company: old.level3_company,
+                    level4_company: old.level4_company,
+                    dealer: old.dealer,
+                    rule: old.rule,
+                    rule_rates: old.rule_rates,
+                    mandatory_fee_income_rate: old.mandatory_fee_income_rate,
+                    commercial_fee_income_rate: old.commercial_fee_income_rate,
+                    payment_substract_rate: old.payment_substract_rate
+                };
                 if (vm.back) {
                     $state.go("app.policy.dealer.to-be-reviewed");
                 }
@@ -317,9 +330,9 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                         var ids = $stateParams.ids;
                         if (ids && ids.length > 0) {
                             var id = ids.shift();
-                            $state.go("app.policy.approve1", { policyId: id, ids: ids });
+                            $state.go("app.policy.dealer.approve", { policyId: id, ids: ids });
                         } else {
-                            $state.go("app.policy.to-be-reviewed");
+                            $state.go("app.policy.dealer.to-be-reviewed");
                         }
 
                     }, function (err) { });
