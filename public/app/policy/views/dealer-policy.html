@@ -61,9 +61,22 @@
                                     </label>
                                 </section> -->
                                 <section class="col col-6">
-                                    <label class="label">业务来源(可输入拼音首字母快速选择)</label>
+                                        <label class="label">车商(可输入拼音首字母快速选择)</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 500px;" ng-model="vm.dealerInfo" theme="select2" ng-disabled="!vm.editable" data-ng-change="vm.dealerChanged()">
+                                                <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
+                                                    <ui-select-choices repeat="dealer in vm.dealers | filter: $select.search | limitTo: vm.infiniteScroll.currentItems"
+                                                    infinite-scroll="vm.addMoreItems()"
+                                                    infinite-scroll-distance="2">
+                                                    <div ng-bind-html="dealer.name"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                </section>
+                                <section class="col col-3">
+                                    <label class="label">代理人(可输入拼音首字母快速选择)</label>
                                     <label class="input">
-                                        <ui-select style="min-width: 500px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable" data-ng-change="vm.clientChanged()">
+                                        <ui-select style="min-width: 300px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable" data-ng-change="vm.clientChanged()">
                                             <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems"
                                                 infinite-scroll="vm.addMoreItems()"

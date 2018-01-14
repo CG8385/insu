@@ -21,7 +21,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
     };
 
 
-    DealerPolicyService.getDealerClients()
+    DealerPolicyService.getDealerClients(null)
         .then(function (clients) {
             clients.unshift({ _id: -1, name: "全部机构代理人" });
             vm.clients = clients;

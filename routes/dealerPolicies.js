@@ -171,7 +171,7 @@ router.post('/excel', function (req, res) {
 
 router.get('/:id', function (req, res) {
   DealerPolicy.findOne({ _id: req.params.id })
-    .populate('client')
+    .populate('client dealer')
     .exec()
     .then(function (policy) {
       res.status(200).json(policy);

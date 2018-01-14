@@ -23,13 +23,14 @@ angular.module('app.policy').factory('DealerPolicyService',
                 getDealerClients: getDealerClients,
             });
 
-            function getDealerClients() {
+            function getDealerClients(dealerId) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
+                var url = dealerId ? '/api/sub-clients?parent=' + dealerId : '/api/clients?type=dealer'
 
                 // send a post request to the server
-                $http.get('/api/clients?type=dealer')
+                $http.get(url)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

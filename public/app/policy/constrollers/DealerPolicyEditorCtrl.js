@@ -4,6 +4,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
     var vm = this;
     vm.policy = {};
     vm.clientInfo = {};
+    vm.dealerInfo = {};
     vm.level2Companies = [];
     vm.level3Companies = [];
     vm.level4Companies = [];
@@ -23,16 +24,19 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.infiniteScroll.currentItems += vm.infiniteScroll.numToAdd;
     };
 
-    DealerPolicyService.getDealerClients()
-    .then(function (clients) {
-        vm.clients = clients;
+    DealerPolicyService.getOrgClients()
+    .then(function (dealers) {
+        vm.dealers = dealers;
     })
+
+
 
 
     DealerPolicyService.getLevel2Companies()
         .then(function (level2Companies) {
             vm.level2Companies = level2Companies;
         })
+    
 
 
     vm.loadLevel3Companies = function () {
@@ -59,6 +63,25 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
                 });
         }
+    }
+
+    vm.loadDealerClients = function () {
+        if (!vm.policy.dealer) {
+            vm.clients = [];
+        } else {
+            DealerPolicyService.getDealerClients(vm.policy.dealer)
+                .then(function (clients) {
+                    vm.clients = clients;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.dealerChanged = function () {
+        vm.resetRule();
+        
+        vm.applyRule();
     }
 
 
@@ -108,7 +131,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
     vm.applyRule = function () {
         var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-        var dealerLevel = vm.clientInfo.dealer_level;
+        var dealerLevel = vm.dealerInfo.dealer_level;
         console.log(companyId);
         console.log(dealerLevel);
         if(companyId && dealerLevel){
@@ -151,14 +174,13 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                 if (policy.client) {
                     policy.client = policy.client._id;
                 }
+                vm.dealerInfo = policy.dealer;
+                if (policy.dealer) {
+                    policy.dealer = policy.dealer._id;
+                }
+                vm.loadDealerClients();
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
-            });
-    }else if($rootScope.user.role=="渠道录单员"){
-        DealerPolicyService.getClient($rootScope.user.client)
-            .then(function(client){
-                vm.clientInfo = client;
-                vm.policy.client = client._id;
             });
     }
 

@@ -30,6 +30,7 @@ var schema = new mongoose.Schema({
   // commercial_fee_payment_rate: Number,
   // commercial_fee_payment: Number,
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  dealer: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },

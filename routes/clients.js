@@ -68,9 +68,26 @@ router.get('/', function(req, res, next) {
   )
 });
 
+router.get('/sub', function(req, res, next) {
+  Client.find({parent: req.query.parent})
+  .populate('organization parent')
+  .sort({py: 1})
+  .exec()
+  .then(function(clients){
+    for(var i = 0; i<clients.length; i++){
+      var name = clients[i].name;
+    }
+    res.json(clients);
+  },
+  function(err){
+    res.status(500).end();
+  }
+  )
+
+});
+
 router.get('/:id', function (req, res) {
   Client.findOne({_id: req.params.id})
-    .populate('parent')
     .exec()
     .then(function(client){
        res.status(200).json(client);
