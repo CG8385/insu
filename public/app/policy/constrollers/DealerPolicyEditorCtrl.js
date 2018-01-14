@@ -134,7 +134,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.policy.mandatory_fee_income_rate = null;
         vm.policy.commercial_fee_income_rate = null;
         vm.policy.rule_rates = null;
-        vm.updateFee();
     }
 
     vm.applyRule = function () {
