@@ -205,6 +205,10 @@ router.put('/:id', function (req, res) {
     policy.policy_status = req.body.policy_status;
     policy.paid_at = req.body.paid_at;
     policy.total_income = req.body.total_income;
+    policy.profit = req.body.profit;
+    policy.payment_substract_rate = req.body.payment_substract_rate;
+    policy.total_payment = req.body.total_payment;
+
     // policy.effective_date = req.body.effective_date;
     policy.level1_company = req.body.level1_company;
     policy.level2_company = req.body.level2_company;
@@ -213,6 +217,11 @@ router.put('/:id', function (req, res) {
     // policy.has_warning = req.body.has_warning;
     policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
     // policy.submitted_date = req.body.submitted_date;
+    policy.mandatory_policy_photo = req.body.mandatory_policy_photo;
+    policy.commercial_policy_photo = req.body.commercial_policy_photo;
+    policy.payment_remarks = req.body.payment_remarks;
+    policy.comment = req.body.comment;
+    policy.agreement_photo = req.body.agreement_photo;
     policy.save(function (err) {
       if (err) {
         logger.error(err);
