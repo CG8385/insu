@@ -135,13 +135,10 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
     vm.applyRule = function () {
         var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
         var dealerLevel = vm.dealerInfo.dealer_level;
-        console.log(companyId);
-        console.log(dealerLevel);
         if(companyId && dealerLevel){
             DealerPolicyService.getRules(companyId)
             .then(function(rules){
-                console.log(rules);
-                var foundRules = rules.filter((r)=>r.name == vm.dealerLevel);
+                var foundRules = rules.filter((r)=>r.name == dealerLevel);
                 if(foundRules && foundRules.length > 0){
                     vm.policy.rule = foundRules[0];
                     vm.policy.mandatory_fee_income_rate = vm.policy.rule.mandatory_income ? vm.policy.rule.mandatory_income : 0;
