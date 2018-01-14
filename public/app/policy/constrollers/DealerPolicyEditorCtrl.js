@@ -92,6 +92,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
 
     vm.level2Changed = function () {
+        console.log("level 2 changed triggered ");
         vm.resetRule();
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
@@ -263,7 +264,8 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                 });
                 var old = vm.policy;
                 vm.policy = {
-                    client: old.client, 
+                    client: old.client,
+                    company: old.company,
                     level1_company: old.level1_company, 
                     level2_company: old.level2_company, 
                     level3_company: old.level3_company,
@@ -356,9 +358,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         var divideBy = vm.policy.rates_based_on_taxed ? 106 : 100;
 
         vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / divideBy;
-        console.log(vm.policy.mandatory_fee);
-        console.log(vm.policy.mandatory_fee_income_rate);
-        console.log(divideBy);
         if (vm.policy.mandatory_fee_income) {
             vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
         }
