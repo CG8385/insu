@@ -355,7 +355,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
 
     vm.selectionChanged = function () {
         if (!vm.policies) {
-            vm.summary = { income: 0 };
+            vm.summary = { total_payment: 0 };
             vm.selectedPolicies = [];
             vm.isShowBulkOperationButton = false;
         }
@@ -364,8 +364,8 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         });
 
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
-            return { total_income: a.total_income + b.total_income }
-        }, { total_income: 0 });
+            return { total_payment: a.total_payment + b.total_payment }
+        }, { total_payment: 0 });
         vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
     }
 
