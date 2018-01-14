@@ -34,6 +34,8 @@ var schema = new mongoose.Schema({
   total_payment: Number,
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   dealer: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  payment_substract_rate: Number,
+  profit: Number,
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },
