@@ -21,8 +21,32 @@ angular.module('app.policy').factory('DealerPolicyService',
                 getCompany: getCompany,
                 updatePhoto: updatePhoto,
                 getDealerClients: getDealerClients,
+                getRules: getRules,
+
             });
 
+            function getRules(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get(`api/companies/${companyId}/rules`)
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            
             function getDealerClients(dealerId) {
 
                 // create a new instance of deferred

@@ -135,7 +135,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         console.log(companyId);
         console.log(dealerLevel);
         if(companyId && dealerLevel){
-            PolicyService.getRules(companyId)
+            DealerPolicyService.getRules(companyId)
             .then(function(rules){
                 console.log(rules);
                 var foundRules = rules.filter((r)=>r.name == vm.dealerLevel);
