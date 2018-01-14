@@ -80,7 +80,7 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
     vm.dealerChanged = function () {
         vm.resetRule();
-        
+        vm.loadDealerClients();
         vm.applyRule();
     }
 
