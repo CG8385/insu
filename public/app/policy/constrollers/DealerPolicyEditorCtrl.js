@@ -374,6 +374,10 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.policy.profit = vm.policy.total_income * vm.policy.payment_substract_rate / 100;
         if (vm.policy.profit) {
             vm.policy.profit = vm.policy.profit.toFixed(2);
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_income * (100 - vm.policy.payment_substract_rate) / 100;
+            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_income * (100 - vm.policy.payment_substract_rate) / 100;
+            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
         }
         vm.policy.total_payment = vm.policy.total_income - vm.policy.profit;
         if (vm.policy.total_payment) {
