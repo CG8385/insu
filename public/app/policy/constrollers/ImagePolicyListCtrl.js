@@ -162,7 +162,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.selectedPolicies = vm.policies.filter(function (item) {
             return item.isSelected
         });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $state.is("app.policy.image-policy.to-be-processed");
     }
 
     vm.selectAll = function () {
