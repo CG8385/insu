@@ -247,27 +247,27 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
     res.send("拼音生成完毕");
 }));
 
-const generateUsername = function(i){
-    let s = i + 1 + "";
-    while (s.length < 3) s = "0" + s;
-    return "js" + s
-}
+// const generateUsername = function(i){
+//     let s = i + 1 + "";
+//     while (s.length < 3) s = "0" + s;
+//     return "js" + s
+// }
 
-router.get('/org', asyncMiddleware(async (req, res, next) => {
-    let clients = await Client.find({client_type: "机构"}).exec();
-    for(let i = 0; i < clients.length; i++){
-        let c = clients[i];
-        let username = generateUsername(i);
-        await User.registerAsync(new User({ username: username, name: c.name, role: '渠道录单员', client: c._id, phone: c.phone }), username);
-    }
-    let users = await User.find({role: "渠道录单员"}).exec();
-    res.json(users);
-}));
+// router.get('/org', asyncMiddleware(async (req, res, next) => {
+//     let clients = await Client.find({client_type: "机构"}).exec();
+//     for(let i = 0; i < clients.length; i++){
+//         let c = clients[i];
+//         let username = generateUsername(i);
+//         await User.registerAsync(new User({ username: username, name: c.name, role: '渠道录单员', client: c._id, phone: c.phone }), username);
+//     }
+//     let users = await User.find({role: "渠道录单员"}).exec();
+//     res.json(users);
+// }));
 
-router.get('/org-clear', asyncMiddleware(async (req, res, next) => {
-    await User.remove({role: "渠道录单员"}).exec();
-    res.send("删除完毕");
-}));
+// router.get('/org-clear', asyncMiddleware(async (req, res, next) => {
+//     await User.remove({role: "渠道录单员"}).exec();
+//     res.send("删除完毕");
+// }));
 
 
 router.get('/rules', asyncMiddleware(async (req, res, next) => {

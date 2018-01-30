@@ -16,7 +16,7 @@ angular.module('app.client').config(function ($stateProvider) {
         .state('app.client.organization', {
             url: '/clients/organization',
             data: {
-                title: '机构客户'
+                title: '车商'
             },
             views: {
                 "content@app": {
