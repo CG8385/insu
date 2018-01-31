@@ -75,7 +75,8 @@ app.use(function(err, req, res, next) {
     res.json({status: err.status, message: err.message});
   }else{
     res.status(err.status || 500);
-    res.send('error occurs');
+    res.json({status: err.status, message: err.message});
+    // res.send('error occurs');
   }
 });
 
