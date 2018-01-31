@@ -38,7 +38,7 @@
                                         <label class="input">
                                             <ui-select style="min-width: 364px;" ng-model="vm.clientInfo" theme="select2">
                                                 <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| propsFilter: {name: $select.search}">
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
                                                     <div ng-bind-html="client.name"></div>
                                                 </ui-select-choices>
                                             </ui-select>
