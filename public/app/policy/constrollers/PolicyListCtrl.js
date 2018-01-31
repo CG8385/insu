@@ -427,6 +427,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.pay = function (policy) {
         if (!policy.level2_company) {
+            var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
                 $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
             }else{
@@ -487,6 +488,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.check = function (policy) {
         if (!policy.level2_company) {
+            var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
                 $state.go("app.policy.check", { policyId: policy._id }); //this is from old version
             }else{
@@ -505,6 +507,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.view = function (policy) {
         if (!policy.level2_company) {
+            var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
                 $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
             }else{
