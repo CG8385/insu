@@ -24,7 +24,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
 
-    PolicyService.getClients()
+    PolicyService.getIndividualClients()
         .then(function (clients) {
             clients.unshift({ _id: -1, name: "全部业务员" });
             vm.clients = clients;
