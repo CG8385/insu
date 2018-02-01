@@ -207,7 +207,7 @@ router.post('/', function (req, res) {
       res.status(400).send('系统中已存在该公司名称');
     } else {
       var company = new Company(data);
-      rule.py = makePy(data.name);
+      company.py = makePy(data.name);
       company.save(function (err, savedCompany, numAffected) {
         if (err) {
           logger.error(err);
@@ -226,7 +226,7 @@ router.put('/:id', function (req, res) {
     if (err)
       res.send(err);
     company.name = req.body.name;
-    rule.py = makePy(req.body.name);
+    company.py = makePy(req.body.name);
     company.contact = req.body.contact;
     company.phone = req.body.phone;
     company.catogory = req.body.catogory;
