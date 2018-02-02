@@ -46,6 +46,13 @@
                                 <fieldset class="optional-input-field-set" ng-disabled="vm.policy.policy_status=='已支付'">
                                     <div class="row">
                                         <section class="col col-3">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="rates_based_on_taxed" ng-model="vm.policy.rates_based_on_taxed" ng-change="vm.updateFee()">
+                                                <i></i>费率基于不含税保费</label>
+                                            </section>
+                                    </div>
+                                    <div class="row">
+                                        <section class="col col-3">
                                             <a ng-show="vm.policy.mandatory_policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</a>
                                             <label class="label">交强险</label>
                                             <label class="input">
