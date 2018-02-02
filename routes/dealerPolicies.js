@@ -357,7 +357,7 @@ router.post('/update-photo', function (req, res) {
         logger.error(err);
         res.send(err);
       }
-      logger.info(req.user.name + " 更新了保单扫描件，保单号为：" + policy.policy_no + "。" + req.clientIP);
+      logger.info(req.user.name + " 更新了保单扫描件，车牌号：" + policy.plate_no + "。" + req.clientIP);
       res.json({ message: '扫描件已成功更新' });
     });
 
@@ -377,7 +377,7 @@ router.post('/bulk-pay', function (req, res) {
         policies[i].payment_remarks = remarks;
         policies[i].paid_at = Date.now();
         policies[i].save();
-        logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+        logger.info(req.user.name + " 更新了保单扫描件，车牌号：" + policies[i].plate_no + "。" + req.clientIP);
       };
       logger.info(req.user.name + " 批量支付了保单。" + req.clientIP);
       res.json({ message: '保单状态已批量更改为已支付' });
