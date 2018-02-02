@@ -257,7 +257,14 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.policy = {};
+                var old = vm.policy;
+                vm.policy = {
+                    company: old.company,
+                    level1_company: old.level1_company, 
+                    level2_company: old.level2_company, 
+                    level3_company: old.level3_company,
+                    level4_company: old.level4_company
+                };
                 if (vm.back) {
                     console.log($rootScope.user.role);
                     if($rootScope.user.role == "后台录单员"){

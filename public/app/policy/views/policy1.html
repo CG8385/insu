@@ -394,7 +394,7 @@
                                         <label class="label">业务来源</label>
                                         <label class="input">
                                             <ui-select style="min-width: 364px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
-                                                <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems" infinite-scroll="vm.addMoreItems()"
                                                     infinite-scroll-distance="2">
                                                     <!--<ui-select-choices repeat="client in vm.clients| filter: $select.search">-->

@@ -418,7 +418,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.isShowViewButton = function (policy) {
         return $rootScope.user.role == "出单员" || 
         ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") || 
-        policy.policy_status == "已支付";
+        policy.policy_status == "已支付" || ($rootScope.user.role == "财务" && policy.policy_status != "被驳回")
     };
 
     vm.isShowRejectButton = function (policy) {
