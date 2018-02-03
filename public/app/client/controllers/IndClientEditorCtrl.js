@@ -92,6 +92,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
 
     vm.approve = function(){
         vm.client.client_type = "个人";
+        vm.client.pending = false;
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
