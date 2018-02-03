@@ -419,23 +419,23 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
 
 });
 
-// angular.module('app.policy')
-//     .filter("computeTotal", function () {
-//         return function (fieldValueUnused, item) {
-//             return (item.mandatory_fee + item.commercial_fee);
-//         }
-//     })
-//     .filter("getContact", function () {
-//         return function (fieldValueUnused, item) {
-//             var policy = item
-//             return policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
+angular.module('app.policy')
+    .filter("computeTotal", function () {
+        return function (fieldValueUnused, item) {
+            return (item.mandatory_fee + item.commercial_fee);
+        }
+    })
+    .filter("getContact", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
 
-//         }
-//     })
-//     .filter("getCompany", function () {
-//         return function (fieldValueUnused, item) {
-//             var policy = item
-//             return policy.level4_company ? policy.level4_company.name : policy.level3_company ? policy.level3_company.name : policy.level2_company ? policy.level2_company.name : '';
+        }
+    })
+    .filter("getCompany", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.level4_company ? policy.level4_company.name : policy.level3_company ? policy.level3_company.name : policy.level2_company ? policy.level2_company.name : '';
 
-//         }
-//     });
+        }
+    });
