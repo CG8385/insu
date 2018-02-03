@@ -131,7 +131,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.license_photo)
             .then(function (fileName) {
                 vm.client.license_photo = fileName;
-                ClientService.saveClient(vm.client);
+                // ClientService.saveClient(vm.client);
             })
     }
 
@@ -139,7 +139,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.identity1_filename)
             .then(function (fileName) {
                 vm.client.identity1_filename = fileName;
-                ClientService.saveClient(vm.client);
+                // ClientService.saveClient(vm.client);
             })
     }
 
@@ -147,7 +147,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.uploadFile(files[0], vm.client.identity2_filename)
             .then(function (fileName) {
                 vm.client.identity2_filename = fileName;
-                ClientService.saveClient(vm.client);
+                // ClientService.saveClient(vm.client);
             })
     }
 
