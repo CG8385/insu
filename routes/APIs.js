@@ -15,6 +15,7 @@ var dealerPolicies = require('./dealerPolicies.js');
 var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
+var roles = require('./roles');
 var router = express.Router();
 
 /* GET home page. */
@@ -35,6 +36,7 @@ router.use('/dealer-policies', dealerPolicies);
 router.use('/migrate', migrate);
 router.use('/sts', sts);
 router.use('/logs', logs);
+router.use('/roles', roles);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
