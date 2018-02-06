@@ -26,7 +26,6 @@ var schema = new mongoose.Schema({
     identity1_filename: String,
     identity2_filename: String,
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-    dealer_level: String,
     pending: Boolean
 });
 

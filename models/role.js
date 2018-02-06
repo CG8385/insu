@@ -7,12 +7,63 @@ var schema = new mongoose.Schema({
     created_at: { type: Date },
     updated_at: { type: Date },
     policy: {
-        w: { type: Boolean, default: false }, 
-        r: { type: Boolean, default: false },
-        d: { type: Boolean, default: false },
-        a: { type: Boolean, default: false },
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
         aprove: { type: Boolean, default: false },
         pay: { type: Boolean, default: false },
+    },
+    policy: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+    },
+    lifePolicy: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+    },
+    dealerPolicy: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        import: { type: Boolean, default: false },
+    },
+    imagePolicy:{
+        view: { type: Boolean, default: false },
+        process: { type: Boolean, default: false }
+    },
+    client: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false }
+    },
+    employee: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false }
+    },
+    company: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false }
+    },
+    log: {
+        view: { type: Boolean, default: false }
     },
 });
 
