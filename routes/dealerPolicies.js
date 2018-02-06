@@ -17,7 +17,7 @@ router.post('/', function (req, res) {
   //   } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
-      } else if((!data.commercial_policy_photo && !data.mandatory_policy_photo) || !data.agreement_photo){
+      } else if((!data.commercial_policy_photo && !data.mandatory_policy_photo)){
         res.status(400).send('上传附件不齐全，请确保已上传保单照片和客户知情书');
       }else{
         var policy = new DealerPolicy(data);
