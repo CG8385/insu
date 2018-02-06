@@ -146,8 +146,8 @@ router.post('/excel', function (req, res) {
         row.client = policy.client ? policy.client.name : '';
         row.policy_name = policy.policy_name;
         row.fee = policy.fee.toFixed(2);
-        row.income_rate = policy.income_rate.toFixed(2) + "%";
-        row.income = policy.income.toFixed(2);
+        row.income_rate = policy.income_rate ? policy.income_rate.toFixed(2) + "%" : "";
+        row.income = policy.income ? policy.income.toFixed(2) : "";
         row.payment_substract_rate = policy.payment_substract_rate.toFixed(2) + "%";
         row.payment = policy.payment.toFixed(2);
         row.profit = policy.profit? policy.profit.toFixed(2): '';
