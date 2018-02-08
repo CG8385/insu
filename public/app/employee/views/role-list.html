@@ -4,7 +4,7 @@
     <div class="row">
         <article class="col-sm-12">
 
-            <div class="dealers-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div class="roles-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>角色</h2>
@@ -12,10 +12,10 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.users" page-items="15" enable-filtering="false">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.roles" page-items="15" enable-filtering="false">
                             <thead>
                                 <tr>
-                                    <th field-name="username" display-name="角色名" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="name" display-name="角色名" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>
