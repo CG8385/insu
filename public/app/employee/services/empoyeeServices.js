@@ -13,7 +13,11 @@ angular.module('app.employee').factory('EmployeeService',
                 getUser: getUser,
                 deleteUser: deleteUser,
                 getOrganizations: getOrganizations,
-                getClients: getClients
+                getClients: getClients,
+                getRole: getRole,
+                saveRole: saveRole,
+                deleteRole: deleteRole,
+                getRoles: getRoles
             });
 
             function saveUser(user) {
@@ -235,6 +239,107 @@ angular.module('app.employee').factory('EmployeeService',
                     })
                     // handle error
                     .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function getRoles() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/roles')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function getRole(roleID) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/roles/' + roleID)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function saveRole(role) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (role._id) {
+                    role.updated_at = Date.now();
+                    $http.put('/roles/' + role._id, role)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    role.created_at = Date.now();
+                    role.updated_at = role.created_at;
+                    $http.post('/roles', role)
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+
+                // return promise object
+                return deferred.promise;
+            }
+            function deleteRole(roleId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/roles/' + roleId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
                         deferred.reject(status);
                     });
 
