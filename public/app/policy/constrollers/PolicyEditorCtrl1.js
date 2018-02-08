@@ -405,6 +405,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
+    vm.substractRateChanged = function(){
+        vm.policy.payment_substraction = null;
+    }
+    vm.substractFeeChanged = function(){
+        vm.policy.payment_substraction_rate = null;
+    }
+
     vm.updateFee = function () {
         vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee / 1.06;
         if (vm.policy.mandatory_fee_taxed) {
@@ -472,6 +479,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
             vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
+        }else if(vm.policy.payment_substraction){
+            vm.policy.payment_substraction_rate = (parseFloat(vm.policy.payment_substraction) * 100) / (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment));
+            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.payment_substraction_rate = vm.policy.payment_substraction_rate.toFixed(2);
         }
 
     }
