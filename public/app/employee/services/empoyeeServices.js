@@ -270,7 +270,7 @@ angular.module('app.employee').factory('EmployeeService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/roles/' + roleID)
+                $http.get('/api/roles/' + roleID)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -293,7 +293,7 @@ angular.module('app.employee').factory('EmployeeService',
 
                 if (role._id) {
                     role.updated_at = Date.now();
-                    $http.put('/roles/' + role._id, role)
+                    $http.put('/api/roles/' + role._id, role)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -307,7 +307,7 @@ angular.module('app.employee').factory('EmployeeService',
                 } else {
                     role.created_at = Date.now();
                     role.updated_at = role.created_at;
-                    $http.post('/roles', role)
+                    $http.post('/api/roles', role)
                         // handle success
                         .success(function (data, status) {
                             if (status === 200) {
@@ -329,7 +329,7 @@ angular.module('app.employee').factory('EmployeeService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('/roles/' + roleId)
+                $http.delete('/api/roles/' + roleId)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
