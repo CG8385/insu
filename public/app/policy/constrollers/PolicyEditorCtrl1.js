@@ -407,9 +407,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.substractRateChanged = function(){
         vm.policy.payment_substraction = null;
+        vm.updateFee();
     }
     vm.substractFeeChanged = function(){
         vm.policy.payment_substraction_rate = null;
+        vm.updateFee();
     }
 
     vm.updateFee = function () {
