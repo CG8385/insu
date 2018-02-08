@@ -14,6 +14,13 @@
                                 <div class="alert alert-block alert-warning" ng-show="vm.editable">
                                         <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                                 </div>
+                                <div class="row">                                      
+                                        <label class="label">角色名</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-key"></i>
+                                            <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
+                                        </label>                                       
+                                </div>
                                 <div class="table-responsive">
             
                                     <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
