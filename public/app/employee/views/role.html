@@ -1,139 +1,117 @@
 <div id="content">
-        <div class="row">
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div>
-                        <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
-                    </div>
-                    <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
-                            <header>
-                                <span class="widget-icon"> <i class="fa fa-info"></i> </span>
-                                <h2>角色权限详情</h2>
-                            </header>
-                        <div>
-                            <div class="widget-body no-padding">
-                                <div class="alert alert-block alert-warning" ng-show="vm.editable">
-                                        <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
-                                </div>
-                                
-                                <form name="roleForm" id="roleForm" class="smart-form" ng-disabled="!vm.editable" novalidate>
-                                        <div class="row">  
-                                    <section class="col col-6">
-                                        <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
-                                    
-                                                <label class="label">角色名</label>
-                                                <label class="input">
-                                                    <i class="icon-append fa fa-key"></i>
-                                                    <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
-                                                </label>                                       
-                                        
-                                        </fieldset>
-                                    </section>
-                                    </div>
-                                    <div class="row table-responsive">
-                
-                                        <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
-                                            <thead>
-                                            <tr>
-                                                <!-- <th>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </th> -->
-                                                <th>Column name <a href-void class="btn btn-xs btn-default pull-right"><i
-                                                        class="fa fa-filter"></i></a></th>
-                                                <th>Column name <a href-void class="btn btn-xs btn-default pull-right"><i
-                                                        class="fa fa-filter"></i></a></th>
-                                                <th>Column name <a href-void class="btn btn-xs btn-default pull-right"><i
-                                                        class="fa fa-filter"></i></a></th>
-                                                <th>Column name <a href-void class="btn btn-xs btn-default pull-right"><i
-                                                        class="fa fa-filter"></i></a></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline">
-                                                        <i></i>
-                                                    </label>
-                                                </td>
-                                                <td>Row 1</td>
-                                                <td>Row 2</td>
-                                                <td>Row 3</td>
-                                                <td>Row 4</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+    <div class="row">
+        <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon">
+                        <i class="fa fa-info"></i>
+                    </span>
+                    <h2>角色权限详情</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding">
+                        <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                            <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                        </div>
+
+                        <form name="roleForm" id="roleForm" class="smart-form" ng-disabled="!vm.editable" novalidate>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+
+                                        <label class="label">角色名</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-key"></i>
+                                            <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
+                                        </label>
+
+                                    </fieldset>
+                                </section>
+                            </div>
+                            <div class="row table-responsive">
+
+                                <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                                    <thead>
+                                        <tr>
+                                            <th>模块名</th>
+                                            <th>查看</th>
+                                            <th>修改</th>
+                                            <th>添加</th>
+                                            <th>删除</th>
+                                            <th>模块</th>
+                                            <th>审核</th>
+                                            <th>支付</th>
+                                            <th>导入</th>
+                                            <th>导出/下载</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                员工账号
+                                            </td>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.employee.view">
+                                                    <i></i>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.employee.edit">
+                                                    <i></i>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.employee.append">
+                                                    <i></i>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.employee.delete">
+                                                    <i></i>
+                                                </label>
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.employee.export">
+                                                    <i></i>
+                                                </label>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
 
 
 </div>
