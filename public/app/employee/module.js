@@ -86,7 +86,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             }
         })
         .state('app.employee.role.new', {
-            url: '／employees/role/new',
+            url: '/new',
             data: {
                 title: '添加角色'
             },
