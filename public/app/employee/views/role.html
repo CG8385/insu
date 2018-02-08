@@ -16,17 +16,19 @@
                                 </div>
                                 
                                 <form name="sellerForm" id="sellerForm" class="smart-form" ng-disabled="!vm.editable" novalidate>
+                                        <div class="row">  
                                     <section class="col col-6">
                                         <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
-                                        <div class="row">                                      
+                                    
                                                 <label class="label">角色名</label>
                                                 <label class="input">
                                                     <i class="icon-append fa fa-key"></i>
                                                     <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
                                                 </label>                                       
-                                        </div>
+                                        
                                         </fieldset>
                                     </section>
+                                    </div>
                                     <div class="row table-responsive">
                 
                                         <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
