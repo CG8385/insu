@@ -27,7 +27,7 @@ router.post('/', asyncMiddleware(async (req, res, next) => {
 
 router.put('/:id', asyncMiddleware(async (req, res, next) => {
   await Role.findOneAndUpdateAsync({_id:req.params.id}, req.body);
-  logger.info(req.user.name + " 更新了一个角色，角色名称为："+ role.name +"。"+ req.clientIP);
+  logger.info(req.user.name + " 更新了一个角色，角色名称为："+ req.body.name +"。"+ req.clientIP);
   res.status(200).json({ message: '角色已成功更新' });
 }));
 
