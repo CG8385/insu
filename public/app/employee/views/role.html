@@ -97,7 +97,15 @@
                                 </table>
 
                             </div>
-
+                            <footer class="clear">
+                                    <span>
+                                        <button validation-submit="roleForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                        </button>
+                                        <button validation-submit="roleForm" class="btn btn-primary" ng-show="vm.editable"
+                                                ng-click="vm.submitAndBack()">提交后查看列表
+                                        </button>
+                                    </span>
+                                </footer>
                         </form>
                     </div>
                 </div>
