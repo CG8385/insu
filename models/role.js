@@ -62,6 +62,12 @@ var schema = new mongoose.Schema({
         delete: { type: Boolean, default: false },
         append: { type: Boolean, default: false }
     },
+    organization: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false }
+    },
     log: {
         view: { type: Boolean, default: false }
     },
