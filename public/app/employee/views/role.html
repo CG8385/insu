@@ -14,8 +14,9 @@
                                 <div class="alert alert-block alert-warning" ng-show="vm.editable">
                                         <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                                 </div>
-                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                
                                 <form name="sellerForm" id="sellerForm" class="smart-form" ng-disabled="!vm.editable" novalidate>
+                                    <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
                                     <div class="row">                                      
                                             <label class="label">角色名</label>
                                             <label class="input">
@@ -23,6 +24,7 @@
                                                 <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
                                             </label>                                       
                                     </div>
+                                    </fieldset>
                                     <div class="table-responsive">
                 
                                         <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
@@ -121,7 +123,7 @@
                                         </table>
                 
                                     </div>
-                                </fieldset>
+
                                 </form>
                             </div>
                         </div>
