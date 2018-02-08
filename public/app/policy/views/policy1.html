@@ -700,7 +700,7 @@
                                         <section class="col col-3 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="payment_substraction_rate" price ng-model="vm.policy.payment_substraction_rate"
-                                                    ng-change="vm.updateFee()">
+                                                    ng-change="vm.substractRateChanged()">
                                                 <!--validator="required">-->
                                             </label>
                                         </section>
@@ -710,7 +710,7 @@
                                         <section class="col col-8 no-padding">
                                             <label class="input" ng-disabled=true>
                                                 <i class="icon-append fa fa-cny"></i>
-                                                <input type="text" class="input-lg" name="payment_substraction" price ng-model="vm.policy.payment_substraction" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="payment_substraction" price ng-model="vm.policy.payment_substraction" ng-change="vm.substractFeeChanged()">
                                             </label>
                                         </section>
 
