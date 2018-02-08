@@ -1,14 +1,19 @@
 <div id="content">
         <div class="row">
                 <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div jarvis-widget id="condenced-table-widget" data-widget-editbutton="false">
+                    <div>
+                        <button ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                    </div>
+                    <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                             <header>
                                 <span class="widget-icon"> <i class="fa fa-info"></i> </span>
                                 <h2>角色权限详情</h2>
                             </header>
                         <div>
                             <div class="widget-body no-padding">
-    
+                                <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                                        <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                                </div>
                                 <div class="table-responsive">
             
                                     <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
