@@ -249,7 +249,7 @@ angular.module('app.employee').factory('EmployeeService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get('/roles')
+                $http.get('/api/roles')
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
