@@ -4,6 +4,7 @@ var db = require('../utils/database.js').connection;
 var Promise = require('bluebird');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var config = require('../common.js').config();
+var logger = require('../utils/logger.js');
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
 router.get('/', asyncMiddleware(async (req, res, next) => {
