@@ -37,6 +37,7 @@ var schema = new mongoose.Schema({
     imagePolicy:{
         view: { type: Boolean, default: false },
         edit: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
     client: {
