@@ -14,6 +14,7 @@
                                 <div class="alert alert-block alert-warning" ng-show="vm.editable">
                                         <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
                                 </div>
+                                <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
                                 <form name="sellerForm" id="sellerForm" class="smart-form" ng-disabled="!vm.editable" novalidate>
                                     <div class="row">                                      
                                             <label class="label">角色名</label>
@@ -120,6 +121,7 @@
                                         </table>
                 
                                     </div>
+                                </fieldset>
                                 </form>
                             </div>
                         </div>
