@@ -2,8 +2,17 @@
 
 angular.module('app.policy').controller('PolicyEditorController1', function ($scope, $filter, $rootScope, $state, $stateParams, PolicyService, ngDialog) {
     var vm = this;
-    vm.policy = {};
-    vm.policy.plate_province = "苏";
+    var defaultPolicy = {
+        tax_fee: 0,
+        tax_fee_income_rate: 0,
+        tax_fee_payment_rate: 0,
+        other_fee: 0,
+        other_fee_income_rate: 0,
+        other_fee_payment_rate: 0,
+        payment_addition: 0,
+        payment_substraction_rate: 0
+    }
+    vm.policy = defaultPolicy;
     vm.clientInfo = {};
     vm.sellerInfo = $rootScope.user;
     vm.level2Companies = [];
@@ -58,7 +67,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
     }
 
-    vm.resetRule = function() {
+    vm.resetRule = function () {
         vm.policy.rule = undefined;
         vm.policy.mandatory_fee_income_rate = null;
         vm.policy.mandatory_fee_payment_rate = null;
@@ -85,24 +94,24 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.updateFee();
     }
 
-    vm.loadRules = function(){
-        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-        if(companyId){
+    vm.loadRules = function () {
+        var companyId = vm.policy.level4_company ? vm.policy.level4_company : vm.policy.level3_company ? vm.policy.level3_company : vm.policy.level2_company;
+        if (companyId) {
             PolicyService.getRules(companyId)
-            .then(function(rules){
-                vm.rules = rules;
-            })
-        }else{
+                .then(function (rules) {
+                    vm.rules = rules;
+                })
+        } else {
             vm.rules = [];
         }
 
     }
 
     vm.ruleChanged = function () {
-        if(!vm.policy.rule){
+        if (!vm.policy.rule) {
             vm.resetRule();
-        }else{
-            var rule = vm.rules.filter(r=>r._id == vm.policy.rule)[0];
+        } else {
+            var rule = vm.rules.filter(r => r._id == vm.policy.rule)[0];
             vm.applyRule(rule);
         }
     }
@@ -124,7 +133,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.resetRule();
         if (!vm.policy.level3_company) {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
-            
+
         } else {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         }
@@ -245,12 +254,12 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;
         }
-        if(vm.policy.policy_status == "被驳回"){
+        if (vm.policy.policy_status == "被驳回") {
             vm.policy.policy_status = "待审核";
         }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
-                if(data.duplicate){
+                if (data.duplicate) {
                     $.SmartMessageBox({
                         title: "发现单号重复保单",
                         content: "系统中已有相同保单号，重复提交？",
@@ -268,28 +277,29 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                                         timeout: 5000
                                     });
                                     var old = vm.policy;
+
                                     vm.policy = {
                                         company: old.company,
-                                        level1_company: old.level1_company, 
-                                        level2_company: old.level2_company, 
+                                        level1_company: old.level1_company,
+                                        level2_company: old.level2_company,
                                         level3_company: old.level3_company,
                                         level4_company: old.level4_company
                                     };
                                     if (vm.back) {
-                                        if($rootScope.user.role == "后台录单员"){
+                                        if ($rootScope.user.role == "后台录单员") {
                                             $state.go("app.policy.to-be-paid");
-                                        }else{
+                                        } else {
                                             $state.go("app.policy.to-be-reviewed");
                                         }
                                     }
                                 })
                         }
                         if (ButtonPressed === "取消") {
-            
+
                         }
-            
+
                     });
-                }else{
+                } else {
                     $.smallBox({
                         title: "服务器确认信息",
                         content: "保单已成功保存",
@@ -300,16 +310,24 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                     var old = vm.policy;
                     vm.policy = {
                         company: old.company,
-                        level1_company: old.level1_company, 
-                        level2_company: old.level2_company, 
+                        level1_company: old.level1_company,
+                        level2_company: old.level2_company,
                         level3_company: old.level3_company,
-                        level4_company: old.level4_company
+                        level4_company: old.level4_company,
+                        tax_fee: 0,
+                        tax_fee_income_rate: 0,
+                        tax_fee_payment_rate: 0,
+                        other_fee: 0,
+                        other_fee_income_rate: 0,
+                        other_fee_payment_rate: 0,
+                        payment_addition: 0,
+                        payment_substraction_rate: 0
                     };
                     if (vm.back) {
                         console.log($rootScope.user.role);
-                        if($rootScope.user.role == "后台录单员"){
+                        if ($rootScope.user.role == "后台录单员") {
                             $state.go("app.policy.to-be-paid");
-                        }else{
+                        } else {
                             $state.go("app.policy.to-be-reviewed");
                         }
                     }
@@ -446,11 +464,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
-    vm.substractRateChanged = function(){
+    vm.substractRateChanged = function () {
         vm.policy.payment_substraction = null;
         vm.updateFee();
     }
-    vm.substractFeeChanged = function(){
+    vm.substractFeeChanged = function () {
         vm.policy.payment_substraction_rate = null;
         vm.updateFee();
     }
@@ -522,7 +540,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
             vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
-        }else if(vm.policy.payment_substraction){
+        } else if (vm.policy.payment_substraction) {
             vm.policy.payment_substraction_rate = (parseFloat(vm.policy.payment_substraction) * 100) / (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment));
             vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
@@ -539,9 +557,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.sign_photo = fileName;
-                if(vm.policy._id){
+                if (vm.policy._id) {
                     PolicyService.updatePhoto(vm.policy)
-                }           
+                }
             })
     }
 
@@ -553,9 +571,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.other_photo = fileName;
-                if(vm.policy._id){
+                if (vm.policy._id) {
                     PolicyService.updatePhoto(vm.policy)
-                }           
+                }
             })
     }
 
@@ -567,9 +585,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.agreement_photo = fileName;
-                if(vm.policy._id){
+                if (vm.policy._id) {
                     PolicyService.updatePhoto(vm.policy)
-                }           
+                }
             })
     }
 
@@ -581,9 +599,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.commercial_policy_photo = fileName;
-                if(vm.policy._id){
+                if (vm.policy._id) {
                     PolicyService.updatePhoto(vm.policy)
-                }           
+                }
             })
     }
 
@@ -599,9 +617,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         PolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.mandatory_policy_photo = fileName;
-                if(vm.policy._id){
+                if (vm.policy._id) {
                     PolicyService.updatePhoto(vm.policy)
-                }   
+                }
             })
     }
 
