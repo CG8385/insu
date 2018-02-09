@@ -496,10 +496,9 @@ angular.module('app.policy').factory('PolicyService',
                 end.setDate(end.getDate() + 1);
                 var config = {
                     fromDate: fromDate,
-                    toDate: end,
-                    responseType: 'arraybuffer'
+                    toDate: end
                 };
-                $http.post("/api/image-policies/download", config)
+                $http.post("/api/image-policies/download", config, {responseType: 'arraybuffer'})
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
