@@ -220,7 +220,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     };
 
     vm.downloadProcessedImages = function () {
-        PolicyService.downloadToBeProcessedImages(vm.fromDate, vm.toDate)
+        PolicyService.downloadProcessedImages(vm.fromDate, vm.toDate)
             .then(function (zip) {
                 var file = new Blob([zip], {
                     type: 'application/zip'
