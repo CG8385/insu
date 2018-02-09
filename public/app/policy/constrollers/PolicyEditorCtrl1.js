@@ -250,27 +250,68 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
-                $.smallBox({
-                    title: "服务器确认信息",
-                    content: "保单已成功保存",
-                    color: "#739E73",
-                    iconSmall: "fa fa-check",
-                    timeout: 5000
-                });
-                var old = vm.policy;
-                vm.policy = {
-                    company: old.company,
-                    level1_company: old.level1_company, 
-                    level2_company: old.level2_company, 
-                    level3_company: old.level3_company,
-                    level4_company: old.level4_company
-                };
-                if (vm.back) {
-                    console.log($rootScope.user.role);
-                    if($rootScope.user.role == "后台录单员"){
-                        $state.go("app.policy.to-be-paid");
-                    }else{
-                        $state.go("app.policy.to-be-reviewed");
+                if(data.duplicate){
+                    $.SmartMessageBox({
+                        title: "发现单号重复保单",
+                        content: "系统中已有相同保单号，重复提交？",
+                        buttons: '[取消][确认]'
+                    }, function (ButtonPressed) {
+                        if (ButtonPressed === "确认") {
+                            vm.policy.ignore_duplicate = true;
+                            PolicyService.savePolicy(vm.policy)
+                                .then(function () {
+                                    $.smallBox({
+                                        title: "服务器确认信息",
+                                        content: "保单已成功保存",
+                                        color: "#739E73",
+                                        iconSmall: "fa fa-check",
+                                        timeout: 5000
+                                    });
+                                    var old = vm.policy;
+                                    vm.policy = {
+                                        company: old.company,
+                                        level1_company: old.level1_company, 
+                                        level2_company: old.level2_company, 
+                                        level3_company: old.level3_company,
+                                        level4_company: old.level4_company
+                                    };
+                                    if (vm.back) {
+                                        if($rootScope.user.role == "后台录单员"){
+                                            $state.go("app.policy.to-be-paid");
+                                        }else{
+                                            $state.go("app.policy.to-be-reviewed");
+                                        }
+                                    }
+                                })
+                        }
+                        if (ButtonPressed === "取消") {
+            
+                        }
+            
+                    });
+                }else{
+                    $.smallBox({
+                        title: "服务器确认信息",
+                        content: "保单已成功保存",
+                        color: "#739E73",
+                        iconSmall: "fa fa-check",
+                        timeout: 5000
+                    });
+                    var old = vm.policy;
+                    vm.policy = {
+                        company: old.company,
+                        level1_company: old.level1_company, 
+                        level2_company: old.level2_company, 
+                        level3_company: old.level3_company,
+                        level4_company: old.level4_company
+                    };
+                    if (vm.back) {
+                        console.log($rootScope.user.role);
+                        if($rootScope.user.role == "后台录单员"){
+                            $state.go("app.policy.to-be-paid");
+                        }else{
+                            $state.go("app.policy.to-be-reviewed");
+                        }
                     }
                 }
             }, function (err) { });

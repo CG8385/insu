@@ -19,8 +19,8 @@ router.post('/', function (req, res) {
     mandatory_policy_no = "-999";
   }
   Policy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
-    if (policies.length > 0) {
-      res.status(400).send('系统中已存在相同保单号的保单');
+    if (policies.length > 0 && !data.ignore_duplicate) {
+      res.status(200).json({duplicate: true});
     } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
