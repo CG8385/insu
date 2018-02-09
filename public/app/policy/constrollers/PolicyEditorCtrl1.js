@@ -6,11 +6,17 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         tax_fee: 0,
         tax_fee_income_rate: 0,
         tax_fee_payment_rate: 0,
+        tax_fee_income:0,
+        tax_fee_payment: 0,
         other_fee: 0,
+        other_fee_taxed: 0,
         other_fee_income_rate: 0,
+        other_fee_income: 0,
         other_fee_payment_rate: 0,
+        other_fee_payment: 0,
         payment_addition: 0,
-        payment_substraction_rate: 0
+        payment_substraction_rate: 0,
+        payment_substraction: 0
     }
     vm.policy = defaultPolicy;
     vm.clientInfo = {};
@@ -317,11 +323,17 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         tax_fee: 0,
                         tax_fee_income_rate: 0,
                         tax_fee_payment_rate: 0,
+                        tax_fee_income:0,
+                        tax_fee_payment: 0,
                         other_fee: 0,
+                        other_fee_taxed: 0,
                         other_fee_income_rate: 0,
+                        other_fee_income: 0,
                         other_fee_payment_rate: 0,
+                        other_fee_payment: 0,
                         payment_addition: 0,
-                        payment_substraction_rate: 0
+                        payment_substraction_rate: 0,
+                        payment_substraction: 0
                     };
                     if (vm.back) {
                         console.log($rootScope.user.role);
