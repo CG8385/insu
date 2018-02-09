@@ -130,7 +130,7 @@ router.post('/', function (req, res) {
     if (users.length > 0) {
       res.status(400).send('系统中已存在该账号');
     } else {
-      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, phone: data.phone, client: data.client}), data.password, function (err, user) {
+      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, userrole:data.userrole, phone: data.phone, client: data.client}), data.password, function (err, user) {
         if (err) {
           logger.error(err);
           res.status(500).send(err);
