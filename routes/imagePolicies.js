@@ -82,6 +82,7 @@ router.post('/download', asyncMiddleware(async (req, res, next) => {
   const folder = moment().format("YY-M-D@hmmss") + " 下载";
   ps.forEach(p => {
     const clientName = p.client.name;
+    console.log(clientName);
     const url = p.url;
 
     const date = dateFormat(p.created_at, "yyyy-mm-dd");
