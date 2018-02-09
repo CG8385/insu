@@ -32,7 +32,8 @@ angular.module('app.policy').factory('PolicyService',
                 bulkProcessImagePolicies: bulkProcessImagePolicies,
                 processImagePolicy: processImagePolicy,
                 deleteImagePolicy: deleteImagePolicy,
-                downloadToBeProcessedImages: downloadToBeProcessedImages
+                downloadToBeProcessedImages: downloadToBeProcessedImages,
+                downloadProcessedImages: downloadProcessedImages
             });
 
             function getRules(companyId) {
@@ -472,6 +473,33 @@ angular.module('app.policy').factory('PolicyService',
             function downloadToBeProcessedImages(){
                 var deferred = $q.defer();
                 $http.get("/api/image-policies/download", {responseType: 'arraybuffer'})
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function downloadProcessedImages(fromDate, toDate){
+                var deferred = $q.defer();
+                var end = new Date(toDate);
+                end.setDate(end.getDate() + 1);
+                var config = {
+                    fromDate: fromDate,
+                    toDate: end,
+                    responseType: 'arraybuffer'
+                };
+                $http.post("/api/image-policies/download", config)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

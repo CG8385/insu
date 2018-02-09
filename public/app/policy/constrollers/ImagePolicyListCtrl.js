@@ -188,7 +188,11 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
     vm.isShowDownloadAllButton = function () {
-        return (vm.policies.length > 0)
+        return (vm.policies.length > 0 && $state.is("app.policy.image-policy.to-be-processed"));
+    }
+
+    vm.isShowDownloadProceseedButton = function () {
+        return (vm.policies.length > 0 && $state.is("app.policy.image-policy.processed"));
     }
 
     vm.str2bytes = function (str) {
@@ -201,6 +205,22 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
 
     vm.downloadToBeProcessedImages = function () {
         PolicyService.downloadToBeProcessedImages()
+            .then(function (zip) {
+                var file = new Blob([zip], {
+                    type: 'application/zip'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'images.zip'
+                })[0].click();
+            })
+    };
+
+    vm.downloadProcessedImages = function () {
+        PolicyService.downloadToBeProcessedImages(vm.fromDate, vm.toDate)
             .then(function (zip) {
                 var file = new Blob([zip], {
                     type: 'application/zip'

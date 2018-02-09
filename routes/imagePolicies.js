@@ -51,6 +51,47 @@ router.get('/download', asyncMiddleware(async (req, res, next) => {
   zip.finalize();
 }));
 
+router.post('/download', asyncMiddleware(async (req, res, next) => {
+  var conditions = {};
+  conditions['status'] = "已录入";
+  if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+  } else if (req.body.fromDate != undefined) {
+    conditions['created_at'] = { $gte: req.body.fromDate };
+  } else if (req.body.toDate != undefined) {
+    conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  let ps = await ImagePolicy.find(conditions).populate('client').exec();
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.attachment('images.zip');
+  const zip = archiver('zip');
+  //better register events before piping
+  zip.on('error', function (error) {
+    zip.abort(); //not always useful but might save trouble
+    logger.warn('Unable to archive ' + paths);
+    return res.status(500).send('Error while zipping'); //you might want to end the request here
+  });
+
+  zip.on('end', function () {
+    //no need to send a response, if the archive is piped to the response, it'll end it when the stream closes
+    console.log('Archive finished');
+  })
+  zip.pipe(res);
+  const folder = moment().format("YY-M-D@hmmss") + " 下载";
+  ps.forEach(p => {
+    const clientName = p.client.name;
+    const url = p.url;
+
+    const date = dateFormat(p.created_at, "yyyy-mm-dd");
+    const stream = request(url);
+    const filename = `${folder}/${date}/${clientName}/${p.filename}`
+    zip.append(stream, { name: filename });
+  })
+  zip.finalize();
+}));
+
 router.get('/:id', asyncMiddleware(async (req, res, next) => {
   let imagePolicy = await ImagePolicy.findOne({ _id: req.params.id }).populate('client').exec();
   res.status(200).json(imagePolicy);
