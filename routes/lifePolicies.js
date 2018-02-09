@@ -8,60 +8,55 @@ var Client = require('../models/client.js')(db);
 var iconv = require('iconv-lite');
 
 router.post('/', function (req, res) {
-  var data = req.body;
-  if(IsIncomplete(data)){
-      res.status(400).send('保单关键信息缺失，请填写完整信息');
-      return;
-  };
-  Policy.find({ policy_no: data.policy_no }, function (err, policies) {
-    if (policies.length > 0) {
-      res.status(400).send('系统中已存在相同保单号的保单');
-    } else {
-      var policy = new Policy(data);
-      policy.seller = req.user._id;
-      policy.save(function (err, policy, numAffected) {
-        if (err) {
-          logger.error(err);
-          res.status(500).send(err);
-        } else {
-          logger.info(req.user.name + " 提交了一份寿险保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
-          res.status(200).json({ message: '保单已成功添加' });
-        }
-      });
-    }
+    var data = req.body;
+    if (IsIncomplete(data)) {
+        res.status(400).send('保单关键信息缺失，请填写完整信息');
+        return;
+    };
 
-  })
+    var policy = new Policy(data);
+    policy.seller = req.user._id;
+    policy.save(function (err, policy, numAffected) {
+        if (err) {
+            logger.error(err);
+            res.status(500).send(err);
+        } else {
+            logger.info(req.user.name + " 提交了一份寿险保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+            res.status(200).json({ message: '保单已成功添加' });
+        }
+    });
+
 });
 
-function IsIncomplete(data){
-    if(!data.policy_no){
-        return true;   
+function IsIncomplete(data) {
+    if (!data.policy_no) {
+        return true;
     }
-    if(!data.submit_date){
+    if (!data.submit_date) {
         return true;
     }
 }
 
 router.get('/', function (req, res) {
-  var user = req.user;
-  var query = {};
-  if(user.role == '出单员'){
-    query = {seller: user._id};
-  }else if(user.role=='客户'){
-    var d = new Date();
-    var end = new Date();
-    d.setDate(d.getDate()-7);
-    query = {client: user.client_id, created_at:{$gt: d, $lt: end}};  //暂时只获取近七天保单信息
-  }
-  Policy.find(query)
-     .populate('client seller organization company zy_client manager director')
-     .exec()
-     .then(function(policies){
-       res.status(200).json(policies);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+    var user = req.user;
+    var query = {};
+    if (user.role == '出单员') {
+        query = { seller: user._id };
+    } else if (user.role == '客户') {
+        var d = new Date();
+        var end = new Date();
+        d.setDate(d.getDate() - 7);
+        query = { client: user.client_id, created_at: { $gt: d, $lt: end } };  //暂时只获取近七天保单信息
+    }
+    Policy.find(query)
+        .populate('client seller organization company zy_client manager director')
+        .exec()
+        .then(function (policies) {
+            res.status(200).json(policies);
+        }, function (err) {
+            logger.error(err);
+            res.status(500).send(err);
+        });
 });
 
 
@@ -81,7 +76,7 @@ router.get('/', function (req, res) {
 //             // console.log(policy.organization);
 //             policy.save();
 //           }
-          
+
 //         });
 // });
 
@@ -92,30 +87,30 @@ router.post('/excel', function (req, res) {
             conditions[key] = req.body.filterByFields[key];
         }
     }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
+
+    if (req.user.role == '出单员') {
+        conditions['seller'] = req.user._id;
     }
 
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
+    var sortParam = "";
+    if (req.body.orderByReverse) {
+        sortParam = "-" + req.body.orderBy.toString();
+    } else {
+        sortParam = req.body.orderBy.toString();
     }
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['submit_date']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['submit_date']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['submit_date']={$lte:req.body.toDate};
+    if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+        conditions['submit_date'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+    } else if (req.body.fromDate != undefined) {
+        conditions['submit_date'] = { $gte: req.body.fromDate };
+    } else if (req.body.toDate != undefined) {
+        conditions['submit_date'] = { $lte: req.body.toDate };
     }
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
         .populate('client seller organization company zy_client manager director')
         .exec()
-        .then(function(policies){
+        .then(function (policies) {
             var json2csv = require('json2csv');
             var fields = [
                 'submit_date',
@@ -133,7 +128,7 @@ router.post('/excel', function (req, res) {
                 'applicant.adress',
                 'applicant.sex',
                 'applicant.birthday',
-                
+
                 'total_fee',
                 'standard_fee',
                 'payment_total',
@@ -142,7 +137,7 @@ router.post('/excel', function (req, res) {
                 'zy_payment',
                 'zy_client.name',
                 'manager.name',
-                'director.name',          
+                'director.name',
                 'organization.name',
                 'seller.name',
             ];
@@ -190,7 +185,7 @@ router.post('/excel', function (req, res) {
                 row.zy_client = {};
                 row.director = {};
                 row.submit_date = (dateFormat(policy.submit_date, "mm/dd/yyyy"));
-                row.policy_no = 　"'" + policy.policy_no;
+                row.policy_no = "'" + policy.policy_no;
                 row.company.name = policy.company.name;
                 row.policy_type = policy.policy_type;
                 row.stage = policy.stage;
@@ -198,10 +193,10 @@ router.post('/excel', function (req, res) {
                 row.receipt_date = (dateFormat(policy.receipt_date, "mm/dd/yyyy"));
                 row.invoice_no = policy.invoice_no;
                 row.invoice_date = (dateFormat(policy.invoice_date, "mm/dd/yyyy"));;
-                
+
                 row.applicant.name = policy.applicant.name;
-                row.applicant.identity = row.applicant.identity? "'" + policy.applicant.identity : '';
-                row.applicant.phone = row.applicant.phone? "'" + policy.applicant.phone : '';
+                row.applicant.identity = row.applicant.identity ? "'" + policy.applicant.identity : '';
+                row.applicant.phone = row.applicant.phone ? "'" + policy.applicant.phone : '';
                 row.applicant.adress = policy.applicant.adress;
                 row.applicant.sex = policy.applicant.sex;
                 row.applicant.birthday = policy.applicant.birthday;
@@ -209,11 +204,11 @@ router.post('/excel', function (req, res) {
                 row.standard_fee = policy.standard_fee;
                 row.payment_total = policy.payment_total;
                 row.taxed_payment_total = policy.taxed_payment_total;
-                row.client.name = policy.client? policy.client.name : '';
-                row.zy_client.name = policy.zy_client? policy.zy_client.name : '';
+                row.client.name = policy.client ? policy.client.name : '';
+                row.zy_client.name = policy.zy_client ? policy.zy_client.name : '';
                 row.zy_payment = policy.zy_payment;
-                row.manager.name = policy.manager? policy.manager.name : '';
-                row.director.name = policy.director? policy.director.name : '';
+                row.manager.name = policy.manager ? policy.manager.name : '';
+                row.director.name = policy.director ? policy.director.name : '';
                 row.organization.name = policy.organization.name;
                 row.seller.name = policy.seller.name;
                 arr.push(row);
@@ -226,23 +221,23 @@ router.post('/excel', function (req, res) {
                 res.setHeader("Content-Disposition", "attachment;filename=" + "life.csv");
                 res.send(dataBuffer);
             });
-        },function(err){
+        }, function (err) {
             logger.error(err);
         })
 });
 
 
 router.get('/:id', function (req, res) {
-  Policy.findOne({_id: req.params.id})
-    .populate('client zy_client manager director')
-    .populate({path:'seller',model:'User', populate:{path:'org', model:'Organization'}})
-    .exec()
-    .then(function(policy){
-       res.status(200).json(policy);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+    Policy.findOne({ _id: req.params.id })
+        .populate('client zy_client manager director')
+        .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
+        .exec()
+        .then(function (policy) {
+            res.status(200).json(policy);
+        }, function (err) {
+            logger.error(err);
+            res.status(500).send(err);
+        });
 });
 
 router.put('/:id', function (req, res) {
@@ -273,28 +268,28 @@ router.put('/:id', function (req, res) {
         policy.director = req.body.director;
         policy.seller = req.body.seller;
         policy.organization = req.body.organization;
-        
+
         policy.save(function (err) {
-            if (err){
-              logger.error(err);
-              res.send(err);
+            if (err) {
+                logger.error(err);
+                res.send(err);
             }
-            logger.info(req.user.name + " 更新了一份寿险保单，保单号为："+ policy.policy_no +"。"+ req.clientIP);
-            res.json({message: '保单已成功更新'});
+            logger.info(req.user.name + " 更新了一份寿险保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+            res.json({ message: '保单已成功更新' });
         });
 
     });
 });
 
 router.delete('/:id', function (req, res) {
-  Policy.remove({_id: req.params.id}, function(err, policy){
-    if (err){
-      logger.error(err);
-      res.send(err);
-    }
-    logger.info(req.user.name + " 删除了一份寿险保单。"+ req.clientIP);
-    res.json({ message: '保单已成功删除' });
-  });
+    Policy.remove({ _id: req.params.id }, function (err, policy) {
+        if (err) {
+            logger.error(err);
+            res.send(err);
+        }
+        logger.info(req.user.name + " 删除了一份寿险保单。" + req.clientIP);
+        res.json({ message: '保单已成功删除' });
+    });
 });
 
 router.post('/search', function (req, res) {
@@ -304,46 +299,47 @@ router.post('/search', function (req, res) {
             conditions[key] = req.body.filterByFields[key];
         }
     }
-    
-    if(req.user.role == '出单员'){
-       conditions['seller'] = req.user._id;
+
+    if (req.user.role == '出单员') {
+        conditions['seller'] = req.user._id;
     }
 
-    var sortParam ="";
-    if(req.body.orderByReverse){
-      sortParam = "-"+req.body.orderBy.toString();
-    }else{
-      sortParam = req.body.orderBy.toString();
+    var sortParam = "";
+    if (req.body.orderByReverse) {
+        sortParam = "-" + req.body.orderBy.toString();
+    } else {
+        sortParam = req.body.orderBy.toString();
     }
-    
-    if(req.body.fromDate != undefined && req.body.toDate != undefined){
-        conditions['submit_date']={$gte:req.body.fromDate, $lte:req.body.toDate};
-    }else if(req.body.fromDate != undefined ){
-        conditions['submit_date']={$gte:req.body.fromDate};
-    }else if(req.body.toDate != undefined ){
-        conditions['submit_date']={$lte:req.body.toDate};
-    }
-    
 
-    
+    if (req.body.fromDate != undefined && req.body.toDate != undefined) {
+        conditions['submit_date'] = { $gte: req.body.fromDate, $lte: req.body.toDate };
+    } else if (req.body.fromDate != undefined) {
+        conditions['submit_date'] = { $gte: req.body.fromDate };
+    } else if (req.body.toDate != undefined) {
+        conditions['submit_date'] = { $lte: req.body.toDate };
+    }
+
+
+
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
-        .skip(req.body.currentPage*req.body.pageSize)
+        .skip(req.body.currentPage * req.body.pageSize)
         .limit(req.body.pageSize)
         .populate('client seller organization zy_client')
         .exec()
-        .then(function(policies){
-          Policy.count(conditions,function(err,c){
-            if(err){
-              logger.error(err);
-              res.status(500).send("获取保单总数失败");
-            }
-          res.status(200).json({
-            totalCount: c,
-            policies:policies
-        })});
-        },function(err){
+        .then(function (policies) {
+            Policy.count(conditions, function (err, c) {
+                if (err) {
+                    logger.error(err);
+                    res.status(500).send("获取保单总数失败");
+                }
+                res.status(200).json({
+                    totalCount: c,
+                    policies: policies
+                })
+            });
+        }, function (err) {
             logger.error(err);
         })
 });
