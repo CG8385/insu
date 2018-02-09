@@ -81,6 +81,9 @@ router.post('/excel', function (req, res) {
         'plate_no',
         'applicant.phone',
         'client.name',
+        'client.bank',
+        'client.account',
+        'client.payee',
         'mandatory_fee',
         'mandatory_fee_taxed',
         'mandatory_fee_income_rate',
@@ -106,6 +109,9 @@ router.post('/excel', function (req, res) {
         '车牌号',
         '投保人电话',
         '业务渠道',
+        '开户行',
+        '收款账号',
+        '收款人',
         '交强险',
         '交强险(不含税)',
         '交强险跟单费比例',
@@ -140,6 +146,9 @@ router.post('/excel', function (req, res) {
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.client.name = policy.client ? policy.client.name : '';
+        row.client.bank = policy.client ? policy.client.bank : '';
+        row.client.account = policy.client ? "'" + policy.client.account : '';
+        row.client.payee = policy.client ? policy.client.payee : '';
         row.mandatory_fee = policy.mandatory_fee;
         row.mandatory_fee_taxed = policy.mandatory_fee/1.06;
         row.mandatory_fee_taxed = row.mandatory_fee_taxed.toFixed(2);
