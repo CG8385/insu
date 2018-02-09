@@ -5,12 +5,15 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
     vm.user = {};
     vm.editable = false;
     vm.organizations=[];
-    console.log("here");
+    vm.roles=[];
     EmployeeService.getOrganizations()
         .then(function (organizations) {
             vm.organizations = organizations;
         })
-
+    EmployeeService.getRoles()
+        .then(function (roles) {
+            vm.roles = roles;
+        })
 
     if ($state.is("app.employee.user.new")) {
         vm.editable = true;
