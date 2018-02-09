@@ -134,7 +134,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             }
         })
         .state('app.employee.seller.view', {
-            url: '／employees/seller/view/:userId',
+            url: '/view/:userId',
             data: {
                 title: '出单员账号查看'
             },
@@ -146,7 +146,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             }
         })
         .state('app.employee.seller.new', {
-            url: '/employees/seller/new',
+            url: '/new',
             data: {
                 title: '添加出单员'
             },
