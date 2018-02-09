@@ -128,7 +128,7 @@ angular.module('app.employee').config(function ($stateProvider) {
             },
             views: {
                 "content@app": {
-                    controller: ' UserEditorController as vm',
+                    controller: 'UserEditorController as vm',
                     templateUrl: 'app/employee/views/user.html'
                 }
             }
