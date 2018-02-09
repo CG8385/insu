@@ -253,7 +253,7 @@ router.post('/excel', function (req, res) {
         row.seller.name = policy.seller.name;
         row.client.name = policy.client ? policy.client.name : '';
         row.client.bank = policy.client ? policy.client.bank : '';
-        row.client.account = policy.client ? policy.client.account : '';
+        row.client.account = policy.client ? "'" + policy.client.account : '';
         row.mandatory_fee = policy.mandatory_fee;
         row.mandatory_fee_taxed = policy.mandatory_fee/1.06;
         row.mandatory_fee_taxed = row.mandatory_fee_taxed.toFixed(2);
