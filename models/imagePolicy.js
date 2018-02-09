@@ -12,7 +12,9 @@ var schema = new mongoose.Schema({
 });
 
 schema.pre('save', function(next){
-    this.created_at = new Date();
+    if ( !this.created_at ) {
+        this.created_at = new Date();
+    }
     next();
  });
 
