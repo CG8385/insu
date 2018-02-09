@@ -5,7 +5,7 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
     vm.user = {};
     vm.editable = false;
     vm.organizations=[];
-
+    console.log("here");
     EmployeeService.getOrganizations()
         .then(function (organizations) {
             vm.organizations = organizations;
