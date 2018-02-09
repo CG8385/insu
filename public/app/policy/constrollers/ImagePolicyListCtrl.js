@@ -191,7 +191,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         return (vm.policies.length > 0 && $state.is("app.policy.image-policy.to-be-processed"));
     }
 
-    vm.isShowDownloadProceseedButton = function () {
+    vm.isShowDownloadProcessedButton = function () {
         return (vm.policies.length > 0 && $state.is("app.policy.image-policy.processed"));
     }
 
