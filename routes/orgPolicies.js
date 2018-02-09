@@ -151,7 +151,7 @@ router.post('/excel', function (req, res) {
         row.plate = policy.plate;
         row.client = policy.client ? policy.client.name : '';
         row.bank = policy.client ? policy.client.bank : '';
-        row.account = policy.client ? policy.client.account : '';
+        row.account = policy.client ? "'" +  policy.client.account : '';
         row.payee = policy.client ? policy.client.payee : '';
         row.policy_name = policy.policy_name;
         row.fee = policy.fee.toFixed(2);
