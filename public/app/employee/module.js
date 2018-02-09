@@ -25,6 +25,18 @@ angular.module('app.employee').config(function ($stateProvider) {
                 }
             }
         })
+        .state('app.employee.user', {
+            url: '/employees/user',
+            data: {
+                title: '员工账号'
+            },
+            views: {
+                "content@app": {
+                    controller: 'UserListController as vm',
+                    templateUrl: 'app/employee/views/user-list.html'
+                }
+            }
+        })
         .state('app.employee.seller', {
             url: '/employees/seller',
             data: {
@@ -94,6 +106,30 @@ angular.module('app.employee').config(function ($stateProvider) {
                 "content@app": {
                     controller: 'RoleEditorController as vm',
                     templateUrl: 'app/employee/views/role.html'
+                }
+            }
+        })
+        .state('app.employee.user.view', {
+            url: '/view/:userId',
+            data: {
+                title: '员工账号查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'UserEditorController as vm',
+                    templateUrl: 'app/employee/views/user.html'
+                }
+            }
+        })
+        .state('app.employee.user.new', {
+            url: '/new',
+            data: {
+                title: '添加员工账号'
+            },
+            views: {
+                "content@app": {
+                    controller: ' UserEditorController as vm',
+                    templateUrl: 'app/employee/views/user.html'
                 }
             }
         })

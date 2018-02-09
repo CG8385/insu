@@ -13,7 +13,7 @@ router.get('/me', function (req, res, next) {
     return res.json({});
   };
   User.findOne({ _id: req.user._id })
-    .populate('org')
+    .populate('org userrole')
     .exec()
     .then(function (user) {
       res.status(200).json(user);
@@ -173,7 +173,7 @@ router.get('/', function (req, res, next) {
     query = { role: '渠道录单员' };
   }
   User.find(query)
-  .populate('org client')
+  .populate('org client userrole')
   .exec()
     .then(function (users) {
       res.json(users);
@@ -206,6 +206,7 @@ router.put('/:id', asyncMiddleware(async (req, res, next) => {
   user.org = req.body.org;
   user.phone = req.body.phone;
   user.client = req.body.client;
+  user.userrole = req.body.userrole;
   if(req.body.password){
     await user.setPasswordAsync(req.body.password);
   }
