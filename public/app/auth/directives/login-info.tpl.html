@@ -4,7 +4,7 @@
             <!--<img ng-src="{{user.picture}}" alt="me" class="online">-->
             <span>{{user.name}}  
             <i class="fa fa-user"></i>
-             {{user.role}}
+             {{user.userrole? user.userrole.name : user.role}}
              </span>
         </a>
      </span>
