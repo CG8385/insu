@@ -49,92 +49,92 @@
                     </li> -->
                 </ul>
             </li>
-            <li data-menu-collapse ng-show="['后台录单员'].indexOf(user.role) == -1">
+            <li data-menu-collapse ng-show="user.userrole.dealerPolicy_to_be_reviewed.view">
                 <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险（渠道）</span></a>
                 <ul>
-                   <li data-ui-sref-active="active" ng-show="user.role != '财务'">
+                   <li data-ui-sref-active="active" ng-show="user.userrole.dealerPolicy_to_be_reviewed.append">
                        <a data-ui-sref="app.policy.dealer.new">保单录入</a>
                    </li>
                    <li data-ui-sref-active="active">
-                       <a data-ui-sref="app.policy.dealer.to-be-reviewed">待审核保单</a>
+                       <a data-ui-sref="app.policy.dealer.to-be-reviewed" ng-show="user.userrole.dealerPolicy_to_be_reviewed.view">待审核保单</a>
                    </li>
                    <li data-ui-sref-active="active">
-                       <a data-ui-sref="app.policy.dealer.to-be-paid">待支付保单</a>
+                       <a data-ui-sref="app.policy.dealer.to-be-paid" ng-show="user.userrole.dealerPolicy_to_be_paid.append">待支付保单</a>
                    </li>
                    <li data-ui-sref-active="active">
-                       <a data-ui-sref="app.policy.dealer.paid">已支付保单</a>
+                       <a data-ui-sref="app.policy.dealer.paid" ng-show="user.userrole.dealerPolicy_paid.view">已支付保单</a>
                    </li>
-                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                   <li ng-show="user.userrole.dealerPolicy_to_be_reviewed.import" data-ui-sref-active="active">
                        <a data-ui-sref="app.policy.org-policy.import">保单批量导入</a>
                    </li>
-                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                   <li ng-show="user.userrole.dealerPolicy_to_be_paid.view" data-ui-sref-active="active">
                        <a data-ui-sref="app.policy.org-policy.to-be-paid">待支付批量保单</a>
                    </li>
-                   <li ng-show="['财务','管理员'].indexOf(user.role) != -1" data-ui-sref-active="active">
+                   <li ng-show="user.userrole.dealerPolicy_paid.view" data-ui-sref-active="active">
                        <a data-ui-sref="app.policy.org-policy.paid">已支付批量保单</a>
                    </li>
                </ul>
            </li>
-            <li data-menu-collapse ng-show="['后台录单员','渠道录单员'].indexOf(user.role) == -1">
+            <li data-menu-collapse ng-show="user.userrole.lifePolicy.view">
                  <a href="#"><i class="fa fa-lg fa-fw fa-user"></i><span class="menu-item-parent">寿险</span></a>
                  <ul>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
                         <a data-ui-sref="app.life-policy.new">保单录入</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
                         <a data-ui-sref="app.life-policy.to-be-paid">保单列表</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
                         <a data-ui-sref="app.life-policy.salary.new">主管薪酬结算单录入</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
                         <a data-ui-sref="app.life-policy.salary.list">主管薪酬结算单列表</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
                         <a data-ui-sref="app.life-policy.statement.new">保险公司对账单录入</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
                         <a data-ui-sref="app.life-policy.statement.list">保险公司对账单列表</a>
                     </li>
                 </ul>
             </li>
-            <li ng-show="user.role=='管理员'" data-menu-collapse>
+            <li ng-show="user.userrole.client.view" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">业务员信息管理</span></a>
                 <ul>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.client.aprove">
                         <a data-ui-sref="app.client.pending">待审核业务员</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.individual">个人业务员</a>
+                        <a data-ui-sref="app.client.individual" ng-show="user.userrole.client.view">个人业务员</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.manager">主管</a>
+                        <a data-ui-sref="app.client.manager" ng-show="user.userrole.client.view">主管</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.organization">车商</a>
+                        <a data-ui-sref="app.client.organization" ng-show="user.userrole.client.view">车商</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.organization.new">添加车商</a>
+                        <a data-ui-sref="app.client.organization.new" ng-show="user.userrole.client.append">添加车商</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.individual.new">添加个人业务员</a>
+                        <a data-ui-sref="app.client.individual.new" ng-show="user.userrole.client.append">添加个人业务员</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.client.manager.new">添加主管</a>
+                        <a data-ui-sref="app.client.manager.new" ng-show="user.userrole.client.append">添加主管</a>
                     </li>
                 </ul>
             </li>
             
-            <li  ng-show="user.role=='管理员'" data-menu-collapse>
+            <li  ng-show="user.userrole.employee.view" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">员工账号管理</span></a>
                 <ul>
-                    <!-- <li data-ui-sref-active="active">
+                    <!-- <li data-ui-sref-active="active" ng-show="user.userrole.employee.view">
                         <a data-ui-sref="app.employee.role">角色</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.view">
                         <a data-ui-sref="app.employee.user">员工账号</a>
                     </li> -->
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" >
                         <a data-ui-sref="app.employee.seller">出单员账号</a>
                     </li>
                     <li data-ui-sref-active="active">
@@ -143,37 +143,37 @@
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.recorder">后台录单员账号</a>
                     </li>
-                    <!-- <li data-ui-sref-active="active">
+                    <!-- <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                             <a data-ui-sref="app.employee.role.new">添加角色</a>
                         </li> 
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                         <a data-ui-sref="app.employee.user.new">添加员工账号</a>
                     </li> -->
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                         <a data-ui-sref="app.employee.seller.new">添加出单员账号</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                         <a data-ui-sref="app.employee.finance.new">添加财务账号</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                         <a data-ui-sref="app.employee.recorder.new">添加后台录单员账号</a>
                     </li>
                 </ul>
             </li>
             
-            <li  ng-show="user.role=='管理员'" data-menu-collapse>
+            <li  ng-show="user.userrole.organization.view" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">分支机构管理</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.organization.all">分支机构</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.organization.append">
                         <a data-ui-sref="app.organization.new">添加分支机构</a>
                     </li>
                 </ul>
             </li>
             
-            <li  ng-show="user.role=='管理员'" data-menu-collapse>
+            <li  ng-show="user.userrole.company.view" data-menu-collapse>
                 <a href="#"><i class="fa fa-lg fa-fw fa-user"></i> <span class="menu-item-parent">保险公司管理</span></a>
                 <ul>
                     <li data-ui-sref-active="active">
@@ -191,13 +191,13 @@
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.company.policyname.all">险种名称</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.company.append">
                         <a data-ui-sref="app.company.policyname.new">添加险种名称</a>
                     </li>
                 </ul>
             </li>
 
-            <li ng-show="user.role=='管理员'" data-ui-sref-active="active">
+            <li ng-show="user.userrole.log.view"  data-ui-sref-active="active">
                 <a data-ui-sref="app.log" title="日志查询"><i class="fa fa-lg fa-history"></i> <span
                         class="menu-item-parent">日志查询</span></a>
             </li>
