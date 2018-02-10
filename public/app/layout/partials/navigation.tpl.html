@@ -11,31 +11,31 @@
         -->
 
         <ul data-smart-menu>
-            <li data-menu-collapse ng-show="user.role != '渠道录单员'">
+            <li data-menu-collapse ng-show="user.userrole.policy_to_be_reviewed.view">
                  <a href="#"><i class="fa fa-lg fa-fw fa-car"></i><span class="menu-item-parent">车险</span></a>
                  <ul>
-                    <li data-ui-sref-active="active" ng-show="['管理员','后台录单员'].indexOf(user.role) != -1">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.imagePolicy.view">
                         <a data-ui-sref="app.policy.image-policy.to-be-processed">待录入保单照片</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="['管理员','后台录单员'].indexOf(user.role) != -1">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.imagePolicy.view">
                         <a data-ui-sref="app.policy.image-policy.processed">已录入保单照片</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.policy.new1" ng-show="user.role != '财务'">保单录入</a>
+                        <a data-ui-sref="app.policy.new1" ng-show="user.userrole.policy_to_be_reviewed.append">保单录入</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.role != '后台录单员'">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_rejected.view">
                         <a data-ui-sref="app.policy.rejected">被驳回保单</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.role != '后台录单员'">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_to_be_reviewed.view">
                         <a data-ui-sref="app.policy.to-be-reviewed">待审核保单</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_to_be_paid.view">
                         <a data-ui-sref="app.policy.to-be-paid">待支付保单</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_paid.view">
                         <a data-ui-sref="app.policy.paid">已支付保单</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_paid.view">
                         <a data-ui-sref="app.policy.checked">已核对保单</a>
                     </li>
                     <!-- <li ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" data-ui-sref-active="active">

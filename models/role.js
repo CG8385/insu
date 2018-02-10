@@ -33,6 +33,15 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    policy_rejected: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     lifePolicy: {
         edit: { type: Boolean, default: false }, 
         view: { type: Boolean, default: false },
