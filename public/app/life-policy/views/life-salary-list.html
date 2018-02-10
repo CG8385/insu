@@ -12,7 +12,7 @@
        <article class="col-sm-12">
             <span>
                 <button ng-click="vm.refreshSalaries()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-click="vm.exportFilteredSalaries()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <button ng-click="vm.exportFilteredSalaries()" class="btn btn-primary" ng-show="user.userrole.lifePolicy.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
                 <!--<label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>-->
                 <!--<button ng-show="$rootScope.user.role != '出单员'" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付</button>-->
             </span>
@@ -107,9 +107,9 @@
                                     <td field-name="taxed_salary_total"></td>
                                     <td>
                                         <!--<button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>-->
-                                        <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
-                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                        <!-- <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button> -->
+                                        <button ng-show="user.userrole.lifePolicy.view" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.lifePolicy.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>
                                 </tr>
