@@ -174,10 +174,12 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
     vm.shouldShowFinanceSection = function () {
+        console.log(vm.policy.policy_status);
+        console.log(user.userrole);
         if(vm.policy.policy_status == "待审核"){
-            return user.userrole.policy_to_be_reviewed.aprove
+            return user.userrole.policy_to_be_reviewed.aprove;
         }else if(vm.policy.policy_status in ["待支付","已支付"]){
-            return user.userrole.policy_to_be_paid.pay
+            return user.userrole.policy_to_be_paid.pay;
         }
     }
 
