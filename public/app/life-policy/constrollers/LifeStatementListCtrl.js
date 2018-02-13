@@ -47,9 +47,6 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
     };
 
     var poller = function () {
-        if ($rootScope.user.role == "出单员") {
-            return;
-        }
         vm.refreshStatements();
         $timeout(poller, 1000 * 60 * 5);
     };
@@ -72,15 +69,6 @@ angular.module('app.life-policy').controller('LifeStatementListController', func
             })
     };
 
-
-    vm.isShowDeleteButton = function (statement) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员";
-    };
-
-    vm.isShowViewButton = function (salary) {
-        return true;
-    };
 
     vm.view = function (statementId) {
         $state.go("app.life-policy.statement.view", { statementId: statementId });

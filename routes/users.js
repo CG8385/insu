@@ -169,9 +169,8 @@ router.get('/', function (req, res, next) {
     query = { role: '财务' };
   } else if (role == "recorder") {
     query = { role: '后台录单员' };
-  } else if (role == "dealer") {
-    query = { role: '渠道录单员' };
-  }
+  };
+  
   User.find(query)
   .populate('org client userrole')
   .exec()

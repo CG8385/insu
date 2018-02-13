@@ -1,5 +1,5 @@
 <div id="content">
-    <div class="row" ng-show="user.role=='财务'||(user.role=='管理员' && vm.policy.policy_status=='已支付')">
+    <div class="row" ng-show="vm.shouldShowFinanceSection()">
         <article class="col-sm-12">
 
             <div jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -305,7 +305,7 @@
                                             <button style="margin-top:1.5em" ng-click="vm.approve()" validation-submit="payForm" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
                                         </section>-->
                                     </div>
-                                    <div class="row" ng-show="vm.policy.policy_status=='待审核'">
+                                    <div class="row" ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove">
                                         <section class="col col-3">
                                             <button style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
                                             <button style="margin-top:1.5em" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
@@ -324,7 +324,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable && (vm.policy.policy_status=='待审核' ||vm.policy.policy_status=='被驳回')) || user.role=='管理员'"
+                <button ng-show="vm.shouldShowEditButton()"
                     ng-click="vm.toggleEdit()" class="btn btn-primary">
                     <i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
@@ -468,7 +468,7 @@
                                     </section>
                                 </div>
                             </fieldset>
-                            <fieldset ng-show="user.role!='财务'" class="optional-input-field-set" ng-disabled="!vm.editable">
+                            <fieldset ng-show="!vm.shouldShowFinanceSection()" class="optional-input-field-set" ng-disabled="!vm.editable">
                                 <header>
                                     费用详情
                                 </header>
@@ -824,9 +824,9 @@
                                     </button>
                                     <button validation-submit="policyForm" class="btn btn-primary" ng-show="vm.editable" ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
-                                    <button ng-show="user.role != '出单员' && vm.policy.policy_status=='待审核'" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
-                                    <button ng-show="user.role != '出单员' && vm.policy.policy_status=='待审核'" style="margin-top:1.5em" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
-                                    <button ng-show="user.role != '出单员' && vm.policy.policy_status=='已支付'" style="margin-top:1.5em" ng-click="vm.check()" class="btn btn-primary btn-lg">核对通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
+                                    <!-- <button ng-show="user.role != '出单员' && vm.policy.policy_status=='已支付'" style="margin-top:1.5em" ng-click="vm.check()" class="btn btn-primary btn-lg">核对通过，处理下一条</button> -->
                                 </span>
 
 

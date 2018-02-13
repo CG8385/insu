@@ -50,7 +50,7 @@
                                         <div class="tr-ng-title">
                                             业务来源
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['py']" ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
@@ -64,7 +64,7 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>

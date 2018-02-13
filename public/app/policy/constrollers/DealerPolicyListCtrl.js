@@ -310,37 +310,6 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         });
     };
 
-    vm.isShowReviewButton = function (policy) {
-        return $rootScope.user.role != "渠道录单员" && policy.policy_status == "待审核";
-    };
-
-    vm.isShowPayButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function (policy) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "渠道录单员" && policy.policy_status == "待审核";//"待支付";
-    };
-
-    vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "渠道录单员") {
-            return false
-        };
-        return true;
-    };
-
-
-    vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "渠道录单员" ||
-            ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") ||
-            policy.policy_status == "已支付";
-    };
-
-    vm.isShowRejectButton = function (policy) {
-        return $rootScope.user.role != "渠道录单员";
-    };
-
 
     vm.approve = function (policy) {
         var ids = vm.policies.map(function (item) { return item._id });
@@ -366,7 +335,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
             return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment }
         }, { total_income: 0, total_payment: 0 });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.deletePolicy.pay;
     }
 
     vm.selectAll = function () {

@@ -157,6 +157,30 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.loadRules();
     }
 
+
+    vm.shouldShowEditButton = function (){
+        if(vm.editable) return false;
+        if(vm.policy.policy_status == "待审核"){
+            return $rootScope.user.userrole.policy_to_be_reviewed.edit;
+        }else if(vm.policy.policy_status == "待支付"){
+            return $rootScope.user.userrole.policy_to_be_paid.edit;
+        }else if(vm.policy.policy_status == "已支付"){
+            return $rootScope.user.userrole.policy_paid.edit;
+        }else if(vm.policy.policy_status == "已核对"){
+            return $rootScope.user.userrole.policy_paid.edit;
+        }else if(vm.policy.policy_status == "被驳回"){
+            return $rootScope.user.userrole.policy_rejected.edit;
+        }
+    }
+
+    vm.shouldShowFinanceSection = function () {
+        if(vm.policy.policy_status == "待审核"){
+            return user.userrole.policy_to_be_reviewed.aprove
+        }else if(vm.policy.policy_status in ["待支付","已支付"]){
+            return user.userrole.policy_to_be_paid.pay
+        }
+    }
+
     PolicyService.getIndividualClients()
         .then(function (clients) {
             vm.clients = clients;
@@ -292,11 +316,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                                         level4_company: old.level4_company
                                     };
                                     if (vm.back) {
-                                        if ($rootScope.user.role == "后台录单员") {
-                                            $state.go("app.policy.to-be-paid");
-                                        } else {
+                                        // if ($rootScope.user.userrole == "后台录单员") {
+                                        //     $state.go("app.policy.to-be-paid");
+                                        // } else {
                                             $state.go("app.policy.to-be-reviewed");
-                                        }
+                                        // }
                                     }
                                 })
                         }
@@ -336,12 +360,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         payment_substraction: 0
                     };
                     if (vm.back) {
-                        console.log($rootScope.user.role);
-                        if ($rootScope.user.role == "后台录单员") {
-                            $state.go("app.policy.to-be-paid");
-                        } else {
+                        // if ($rootScope.user.role == "后台录单员") {
+                        //     $state.go("app.policy.to-be-paid");
+                        // } else {
                             $state.go("app.policy.to-be-reviewed");
-                        }
+                        // }
                     }
                 }
             }, function (err) { });

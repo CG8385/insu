@@ -91,7 +91,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
 
 
     vm.level2Changed = function () {
-        console.log("level 2 changed triggered ");
         vm.resetRule();
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
@@ -162,6 +161,17 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
             });
+    }
+
+    vm.shouldShowEditButton = function (){
+        if(vm.editable) return false;
+        if(vm.policy.policy_status == "待审核"){
+            return $rootScope.user.userrole.dealerPolicy_to_be_reviewed.edit;
+        }else if(vm.policy.policy_status == "待支付"){
+            return $rootScope.user.userrole.dealerPolicy_to_be_paid.edit;
+        }else if(vm.policy.policy_status == "已支付"){
+            return $rootScope.user.userrole.dealerPolicy_paid.edit;
+        }
     }
 
     vm.toggleEdit = function () {

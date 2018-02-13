@@ -22,9 +22,9 @@ angular.module('app.auth').controller('AuthCtrl',
                     // handle success
                     .then(function(user) {
                         $rootScope.user = user;
-                        if(user.role == "出单员"){
+                        if(user.userrole.policy_to_be_reviewed.append){
                             $state.go('app.policy.new1');
-                        } else if(user.role == "渠道录单员"){
+                        } else if(user.userrole.dealerPolicy_to_be_reviewed.append){
                             $state.go('app.policy.dealer.new');
                         }
                         else

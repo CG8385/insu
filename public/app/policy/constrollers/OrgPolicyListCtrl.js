@@ -221,7 +221,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         vm.summary = vm.selectedPolicies.reduce(function(a,b){
             return {income: a.income + b.income, payment: a.payment + b.payment, profit: a.income + b.income - a.payment - b.payment}
         }, {income:0, payment:0, profit:0});
-        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0;
+        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.dealerPolicy_to_be_paid.pay;
     }
 
     vm.selectAll = function () {

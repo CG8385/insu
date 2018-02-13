@@ -49,25 +49,8 @@ angular.module('app.life-policy').controller('LifeSalaryListController', functio
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
 
-    // vm.refreshSummary = function () {
-
-    //     LifePolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-    //         .then(function (data) {
-    //             vm.totalIncome = data.total_income;
-    //             vm.totalPayment = data.total_payment;
-    //             vm.totalProfit = data.total_profit;
-    //         }, function (err) { });
-    // };
-
-
-
-
     var poller = function () {
-        if ($rootScope.user.role == "出单员") {
-            return;
-        }
         vm.refreshSalaries();
-        // vm.refreshSummary();
         $timeout(poller, 1000 * 60);
     };
 
@@ -125,14 +108,6 @@ angular.module('app.life-policy').controller('LifeSalaryListController', functio
     //     return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
     // };
 
-    vm.isShowDeleteButton = function (salary) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员";
-    };
-
-    vm.isShowViewButton = function (salary) {
-        return true;
-    };
 
     // vm.pay = function (policyId) {
     //     $state.go("app.life-policy.pay", { policyId: policyId });

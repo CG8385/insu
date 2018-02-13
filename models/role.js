@@ -14,6 +14,7 @@ var schema = new mongoose.Schema({
         aprove: { type: Boolean, default: false },
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
+        reject: { type: Boolean, default: false }
     },
     policy_to_be_paid: {
         edit: { type: Boolean, default: false }, 

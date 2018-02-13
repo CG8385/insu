@@ -44,10 +44,6 @@ router.post('/excel', function (req, res) {
     }
   }
 
-  if (req.user.role == '渠道录单员') {
-    conditions['client'] = req.user.client;
-  }
-
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();

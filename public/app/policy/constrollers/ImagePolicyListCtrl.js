@@ -151,7 +151,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
     vm.isShowProcessButton = function (imagePolicy) {
-        return imagePolicy.status == "待录入";
+        return imagePolicy.status == "待录入" && $rootScope.user.userrole.imagePolicy.edit;
     };
 
     vm.selectionChanged = function () {
@@ -162,7 +162,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.selectedPolicies = vm.policies.filter(function (item) {
             return item.isSelected
         });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $state.is("app.policy.image-policy.to-be-processed");
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $state.is("app.policy.image-policy.to-be-processed") && $rootScope.user.userrole.imagePolicy.edit;
     }
 
     vm.selectAll = function () {

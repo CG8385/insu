@@ -55,7 +55,7 @@
                             total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" display-align="center" cell-width="2em">
+                                    <th ng-show="user.userrole.policy_paid.check" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
@@ -94,7 +94,7 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
                                                     ng-change="vm.filterChanged()">
@@ -119,7 +119,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td ng-show="['出单员','后台录单员'].indexOf(user.role) == -1">
+                                    <td ng-show="user.userrole.policy_paid.check">
                                         <div>
                                             <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
                                         </div>
