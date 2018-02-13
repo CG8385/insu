@@ -170,7 +170,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
                 LifePolicyService.deletePolicy(policyId)
                     .then(function () {
                         vm.refreshPolicies();
-                        vm.refreshSummary();
+                        // vm.refreshSummary();
                     })
             }
             if (ButtonPressed === "取消") {
