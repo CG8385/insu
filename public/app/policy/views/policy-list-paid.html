@@ -127,8 +127,8 @@
                                     <td field-name="client.name"></td>
                                     <td field-name="organization.name"></td>
                                     <td>
-                                        <button ng-show="vm.isShowCheckButton(gridItem)" ng-click="vm.check(gridItem)" class="btn btn-primary btn-sm">核对</button>
-                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.policy_paid.check" ng-click="vm.check(gridItem)" class="btn btn-primary btn-sm">核对</button>
+                                        <button ng-show="user.userrole.policy_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
 
                                     </td>
                                 </tr>
