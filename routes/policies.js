@@ -48,7 +48,6 @@ router.post('/', function (req, res) {
 
 
 router.get('/upgrade', function (req, res) {
-  console.log("upgrading in progress");
   var query = Policy.find({ policy_status: '已支付' });
   query
     .populate('seller')
@@ -387,7 +386,6 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/search', function (req, res) {
-  console.log(req.user.userrole)
   var conditions = {};
 
   for (var key in req.body.filterByFields) {
