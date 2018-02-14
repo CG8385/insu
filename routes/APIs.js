@@ -43,6 +43,7 @@ router.use('/logs', logs);
 router.use('/roles', roles);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
+        console.log(req.user);
         Role.findOne({_id: req.user.userrole}).exec()
         .then(function(role){
             req.userrole = role;
