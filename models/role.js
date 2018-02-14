@@ -119,6 +119,7 @@ var schema = new mongoose.Schema({
         view: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    scope: String
 });
 
 mongoose.model('Role', schema);

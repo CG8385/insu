@@ -25,10 +25,23 @@
 
                                         <label class="label">角色名</label>
                                         <label class="input">
-                                            <i class="icon-append fa fa-key"></i>
+                                            <i class="icon-append fa fa-user"></i>
                                             <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
                                         </label>
 
+                                    </fieldset>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                        <label class="label">权限范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.scope"
+                                                    ng-options="['本人','全公司']" validator="required">
+                                                <option value="">请选择权限范围</option>
+                                            </select> <i></i>
+                                        </label>
                                     </fieldset>
                                 </section>
                             </div>
