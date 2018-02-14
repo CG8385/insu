@@ -16,6 +16,7 @@ var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
+var Promise = require('bluebird');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var db = require('../utils/database.js').connection;
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
