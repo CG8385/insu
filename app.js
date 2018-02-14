@@ -61,7 +61,7 @@ passport.deserializeUser(User.deserializeUser());
 passport.deserializeUser(function(id, done) {
   User.findOne({_id: id}).populate('userrole').exec()
   .then(function(user){
-    done(err, user);
+    done(null, user);
   })
 });
 
