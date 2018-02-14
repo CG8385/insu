@@ -16,6 +16,8 @@ var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var Role = Promise.promisifyAll(require('../models/role.js')(db));
 var router = express.Router();
 
 /* GET home page. */
@@ -37,8 +39,9 @@ router.use('/migrate', migrate);
 router.use('/sts', sts);
 router.use('/logs', logs);
 router.use('/roles', roles);
-function ensureAuthenticated(req, res, next) {
+async function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
+        req.user.userrole = await Role.findOne({_id: req.user.userrole}).exec();
         return next();
     } else{
         console.log(req.user);
