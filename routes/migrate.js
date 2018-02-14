@@ -28,6 +28,10 @@ router.get('/test', asyncMiddleware(async (req, res, next) => {
     res.send("done");
 }));
 
+router.get('/remove-check', asyncMiddleware(async (req, res, next) => {
+    r = await Policy.update({policy_status: '已核对'}, {policy_status: '已支付'}, {multi: true});
+}));
+
 router.get('/step1', asyncMiddleware(async (req, res, next) => {
     let log = [];
     let r = null;
