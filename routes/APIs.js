@@ -43,7 +43,7 @@ router.use('/logs', logs);
 router.use('/roles', roles);
 async function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        req.user.userrole = await Role.findOne({_id: req.user.userrole}).exec();
+        req.userrole = await Role.findOne({_id: req.user.userrole}).exec();
         return next();
     } else{
         console.log(req.user);
