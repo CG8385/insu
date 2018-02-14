@@ -387,7 +387,7 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/search', function (req, res) {
-  console.log(req.userrole)
+  console.log(req.user.userrole)
   var conditions = {};
 
   for (var key in req.body.filterByFields) {
