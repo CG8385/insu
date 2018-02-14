@@ -60,7 +60,7 @@ router.post('/excel', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope !='全公司') {
     conditions['seller'] = req.user._id;
   }
 
@@ -275,7 +275,7 @@ router.post('/summary', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope !='全公司') {
     conditions['seller'] = req.user._id;
   }
 

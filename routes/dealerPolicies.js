@@ -259,10 +259,6 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (['渠道录单员'].indexOf(req.user.role) != -1) {
-    conditions['client'] = req.user.client;
-  }
-
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();
@@ -307,10 +303,6 @@ router.post('/summary', function (req, res) {
     if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
       conditions[key] = req.body.filterByFields[key];
     }
-  }
-
-  if (['渠道录单员'].indexOf(req.user.role) != -1) {
-    conditions['client'] = req.user.client;
   }
 
   var sortParam = "";

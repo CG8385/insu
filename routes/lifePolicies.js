@@ -40,14 +40,9 @@ function IsIncomplete(data) {
 router.get('/', function (req, res) {
     var user = req.user;
     var query = {};
-    if (user.role == '出单员') {
+    if (req.user.userrole.scope !='全公司') {
         query = { seller: user._id };
-    } else if (user.role == '客户') {
-        var d = new Date();
-        var end = new Date();
-        d.setDate(d.getDate() - 7);
-        query = { client: user.client_id, created_at: { $gt: d, $lt: end } };  //暂时只获取近七天保单信息
-    }
+    } 
     Policy.find(query)
         .populate('client seller organization company zy_client manager director')
         .exec()
@@ -88,7 +83,7 @@ router.post('/excel', function (req, res) {
         }
     }
 
-    if (req.user.role == '出单员') {
+    if (user.userrole.scope !='全公司') {
         conditions['seller'] = req.user._id;
     }
 
@@ -300,7 +295,7 @@ router.post('/search', function (req, res) {
         }
     }
 
-    if (req.user.role == '出单员') {
+    if (user.userrole.scope !='全公司') {
         conditions['seller'] = req.user._id;
     }
 
