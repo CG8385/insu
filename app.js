@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./utils/database.js').connection;
 var log4js = require('./utils/logger.js');
+var User = require('../models/role.js')(db);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -57,6 +58,12 @@ var User = require('./models/user')(db);
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+passport.deserializeUser(function(id, done) {
+  User.findOne({_id: id}).populate('userrole').exec()
+  .then(function(user){
+    done(err, user);
+  })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

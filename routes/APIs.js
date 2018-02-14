@@ -16,10 +16,6 @@ var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
-var Promise = require('bluebird');
-var asyncMiddleware = require('../middlewares/asyncMiddleware');
-var db = require('../utils/database.js').connection;
-var Role = Promise.promisifyAll(require('../models/role.js')(db));
 var router = express.Router();
 
 /* GET home page. */
@@ -43,14 +39,9 @@ router.use('/logs', logs);
 router.use('/roles', roles);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log(req.user);
-        Role.findOne({_id: req.user.userrole}).exec()
-        .then(function(role){
-            req.userrole = role;
-            console.log(role);
-            return next();
-        })
+        return next();
     } else{
+        console.log(req.user);
         res.status(401).send("请先登录");
     }
 };
