@@ -38,7 +38,7 @@
                                         <label class="label">权限范围</label>
                                         <label class="select">
                                             <select name='scope' class="input-lg" ng-model="vm.role.scope"
-                                                    ng-options="s in ['本人','全公司']" validator="required">
+                                                ng-options="s for s in vm.scopes" validator="required">
                                                 <option value="">请选择权限范围</option>
                                             </select> <i></i>
                                         </label>

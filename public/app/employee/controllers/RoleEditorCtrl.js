@@ -4,6 +4,7 @@ angular.module('app.employee').controller('RoleEditorController', function ($sco
     var vm = this;
     vm.role = {};
     vm.editable = false;
+    vm.scopes = ["本人","全公司"];
 
 
     if ($state.is("app.employee.role.new")) {
