@@ -41,12 +41,15 @@ router.use('/migrate', migrate);
 router.use('/sts', sts);
 router.use('/logs', logs);
 router.use('/roles', roles);
-async function ensureAuthenticated(req, res, next) {
+function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        req.userrole = await Role.findOne({_id: req.user.userrole}).exec();
-        return next();
+        Role.findOne({_id: req.user.userrole}).exec()
+        .then(function(role){
+            req.userrole = role;
+            console.log(role);
+            return next();
+        })
     } else{
-        console.log(req.user);
         res.status(401).send("请先登录");
     }
 };
