@@ -28,11 +28,7 @@ router.post('/', function (req, res) {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         policy.organization = req.user.org;
-        if(req.user.role == '后台录单员'){
-          policy.policy_status = '待支付';
-        }else{
-          policy.policy_status = '待审核';
-        }
+        policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
             logger.error(err);
@@ -48,28 +44,6 @@ router.post('/', function (req, res) {
     }
 
   })
-});
-
-router.get('/', function (req, res) {
-  var user = req.user;
-  var query = {};
-  if (user.role == '出单员') {
-    query = { seller: user._id };
-  } else if (user.role == '客户') {
-    var d = new Date();
-    var end = new Date();
-    d.setDate(d.getDate() - 7);
-    query = { client: user.client_id, created_at: { $gt: d, $lt: end } };  //暂时只获取近七天保单信息
-  }
-  Policy.find(query)
-    .populate('client seller organization')
-    .exec()
-    .then(function (policies) {
-      res.status(200).json(policies);
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
 });
 
 
@@ -413,6 +387,7 @@ router.delete('/:id', function (req, res) {
 });
 
 router.post('/search', function (req, res) {
+  console.log(req.user)
   var conditions = {};
 
   for (var key in req.body.filterByFields) {
