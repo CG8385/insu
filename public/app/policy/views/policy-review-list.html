@@ -15,7 +15,7 @@
                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
                  <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>                       
             </span>
