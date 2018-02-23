@@ -263,6 +263,7 @@ router.put('/:id', function (req, res) {
         policy.director = req.body.director;
         policy.seller = req.body.seller;
         policy.organization = req.body.organization;
+        policy.remark = req.body.remark;
 
         policy.save(function (err) {
             if (err) {

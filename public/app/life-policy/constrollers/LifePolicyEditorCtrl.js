@@ -43,6 +43,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.addInsurant = function () {
         vm.policy.insurants.push({ 'name': '', 'address': '', 'phone': '', 'identity': '', 'sex': '', 'birthday': undefined });
     };
+    vm.removeInsurant = function () {
+        vm.policy.insurants.pop();
+    };
 
     vm.shouldShowEditButton = function (){
         if(vm.editable) return false;
