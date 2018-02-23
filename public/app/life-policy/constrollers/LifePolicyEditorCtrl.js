@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
+angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService, ngDialog) {
     var vm = this;
     vm.policy = {};
     vm.applicant = {};
