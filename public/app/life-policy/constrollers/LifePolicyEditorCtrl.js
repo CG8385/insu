@@ -52,11 +52,11 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.uploadOtherPhoto = function (file) {
-        PolicyService.uploadFile(file)
+        LifePolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.other_photo = fileName;
                 if (vm.policy._id) {
-                    PolicyService.updatePhoto(vm.policy)
+                    LifePolicyService.updatePhoto(vm.policy)
                 }
             })
     }
@@ -66,11 +66,11 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.uploadPolicyPhoto = function (file) {
-        PolicyService.uploadFile(file)
+        LifePolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.policy_photo = fileName;
                 if (vm.policy._id) {
-                    PolicyService.updatePhoto(vm.policy)
+                    LifePolicyService.updatePhoto(vm.policy)
                 }
             })
     }
@@ -80,11 +80,11 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.uploadClientInfoPhoto = function (file) {
-        PolicyService.uploadFile(file)
+        LifePolicyService.uploadFile(file)
             .then(function (fileName) {
                 vm.policy.client_info_photo = fileName;
                 if (vm.policy._id) {
-                    PolicyService.updatePhoto(vm.policy)
+                    LifePolicyService.updatePhoto(vm.policy)
                 }
             })
     }
