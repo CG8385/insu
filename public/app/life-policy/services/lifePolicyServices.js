@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('app.life-policy').factory('LifePolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
+    ['$q', '$http', 'uuid',
+        function ($q, $http, uuid) {
             // return available functions for use in controllers
             return ({
                 savePolicy: savePolicy,
