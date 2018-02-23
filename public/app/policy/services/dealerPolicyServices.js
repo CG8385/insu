@@ -508,7 +508,6 @@ angular.module('app.policy').factory('DealerPolicyService',
                                 iconSmall: "fa fa-check",
                                 timeout: 5000
                             });
-                            console.log("I am here");
                             document.body.style.cursor = 'default';
                             deferred.resolve(fileName);
                         }).catch(function (err) {
