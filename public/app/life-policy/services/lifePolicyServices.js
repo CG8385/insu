@@ -32,6 +32,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getClient: getClient,
                 uploadFile: uploadFile,
                 updatePhoto: updatePhoto,
+                getStsCredential: getStsCredential
             });
 
             function uploadFile(file) {
@@ -80,6 +81,31 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 });
                 return deferred.promise;
                 
+            }
+
+            function getStsCredential() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (false){
+                }
+                else {
+                    // send a post request to the server
+                    $http.get('api/sts')
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data.Credentials);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (data) {
+                            deferred.reject(status);
+                        });
+                }
+                // return promise object
+                return deferred.promise;
             }
 
             function updatePhoto(policy) {
