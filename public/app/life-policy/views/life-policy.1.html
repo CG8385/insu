@@ -202,7 +202,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable && vm.policy.policy_status=='待支付') || user.role=='管理员'" ng-click="vm.toggleEdit()"
+                <button ng-show="vm.shouldShowEditButton()" ng-click="vm.toggleEdit()"
                 class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -477,7 +477,3 @@
 
 
 </div>
-
-
-
-{"_id":"576de834c207fbb1bbda34bf","seller":{"_id":"570a1dd090d0011e07b489d9","username":"superadmin","name":"管理员","role":"管理员","__v":0},"organization":{"_id":"570a1f0c90d0011e07b489da","name":"DOX","created_at":"2016-04-10T09:38:20.392Z","updated_at":"2016-04-10T09:38:20.392Z","__v":0},"company":"570a1f2190d0011e07b489dc","policy_no":"9993000212","stage":"1","total_fee":20000,"standard_fee":20000,"submit_date":"2016-06-22T00:00:00.000Z","effective_date":"2016-06-25T00:00:00.000Z","receipt_date":"2016-06-27T00:00:00.000Z","invoice_no":"12FBP","invoice_date":"2016-06-22T00:00:00.000Z","payment_total":2050,"taxed_payment_total":1947.5,"zy_payment":1520,"zy_rate":8,"client":{"_id":"5757e9b8675f948077cf102c","name":"CG","payee":"aa","phone":18618297878,"identity":"510125198303230030","bank":"2","account":"2234","client_type":"寿险","created_at":"2016-06-08T09:47:36.140Z","updated_at":"2016-06-08T09:47:36.140Z","__v":0,"other_accounts":[],"py":[],"wechats":[]},"zy_client":{"_id":"5757e9b8675f948077cf102c","name":"CG","payee":"aa","phone":18618297878,"identity":"510125198303230030","bank":"2","account":"2234","client_type":"寿险","created_at":"2016-06-08T09:47:36.140Z","updated_at":"2016-06-08T09:47:36.140Z","__v":0,"other_accounts":[],"py":[],"wechats":[]},"manager":{"_id":"5757e9b8675f948077cf102c","name":"CG","payee":"aa","phone":18618297878,"identity":"510125198303230030","bank":"2","account":"2234","client_type":"寿险","created_at":"2016-06-08T09:47:36.140Z","updated_at":"2016-06-08T09:47:36.140Z","__v":0,"other_accounts":[],"py":[],"wechats":[]},"director":{"_id":"5757e9b8675f948077cf102c","name":"CG","payee":"aa","phone":18618297878,"identity":"510125198303230030","bank":"2","account":"2234","client_type":"寿险","created_at":"2016-06-08T09:47:36.140Z","updated_at":"2016-06-08T09:47:36.140Z","__v":0,"other_accounts":[],"py":[],"wechats":[]},"created_at":"2016-06-25T02:10:59.997Z","updated_at":"2016-06-25T02:11:00.028Z","__v":0,"insurants":[{"name":"ZY","address":"la bas","phone":"13886641322","identity":"510125198303230030","sex":"男","birthday":"1982-12-22T00:00:00.000Z","_id":"576de834c207fbb1bbda34c1"},{"name":"蛋蛋","address":"三元桥豪宅","phone":"13744633741","identity":"510125198303230030","sex":"女","birthday":"1990-01-31T00:00:00.000Z","_id":"576de834c207fbb1bbda34c0"}],"applicant":{"sex":"男","name":"cg","identity":"510125198303230030","phone":"18618297878","address":"ici","birthday":"1983-03-23T00:00:00.000Z"},"sub_policies":[{"insurant":"ZY","policy_name":"运动综合保险","year":"5","fee":10000,"payment_rate":12,"payment":1200,"_id":"576de834c207fbb1bbda34c3"},{"insurant":"蛋蛋","policy_name":"铁三险","year":"3","fee":10000,"payment_rate":8.5,"payment":850,"_id":"576de834c207fbb1bbda34c2"}]}

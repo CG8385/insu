@@ -36,9 +36,18 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'payment_rate': undefined, 'payment': undefined });
     };
 
+    vm.removeSubPolicy = function () {
+        vm.policy.sub_policies.pop();
+    };
+
     vm.addInsurant = function () {
         vm.policy.insurants.push({ 'name': '', 'address': '', 'phone': '', 'identity': '', 'sex': '', 'birthday': undefined });
     };
+
+    vm.shouldShowEditButton = function (){
+        if(vm.editable) return false;
+        return $rootScope.user.userrole.lifePolicy.edit;
+    }
 
     if ($state.is("app.life-policy.new")) {
         vm.policy.sub_policies = [];
@@ -146,7 +155,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
             vm.policy.payment_total += vm.policy.sub_policies[i].payment;
         }
-        vm.policy.taxed_payment_total = vm.policy.payment_total * 0.95;
+        vm.policy.taxed_payment_total = vm.policy.payment_total / 1.066;
         if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
             vm.policy.zy_payment = vm.policy.taxed_payment_total * vm.policy.zy_rate / 100;
             vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);

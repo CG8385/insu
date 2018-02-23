@@ -155,6 +155,7 @@
                                     </section>
                                 </div>
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addSubPolicy()">添加一行</button>
+                                <button class="btn btn-primary" ng-show="vm.editable && vm.policy.sub_policies.length > 1" ng-click="vm.removeSubPolicy()">减少一行</button>
                                 <div class="row">
                                     <section class="col col-2">
                                         <label class="label">结算费(税前合计)</label>
