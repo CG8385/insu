@@ -40,9 +40,9 @@ function IsIncomplete(data) {
 router.get('/', function (req, res) {
     var user = req.user;
     var query = {};
-    if (req.user.userrole.scope !='全公司') {
+    if (req.user.userrole.scope != '全公司') {
         query = { seller: user._id };
-    } 
+    }
     Policy.find(query)
         .populate('client seller organization company zy_client manager director')
         .exec()
@@ -83,7 +83,7 @@ router.post('/excel', function (req, res) {
         }
     }
 
-    if (req.user.userrole.scope !='全公司') {
+    if (req.user.userrole.scope != '全公司') {
         conditions['seller'] = req.user._id;
     }
 
@@ -235,6 +235,25 @@ router.get('/:id', function (req, res) {
         });
 });
 
+router.post('/update-photo', function (req, res) {
+    Policy.findById(req.body._id, function (err, policy) {
+        if (err)
+            res.send(err);
+        policy.policy_photo = req.body.policy_photo;
+        policy.client_info_photo = req.body.client_info_photo;
+        policy.other_photo = req.body.other_photo;
+        policy.save(function (err) {
+            if (err) {
+                logger.error(err);
+                res.send(err);
+            }
+            logger.info(req.user.name + " 更新了保单扫描件，保单号为：" + policy.policy_no + "。" + req.clientIP);
+            res.json({ message: '扫描件已成功更新' });
+        });
+
+    });
+});
+
 router.put('/:id', function (req, res) {
     Policy.findById(req.params.id, function (err, policy) {
         if (err)
@@ -264,6 +283,7 @@ router.put('/:id', function (req, res) {
         policy.seller = req.body.seller;
         policy.organization = req.body.organization;
         policy.remark = req.body.remark;
+
 
         policy.save(function (err) {
             if (err) {
@@ -296,7 +316,7 @@ router.post('/search', function (req, res) {
         }
     }
 
-    if (req.user.userrole.scope !='全公司') {
+    if (req.user.userrole.scope != '全公司') {
         conditions['seller'] = req.user._id;
     }
 

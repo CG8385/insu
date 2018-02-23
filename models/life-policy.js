@@ -33,7 +33,10 @@ var schema = new mongoose.Schema({
   organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
   created_at: { type: Date },
   updated_at: { type: Date },
-  remark: String
+  remark: String,
+  policy_photo: String,
+  client_info_photo: String,
+  other_photo: String
 });
 
 schema.pre('save', function(next){

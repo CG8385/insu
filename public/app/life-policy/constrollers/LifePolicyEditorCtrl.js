@@ -47,6 +47,65 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         vm.policy.insurants.pop();
     };
 
+    vm.otherPhotoChanged = function (files) {
+        vm.uploadOtherPhoto(files[0]);
+    };
+
+    vm.uploadOtherPhoto = function (file) {
+        PolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.other_photo = fileName;
+                if (vm.policy._id) {
+                    PolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.policyPhotoChanged = function (files) {
+        vm.uploadPolicyPhoto(files[0]);
+    };
+
+    vm.uploadPolicyPhoto = function (file) {
+        PolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.policy_photo = fileName;
+                if (vm.policy._id) {
+                    PolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.clientInfoPhotoChanged = function (files) {
+        vm.uploadClientInfoPhoto(files[0]);
+    };
+
+    vm.uploadClientInfoPhoto = function (file) {
+        PolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.client_info_photo = fileName;
+                if (vm.policy._id) {
+                    PolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.reviewPhoto = function (fileName, photoOnly) {
+        ngDialog.open({
+            template: 'app/policy/views/photo-review.html',
+            className: 'ngdialog-theme-default',
+            controller: 'PhotoReviewController as vm',
+            resolve: {
+                data: function () {
+                    var val = {};
+                    val.fileName = fileName;
+                    val.policy = vm.policy;
+                    val.photoOnly = photoOnly;
+                    return val;
+                }
+            }
+        });
+    }
+
     vm.shouldShowEditButton = function (){
         if(vm.editable) return false;
         return $rootScope.user.userrole.lifePolicy.edit;
