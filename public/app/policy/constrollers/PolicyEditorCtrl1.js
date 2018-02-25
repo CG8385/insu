@@ -174,13 +174,14 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
     vm.shouldShowFinanceSection = function () {
-        console.log(vm.policy.policy_status);
-        console.log($rootScope.user.userrole.policy_to_be_paid.pay);
+        var ret = false;
         if(vm.policy.policy_status == "待审核"){
-            return $rootScope.user.userrole.policy_to_be_reviewed.aprove;
+            ret = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
         }else if(vm.policy.policy_status in ["待支付","已支付"]){
-            return $rootScope.user.userrole.policy_to_be_paid.pay;
+            ret = $rootScope.user.userrole.policy_to_be_paid.pay;
         }
+        console.log(ret);
+        return ret;
     }
 
     PolicyService.getIndividualClients()
