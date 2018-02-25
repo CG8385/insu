@@ -174,7 +174,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
     vm.shouldShowFinanceSection = function () {
-        console.log(vm.policy.policy_statu);
+        console.log(vm.policy.policy_status);
         console.log($rootScope.user.userrole.policy_to_be_paid.pay);
         if(vm.policy.policy_status == "待审核"){
             return $rootScope.user.userrole.policy_to_be_reviewed.aprove;
