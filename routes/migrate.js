@@ -17,15 +17,19 @@ var makePy = require('../utils/pinyin');
 var Client = require('../models/client.js')(db);
 var Organization = require('../models/organization.js')(db);
 var User = Promise.promisifyAll(require('../models/user.js')(db));
+var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
 
-router.get('/test', asyncMiddleware(async (req, res, next) => {
-    let clients = await Client.find({client_type:'个人'}).exec();
-    for(let i = 0; i < 15; i++){
-        clients[i].client_type = "待审核";
-        await clients[i].save()
-    }
-    res.send("done");
+router.get('/set-role', asyncMiddleware(async (req, res, next) => {
+    let sellerRole= await Role.findOne({name: '出单员'}).exec();
+    let financeRole = await Role.findOne({name: '财务'}).exec();
+    let backRole = await Role.findOne({name: '后台录单员'}).exec();
+    let adminRole = await Role.findOne({name: '管理员'}).exec();
+    let r = await User.update({role: '出单员'}, {userrole: sellerRole._id}, {multi: true});
+    r = await User.update({role: '财务'}, {userrole: financeRole._id}, {multi: true});
+    r = await User.update({role: '后台录单员'}, {userrole: backRole._id}, {multi: true});
+    r = await User.update({role: '管理员'}, {userrole: adminRole._id}, {multi: true});
+    res.send('done');
 }));
 
 router.get('/remove-check', asyncMiddleware(async (req, res, next) => {
