@@ -335,7 +335,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
             return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment }
         }, { total_income: 0, total_payment: 0 });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.deletePolicy.pay;
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.dealerPolicy.pay;
     }
 
     vm.selectAll = function () {
