@@ -43,7 +43,7 @@ angular.module('app.employee').controller('RoleEditorController', function ($sco
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.user = {};
+                vm.role = {};
                 if (vm.back) {
                     $state.go("app.employee.role");
                 }
