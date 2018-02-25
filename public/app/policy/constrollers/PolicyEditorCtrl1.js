@@ -177,10 +177,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         var ret = false;
         if(vm.policy.policy_status == "待审核"){
             ret = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
-        }else if(vm.policy.policy_status in ["待支付","已支付"]){
+        }else if(["待支付","已支付"].indexOf(vm.policy.policy_status) != -1){
             ret = $rootScope.user.userrole.policy_to_be_paid.pay;
         }
-        console.log(ret);
         return ret;
     }
 
