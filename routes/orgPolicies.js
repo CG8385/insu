@@ -229,6 +229,10 @@ router.post('/search', function (req, res) {
     }
   }
 
+  if (req.user.userrole.scope != '全公司') {
+    conditions['seller'] = req.user._id;
+  }
+
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();
