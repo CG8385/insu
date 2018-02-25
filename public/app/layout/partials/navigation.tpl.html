@@ -61,13 +61,13 @@
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.dealer.paid" ng-show="user.userrole.dealerPolicy_paid.view">已支付保单</a>
                     </li>
-                    <li ng-show="user.userrole.dealerPolicy_to_be_reviewed.import" data-ui-sref-active="active">
+                    <li ng-show="user.userrole.bulkDealerPolicy_to_be_paid.import" data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.org-policy.import">保单批量导入</a>
                     </li>
-                    <li ng-show="user.userrole.dealerPolicy_to_be_paid.view" data-ui-sref-active="active">
+                    <li ng-show="user.userrole.bulkDealerPolicy_to_be_paid.view" data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.org-policy.to-be-paid">待支付批量保单</a>
                     </li>
-                    <li ng-show="user.userrole.dealerPolicy_paid.view" data-ui-sref-active="active">
+                    <li ng-show="user.userrole.bulkDealerPolicy_paid.view" data-ui-sref-active="active">
                         <a data-ui-sref="app.policy.org-policy.paid">已支付批量保单</a>
                     </li>
                 </ul>
@@ -128,7 +128,7 @@
                 </ul>
             </li>
 
-            <!-- <li ng-show="user.userrole.employee.view" data-menu-collapse>
+            <li ng-show="user.userrole.employee.view" data-menu-collapse>
                 <a href="#">
                     <i class="fa fa-lg fa-fw fa-user"></i>
                     <span class="menu-item-parent">员工账号管理</span>
@@ -144,27 +144,6 @@
                         <a data-ui-sref="app.employee.role">角色</a>
                     </li>
                     <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
-                        <a data-ui-sref="app.employee.role.new">添加角色</a>
-                    </li>
-                </ul>
-            </li> -->
-
-            <li data-menu-collapse>
-                <a href="#">
-                    <i class="fa fa-lg fa-fw fa-user"></i>
-                    <span class="menu-item-parent">员工账号管理</span>
-                </a>
-                <ul>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.employee.user">员工账号</a>
-                    </li>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.employee.user.new">添加员工账号</a>
-                    </li>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.employee.role">角色</a>
-                    </li>
-                    <li data-ui-sref-active="active">
                         <a data-ui-sref="app.employee.role.new">添加角色</a>
                     </li>
                 </ul>

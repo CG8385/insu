@@ -20,27 +20,27 @@
 
                         <form name="roleForm" id="roleForm" class="smart-form" novalidate>
                             <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
-                            <div class="row">
-                                <section class="col col-6">
+                                <div class="row">
+                                    <section class="col col-6">
                                         <label class="label">角色名</label>
                                         <label class="input">
                                             <i class="icon-append fa fa-user"></i>
                                             <input type="text" class="input-lg" name="name" ng-model="vm.role.name" validator="required">
                                         </label>
-                                </section>
-                            </div>
-                            <div class="row">
-                                <section class="col col-6">
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
                                         <label class="label">权限范围</label>
                                         <label class="select">
-                                            <select name='scope' class="input-lg" ng-model="vm.role.scope"
-                                                ng-options="s for s in vm.scopes" validator="required">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.scope" ng-options="s for s in vm.scopes" validator="required">
                                                 <option value="">请选择权限范围</option>
-                                            </select> <i></i>
+                                            </select>
+                                            <i></i>
                                         </label>
-                                </section>
-                            </div>
-                        </fieldset>
+                                    </section>
+                                </div>
+                            </fieldset>
                             <div class="row table-responsive">
                                 <section class="col col-12" style="width:100%;">
                                     <table class="table table-bordered table-striped table-condensedsmart-form">
@@ -311,7 +311,7 @@
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    </td>
+                                                </td>
                                                 <td>
                                                 </td>
                                                 <td>
@@ -517,6 +517,76 @@
                                                         <i></i>
                                                     </label>
 
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.dealerPolicy_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    车险（批量）【待支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_to_be_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_to_be_paid.delete" ng-disabled="!vm.editable">
+                                                    <i></i>
+                                                </label>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_to_be_paid.import" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_to_be_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    车险（批量）【已支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.dealerPolicy_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                                 <td>
                                                 </td>
