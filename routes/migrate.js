@@ -19,6 +19,10 @@ var Organization = require('../models/organization.js')(db);
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
+router.get('/roles', asyncMiddleware(async (req, res, next) => {
+    roles = await Role.find({}).exec();
+    res.json(roles);
+}));
 
 router.get('/set-role', asyncMiddleware(async (req, res, next) => {
     let sellerRole= await Role.findOne({name: '出单员'}).exec();
