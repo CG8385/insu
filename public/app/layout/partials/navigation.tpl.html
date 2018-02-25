@@ -128,7 +128,7 @@
                 </ul>
             </li>
 
-            <li ng-show="user.userrole.employee.view" data-menu-collapse>
+            <!-- <li ng-show="user.userrole.employee.view" data-menu-collapse>
                 <a href="#">
                     <i class="fa fa-lg fa-fw fa-user"></i>
                     <span class="menu-item-parent">员工账号管理</span>
@@ -146,27 +146,27 @@
                     <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
                         <a data-ui-sref="app.employee.role.new">添加角色</a>
                     </li>
+                </ul>
+            </li> -->
 
-
-                    <!-- <li data-ui-sref-active="active" >
-                        <a data-ui-sref="app.employee.seller">出单员账号</a>
+            <li data-menu-collapse>
+                <a href="#">
+                    <i class="fa fa-lg fa-fw fa-user"></i>
+                    <span class="menu-item-parent">员工账号管理</span>
+                </a>
+                <ul>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.user">员工账号</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.employee.finance">财务账号</a>
+                        <a data-ui-sref="app.employee.user.new">添加员工账号</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.employee.recorder">后台录单员账号</a>
-                    </li> -->
-
-                    <!-- <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
-                        <a data-ui-sref="app.employee.seller.new">添加出单员账号</a>
+                        <a data-ui-sref="app.employee.role">角色</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
-                        <a data-ui-sref="app.employee.finance.new">添加财务账号</a>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.employee.role.new">添加角色</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.employee.append">
-                        <a data-ui-sref="app.employee.recorder.new">添加后台录单员账号</a>
-                    </li> -->
                 </ul>
             </li>
 
