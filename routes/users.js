@@ -6,6 +6,7 @@ var User = Promise.promisifyAll(require('../models/user.js')(db));
 var router = express.Router();
 var logger = require('../utils/logger.js');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var Role = require('../models/role.js')(db)
 
 
 router.get('/me', function (req, res, next) {
@@ -16,6 +17,9 @@ router.get('/me', function (req, res, next) {
     .populate('org userrole')
     .exec()
     .then(function (user) {
+      if(!user.userrole){
+        user.userrole = new Role()
+      }
       res.status(200).json(user);
     }, function (err) {
       logger.error(err);
