@@ -55,7 +55,7 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
                 if (vm.back) {
                     $state.go("app.employee.user");
                 }
-            }, function (err) { });
+            }, function (err) { console.log(err)});
     };
 
 
