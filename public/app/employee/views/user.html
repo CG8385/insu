@@ -30,7 +30,7 @@
                                         <label class="label">角色</label>
                                         <label class="select">
                                             <select name='org' class="input-lg" ng-model="vm.user.userrole"
-                                                    ng-options="o._id as o.name for o in vm.roles" validator="required">
+                                                    ng-options="o._id as o.name for o in vm.roles">
                                                 <option value="">请选择用户角色</option>
                                             </select> <i></i>
                                         </label>
@@ -39,7 +39,7 @@
                                             <label class="label">设置密码</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-key"></i>
-                                                <input type="text" class="input-lg" name="password" ng-model="vm.user.password" validator="required">
+                                                <input type="text" class="input-lg" name="password" ng-model="vm.user.password">
                                             </label>       
                                     </div>   
                                     <div class="row">                                      
