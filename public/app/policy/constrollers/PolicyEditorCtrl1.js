@@ -501,15 +501,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
-    vm.substractRateChanged = function () {
-        vm.policy.payment_substraction = null;
-        vm.updateFee();
-    }
-    vm.substractFeeChanged = function () {
-        vm.policy.payment_substraction_rate = null;
-        vm.updateFee();
-    }
-
     vm.updateFee = function () {
         vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee / 1.06;
         if (vm.policy.mandatory_fee_taxed) {
@@ -542,6 +533,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.policy.other_fee_income) {
             vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
         }
+
         if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
             vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
             vm.policy.total_income = vm.policy.total_income.toFixed(2);
@@ -571,17 +563,12 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.policy.payment_addition) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.payment_addition);
         }
-        if (vm.policy.payment_substraction_rate) {
-            vm.policy.payment_substraction = (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment)) * vm.policy.payment_substraction_rate / 100;
-            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
+        if (vm.policy.payment_substraction) {
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-            vm.policy.payment_substraction = vm.policy.payment_substraction.toFixed(2);
-        } else if (vm.policy.payment_substraction) {
-            vm.policy.payment_substraction_rate = (parseFloat(vm.policy.payment_substraction) * 100) / (parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.tax_fee_payment));
-            vm.policy.total_payment = vm.policy.total_payment - vm.policy.payment_substraction;
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-            vm.policy.payment_substraction_rate = vm.policy.payment_substraction_rate.toFixed(2);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_addition);
         }
 
     }
