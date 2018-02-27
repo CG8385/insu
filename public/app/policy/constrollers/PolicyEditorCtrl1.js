@@ -564,11 +564,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
             vm.policy.total_income = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
         }
         if (vm.policy.payment_substraction) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
             vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
-            vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_addition);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_substraction);
+            vm.policy.total_income = vm.policy.total_income.toFixed(2);
         }
 
     }
