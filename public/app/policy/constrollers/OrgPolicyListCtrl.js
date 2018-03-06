@@ -133,6 +133,26 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             })
     };
 
+    vm.delete = function (policyId) {
+        $.SmartMessageBox({
+            title: "删除保单",
+            content: "确认删除该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrgPolicyService.deletePolicy(policyId)
+                    .then(function () {
+                        vm.refreshPolicies();
+                        // vm.refreshSummary();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
     vm.getSelectedPolicyIds = function () {
         var ids = [];
         if (vm.policies) {

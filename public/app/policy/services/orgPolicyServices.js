@@ -11,8 +11,31 @@ angular.module('app.policy').factory('OrgPolicyService',
                 bulkPay: bulkPay,
                 bulkDelete: bulkDelete,
                 getSummary: getSummary,
-                getFilteredCSV: getFilteredCSV
+                getFilteredCSV: getFilteredCSV,
+                deletePolicy: deletePolicy
             });
+
+            function deletePolicy(policyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/org-policies/' + policyId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
