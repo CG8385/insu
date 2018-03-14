@@ -6,6 +6,7 @@ angular.module('app.employee').factory('EmployeeService',
             // return available functions for use in controllers
             return ({
                 saveUser: saveUser,
+                getUsers: getUsers,
                 getSellers: getSellers,
                 getFinances: getFinances,
                 getRecorders: getRecorders,
@@ -13,7 +14,11 @@ angular.module('app.employee').factory('EmployeeService',
                 getUser: getUser,
                 deleteUser: deleteUser,
                 getOrganizations: getOrganizations,
-                getClients: getClients
+                getClients: getClients,
+                getRole: getRole,
+                saveRole: saveRole,
+                deleteRole: deleteRole,
+                getRoles: getRoles
             });
 
             function saveUser(user) {
@@ -92,6 +97,30 @@ angular.module('app.employee').factory('EmployeeService',
                     })
                     // handle error
                     .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getUsers() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('/users')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
                         deferred.reject(status);
                     });
 
@@ -235,6 +264,107 @@ angular.module('app.employee').factory('EmployeeService',
                     })
                     // handle error
                     .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function getRoles() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/roles')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function getRole(roleID) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get('/api/roles/' + roleID)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+            function saveRole(role) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if (role._id) {
+                    role.updated_at = Date.now();
+                    $http.put('/api/roles/' + role._id, role)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    role.created_at = Date.now();
+                    role.updated_at = role.created_at;
+                    $http.post('/api/roles', role)
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+
+                // return promise object
+                return deferred.promise;
+            }
+            function deleteRole(roleId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('/api/roles/' + roleId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
                         deferred.reject(status);
                     });
 

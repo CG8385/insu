@@ -2,9 +2,9 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-click="vm.toggleEdit()" class="btn btn-primary">
+                <button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="user.userrole.company.edit">
                     <i class="fa fa-fw fa-unlock"></i>编辑</button>
-                <button ng-click="vm.addRule()" class="btn btn-primary">
+                <button ng-click="vm.addRule()" class="btn btn-primary" ng-show="user.userrole.company.append">
                     <i class="fa fa-calculator"></i>添加费率政策</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">

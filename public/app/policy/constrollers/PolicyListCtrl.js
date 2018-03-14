@@ -390,41 +390,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         });
     };
 
-    vm.isShowReviewButton = function (policy) {
-        return $rootScope.user.role != "出单员" && policy.policy_status == "待审核";
-    };
-
-    vm.isShowPayButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function (policy) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待审核";//"待支付";
-    };
-
-    vm.isShowCheckButton = function (policy) {
-        return $rootScope.user.role != "出单员" && policy.policy_status == "已支付";
-    };
-
-    vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "出单员") {
-            return false
-        };
-        return true;
-    };
-
-
-    vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "出单员" || 
-        ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") || 
-        policy.policy_status == "已支付";
-    };
-
-    vm.isShowRejectButton = function (policy) {
-        return $rootScope.user.role != "出单员";
-    };
-
     vm.pay = function (policy) {
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
@@ -532,7 +497,16 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
             return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment, total_profit: a.total_income + b.total_income - a.total_payment - b.total_payment }
         }, { total_income: 0, total_payment: 0, total_profit: 0 });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
+        if(vm.selectedPolicies.length == 0){
+            vm.isShowBulkOperationButton = false;
+        }else if ($state.is("app.policy.to-be-reviewed")){
+            vm.isShowBulkOperationButton = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
+        }else if ($state.is("app.policy.to-be-paid")){
+            vm.isShowBulkOperationButton = $rootScope.user.userrole.policy_to_be_paid.pay;
+        }
+            
+        
+
     }
 
     vm.selectAll = function () {

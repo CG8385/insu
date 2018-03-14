@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService) {
+angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService, ngDialog) {
     var vm = this;
     vm.policy = {};
     vm.applicant = {};
@@ -36,9 +36,80 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'payment_rate': undefined, 'payment': undefined });
     };
 
+    vm.removeSubPolicy = function () {
+        vm.policy.sub_policies.pop();
+    };
+
     vm.addInsurant = function () {
         vm.policy.insurants.push({ 'name': '', 'address': '', 'phone': '', 'identity': '', 'sex': '', 'birthday': undefined });
     };
+    vm.removeInsurant = function () {
+        vm.policy.insurants.pop();
+    };
+
+    vm.otherPhotoChanged = function (files) {
+        vm.uploadOtherPhoto(files[0]);
+    };
+
+    vm.uploadOtherPhoto = function (file) {
+        LifePolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.other_photo = fileName;
+                if (vm.policy._id) {
+                    LifePolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.policyPhotoChanged = function (files) {
+        vm.uploadPolicyPhoto(files[0]);
+    };
+
+    vm.uploadPolicyPhoto = function (file) {
+        LifePolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.policy_photo = fileName;
+                if (vm.policy._id) {
+                    LifePolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.clientInfoPhotoChanged = function (files) {
+        vm.uploadClientInfoPhoto(files[0]);
+    };
+
+    vm.uploadClientInfoPhoto = function (file) {
+        LifePolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.client_info_photo = fileName;
+                if (vm.policy._id) {
+                    LifePolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.reviewPhoto = function (fileName, photoOnly) {
+        ngDialog.open({
+            template: 'app/policy/views/photo-review.html',
+            className: 'ngdialog-theme-default',
+            controller: 'PhotoReviewController as vm',
+            resolve: {
+                data: function () {
+                    var val = {};
+                    val.fileName = fileName;
+                    val.policy = vm.policy;
+                    val.photoOnly = photoOnly;
+                    return val;
+                }
+            }
+        });
+    }
+
+    vm.shouldShowEditButton = function (){
+        if(vm.editable) return false;
+        return $rootScope.user.userrole.lifePolicy.edit;
+    }
 
     if ($state.is("app.life-policy.new")) {
         vm.policy.sub_policies = [];
@@ -146,7 +217,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
             vm.policy.payment_total += vm.policy.sub_policies[i].payment;
         }
-        vm.policy.taxed_payment_total = vm.policy.payment_total * 0.95;
+        vm.policy.taxed_payment_total = vm.policy.payment_total / 1.066;
         if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
             vm.policy.zy_payment = vm.policy.taxed_payment_total * vm.policy.zy_rate / 100;
             vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);

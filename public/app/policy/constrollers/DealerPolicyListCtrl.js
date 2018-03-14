@@ -310,37 +310,6 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         });
     };
 
-    vm.isShowReviewButton = function (policy) {
-        return $rootScope.user.role != "渠道录单员" && policy.policy_status == "待审核";
-    };
-
-    vm.isShowPayButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function (policy) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "渠道录单员" && policy.policy_status == "待审核";//"待支付";
-    };
-
-    vm.isShowBulkPayButton = function () {
-        if ($rootScope.user.role == "渠道录单员") {
-            return false
-        };
-        return true;
-    };
-
-
-    vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "渠道录单员" ||
-            ($rootScope.user.role == "管理员" && policy.policy_status != "待审核") ||
-            policy.policy_status == "已支付";
-    };
-
-    vm.isShowRejectButton = function (policy) {
-        return $rootScope.user.role != "渠道录单员";
-    };
-
 
     vm.approve = function (policy) {
         var ids = vm.policies.map(function (item) { return item._id });
@@ -366,7 +335,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
             return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment }
         }, { total_income: 0, total_payment: 0 });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0;
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.dealerPolicy_to_be_paid.pay;
     }
 
     vm.selectAll = function () {
@@ -419,23 +388,23 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
 
 });
 
-// angular.module('app.policy')
-//     .filter("computeTotal", function () {
-//         return function (fieldValueUnused, item) {
-//             return (item.mandatory_fee + item.commercial_fee);
-//         }
-//     })
-//     .filter("getContact", function () {
-//         return function (fieldValueUnused, item) {
-//             var policy = item
-//             return policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
+angular.module('app.policy')
+    .filter("computeTotal", function () {
+        return function (fieldValueUnused, item) {
+            return (item.mandatory_fee + item.commercial_fee);
+        }
+    })
+    .filter("getContact", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
 
-//         }
-//     })
-//     .filter("getCompany", function () {
-//         return function (fieldValueUnused, item) {
-//             var policy = item
-//             return policy.level4_company ? policy.level4_company.name : policy.level3_company ? policy.level3_company.name : policy.level2_company ? policy.level2_company.name : '';
+        }
+    })
+    .filter("getCompany", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            return policy.level4_company ? policy.level4_company.name : policy.level3_company ? policy.level3_company.name : policy.level2_company ? policy.level2_company.name : '';
 
-//         }
-//     });
+        }
+    });

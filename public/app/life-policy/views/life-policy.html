@@ -3,7 +3,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="(user.role=='出单员' && !vm.editable) || user.role=='管理员'" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -155,6 +155,7 @@
                                     </section>
                                 </div>
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addSubPolicy()">添加一行</button>
+                                <button class="btn btn-primary" ng-show="vm.editable && vm.policy.sub_policies.length > 1" ng-click="vm.removeSubPolicy()">减少一行</button>
                                 <div class="row">
                                     <section class="col col-2">
                                         <label class="label">结算费(税前合计)</label>
@@ -163,13 +164,23 @@
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label class="label">结算费(扣5%税后)</label>
+                                        <label class="label">结算费(扣税后)</label>
                                         <label class="input">
                                             <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true>
                                         </label>
                                     </section>
                                 </div>
 
+                            </fieldset>
+                            <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                <div class="row">
+                                    <section class="col col-sm-12 col-xs-12">
+                                        <label class="label">保单信息批注栏</label>
+                                        <label class="input">
+                                            <input class="input-lg" name="remark" ng-model="vm.policy.remark">
+                                        </label>
+                                    </section>
+                                </div>
                             </fieldset>
 
                             <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
@@ -269,6 +280,7 @@
                                     
                                 </div>
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addInsurant()">添加一行</button>
+                                <button class="btn btn-primary" ng-show="vm.editable && vm.policy.insurants.length > 1" ng-click="vm.removeInsurant()">减少一行</button>
                             </fieldset>
 
                             <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
@@ -356,6 +368,63 @@
                                     </section>
                                 </div>
                             </fieldset>
+
+                            <fieldset class="optional-input-field-set">
+                                <header>
+                                    附件
+                                </header>
+                                <br/>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">保单扫描件</label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="input">
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="policy_file_selector" name="policy_file_selector"
+                                                onchange="angular.element(this).scope().vm.policyPhotoChanged(this.files);"
+                                            />
+
+                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="policy_file_selector.click()">上传扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.policy_photo, true)">查看扫描件</a>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">客户信息扫描件</label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="input">
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="client_info_file_selector" name="client_info_file_selector"
+                                                onchange="angular.element(this).scope().vm.clientInfoPhotoChanged(this.files);" />
+
+                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="client_info_file_selector.click()">上传扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.client_info_photo" href="" ng-click="vm.reviewPhoto(vm.policy.client_info_photo, true)">查看扫描件</a>
+                                            <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">其它扫描件</label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="input">
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="other_file_selector" name="other_file_selector"
+                                                onchange="angular.element(this).scope().vm.otherPhotoChanged(this.files);" />
+
+                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.other_photo" href="" ng-click="vm.reviewPhoto(vm.policy.other_photo, true)">查看扫描件</a>
+                                            <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                        </label>
+                                    </section>
+                                </div>
+                            </fieldset>
+
+
 
                             <fieldset class="optional-input-field-set" ng-disabled=true>
                                 <div class="row">

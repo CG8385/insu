@@ -60,7 +60,7 @@ router.post('/excel', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope !='全公司') {
     conditions['seller'] = req.user._id;
   }
 
@@ -92,6 +92,9 @@ router.post('/excel', function (req, res) {
         'plate_no',
         'applicant',
         'client',
+        'bank',
+        'account',
+        'payee',
         'policy_name',
         'fee',
         'income_rate',
@@ -110,6 +113,9 @@ router.post('/excel', function (req, res) {
         '车牌号',
         '被保险人',
         '业务渠道',
+        '开户行',
+        '收款账号',
+        '收款人',
         '险种名称',
         '保费',
         '跟单比例',
@@ -144,10 +150,13 @@ router.post('/excel', function (req, res) {
         row.applicant = policy.applicant;
         row.plate = policy.plate;
         row.client = policy.client ? policy.client.name : '';
+        row.bank = policy.client ? policy.client.bank : '';
+        row.account = policy.client ? "'" +  policy.client.account : '';
+        row.payee = policy.client ? policy.client.payee : '';
         row.policy_name = policy.policy_name;
         row.fee = policy.fee.toFixed(2);
-        row.income_rate = policy.income_rate.toFixed(2) + "%";
-        row.income = policy.income.toFixed(2);
+        row.income_rate = policy.income_rate ? policy.income_rate.toFixed(2) + "%" : "";
+        row.income = policy.income ? policy.income.toFixed(2) : "";
         row.payment_substract_rate = policy.payment_substract_rate.toFixed(2) + "%";
         row.payment = policy.payment.toFixed(2);
         row.profit = policy.profit? policy.profit.toFixed(2): '';
@@ -220,6 +229,10 @@ router.post('/search', function (req, res) {
     }
   }
 
+  if (req.user.userrole.scope != '全公司') {
+    conditions['seller'] = req.user._id;
+  }
+
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();
@@ -266,7 +279,7 @@ router.post('/summary', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope !='全公司') {
     conditions['seller'] = req.user._id;
   }
 

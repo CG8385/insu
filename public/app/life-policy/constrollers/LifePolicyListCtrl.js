@@ -95,11 +95,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
 
     var poller = function () {
-        if ($rootScope.user.role == "出单员") {
-            return;
-        }
         vm.refreshPolicies();
-        $timeout(poller, 1000 * 60);
+        $timeout(poller, 1000 * 120);
     };
 
     poller();
@@ -149,18 +146,6 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     //     });
     // };
 
-    vm.isShowPayButton = function (policy) {
-        return $rootScope.user.role == "财务" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowDeleteButton = function (policy) {
-        if ($rootScope.user.role == "管理员") return true;
-        return $rootScope.user.role == "出单员" && policy.policy_status == "待支付";
-    };
-
-    vm.isShowViewButton = function (policy) {
-        return $rootScope.user.role == "出单员" || $rootScope.user.role == "管理员" || policy.policy_status == "已支付";
-    };
 
     vm.pay = function (policyId) {
         $state.go("app.life-policy.pay", { policyId: policyId });
@@ -185,7 +170,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
                 LifePolicyService.deletePolicy(policyId)
                     .then(function () {
                         vm.refreshPolicies();
-                        vm.refreshSummary();
+                        // vm.refreshSummary();
                     })
             }
             if (ButtonPressed === "取消") {

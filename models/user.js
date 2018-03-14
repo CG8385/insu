@@ -8,6 +8,7 @@ var schema = new mongoose.Schema({
     password: String,
     name: String,
     role: String,
+    userrole: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
     org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     organization: String,
     created_at: { type: Date },

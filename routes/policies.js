@@ -19,8 +19,8 @@ router.post('/', function (req, res) {
     mandatory_policy_no = "-999";
   }
   Policy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
-    if (policies.length > 0) {
-      res.status(400).send('系统中已存在相同保单号的保单');
+    if (policies.length > 0 && !data.ignore_duplicate) {
+      res.status(200).json({duplicate: true});
     } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
@@ -28,11 +28,7 @@ router.post('/', function (req, res) {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         policy.organization = req.user.org;
-        if(req.user.role == '后台录单员'){
-          policy.policy_status = '待支付';
-        }else{
-          policy.policy_status = '待审核';
-        }
+        policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
             logger.error(err);
@@ -50,31 +46,8 @@ router.post('/', function (req, res) {
   })
 });
 
-router.get('/', function (req, res) {
-  var user = req.user;
-  var query = {};
-  if (user.role == '出单员') {
-    query = { seller: user._id };
-  } else if (user.role == '客户') {
-    var d = new Date();
-    var end = new Date();
-    d.setDate(d.getDate() - 7);
-    query = { client: user.client_id, created_at: { $gt: d, $lt: end } };  //暂时只获取近七天保单信息
-  }
-  Policy.find(query)
-    .populate('client seller organization')
-    .exec()
-    .then(function (policies) {
-      res.status(200).json(policies);
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
-
 
 router.get('/upgrade', function (req, res) {
-  console.log("upgrading in progress");
   var query = Policy.find({ policy_status: '已支付' });
   query
     .populate('seller')
@@ -99,7 +72,7 @@ router.post('/excel', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope != '全公司') {
     conditions['seller'] = req.user._id;
   }
 
@@ -137,6 +110,9 @@ router.post('/excel', function (req, res) {
         'organization.name',
         'seller.name',
         'client.name',
+        'client.bank',
+        'client.account',
+        'client.payee',
         'mandatory_fee',
         'mandatory_fee_taxed',
         'mandatory_fee_income_rate',
@@ -187,6 +163,9 @@ router.post('/excel', function (req, res) {
         '营业部',
         '出单员',
         '业务渠道',
+        '开户行',
+        '收款账号',
+        '收款人',
         '交强险',
         '交强险(不含税)',
         '交强险跟单费比例',
@@ -248,6 +227,9 @@ router.post('/excel', function (req, res) {
         row.organization.name = policy.organization ? policy.organization.name : "";
         row.seller.name = policy.seller.name;
         row.client.name = policy.client ? policy.client.name : '';
+        row.client.bank = policy.client ? policy.client.bank : '';
+        row.client.account = policy.client ? "'" + policy.client.account : '';
+        row.client.payee = policy.client ? policy.client.payee : '';
         row.mandatory_fee = policy.mandatory_fee;
         row.mandatory_fee_taxed = policy.mandatory_fee/1.06;
         row.mandatory_fee_taxed = row.mandatory_fee_taxed.toFixed(2);
@@ -412,7 +394,7 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (['出单员', '后台录单员'].indexOf(req.user.role) != -1) {
+  if (req.user.userrole.scope != '全公司') {
     conditions['seller'] = req.user._id;
   }
 
@@ -462,7 +444,7 @@ router.post('/summary', function (req, res) {
     }
   }
 
-  if (req.user.role == '出单员') {
+  if (req.user.userrole.scope != '全公司') {
     conditions['seller'] = req.user._id;
   }
 

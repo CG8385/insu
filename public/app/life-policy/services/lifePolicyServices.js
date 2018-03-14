@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('app.life-policy').factory('LifePolicyService',
-    ['$q', '$http',
-        function ($q, $http) {
+    ['$q', '$http', 'uuid',
+        function ($q, $http, uuid) {
             // return available functions for use in controllers
             return ({
                 savePolicy: savePolicy,
@@ -29,8 +29,104 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 deleteStatement: deleteStatement,
                 getManagers: getManagers,
                 getPolicyNames: getPolicyNames,
-                getClient: getClient
+                getClient: getClient,
+                uploadFile: uploadFile,
+                updatePhoto: updatePhoto,
+                getStsCredential: getStsCredential
             });
+
+            function uploadFile(file) {
+                document.body.style.cursor='wait';
+                var deferred = $q.defer();
+                getStsCredential()
+                .then(function(credentials){
+                    var client = new OSS.Wrapper({
+                    region: 'oss-cn-shanghai',
+                    accessKeyId: credentials.AccessKeyId,
+                    accessKeySecret: credentials.AccessKeySecret,
+                    stsToken: credentials.SecurityToken,
+                    // bucket: 'cwang1'
+                    bucket: 'hy-policy'
+                }, function(err){
+                    document.body.style.cursor='default';   
+                    $.bigBox({
+                        title: "上传文件",
+                        content: "上传失败，请检查网络",
+                        color: "#C46A69",
+                        icon: "fa fa-warning shake animated",
+                        timeout: 6000
+                    });
+                    return;
+                });
+
+                var ext = /\.[^\.]+$/.exec(file.name); 
+                var fileName = uuid.v1() + ext;
+
+                client.multipartUpload(fileName, file).then(function (result) {
+                    var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    $.smallBox({
+                            title: "服务器确认信息",
+                            content: "扫描件已成功上传",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    document.body.style.cursor='default';    
+                    deferred.resolve(fileName);
+                    }).catch(function (err) {
+                    deferred.reject(err);
+                    });
+                });
+                return deferred.promise;
+                
+            }
+
+            function getStsCredential() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (false){
+                }
+                else {
+                    // send a post request to the server
+                    $http.get('api/sts')
+                        // handle success
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data.Credentials);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        // handle error
+                        .error(function (data) {
+                            deferred.reject(status);
+                        });
+                }
+                // return promise object
+                return deferred.promise;
+            }
+
+            function updatePhoto(policy) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/life-policies/update-photo", policy)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getClient(clientId) {
                 // create a new instance of deferred

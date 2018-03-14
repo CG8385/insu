@@ -10,6 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./utils/database.js').connection;
 var log4js = require('./utils/logger.js');
+var User = require('./models/user.js')(db);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -32,8 +33,8 @@ if (app.get('env') === 'development') {
 
 app.use(log4jsLogger);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 app.use(cookieParser());
 app.use(session({
   name: 'insu',
@@ -56,7 +57,12 @@ app.use('/users', users);
 var User = require('./models/user')(db);
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.deserializeUser(function(username, done) {
+  User.findOne({username: username}).populate('userrole').exec()
+  .then(function(user){
+    done(null, user);
+  })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

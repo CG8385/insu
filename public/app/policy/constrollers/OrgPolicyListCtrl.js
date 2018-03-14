@@ -133,6 +133,26 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             })
     };
 
+    vm.delete = function (policyId) {
+        $.SmartMessageBox({
+            title: "删除保单",
+            content: "确认删除该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                OrgPolicyService.deletePolicy(policyId)
+                    .then(function () {
+                        vm.refreshPolicies();
+                        // vm.refreshSummary();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
     vm.getSelectedPolicyIds = function () {
         var ids = [];
         if (vm.policies) {
@@ -221,7 +241,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         vm.summary = vm.selectedPolicies.reduce(function(a,b){
             return {income: a.income + b.income, payment: a.payment + b.payment, profit: a.income + b.income - a.payment - b.payment}
         }, {income:0, payment:0, profit:0});
-        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0;
+        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.dealerPolicy_to_be_paid.pay;
     }
 
     vm.selectAll = function () {

@@ -17,15 +17,27 @@ var makePy = require('../utils/pinyin');
 var Client = require('../models/client.js')(db);
 var Organization = require('../models/organization.js')(db);
 var User = Promise.promisifyAll(require('../models/user.js')(db));
+var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
+router.get('/roles', asyncMiddleware(async (req, res, next) => {
+    roles = await Role.find({}).exec();
+    res.json(roles);
+}));
 
-router.get('/test', asyncMiddleware(async (req, res, next) => {
-    let clients = await Client.find({client_type:'个人'}).exec();
-    for(let i = 0; i < 15; i++){
-        clients[i].client_type = "待审核";
-        await clients[i].save()
-    }
-    res.send("done");
+router.get('/set-role', asyncMiddleware(async (req, res, next) => {
+    let sellerRole= await Role.findOne({name: '出单员'}).exec();
+    let financeRole = await Role.findOne({name: '财务'}).exec();
+    let backRole = await Role.findOne({name: '后台录单员'}).exec();
+    let adminRole = await Role.findOne({name: '超级管理员'}).exec();
+    let r = await User.update({role: '出单员'}, {userrole: sellerRole._id}, {multi: true});
+    r = await User.update({role: '财务'}, {userrole: financeRole._id}, {multi: true});
+    r = await User.update({role: '后台录单员'}, {userrole: backRole._id}, {multi: true});
+    r = await User.update({role: '管理员'}, {userrole: adminRole._id}, {multi: true});
+    res.send('done');
+}));
+
+router.get('/remove-check', asyncMiddleware(async (req, res, next) => {
+    r = await Policy.update({policy_status: '已核对'}, {policy_status: '已支付'}, {multi: true});
 }));
 
 router.get('/step1', asyncMiddleware(async (req, res, next) => {
@@ -319,28 +331,6 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
     });
     res.send("拼音生成完毕");
 }));
-
-// const generateUsername = function(i){
-//     let s = i + 1 + "";
-//     while (s.length < 3) s = "0" + s;
-//     return "js" + s
-// }
-
-// router.get('/org', asyncMiddleware(async (req, res, next) => {
-//     let clients = await Client.find({client_type: "机构"}).exec();
-//     for(let i = 0; i < clients.length; i++){
-//         let c = clients[i];
-//         let username = generateUsername(i);
-//         await User.registerAsync(new User({ username: username, name: c.name, role: '渠道录单员', client: c._id, phone: c.phone }), username);
-//     }
-//     let users = await User.find({role: "渠道录单员"}).exec();
-//     res.json(users);
-// }));
-
-// router.get('/org-clear', asyncMiddleware(async (req, res, next) => {
-//     await User.remove({role: "渠道录单员"}).exec();
-//     res.send("删除完毕");
-// }));
 
 
 router.get('/rules', asyncMiddleware(async (req, res, next) => {

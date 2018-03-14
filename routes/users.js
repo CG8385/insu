@@ -6,6 +6,7 @@ var User = Promise.promisifyAll(require('../models/user.js')(db));
 var router = express.Router();
 var logger = require('../utils/logger.js');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var Role = require('../models/role.js')(db)
 
 
 router.get('/me', function (req, res, next) {
@@ -13,9 +14,12 @@ router.get('/me', function (req, res, next) {
     return res.json({});
   };
   User.findOne({ _id: req.user._id })
-    .populate('org')
+    .populate('org userrole')
     .exec()
     .then(function (user) {
+      if(!user.userrole){
+        user.userrole = new Role()
+      }
       res.status(200).json(user);
     }, function (err) {
       logger.error(err);
@@ -130,7 +134,7 @@ router.post('/', function (req, res) {
     if (users.length > 0) {
       res.status(400).send('系统中已存在该账号');
     } else {
-      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, phone: data.phone, client: data.client}), data.password, function (err, user) {
+      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, userrole:data.userrole, phone: data.phone, client: data.client}), data.password, function (err, user) {
         if (err) {
           logger.error(err);
           res.status(500).send(err);
@@ -169,11 +173,10 @@ router.get('/', function (req, res, next) {
     query = { role: '财务' };
   } else if (role == "recorder") {
     query = { role: '后台录单员' };
-  } else if (role == "dealer") {
-    query = { role: '渠道录单员' };
-  }
+  };
+  
   User.find(query)
-  .populate('org client')
+  .populate('org client userrole')
   .exec()
     .then(function (users) {
       res.json(users);
@@ -206,6 +209,7 @@ router.put('/:id', asyncMiddleware(async (req, res, next) => {
   user.org = req.body.org;
   user.phone = req.body.phone;
   user.client = req.body.client;
+  user.userrole = req.body.userrole;
   if(req.body.password){
     await user.setPasswordAsync(req.body.password);
   }

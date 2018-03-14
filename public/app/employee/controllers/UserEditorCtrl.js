@@ -1,11 +1,21 @@
 'use strict'
 
-angular.module('app.employee').controller('FinanceEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
+angular.module('app.employee').controller('UserEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, EmployeeService) {
     var vm = this;
     vm.user = {};
     vm.editable = false;
+    vm.organizations=[];
+    vm.roles=[];
+    EmployeeService.getOrganizations()
+        .then(function (organizations) {
+            vm.organizations = organizations;
+        })
+    EmployeeService.getRoles()
+        .then(function (roles) {
+            vm.roles = roles;
+        })
 
-    if ($state.is("app.employee.finance.new")) {
+    if ($state.is("app.employee.user.new")) {
         vm.editable = true;
     }
 
@@ -18,6 +28,8 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
                 vm.user = user;
             });
     }
+    
+    
 
 
     vm.toggleEdit = function () {
@@ -30,7 +42,6 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
     }
 
     vm.submit = function () {
-        vm.user.role="财务";
         EmployeeService.saveUser(vm.user)
             .then(function (data) {
                 $.smallBox({
@@ -42,9 +53,9 @@ angular.module('app.employee').controller('FinanceEditorController', function ($
                 });
                 vm.user = {};
                 if (vm.back) {
-                    $state.go("app.employee.finance");
+                    $state.go("app.employee.user");
                 }
-            }, function (err) { });
+            }, function (err) { console.log(err)});
     };
 
 

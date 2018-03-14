@@ -85,14 +85,12 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         vm.policy.dealer = vm.dealerInfo._id;
         vm.policy.payment_substract_rate = vm.dealerInfo.payment_substract_rate;
         vm.loadDealerClients();
-        vm.applyRule();
         vm.updateFee();
     }
 
 
 
     vm.level2Changed = function () {
-        console.log("level 2 changed triggered ");
         vm.resetRule();
         if (!vm.policy.level2_company) {
             vm.policy.level1_company = undefined;
@@ -102,7 +100,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             vm.policy.level1_company = vm.company.catogory._id;
         }
         vm.loadLevel3Companies();
-        vm.applyRule();
     }
 
     vm.level3Changed = function () {
@@ -114,7 +111,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         }
         vm.loadLevel4Companies();
-        vm.applyRule();
     }
 
     vm.level4Changed = function () {
@@ -124,33 +120,13 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         } else {
             vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
         }
-        vm.applyRule();
     }
 
     vm.resetRule = function() {
         vm.policy.rule = undefined;
         vm.policy.mandatory_fee_income_rate = null;
         vm.policy.commercial_fee_income_rate = null;
-        vm.policy.rule_rates = null;
         vm.updateFee();
-    }
-
-    vm.applyRule = function () {
-        var companyId = vm.policy.level4_company ?  vm.policy.level4_company: vm.policy.level3_company ? vm.policy.level3_company:  vm.policy.level2_company;
-        var dealerLevel = vm.dealerInfo.dealer_level;
-        if(companyId && dealerLevel){
-            DealerPolicyService.getRules(companyId)
-            .then(function(rules){
-                var foundRules = rules.filter((r)=>r.name == dealerLevel);
-                if(foundRules && foundRules.length > 0){
-                    vm.policy.rule = foundRules[0];
-                    vm.policy.mandatory_fee_income_rate = vm.policy.rule.mandatory_income ? vm.policy.rule.mandatory_income : 0;
-                    vm.policy.commercial_fee_income_rate = vm.policy.rule.commercial_income ? vm.policy.rule.commercial_income : 0;
-                    vm.updateFee();
-                }
-            })
-        }
-        
     }
 
     vm.editable = false;
@@ -185,6 +161,17 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
             });
+    }
+
+    vm.shouldShowEditButton = function (){
+        if(vm.editable) return false;
+        if(vm.policy.policy_status == "待审核"){
+            return $rootScope.user.userrole.dealerPolicy_to_be_reviewed.edit;
+        }else if(vm.policy.policy_status == "待支付"){
+            return $rootScope.user.userrole.dealerPolicy_to_be_paid.edit;
+        }else if(vm.policy.policy_status == "已支付"){
+            return $rootScope.user.userrole.dealerPolicy_paid.edit;
+        }
     }
 
     vm.toggleEdit = function () {
@@ -272,7 +259,6 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                     level4_company: old.level4_company,
                     dealer: old.dealer,
                     rule: old.rule,
-                    rule_rates: old.rule_rates,
                     mandatory_fee_income_rate: old.mandatory_fee_income_rate,
                     commercial_fee_income_rate: old.commercial_fee_income_rate,
                     payment_substract_rate: old.payment_substract_rate

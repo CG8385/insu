@@ -16,9 +16,7 @@
                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <!--<label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
-                <button ng-show="$rootScope.user.role != '出单员'" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付</button>-->
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary" ng-show="user.userrole.lifePolicy.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
             </span>
 
 
@@ -47,7 +45,7 @@
                                         <div class="tr-ng-title">
                                             业务员
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
 
@@ -83,7 +81,7 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
@@ -96,7 +94,7 @@
                                         <div class="tr-ng-title">
                                             出单员
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
@@ -122,9 +120,9 @@
                                     <td field-name="seller.name"></td>
                                     <td>
                                         <!--<button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>-->
-                                        <button ng-show="vm.isShowEditButton(gridItem)" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
-                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                        <!-- <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button> -->
+                                        <button ng-show="user.userrole.lifePolicy.view" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.lifePolicy.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>
                                 </tr>

@@ -15,7 +15,7 @@
                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <button ng-show="user.userrole.policy_rejected.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
 
             </span>
 
@@ -32,10 +32,6 @@
                             total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th ng-show="['出单员','后台录单员'].indexOf(user.role) == -1" display-align="center" cell-width="2em">
-                                        <div class="tr-ng-title">&nbsp;</div>
-                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
-                                    </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <!--<th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
@@ -63,7 +59,7 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.role!='出单员'">
+                                        <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
                                                     ng-change="vm.filterChanged()">
@@ -102,17 +98,11 @@
                             </thead>
                             <tbody>
                                 <tr ng-class="{'txt-color-red':gridItem.has_warning}">
-                                    <td ng-show="['出单员','后台录单员'].indexOf(user.role) == -1">
-                                        <div>
-                                            <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
-                                        </div>
-                                    </td>
                                     <!--<td field-name="client.name"></td>-->
                                     <td field-name="organization.name"></td>
                                     <td>
-                                        <button ng-show="vm.isShowViewButton(gridItem)" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="vm.isShowDeleteButton(gridItem)" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
-
+                                        <button ng-show="user.userrole.policy_rejected.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.policy_rejected.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
                                     </td>
                                 </tr>
                             </tbody>

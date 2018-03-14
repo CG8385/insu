@@ -32,7 +32,8 @@ angular.module('app.policy').factory('PolicyService',
                 bulkProcessImagePolicies: bulkProcessImagePolicies,
                 processImagePolicy: processImagePolicy,
                 deleteImagePolicy: deleteImagePolicy,
-                downloadToBeProcessedImages: downloadToBeProcessedImages
+                downloadToBeProcessedImages: downloadToBeProcessedImages,
+                downloadProcessedImages: downloadProcessedImages
             });
 
             function getRules(companyId) {
@@ -489,6 +490,32 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
+            function downloadProcessedImages(fromDate, toDate){
+                var deferred = $q.defer();
+                var end = new Date(toDate);
+                end.setDate(end.getDate() + 1);
+                var config = {
+                    fromDate: fromDate,
+                    toDate: end
+                };
+                $http.post("/api/image-policies/download", config, {responseType: 'arraybuffer'})
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
             function getFilteredCSV(type, filterSettings, fromDate, toDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
@@ -696,7 +723,6 @@ angular.module('app.policy').factory('PolicyService',
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
-                    console.log("I am here");
                     document.body.style.cursor='default';    
                     deferred.resolve(fileName);
                     }).catch(function (err) {

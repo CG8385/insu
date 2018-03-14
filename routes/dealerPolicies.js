@@ -17,7 +17,7 @@ router.post('/', function (req, res) {
   //   } else {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
-      } else if((!data.commercial_policy_photo && !data.mandatory_policy_photo) || !data.agreement_photo){
+      } else if((!data.commercial_policy_photo && !data.mandatory_policy_photo)){
         res.status(400).send('上传附件不齐全，请确保已上传保单照片和客户知情书');
       }else{
         var policy = new DealerPolicy(data);
@@ -42,10 +42,6 @@ router.post('/excel', function (req, res) {
     if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
       conditions[key] = req.body.filterByFields[key];
     }
-  }
-
-  if (req.user.role == '渠道录单员') {
-    conditions['client'] = req.user.client;
   }
 
   var sortParam = "";
@@ -81,6 +77,9 @@ router.post('/excel', function (req, res) {
         'plate_no',
         'applicant.phone',
         'client.name',
+        'client.bank',
+        'client.account',
+        'client.payee',
         'mandatory_fee',
         'mandatory_fee_taxed',
         'mandatory_fee_income_rate',
@@ -106,6 +105,9 @@ router.post('/excel', function (req, res) {
         '车牌号',
         '投保人电话',
         '业务渠道',
+        '开户行',
+        '收款账号',
+        '收款人',
         '交强险',
         '交强险(不含税)',
         '交强险跟单费比例',
@@ -140,6 +142,9 @@ router.post('/excel', function (req, res) {
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.client.name = policy.client ? policy.client.name : '';
+        row.client.bank = policy.client ? policy.client.bank : '';
+        row.client.account = policy.client ? "'" + policy.client.account : '';
+        row.client.payee = policy.client ? policy.client.payee : '';
         row.mandatory_fee = policy.mandatory_fee;
         row.mandatory_fee_taxed = policy.mandatory_fee/1.06;
         row.mandatory_fee_taxed = row.mandatory_fee_taxed.toFixed(2);
@@ -254,8 +259,8 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (['渠道录单员'].indexOf(req.user.role) != -1) {
-    conditions['client'] = req.user.client;
+  if (req.user.userrole.scope != '全公司') {
+    conditions['seller'] = req.user._id;
   }
 
   var sortParam = "";
@@ -302,10 +307,6 @@ router.post('/summary', function (req, res) {
     if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
       conditions[key] = req.body.filterByFields[key];
     }
-  }
-
-  if (['渠道录单员'].indexOf(req.user.role) != -1) {
-    conditions['client'] = req.user.client;
   }
 
   var sortParam = "";
@@ -357,7 +358,7 @@ router.post('/update-photo', function (req, res) {
         logger.error(err);
         res.send(err);
       }
-      logger.info(req.user.name + " 更新了保单扫描件，保单号为：" + policy.policy_no + "。" + req.clientIP);
+      logger.info(req.user.name + " 更新了保单扫描件，车牌号：" + policy.plate_no + "。" + req.clientIP);
       res.json({ message: '扫描件已成功更新' });
     });
 
@@ -377,7 +378,7 @@ router.post('/bulk-pay', function (req, res) {
         policies[i].payment_remarks = remarks;
         policies[i].paid_at = Date.now();
         policies[i].save();
-        logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+        logger.info(req.user.name + " 更新了保单扫描件，车牌号：" + policies[i].plate_no + "。" + req.clientIP);
       };
       logger.info(req.user.name + " 批量支付了保单。" + req.clientIP);
       res.json({ message: '保单状态已批量更改为已支付' });

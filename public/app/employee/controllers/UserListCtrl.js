@@ -1,13 +1,13 @@
 'use strict'
 
-angular.module('app.employee').controller('RecorderListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
+angular.module('app.employee').controller('UserListController', function(screenSize, $rootScope, $state, $scope, EmployeeService){
     var vm = this;
     vm.users = [];
 
 
 
     vm.refreshUsers = function(){
-       EmployeeService.getRecorders()
+       EmployeeService.getUsers()
        .then(function(users){
            vm.users = users;
        }, function(err){
@@ -18,7 +18,7 @@ angular.module('app.employee').controller('RecorderListController', function(scr
     vm.refreshUsers();
 	
     vm.view = function(userId){
-        $state.go("app.employee.recorder.view", {userId: userId});
+        $state.go("app.employee.user.view", {userId: userId});
     };
 
     /*

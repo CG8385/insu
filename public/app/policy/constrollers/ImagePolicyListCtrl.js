@@ -151,7 +151,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
     vm.isShowProcessButton = function (imagePolicy) {
-        return imagePolicy.status == "待录入";
+        return imagePolicy.status == "待录入" && $rootScope.user.userrole.imagePolicy.edit;
     };
 
     vm.selectionChanged = function () {
@@ -162,7 +162,7 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
         vm.selectedPolicies = vm.policies.filter(function (item) {
             return item.isSelected
         });
-        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $state.is("app.policy.image-policy.to-be-processed");
+        vm.isShowBulkOperationButton = vm.selectedPolicies.length > 0 && $state.is("app.policy.image-policy.to-be-processed") && $rootScope.user.userrole.imagePolicy.edit;
     }
 
     vm.selectAll = function () {
@@ -188,7 +188,11 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
     vm.isShowDownloadAllButton = function () {
-        return $state.is("app.policy.image-policy.to-be-processed") && (vm.policies.length > 0)
+        return (vm.policies.length > 0 && $state.is("app.policy.image-policy.to-be-processed"));
+    }
+
+    vm.isShowDownloadProcessedButton = function () {
+        return (vm.policies.length > 0 && $state.is("app.policy.image-policy.processed"));
     }
 
     vm.str2bytes = function (str) {
@@ -201,6 +205,22 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
 
     vm.downloadToBeProcessedImages = function () {
         PolicyService.downloadToBeProcessedImages()
+            .then(function (zip) {
+                var file = new Blob([zip], {
+                    type: 'application/zip'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'images.zip'
+                })[0].click();
+            })
+    };
+
+    vm.downloadProcessedImages = function () {
+        PolicyService.downloadProcessedImages(vm.fromDate, vm.toDate)
             .then(function (zip) {
                 var file = new Blob([zip], {
                     type: 'application/zip'
