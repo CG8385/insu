@@ -84,7 +84,7 @@
                                         <a ng-show="vm.client.identity3_filename" ng-href={{vm.getAttachmentUrl(vm.client.identity3_filename)}} target="_blank">手持身份证正面照片</a>
                                         <label class="input">
                                             <i class="icon-append fa fa-key"></i>
-                                            <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="identity">
+                                            <input type="text" class="input-lg" name="identity" ng-model="vm.client.identity" validator="required">
                                         </label>
 
                                     </div>
