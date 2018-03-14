@@ -156,8 +156,8 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
     }
 
-    vm.getImageUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName + "?x-oss-process=style/resize";
+    vm.getAttachmentUrl = function (fileName) {
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
     }
 
 

@@ -427,6 +427,8 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
             })
     }
 
+
+
     vm.commercialPhotoChanged = function (files) {
         vm.uploadCommercialPhoto(files[0]);
     };
@@ -460,6 +462,10 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
                 }
             }
         });
+    }
+
+    vm.getAttachmentUrl = function (fileName) {
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
     }
 
 });

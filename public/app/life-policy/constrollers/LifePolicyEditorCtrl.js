@@ -106,6 +106,11 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         });
     }
 
+    vm.getAttachmentUrl = function (fileName) {
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+    }
+
+
     vm.shouldShowEditButton = function (){
         if(vm.editable) return false;
         return $rootScope.user.userrole.lifePolicy.edit;
