@@ -666,7 +666,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
     vm.getImageUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName + "?x-oss-process=style/resize";
+        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
     }
 
 });
