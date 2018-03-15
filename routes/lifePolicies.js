@@ -44,7 +44,7 @@ router.get('/', function (req, res) {
         query = { seller: user._id };
     }
     Policy.find(query)
-        .populate('client seller organization company zy_client manager director')
+        .populate('client seller organization company level1_company level2_company level3_company level4_company zy_client manager director')
         .exec()
         .then(function (policies) {
             res.status(200).json(policies);
