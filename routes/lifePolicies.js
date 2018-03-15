@@ -260,6 +260,10 @@ router.put('/:id', function (req, res) {
             res.send(err);
         policy.policy_no = req.body.policy_no;
         policy.company = req.body.company;
+        policy.level1_company = req.body.level1_company;
+        policy.level2_company = req.body.level2_company;
+        policy.level3_company = req.body.level3_company;
+        policy.level4_company = req.body.level4_company;
         policy.policy_type = req.body.policy_type;
         policy.stage = req.body.stage;
         policy.total_fee = req.body.total_fee;
