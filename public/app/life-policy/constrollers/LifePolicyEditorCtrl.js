@@ -243,9 +243,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     vm.submit = function () {
         vm.policy.client = vm.clientInfo._id;
-        vm.policy.zy_client = vm.zy_clientInfo._id;
-        vm.policy.manager = vm.managerInfo._id;
-        vm.policy.director = vm.directorInfo._id;
+        if (vm.zy_clientInfo){
+            vm.policy.zy_client = vm.zy_clientInfo._id;
+        }
+        if (vm.managerInfo){
+            vm.policy.manager = vm.managerInfo._id;
+        }
+        if (vm.directorInfo){
+            vm.policy.director = vm.directorInfo._id;
+        }
         LifePolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
@@ -255,7 +261,6 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                old = vm.policy;
                 vm.policy = {};
                 vm.applicant = {};
                 vm.clientInfo = {};
