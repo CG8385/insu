@@ -101,10 +101,10 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         .then(function (managers) {
             vm.managers = managers;
         })
-    LifePolicyService.getCompanies()
-        .then(function (companies) {
-            vm.companies = companies;
-        })
+    // LifePolicyService.getCompanies()
+    //     .then(function (companies) {
+    //         vm.companies = companies;
+    //     })
     LifePolicyService.getPolicyNames()
         .then(function (policyNames) {
             vm.policyNames = policyNames;
@@ -226,6 +226,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 policy.zy_client = policy.zy_client._id;
                 policy.manager = policy.manager._id;
                 policy.director = policy.director._id;
+                vm.loadLevel2Companies();
+                vm.loadLevel3Companies();
+                vm.loadLevel4Companies();
             });
     }
 
