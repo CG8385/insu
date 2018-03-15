@@ -346,7 +346,7 @@ router.post('/search', function (req, res) {
         .sort(sortParam)
         .skip(req.body.currentPage * req.body.pageSize)
         .limit(req.body.pageSize)
-        .populate('client seller organization zy_client')
+        .populate('client seller organization zy_client level1_company level2_company level3_company level4_company')
         .exec()
         .then(function (policies) {
             Policy.count(conditions, function (err, c) {
