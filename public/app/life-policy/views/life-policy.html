@@ -22,7 +22,34 @@
                                     基本信息
                                 </header>
                                 <div class="row">
-                                    <section class="col col-4">
+                                    <label class="label" style="margin-left:1em">保险公司</label>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.level1Changed()" ng-model="vm.policy.level1_company"
+                                            ng-options="c._id as c.name for c in vm.level1Companies">
+                                            <option value="">选择二级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company"
+                                            ng-options="c._id as c.name for c in vm.level2Companies">
+                                            <option value="">选择二级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
+                                            ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                                            <option value="">选择三级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
+                                            ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                                            <option value="">选择四级保险公司(如有)</option>
+                                        </select>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!-- <section class="col col-4">
                                         <label class="label">保险公司</label>
                                         <label class="select">
                                             <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
@@ -30,7 +57,7 @@
                                                 <option value="">请选择保险公司</option>
                                             </select> <i></i>
                                         </label>
-                                    </section>
+                                    </section> -->
                                     <section class="col col-3">
                                         <label class="label">保单号</label>
                                         <label class="input">

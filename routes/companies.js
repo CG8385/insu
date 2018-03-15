@@ -25,6 +25,19 @@ router.get('/', function (req, res, next) {
     )
 });
 
+router.get('/level1', function (req, res) {
+  CompanyCatogory.find()
+    .sort({py: -1})
+    .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
 router.get('/level2', function (req, res) {
   Company.find({ level: "二级" })
     .populate('catogory')
