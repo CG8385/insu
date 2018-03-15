@@ -181,7 +181,7 @@ router.post('/excel', function (req, res) {
                 row.director = {};
                 row.submit_date = (dateFormat(policy.submit_date, "mm/dd/yyyy"));
                 row.policy_no = "'" + policy.policy_no;
-                row.company.name = policy.company.name;
+                row.company.name = policy.company ? policy.company.name: '';
                 row.policy_type = policy.policy_type;
                 row.stage = policy.stage;
                 row.effective_date = (dateFormat(policy.effective_date, "mm/dd/yyyy"));
@@ -189,7 +189,7 @@ router.post('/excel', function (req, res) {
                 row.invoice_no = policy.invoice_no;
                 row.invoice_date = (dateFormat(policy.invoice_date, "mm/dd/yyyy"));;
 
-                row.applicant.name = policy.applicant.name;
+                row.applicant.name = policy.applicant? policy.applicant.name: '';
                 row.applicant.identity = row.applicant.identity ? "'" + policy.applicant.identity : '';
                 row.applicant.phone = row.applicant.phone ? "'" + policy.applicant.phone : '';
                 row.applicant.adress = policy.applicant.adress;
@@ -204,8 +204,8 @@ router.post('/excel', function (req, res) {
                 row.zy_payment = policy.zy_payment;
                 row.manager.name = policy.manager ? policy.manager.name : '';
                 row.director.name = policy.director ? policy.director.name : '';
-                row.organization.name = policy.organization.name;
-                row.seller.name = policy.seller.name;
+                row.organization.name = policy.organization ? policy.organization.name: '';
+                row.seller.name = policy.seller ? policy.seller.name: '';
                 arr.push(row);
             }
             json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
