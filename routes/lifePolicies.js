@@ -306,7 +306,7 @@ router.delete('/:id', function (req, res) {
             logger.error(err);
             res.send(err);
         }
-        logger.info(req.user.name + " 删除了一份寿险保单。" + req.clientIP);
+        logger.info(req.user.name + " 删除了一份寿险保单:" + req.params.id + "." + req.clientIP);
         res.json({ message: '保单已成功删除' });
     });
 });
