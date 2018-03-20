@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-  policy_no: { type: String, index: true, unique: true },
+  policy_no: { type: String, index: true},
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   policy_type: String,
   stage: String,

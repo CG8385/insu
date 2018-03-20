@@ -1,11 +1,14 @@
 var express = require('express');
 var db = require('../utils/database.js').connection;
-var Policy = require('../models/life-policy.js')(db);
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
 var Client = require('../models/client.js')(db);
 var iconv = require('iconv-lite');
+var Promise = require('bluebird');
+var Policy = Promise.promisifyAll(require('../models/ife-policy.js')(db));
+
+
 
 router.post('/', function (req, res) {
     var data = req.body;
