@@ -23,6 +23,7 @@ router.get('/rootbranch', asyncMiddleware(async (req, res, next) => {
     let root = new Organization();
     root.name="红叶保险代理总公司";
     root.level="总公司";
+    root.py = makePy(data.name);
     root.save(function(err,data){
         res.json(data);
     })
