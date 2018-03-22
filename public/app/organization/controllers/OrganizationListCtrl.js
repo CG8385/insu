@@ -33,6 +33,7 @@ angular.module('app.organization').controller('OrganizationListController', func
             .then(function (level1Orgs) {
                 vm.level1Org = level1Orgs[0];
                 vm.setting.parentId = vm.leve1Org;
+                console.log(vm.setting);
             }, function (err) {
             });
     }
