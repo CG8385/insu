@@ -3,7 +3,7 @@
 
     <div class="row">
         <article class="col-sm-12">
-             <select name='cat' class="input-sm" data-ng-show="vm.level!='省公司'" ng-disabled="!vm.setting.level1Org" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Org" ng-options="c._id as c.name for c in vm.level2Orgs">
+             <select name='cat' class="input-sm" data-ng-show="vm.level!='省公司'" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Org" ng-options="c._id as c.name for c in vm.level2Orgs">
                 <option value="">选择所属省公司</option>
              </select>
              <select name='cat' class="input-sm" data-ng-show="vm.level=='区县公司' || vm.level=='营业部'" ng-disabled="!vm.setting.level2Org" data-ng-change="vm.level3Changed()" ng-model="vm.setting.level3Org" ng-options="c._id as c.name for c in vm.level3Orgs">
