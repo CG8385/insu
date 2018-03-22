@@ -75,6 +75,7 @@ router.post('/', function (req, res) {
       //res.status(400).send('系统中已存在该分支机构名称');
       organization.name = req.body.name;
       organization.parent = req.body.parent;
+      organization.level = req.body.level;
       organization.py = makePy(req.body.name);
       organization.save(function (err) {
         if (err) {
@@ -107,6 +108,7 @@ router.put('/:id', function (req, res) {
     organization.name = req.body.name;
     organization.parent = req.body.parent;
     organization.py = makePy(req.body.name);
+    organization.level = req.body.level;
     organization.save(function (err) {
       if (err) {
         logger.error(err);
