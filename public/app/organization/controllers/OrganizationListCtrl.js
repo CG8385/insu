@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.organization').controller('OrganizationListController', function (screenSize, $rootScope, $state, $scope, OrganizationService) {
+angular.module('app.organization').controller('OrganizationListController', function (screenSize, $rootScope, $state, $scope, OrganizationService, localStorageService) {
     var vm = this;
     vm.organizations = [];
     vm.level2Orgs = [];
