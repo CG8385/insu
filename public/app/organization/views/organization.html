@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div ng-show="vm.organization._id" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>下属业务员</h2>
@@ -107,7 +107,7 @@
             </div>
 
             <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkAssign()" class="btn btn-primary">批量添加选中业务员到该营业部</button>
-            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div ng-show="vm.organization._id" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>待分配业务员</h2>
