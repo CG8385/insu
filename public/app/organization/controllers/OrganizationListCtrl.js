@@ -78,6 +78,7 @@ angular.module('app.organization').controller('OrganizationListController', func
         } else {
             OrganizationService.getSubOrgs(vm.setting.parentId)
                 .then(function (orgs) {
+                    console.log(orgs);
                     vm.organizations = orgs;
                 }, function (err) {
 
