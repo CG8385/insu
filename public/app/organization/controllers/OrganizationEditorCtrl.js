@@ -65,13 +65,20 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     vm.cityChanged = function() {
         var city = vm.cities.filter(c=>c.name == vm.organization.city)[0];
-        vm.organization.area_code = city.code;
-        vm.districts = city.children;
+        if(city){
+            vm.organization.area_code = city.code;
+            vm.districts = city.children;
+        }else{
+            vm.disctricts = [];
+        }
+
     }
 
     vm.districtChanged = function() {
         var district = vm.districts.filter(d=>d.name == vm.organization.district)[0];
-        vm.organization.area_code = district.code;
+        if(district){
+            vm.organization.area_code = district.code;
+        }
     }
 
     vm.setParentName = function () {
