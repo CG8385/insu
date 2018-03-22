@@ -19,6 +19,18 @@ router.get('/', function(req, res, next) {
   )
 });
 
+router.get('/level1', function (req, res) {
+  Organization.find({ level: "总公司" })
+    .exec()
+    .then(function (organizations) {
+      res.json(organizations);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
 router.get('/level2', function (req, res) {
   Organization.find({ level: "省公司" })
     .populate('parent')

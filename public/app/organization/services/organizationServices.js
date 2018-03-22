@@ -7,6 +7,7 @@ angular.module('app.organization').factory('OrganizationService',
             return ({
                 saveOrganization: saveOrganization,
                 getOrganizations: getOrganizations,
+                getLevel1Orgs: getLevel1Orgs,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
                 getOrganization: getOrganization,
@@ -149,6 +150,29 @@ angular.module('app.organization').factory('OrganizationService',
 
                 // send a post request to the server
                 $http.get('api/organizations')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel1Orgs() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/level1')
                 // handle success
                     .success(function (data, status) {
                         if (status === 200) {
