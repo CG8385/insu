@@ -121,7 +121,7 @@ router.post('/', function (req, res) {
 
 router.put('/:id', function (req, res) {
   if (IsIncomplete(req.body)){
-    res.status(400).send('信息缺失，请填写完整信息');
+    return res.status(400).send('信息缺失，请填写完整信息');
   }
   Organization.findById(req.params.id, function (err, organization) {
     if (err)
