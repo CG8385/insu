@@ -2,6 +2,7 @@
 
 angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
     var vm = this;
+    vm.locations = []
     vm.organization = {};
     vm.subClients = [];
     vm.wildClients = [];
@@ -10,6 +11,12 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.parentName = "";
 
     vm.editable = false;
+
+    OrganizationService.getLocations()
+    .then(function(locations){
+        vm.locations = locations;
+        console.log(vm.locations);
+    })
 
     if ($state.is('app.organization.org2.new')) {
         vm.organization.level = "省公司";
