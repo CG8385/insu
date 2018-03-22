@@ -81,14 +81,17 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     vm.refreshClients = function () {
         var orgId = vm.organization._id;
-        OrganizationService.getSubClients(orgId)
+        if (orgId){
+            OrganizationService.getSubClients(orgId)
             .then(function (subClients) {
                 vm.subClients = subClients;
             })
-        OrganizationService.getSubClients(-1)
+            OrganizationService.getSubClients(-1)
             .then(function (wildClients) {
                 vm.wildClients = wildClients;
             })
+        }
+
     }
 
 
