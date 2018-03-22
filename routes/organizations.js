@@ -19,6 +19,32 @@ router.get('/', function(req, res, next) {
   )
 });
 
+router.get('/level2', function (req, res) {
+  Organization.find({ level: "省公司" })
+    .populate('parent')
+    .sort({py: -1})
+    .exec()
+    .then(function (organizations) {
+      res.json(organizations);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
+router.get('/sub/:parentId', function (req, res) {
+  Organization.find({ parent: req.params.parentId })
+    .sort({py: -1})
+    .exec()
+    .then(function (organizations) {
+      res.status(200).json(organizations);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
 router.get('/:id', function (req, res) {
   Organization.findOne({_id: req.params.id})
     .exec()

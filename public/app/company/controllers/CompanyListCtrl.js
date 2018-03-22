@@ -56,7 +56,6 @@ angular.module('app.company').controller('CompanyListController', function (scre
     }
 
     vm.refreshCompanies = function () {
-
         if (!vm.setting.parentId) {
             vm.companies = [];
         } else {
@@ -81,7 +80,6 @@ angular.module('app.company').controller('CompanyListController', function (scre
         } else if (vm.level == "四级") {
             $state.go("app.company.company4.view", { companyId: companyId });
         }
-        // $state.go("app.company.view", { companyId: companyId });
     };
 
     vm.level1Changed = function () {
