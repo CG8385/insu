@@ -48,8 +48,9 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     vm.cityChanged = function() {
         console.log("i am here");
-        console.log(vm.organization.province);
-        vm.disctricts = vm.cities.filter(p=>p.name == vm.organization.city)[0].children;
+        console.log(vm.cities);
+        console.log(vm.organization.city);
+        vm.disctricts = vm.cities.filter(c=>c.name == vm.organization.city)[0].children;
     }
 
     vm.setParentName = function () {
