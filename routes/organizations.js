@@ -81,7 +81,7 @@ router.get('/:id', function (req, res) {
 router.post('/', function (req, res) {
   var data = req.body;
   if (IsIncomplete(data)){
-    res.status(400).send('信息缺失，请填写完整信息');
+    return res.status(400).send('信息缺失，请填写完整信息');
   }
   Organization.find({ name: data.name }, function (err, organizations) {
     if (organizations.length > 0) {
@@ -90,6 +90,10 @@ router.post('/', function (req, res) {
       organization.name = req.body.name;
       organization.parent = req.body.parent;
       organization.level = req.body.level;
+      organization.province = req.body.province;
+      organization.city = req.body.city;
+      organization.district = req.body.district;
+      organization.area_code = req.body.area_code;
       organization.py = makePy(req.body.name);
       organization.save(function (err) {
         if (err) {
@@ -129,6 +133,7 @@ router.put('/:id', function (req, res) {
     organization.province = req.body.province;
     organization.city = req.body.city;
     organization.district = req.body.district;
+    organization.area_code = req.body.area_code;
     organization.save(function (err) {
       if (err) {
         logger.error(err);
