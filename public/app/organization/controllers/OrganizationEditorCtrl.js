@@ -194,6 +194,10 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                 vm.organization = {};
                 vm.organization.level = temp.level;
                 vm.organization.parent = temp.parent;
+                vm.organization.province = temp.province;
+                vm.organization.city = temp.city;
+                vm.organization.district = temp.district;
+                vm.organization.area_code = temp.area_code;
                 if (vm.back) {
                     if (temp.level == "省公司") {
                         $state.go("app.organization.org2.all");
