@@ -78,6 +78,8 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             .then(function (organization) {
                 vm.organization = organization;
                 vm.setParentName();
+                vm.provinceChanged();
+                vm.cityChanged();
                 vm.refreshClients();
             });
     }
