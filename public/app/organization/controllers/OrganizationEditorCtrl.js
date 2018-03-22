@@ -39,11 +39,13 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
     vm.provinceChanged = function() {
+        console.log(vm.provinces);
         vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province)[0].children;
         vm.disctricts = [];
     }
 
     vm.cityChanged = function() {
+        console.log(vm.cities);
         vm.districts = vm.cities.filter(c=>c.name == vm.organization.city)[0].children;
     }
 
