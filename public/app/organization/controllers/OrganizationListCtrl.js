@@ -42,6 +42,9 @@ angular.module('app.organization').controller('OrganizationListController', func
         OrganizationService.getLevel2Orgs()
             .then(function (level2Orgs) {
                 vm.level2Orgs = level2Orgs;
+                if (vm.level == "省公司") {
+                    vm.organizations = level2Orgs;
+                }
             }, function (err) {
             });
     }
@@ -73,12 +76,11 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
 
     vm.refreshOrganizations = function () {
-        if (!vm.setting.parentId) {
+        if (!vm.setting.parentId && vm.level != "省公司") {
             vm.organizations = [];
-        } else {
+        } else if (vm.setting.parentId) {
             OrganizationService.getSubOrgs(vm.setting.parentId)
                 .then(function (orgs) {
-                    console.log(orgs);
                     vm.organizations = orgs;
                 }, function (err) {
 
