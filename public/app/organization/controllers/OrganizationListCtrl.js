@@ -37,6 +37,7 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
 
     console.log(vm.level);
+    console.log($state);
 
 
 
