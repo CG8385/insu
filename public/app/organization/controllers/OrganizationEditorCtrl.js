@@ -70,8 +70,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
     vm.districtChanged = function() {
-        var district = vm.districts.filter(c=>d.name == vm.organization.district)[0];
-        console.log(district);
+        var district = vm.districts.filter(d=>d.name == vm.organization.district)[0];
         vm.organization.area_code = district.code;
     }
 
