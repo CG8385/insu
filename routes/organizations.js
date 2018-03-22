@@ -6,6 +6,16 @@ var Q = require('q');
 var logger = require('../utils/logger.js');
 var makePy = require('../utils/pinyin');
 
+function IsIncomplete(data) {
+  if (data.level == "省公司") {
+    return !data.province;
+  }
+  if (data.level == "市公司") {
+    return !data.province || !data.city;
+  }
+  return !data.province || !data.city || data.district;
+}
+
 router.get('/', function (req, res, next) {
   Organization.find()
     .sort({ py: 1 })
@@ -70,6 +80,9 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
   var data = req.body;
+  if (IsIncomplete(data)){
+    res.status(400).send('信息缺失，请填写完整信息');
+  }
   Organization.find({ name: data.name }, function (err, organizations) {
     if (organizations.length > 0) {
       //res.status(400).send('系统中已存在该分支机构名称');
@@ -103,6 +116,9 @@ router.post('/', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
+  if (IsIncomplete(req.body)){
+    res.status(400).send('信息缺失，请填写完整信息');
+  }
   Organization.findById(req.params.id, function (err, organization) {
     if (err)
       res.send(err);
