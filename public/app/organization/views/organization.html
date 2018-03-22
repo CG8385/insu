@@ -24,6 +24,13 @@
                                             <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
                                         </label>
                                     </div>
+                                    <div class="row">                                      
+                                            <label class="label">{{vm.level}}名称</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-group"></i>
+                                                <input type="text" class="input-lg" name="organization" ng-model="vm.organization.name" validator="required">
+                                            </label>                                       
+                                    </div>
                                     <div class="row">
                                         <label class="label" style="margin-left:1em">业务管辖范围</label>
                                         <section class="col col-3">
@@ -45,14 +52,6 @@
                                             </select>
                                         </section>
                                     </div>
-                                    <div class="row">                                      
-                                            <label class="label">{{vm.level}}名称</label>
-                                            <label class="input">
-                                                <i class="icon-append fa fa-group"></i>
-                                                <input type="text" class="input-lg" name="organization" ng-model="vm.organization.name" validator="required">
-                                            </label>                                       
-                                    </div>
-                                    
                                 </fieldset>
                             </section>
 
