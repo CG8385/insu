@@ -110,6 +110,9 @@ router.put('/:id', function (req, res) {
     organization.parent = req.body.parent;
     organization.py = makePy(req.body.name);
     organization.level = req.body.level;
+    organization.province = req.body.province;
+    organization.city = req.body.city;
+    organization.district = req.body.district;
     organization.save(function (err) {
       if (err) {
         logger.error(err);

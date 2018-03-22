@@ -18,7 +18,6 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     .then(function(locations){
         vm.locations = locations;
         vm.provinces = locations;
-        console.log(vm.locations);
     })
 
     if ($state.is('app.organization.org2.new')) {
@@ -40,16 +39,11 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
     vm.provinceChanged = function() {
-        console.log("i am here");
-        console.log(vm.organization.province);
         vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province)[0].children;
         vm.disctricts = [];
     }
 
     vm.cityChanged = function() {
-        console.log("i am here");
-        console.log(vm.cities);
-        console.log(vm.organization.city);
         vm.districts = vm.cities.filter(c=>c.name == vm.organization.city)[0].children;
     }
 
