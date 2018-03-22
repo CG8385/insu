@@ -24,6 +24,27 @@
                                             <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
                                         </label>
                                     </div>
+                                    <div class="row">
+                                        <label class="label" style="margin-left:1em">业务管辖范围</label>
+                                        <section class="col col-3">
+                                            <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-model="vm.organization.province"
+                                                ng-options="p.name as p.name for p in vm.provinces">
+                                                <option value="">选择所在省</option>
+                                            </select>
+                                        </section>
+                                        <section class="col col-3">
+                                            <select style="min-width: 340px;" name='cat' class="input-sm" ng-show="['市公司','区县公司', '营业部'].indexOf(vm.level) != -1" ng-disabled="!vm.organization.province" data-ng-change="vm.cityChanged()"
+                                                ng-model="vm.organization.city" ng-options="c.name as c.name for c in vm.cities">
+                                                <option value="">选择所在市</option>
+                                            </select>
+                                        </section>
+                                        <section class="col col-3">
+                                            <select style="min-width: 340px;" name='cat' class="input-sm" ng-show="['区县公司', '营业部'].indexOf(vm.level) != -1" ng-disabled="!vm.organization.city" data-ng-change="vm.districtChanged()"
+                                                ng-model="vm.organization.district" ng-options="c.name as c.name for c in vm.districts">
+                                                <option value="">选择所在区县</option>
+                                            </select>
+                                        </section>
+                                    </div>
                                     <div class="row">                                      
                                             <label class="label">{{vm.level}}名称</label>
                                             <label class="input">

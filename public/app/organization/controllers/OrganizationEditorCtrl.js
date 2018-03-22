@@ -3,11 +3,14 @@
 angular.module('app.organization').controller('OrganizationEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, OrganizationService) {
     var vm = this;
     vm.locations = []
+    vm.provinces = [];
+    vm.cities = [];
+    vm.disctricts = [];
     vm.organization = {};
     vm.subClients = [];
     vm.wildClients = [];
 
-    vm.currentLevel = "";
+    vm.level = "";
     vm.parentName = "";
 
     vm.editable = false;
@@ -15,25 +18,39 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     OrganizationService.getLocations()
     .then(function(locations){
         vm.locations = locations;
+        vm.provinces = locations;
         console.log(vm.locations);
     })
 
     if ($state.is('app.organization.org2.new')) {
         vm.organization.level = "省公司";
+        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org3.new')) {
         vm.organization.level = "市公司";
+        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org4.new')) {
         vm.organization.level = "区县公司";
+        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     }else if ($state.is('app.organization.org5.new')) {
         vm.organization.level = "营业部";
+        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
+    }
+
+    vm.provinceChanged = function() {
+        vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province).children;
+        vm.disctricts = [];
+    }
+
+    vm.cityChanged = function() {
+        vm.disctricts = vm.cities.filter(p=>p.name == vm.organization.city).children;
     }
 
     vm.setParentName = function () {
@@ -137,19 +154,19 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.currentLevel = vm.organization.level;
+                vm.level = vm.organization.level;
                 var temp = vm.organization;
                 vm.organization = {};
                 vm.organization.level = temp.level;
                 vm.organization.parent = temp.parent;
                 if (vm.back) {
-                    if (vm.currentLevel == "省公司") {
+                    if (vm.level == "省公司") {
                         $state.go("app.organization.org2.all");
-                    } else if (vm.currentLevel == "市公司") {
+                    } else if (vm.level == "市公司") {
                         $state.go("app.organization.org3.all");
-                    } else if (vm.currentLevel == "区县公司") {
+                    } else if (vm.level == "区县公司") {
                         $state.go("app.organization.org4.all");
-                    } else if (vm.currentLevel == "营业部") {
+                    } else if (vm.level == "营业部") {
                         $state.go("app.organization.org5.all");
                     }
                 }
