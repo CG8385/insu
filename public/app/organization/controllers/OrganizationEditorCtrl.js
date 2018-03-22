@@ -85,10 +85,10 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             .then(function (organization) {
                 vm.organization = organization;
                 vm.setParentName();
+                vm.refreshClients();
                 if(vm.provinces.length > 0 && vm.organization.province){
                     vm.provinceChanged();
                     vm.cityChanged();
-                    vm.refreshClients();
                 }
             });
     }
