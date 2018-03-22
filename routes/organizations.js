@@ -94,6 +94,7 @@ router.put('/:id', function (req, res) {
         if (err)
             res.send(err);
         organization.name = req.body.name;
+        organization.parent = req.body.parent;
         organization.py = makePy(req.body.name);
         organization.save(function (err) {
             if (err){

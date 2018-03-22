@@ -7,7 +7,7 @@
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-info"></i> </span>
-                    <h2>分支机构详情</h2>
+                    <h2>{{vm.level}}详情</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding">
@@ -17,9 +17,15 @@
                         <form name="organizationForm" id="organizationForm" class="smart-form" novalidate>
                             <section class="col col-6">
                                 <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
-
+                                    <div class="row">
+                                        <label class="label">上级公司</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
+                                        </label>
+                                    </div>
                                     <div class="row">                                      
-                                            <label class="label">分支机构名称</label>
+                                            <label class="label">{{vm.level}}名称</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-group"></i>
                                                 <input type="text" class="input-lg" name="organization" ng-model="vm.organization.name" validator="required">

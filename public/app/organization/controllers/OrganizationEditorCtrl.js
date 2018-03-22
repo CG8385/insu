@@ -6,11 +6,39 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.subClients = [];
     vm.wildClients = [];
 
+    vm.currentLevel = "";
+    vm.parentName = "";
+
     vm.editable = false;
 
-    if ($state.is("app.organization.new")) {
+    if ($state.is('app.organization.org2.new')) {
+        vm.organization.level = "省公司";
         vm.editable = true;
+        vm.organization.parent = $stateParams.parentId;
+    } else if ($state.is('app.organization.org3.new')) {
+        vm.organization.level = "市公司";
+        vm.editable = true;
+        vm.organization.parent = $stateParams.parentId;
+    } else if ($state.is('app.organization.org4.new')) {
+        vm.organization.level = "区县公司";
+        vm.editable = true;
+        vm.organization.parent = $stateParams.parentId;
+    }else if ($state.is('app.organization.org5.new')) {
+        vm.organization.level = "营业部";
+        vm.editable = true;
+        vm.organization.parent = $stateParams.parentId;
     }
+
+    vm.setParentName = function () {
+        if (vm.organization.parent) {
+            OrganizationService.getOrganization(vm.organization.parent)
+                .then(function (parentOrg) {
+                    vm.parentName = parentOrg.name;
+                })
+        }
+    }
+
+    vm.setParentName();
 
 
     vm.refreshClients = function () {
@@ -62,8 +90,8 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.bulkAssign = function () {
         var clientIds = vm.getSelectedClientIds();
         $.SmartMessageBox({
-            title: "批量设置归属部门",
-            content: "确认将选中的业务员归属到该部门?",
+            title: "批量设置归属分支结构",
+            content: "确认将选中的业务员归属到该分支结构?",
             buttons: '[取消][确认]',
         }, function (ButtonPressed, value) {
             if (ButtonPressed === "确认") {
@@ -74,7 +102,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                     .then(function (result) {
                         $.smallBox({
                             title: "服务器确认信息",
-                            content: "业务员归属部门已设置",
+                            content: "业务员归属分支结构已设置",
                             color: "#739E73",
                             iconSmall: "fa fa-check",
                             timeout: 5000
@@ -101,9 +129,21 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
+                vm.currentLevel = vm.organization.level;
+                var temp = vm.organization;
                 vm.organization = {};
+                vm.organization.level = temp.level;
+                vm.organization.parent = temp.parent;
                 if (vm.back) {
-                    $state.go("app.organization.all");
+                    if (vm.currentLevel == "省公司") {
+                        $state.go("app.organization.org2.all");
+                    } else if (vm.currentLevel == "市公司") {
+                        $state.go("app.organization.org3.all");
+                    } else if (vm.currentLevel == "区县公司") {
+                        $state.go("app.organization.org4.all");
+                    } else if (vm.currentLevel == "营业部") {
+                        $state.go("app.organization.org5.all");
+                    }
                 }
             }, function (err) { });
     };
