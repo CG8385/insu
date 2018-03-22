@@ -26,9 +26,9 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
 
-    var organizationId = $stateParams.organizationId;
-    if (organizationId) {
-        OrganizationService.getOrganization(organizationId)
+    var orgId = $stateParams.orgId;
+    if (orgId) {
+        OrganizationService.getOrganization(orgId)
             .then(function (organization) {
                 vm.organization = organization;
                 vm.refreshClients();

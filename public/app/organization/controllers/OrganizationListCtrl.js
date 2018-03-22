@@ -133,14 +133,14 @@ angular.module('app.organization').controller('OrganizationListController', func
      * SmartAlerts
      */
     // With Callback
-    vm.delete = function (organizationId) {
+    vm.delete = function (orgId) {
         $.SmartMessageBox({
             title: "删除分支机构",
             content: "确认删除该分支机构？",
             buttons: '[取消][确认]'
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
-                OrganizationService.deleteOrganization(organizationId)
+                OrganizationService.deleteOrganization(orgId)
                     .then(function () {
                         vm.refreshOrganizations();
                     })
