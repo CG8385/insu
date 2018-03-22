@@ -43,6 +43,19 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
         vm.organization.parent = $stateParams.parentId;
     }
 
+    if(vm.organization.parent){
+        OrganizationService.getOrganization($stateParams.parentId)
+        .then(function(parentOrg){
+            vm.organization.province = parentOrg.province;
+            vm.organization.city = parentOrg.city;
+            vm.organization.district = parentOrg.district;
+            if(vm.organization.level == '营业部'){
+                vm.organization.area_code = parentOrg.area_code;
+            }
+        })
+    }
+
+
     vm.provinceChanged = function() {
         console.log(vm.provinces);
         vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province)[0].children;
