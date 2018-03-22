@@ -31,8 +31,8 @@ angular.module('app.organization').controller('OrganizationListController', func
     if (vm.level == "省公司") {
         OrganizationService.getLevel1Orgs()
             .then(function (level1Orgs) {
-                vm.level1Org = level1Orgs[0];
-                vm.setting.parentId = vm.leve1Org._id;
+                console.log(level1Orgs);
+                vm.setting.parentId = level1Orgs[0]._id;
                 console.log(vm.setting);
             }, function (err) {
             });
