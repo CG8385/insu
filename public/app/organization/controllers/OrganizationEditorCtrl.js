@@ -18,6 +18,11 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     .then(function(locations){
         vm.locations = locations;
         vm.provinces = locations;
+        if(vm.organization._id){
+            vm.provinceChanged();
+            vm.cityChanged();
+            vm.refreshClients();
+        }
     })
 
     if ($state.is('app.organization.org2.new')) {
@@ -80,9 +85,11 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             .then(function (organization) {
                 vm.organization = organization;
                 vm.setParentName();
-                vm.provinceChanged();
-                vm.cityChanged();
-                vm.refreshClients();
+                if(vm.provinces.length > 0){
+                    vm.provinceChanged();
+                    vm.cityChanged();
+                    vm.refreshClients();
+                }
             });
     }
 
