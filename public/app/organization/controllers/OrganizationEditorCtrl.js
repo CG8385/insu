@@ -40,12 +40,14 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     }
 
     vm.provinceChanged = function() {
-        vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province).children;
+        console.log("i am here");
+        console.log(vm.organization.province);
+        vm.cities = vm.provinces.filter(p=>p.name == vm.organization.province)[0].children;
         vm.disctricts = [];
     }
 
     vm.cityChanged = function() {
-        vm.disctricts = vm.cities.filter(p=>p.name == vm.organization.city).children;
+        vm.disctricts = vm.cities.filter(p=>p.name == vm.organization.city)[0].children;
     }
 
     vm.setParentName = function () {
