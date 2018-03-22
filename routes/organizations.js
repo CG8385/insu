@@ -6,17 +6,17 @@ var Q = require('q');
 var logger = require('../utils/logger.js');
 var makePy = require('../utils/pinyin');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   Organization.find()
-  .sort({py: 1})
-  .exec()
-  .then(function(organizations){
-    res.json(organizations);
-  },
-  function(err){
-    res.status(500).end();
-  }
-  )
+    .sort({ py: 1 })
+    .exec()
+    .then(function (organizations) {
+      res.json(organizations);
+    },
+      function (err) {
+        res.status(500).end();
+      }
+    )
 });
 
 router.get('/level1', function (req, res) {
@@ -25,29 +25,29 @@ router.get('/level1', function (req, res) {
     .then(function (organizations) {
       res.json(organizations);
     },
-    function (err) {
-      res.status(500).end();
-    }
+      function (err) {
+        res.status(500).end();
+      }
     )
 });
 
 router.get('/level2', function (req, res) {
   Organization.find({ level: "省公司" })
     .populate('parent')
-    .sort({py: -1})
+    .sort({ py: -1 })
     .exec()
     .then(function (organizations) {
       res.json(organizations);
     },
-    function (err) {
-      res.status(500).end();
-    }
+      function (err) {
+        res.status(500).end();
+      }
     )
 });
 
 router.get('/sub/:parentId', function (req, res) {
   Organization.find({ parent: req.params.parentId })
-    .sort({py: -1})
+    .sort({ py: -1 })
     .exec()
     .then(function (organizations) {
       res.status(200).json(organizations);
@@ -58,21 +58,32 @@ router.get('/sub/:parentId', function (req, res) {
 });
 
 router.get('/:id', function (req, res) {
-  Organization.findOne({_id: req.params.id})
+  Organization.findOne({ _id: req.params.id })
     .exec()
-    .then(function(organization){
-       res.status(200).json(organization);
-     },function(err){
-       logger.error(err);
-       res.status(500).send(err);
-     });
+    .then(function (organization) {
+      res.status(200).json(organization);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
 });
 
 router.post('/', function (req, res) {
   var data = req.body;
   Organization.find({ name: data.name }, function (err, organizations) {
     if (organizations.length > 0) {
-      res.status(400).send('系统中已存在该分支机构名称');
+      //res.status(400).send('系统中已存在该分支机构名称');
+      organization.name = req.body.name;
+      organization.parent = req.body.parent;
+      organization.py = makePy(req.body.name);
+      organization.save(function (err) {
+        if (err) {
+          logger.error(err);
+          res.send(err);
+        }
+        logger.info(req.user.name + " 更新了分支机构信息，机构名称为：" + organization.name + "。" + req.clientIP);
+        res.json({ message: '分支机构已成功更新' });
+      });
     } else {
       var organization = new Organization(data);
       organization.py = makePy(data.name);
@@ -81,7 +92,7 @@ router.post('/', function (req, res) {
           logger.error(err);
           res.status(500).send(err);
         } else {
-          logger.info(req.user.name + " 添加了一个分支机构，机构名称为："+ savedOrganization.name +"。"+ req.clientIP);
+          logger.info(req.user.name + " 添加了一个分支机构，机构名称为：" + savedOrganization.name + "。" + req.clientIP);
           res.status(200).json({ message: '分支机构已成功添加' });
         }
       });
@@ -90,31 +101,31 @@ router.post('/', function (req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    Organization.findById(req.params.id, function (err, organization) {
-        if (err)
-            res.send(err);
-        organization.name = req.body.name;
-        organization.parent = req.body.parent;
-        organization.py = makePy(req.body.name);
-        organization.save(function (err) {
-            if (err){
-              logger.error(err);
-              res.send(err);
-            }
-            logger.info(req.user.name + " 更新了分支机构信息，机构名称为："+ organization.name +"。"+ req.clientIP);
-            res.json({message: '分支机构已成功更新'});
-        });
-
+  Organization.findById(req.params.id, function (err, organization) {
+    if (err)
+      res.send(err);
+    organization.name = req.body.name;
+    organization.parent = req.body.parent;
+    organization.py = makePy(req.body.name);
+    organization.save(function (err) {
+      if (err) {
+        logger.error(err);
+        res.send(err);
+      }
+      logger.info(req.user.name + " 更新了分支机构信息，机构名称为：" + organization.name + "。" + req.clientIP);
+      res.json({ message: '分支机构已成功更新' });
     });
+
+  });
 });
 
 router.delete('/:id', function (req, res) {
-  Organization.remove({_id: req.params.id}, function(err, organization){
-    if (err){
+  Organization.remove({ _id: req.params.id }, function (err, organization) {
+    if (err) {
       logger.error(err);
       res.send(err);
     }
-    logger.info(req.user.name + " 删除了一个分支机构。"+ req.clientIP);
+    logger.info(req.user.name + " 删除了一个分支机构。" + req.clientIP);
     res.json({ message: '分支机构已成功删除' });
   });
 });
