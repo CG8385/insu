@@ -194,18 +194,21 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                 vm.organization = {};
                 vm.organization.level = temp.level;
                 vm.organization.parent = temp.parent;
-                vm.organization.province = temp.province;
-                vm.organization.city = temp.city;
-                vm.organization.district = temp.district;
-                vm.organization.area_code = temp.area_code;
                 if (vm.back) {
                     if (temp.level == "省公司") {
                         $state.go("app.organization.org2.all");
                     } else if (temp.level == "市公司") {
+                        vm.organization.province = temp.province;
                         $state.go("app.organization.org3.all");
                     } else if (temp.level == "区县公司") {
+                        vm.organization.province = temp.province;
+                        vm.organization.city = temp.city;
                         $state.go("app.organization.org4.all");
                     } else if (temp.level == "营业部") {
+                        vm.organization.province = temp.province;
+                        vm.organization.city = temp.city;
+                        vm.organization.district = temp.district;
+                        vm.organization.area_code = temp.area_code;
                         $state.go("app.organization.org5.all");
                     }
                 }
