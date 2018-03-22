@@ -59,6 +59,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
         OrganizationService.getOrganization(orgId)
             .then(function (organization) {
                 vm.organization = organization;
+                vm.setParentName();
                 vm.refreshClients();
             });
     }
