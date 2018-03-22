@@ -17,10 +17,10 @@ angular.module('app.organization').controller('OrganizationListController', func
     else if ($state.is("app.organization.org3.all")) {
         vm.level = "市公司";
         vm.settingString = "org3Settings";
-    } else if ($state.is("app.organization.Org4.all")) {
+    } else if ($state.is("app.organization.org4.all")) {
         vm.level = "区县公司";
         vm.settingString = "org4Settings";
-    } else if ($state.is("app.organization.Org5.all")) {
+    } else if ($state.is("app.organization.org5.all")) {
         vm.level = "营业部";
         vm.settingString = "org5Settings";
     }
@@ -35,9 +35,6 @@ angular.module('app.organization').controller('OrganizationListController', func
             }, function (err) {
             });
     }
-
-    console.log(vm.level);
-    console.log($state);
 
 
 
