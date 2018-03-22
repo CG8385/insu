@@ -58,6 +58,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     vm.provinceChanged = function() {
         var province = vm.provinces.filter(p=>p.name == vm.organization.province)[0];
+        console.log(province);
         vm.organization.area_code = province.code;
         vm.cities = province.children;
         vm.disctricts = [];
