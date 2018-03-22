@@ -4,9 +4,18 @@ angular.module('app.organization').controller('OrganizationListController', func
     var vm = this;
     vm.organizations = [];
 
+    vm.leve1Org = null;
     vm.level2Orgs = [];
     vm.level3Orgs = [];
     vm.level4Orgs = [];
+
+    vm.loadLevel1Org = function () {
+        OrganizationService.getLevel1Orgs()
+            .then(function (level1Orgs) {
+                vm.level1Org = level1Orgs[0];
+            }, function (err) {
+            });
+    }
 
     if ($state.is("app.organization.org2.all")) {
         vm.level = "省公司";
@@ -24,13 +33,11 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
     vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
 
-    vm.loadLevel1Org = function () {
-        OrganizationService.getLevel1Orgs()
-            .then(function (level1Orgs) {
-                vm.setting.level1Org = level1Orgs[0];
-            }, function (err) {
-            });
+    if (vm.level == "省公司") {
+        vm.setting.parentId = vm.leve1Org;
     }
+
+
 
     vm.loadLevel2Orgs = function () {
         OrganizationService.getLevel2Orgs()
