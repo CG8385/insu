@@ -29,14 +29,12 @@ angular.module('app.organization').controller('OrganizationListController', func
 
 
     if (vm.level == "省公司") {
-        vm.loadLevel1Org = function () {
-            OrganizationService.getLevel1Orgs()
-                .then(function (level1Orgs) {
-                    vm.level1Org = level1Orgs[0];
-                    vm.setting.parentId = vm.leve1Org;
-                }, function (err) {
-                });
-        }   
+        OrganizationService.getLevel1Orgs()
+            .then(function (level1Orgs) {
+                vm.level1Org = level1Orgs[0];
+                vm.setting.parentId = vm.leve1Org;
+            }, function (err) {
+            });
     }
 
 
