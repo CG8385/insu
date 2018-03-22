@@ -13,7 +13,7 @@ function IsIncomplete(data) {
   if (data.level == "市公司") {
     return !data.province || !data.city;
   }
-  return !data.province || !data.city || data.district;
+  return !data.province || !data.city || !data.district;
 }
 
 router.get('/', function (req, res, next) {
