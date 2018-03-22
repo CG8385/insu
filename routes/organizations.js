@@ -73,6 +73,7 @@ router.post('/', function (req, res) {
   Organization.find({ name: data.name }, function (err, organizations) {
     if (organizations.length > 0) {
       //res.status(400).send('系统中已存在该分支机构名称');
+      var organization = organizations[0];
       organization.name = req.body.name;
       organization.parent = req.body.parent;
       organization.level = req.body.level;
