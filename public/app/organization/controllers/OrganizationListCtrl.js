@@ -33,9 +33,12 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
     vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
 
+    console.log(vm.level);
+
     if (vm.level == "省公司") {
         vm.setting.parentId = vm.leve1Org;
     }
+    console.log(vm.setting);
 
 
 
