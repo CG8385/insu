@@ -5,7 +5,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.locations = []
     vm.provinces = [];
     vm.cities = [];
-    vm.disctricts = [];
+    vm.districts = [];
     vm.organization = {};
     vm.subClients = [];
     vm.wildClients = [];
@@ -50,7 +50,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
         console.log("i am here");
         console.log(vm.cities);
         console.log(vm.organization.city);
-        vm.disctricts = vm.cities.filter(c=>c.name == vm.organization.city)[0].children;
+        vm.districts = vm.cities.filter(c=>c.name == vm.organization.city)[0].children;
     }
 
     vm.setParentName = function () {
