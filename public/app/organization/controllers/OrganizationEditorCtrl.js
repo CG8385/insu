@@ -18,7 +18,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     .then(function(locations){
         vm.locations = locations;
         vm.provinces = locations;
-        if(vm.organization._id){
+        if(vm.organization.province){
             vm.provinceChanged();
             vm.cityChanged();
             vm.refreshClients();
@@ -85,7 +85,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             .then(function (organization) {
                 vm.organization = organization;
                 vm.setParentName();
-                if(vm.provinces.length > 0){
+                if(vm.provinces.length > 0 && vm.organization.province){
                     vm.provinceChanged();
                     vm.cityChanged();
                     vm.refreshClients();
