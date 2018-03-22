@@ -10,7 +10,6 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.subClients = [];
     vm.wildClients = [];
 
-    vm.level = "";
     vm.parentName = "";
 
     vm.editable = false;
@@ -24,22 +23,18 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     if ($state.is('app.organization.org2.new')) {
         vm.organization.level = "省公司";
-        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org3.new')) {
         vm.organization.level = "市公司";
-        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org4.new')) {
         vm.organization.level = "区县公司";
-        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     }else if ($state.is('app.organization.org5.new')) {
         vm.organization.level = "营业部";
-        vm.level = vm.organization.level;
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     }
@@ -154,19 +149,19 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
-                vm.level = vm.organization.level;
+                var level = vm.organization.level;
                 var temp = vm.organization;
                 vm.organization = {};
                 vm.organization.level = temp.level;
                 vm.organization.parent = temp.parent;
                 if (vm.back) {
-                    if (vm.level == "省公司") {
+                    if (temp.level == "省公司") {
                         $state.go("app.organization.org2.all");
-                    } else if (vm.level == "市公司") {
+                    } else if (temp.level == "市公司") {
                         $state.go("app.organization.org3.all");
-                    } else if (vm.level == "区县公司") {
+                    } else if (temp.level == "区县公司") {
                         $state.go("app.organization.org4.all");
-                    } else if (vm.level == "营业部") {
+                    } else if (temp.level == "营业部") {
                         $state.go("app.organization.org5.all");
                     }
                 }
