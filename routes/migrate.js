@@ -27,7 +27,7 @@ router.get('/step1', asyncMiddleware(async (req, res, next) => {
 }));
 
 router.get('/step2', asyncMiddleware(async (req, res, next) => {
-    let level2 = await Organization.find({name:'江苏省分公司'}).exec();
+    let level2 = await Organization.findOne({name:'江苏省分公司'}).exec();
     await Organization.updateAsync({name:'苏州分公司'}, {level:'三级机构', parent: level2._id});
     res.json("finish");
 }));
