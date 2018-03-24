@@ -22,6 +22,13 @@ var Role = Promise.promisifyAll(require('../models/role.js')(db));
 router.get('/step1', asyncMiddleware(async (req, res, next) => {
     await Organization.removeAsync({name:'红叶保险代理法人机构'});
     await Organization.updateAsync({name:'红叶保险代理有限公司法人机构'}, {level:'一级机构', area_code:'0'});
+    let level1 = await Organization.find({name:'红叶保险代理有限公司法人机构'}).exec();
+    res.json("finish");
+}));
+
+router.get('/step2', asyncMiddleware(async (req, res, next) => {
+    let level2 = await Organization.find({name:'江苏省分公司'}).exec();
+    await Organization.updateAsync({name:'苏州分公司'}, {level:'二级机构', parent: level2._id});
     res.json("finish");
 }));
 
