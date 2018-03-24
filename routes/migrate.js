@@ -33,13 +33,13 @@ router.get('/step1', asyncMiddleware(async (req, res, next) => {
     await Organization.updateAsync({name:'徐州睢宁营业部'}, {level:'三级机构', province:'江苏省', city:'徐州市',district:'睢宁县', area_code:'0320324', parent: level2._id});
     let level3 = new Organization({name:'宿迁分公司'}, {level:'三级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level2._id})
     level3 = Promise.promisifyAll(level3);
-    level3.saveAsync();
-    level3 = new Organization({name:'连云港分公司'}, {level:'三级机构', province:'江苏省', city:'连云港市', area_code:'03207', parent: level2._id})
+    await level3.saveAsync();
+    level3 = new Organization({name:'连云港分公司', level:'三级机构', province:'江苏省', city:'连云港市', area_code:'03207', parent: level2._id})
     level3 = Promise.promisifyAll(level3);
-    level3.saveAsync();
-    level3 = new Organization({name:'南京分公司'}, {level:'三级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level2._id})
+    await level3.saveAsync();
+    level3 = new Organization({name:'南京分公司', level:'三级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level2._id})
     level3 = Promise.promisifyAll(level3);
-    level3.saveAsync();
+    await level3.saveAsync();
     res.json("finish");
 }));
 
