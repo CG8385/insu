@@ -15,20 +15,14 @@ var Migrate = require('../models/migrate.js')(db);
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
 var Client = require('../models/client.js')(db);
-var Organization = require('../models/organization.js')(db);
+var Organization = Promise.promisifyAll(require('../models/organization.js')(db));
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
 router.get('/step1', asyncMiddleware(async (req, res, next) => {
-    let root = new Organization();
-    root.name="红叶保险代理法人机构";
-    root.level="一级机构";
-    root.area_code="0";
-
-    root.py = makePy(root.name);
-    root.save(function(err,data){
-        res.json(data);
-    })
+    Organization.remove({_id:'5ab64e90c7cbdc0ce9b45117'});
+    Organization.updateAsync({name:'红叶保险代理有限公司法人机构'}, {level:'一级机构', area_code:'0'});
+    res.json("finish");
 }));
 
 module.exports = router;
