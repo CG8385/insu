@@ -16,13 +16,13 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org2', {
             abstract: true,
             data: {
-                title: '省公司管理'
+                title: '二级机构管理'
             }
         })
         .state('app.organization.org2.all', {
             url: '/organizations/org2',
             data: {
-                title: '省公司'
+                title: '二级机构'
             },
             views: {
                 "content@app": {
@@ -34,7 +34,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org2.view', {
             url: '/organizations/org2/view/:orgId',
             data: {
-                title: '省公司查看'
+                title: '二级机构查看'
             },
             views: {
                 "content@app": {
@@ -46,7 +46,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org2.new', {
             url: '/organizations/org2/new/:parentId',
             data: {
-                title: '添加省公司'
+                title: '添加二级机构'
             },
             views: {
                 "content@app": {
@@ -58,13 +58,13 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org3', {
             abstract: true,
             data: {
-                title: '市公司管理'
+                title: '三级机构管理'
             }
         })
         .state('app.organization.org3.all', {
             url: '/organizations/org3',
             data: {
-                title: '市公司'
+                title: '三级机构'
             },
             views: {
                 "content@app": {
@@ -76,7 +76,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org3.view', {
             url: '/organizations/org3/view/:orgId',
             data: {
-                title: '市公司查看'
+                title: '三级机构查看'
             },
             views: {
                 "content@app": {
@@ -88,7 +88,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org3.new', {
             url: '/organizations/org3/new/:parentId',
             data: {
-                title: '添加市公司'
+                title: '添加三级机构'
             },
             views: {
                 "content@app": {
@@ -100,13 +100,13 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org4', {
             abstract: true,
             data: {
-                title: '区县公司管理'
+                title: '四级机构管理'
             }
         })
         .state('app.organization.org4.all', {
             url: '/organizations/org4',
             data: {
-                title: '区县公司'
+                title: '四级机构'
             },
             views: {
                 "content@app": {
@@ -118,7 +118,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org4.view', {
             url: '/organizations/org4/view/:orgId',
             data: {
-                title: '区县公司查看'
+                title: '四级机构查看'
             },
             views: {
                 "content@app": {
@@ -130,7 +130,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org4.new', {
             url: '/organizations/org4/new/:parentId',
             data: {
-                title: '添加区县公司'
+                title: '添加四级机构'
             },
             views: {
                 "content@app": {
@@ -142,13 +142,13 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org5', {
             abstract: true,
             data: {
-                title: '营业部管理'
+                title: '五级机构管理'
             }
         })
         .state('app.organization.org5.all', {
             url: '/organizations/org5',
             data: {
-                title: '营业部'
+                title: '五级机构'
             },
             views: {
                 "content@app": {
@@ -160,7 +160,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org5.view', {
             url: '/organizations/org5/view/:orgId',
             data: {
-                title: '营业部查看'
+                title: '五级机构查看'
             },
             views: {
                 "content@app": {
@@ -172,7 +172,7 @@ angular.module('app.organization').config(function ($stateProvider) {
         .state('app.organization.org5.new', {
             url: '/organizations/org5/new/:parentId',
             data: {
-                title: '添加营业部'
+                title: '添加五级机构'
             },
             views: {
                 "content@app": {

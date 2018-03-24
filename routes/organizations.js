@@ -7,10 +7,10 @@ var logger = require('../utils/logger.js');
 var makePy = require('../utils/pinyin');
 
 function IsIncomplete(data) {
-  if (data.level == "省公司") {
+  if (data.level == "二级机构") {
     return !data.province;
   }
-  if (data.level == "市公司") {
+  if (data.level == "三级机构") {
     return !data.province || !data.city;
   }
   return !data.province || !data.city || !data.district;
@@ -30,7 +30,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/level1', function (req, res) {
-  Organization.find({ level: "总公司" })
+  Organization.find({ level: "一级机构" })
     .exec()
     .then(function (organizations) {
       res.json(organizations);
@@ -42,7 +42,7 @@ router.get('/level1', function (req, res) {
 });
 
 router.get('/level2', function (req, res) {
-  Organization.find({ level: "省公司" })
+  Organization.find({ level: "二级机构" })
     .populate('parent')
     .sort({ py: -1 })
     .exec()

@@ -19,10 +19,10 @@ var Organization = require('../models/organization.js')(db);
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
 
-router.get('/rootbranch', asyncMiddleware(async (req, res, next) => {
+router.get('/step1', asyncMiddleware(async (req, res, next) => {
     let root = new Organization();
-    root.name="红叶保险代理总公司";
-    root.level="总公司";
+    root.name="红叶保险代理法人机构";
+    root.level="一级机构";
     root.py = makePy(data.name);
     root.save(function(err,data){
         res.json(data);

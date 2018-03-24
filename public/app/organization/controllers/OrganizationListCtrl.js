@@ -11,23 +11,23 @@ angular.module('app.organization').controller('OrganizationListController', func
 
 
     if ($state.is("app.organization.org2.all")) {
-        vm.level = "省公司";
+        vm.level = "二级机构";
         vm.settingString = "org2Settings";
     }
     else if ($state.is("app.organization.org3.all")) {
-        vm.level = "市公司";
+        vm.level = "三级机构";
         vm.settingString = "org3Settings";
     } else if ($state.is("app.organization.org4.all")) {
-        vm.level = "区县公司";
+        vm.level = "四级机构";
         vm.settingString = "org4Settings";
     } else if ($state.is("app.organization.org5.all")) {
-        vm.level = "营业部";
+        vm.level = "五级机构";
         vm.settingString = "org5Settings";
     }
     vm.setting = localStorageService.get(vm.settingString) ? localStorageService.get(vm.settingString) : {};
 
 
-    if (vm.level == "省公司") {
+    if (vm.level == "二级机构") {
         OrganizationService.getLevel1Orgs()
             .then(function (level1Orgs) {
                 vm.setting.parentId = level1Orgs[0]._id;
@@ -42,7 +42,7 @@ angular.module('app.organization').controller('OrganizationListController', func
         OrganizationService.getLevel2Orgs()
             .then(function (level2Orgs) {
                 vm.level2Orgs = level2Orgs;
-                if (vm.level == "省公司") {
+                if (vm.level == "二级机构") {
                     vm.organizations = level2Orgs;
                 }
             }, function (err) {
@@ -76,7 +76,7 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
 
     vm.refreshOrganizations = function () {
-        if (!vm.setting.parentId && vm.level != "省公司") {
+        if (!vm.setting.parentId && vm.level != "二级机构") {
             vm.organizations = [];
         } else if (vm.setting.parentId) {
             OrganizationService.getSubOrgs(vm.setting.parentId)
@@ -94,21 +94,21 @@ angular.module('app.organization').controller('OrganizationListController', func
     vm.refreshOrganizations();
 
     vm.view = function (orgId) {
-        if (vm.level == "省公司") {
+        if (vm.level == "二级机构") {
             $state.go("app.organization.org2.view", { orgId: orgId });
-        } else if (vm.level == "市公司") {
+        } else if (vm.level == "三级机构") {
             $state.go("app.organization.org3.view", { orgId: orgId });
-        } else if (vm.level == "区县公司") {
+        } else if (vm.level == "四级机构") {
             $state.go("app.organization.org4.view", { orgId: orgId });
-        } else if (vm.level == "营业部") {
+        } else if (vm.level == "五级机构") {
             $state.go("app.organization.org5.view", { orgId: orgId });
         }
     };
 
     vm.level2Changed = function () {
-        if (vm.level == "市公司") {
+        if (vm.level == "三级机构") {
             vm.setting.parentId = vm.setting.level2Org;
-        } else if (vm.level == "区县公司") {
+        } else if (vm.level == "四级机构") {
             vm.setting.parentId = null;
             vm.setting.level3Org = null;
             vm.loadLevel3Orgs();
@@ -118,9 +118,9 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
 
     vm.level3Changed = function () {
-        if (vm.level == "区县公司") {
+        if (vm.level == "四级机构") {
             vm.setting.parentId = vm.setting.level3Org;
-        } else if (vm.level == "营业部") {
+        } else if (vm.level == "五级机构") {
             vm.setting.parentId = null;
             vm.setting.level4Org = null;
             vm.loadLevel4Orgs();
@@ -136,13 +136,13 @@ angular.module('app.organization').controller('OrganizationListController', func
     }
 
     vm.addSubOrg = function () {
-        if (vm.level == "省公司") {
+        if (vm.level == "二级机构") {
             $state.go("app.organization.org2.new", { parentId: vm.setting.level1Org });
-        } else if (vm.level == "市公司") {
+        } else if (vm.level == "三级机构") {
             $state.go("app.organization.org3.new", { parentId: vm.setting.level2Org });
-        } else if (vm.level == "区县公司") {
+        } else if (vm.level == "四级机构") {
             $state.go("app.organization.org4.new", { parentId: vm.setting.level3Org });
-        } else if (vm.level == "营业部") {
+        } else if (vm.level == "五级机构") {
             $state.go("app.organization.org5.new", { parentId: vm.setting.level4Org });
         }
     }

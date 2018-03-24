@@ -34,19 +34,19 @@
                                     <div class="row">
                                         <label class="label">业务管辖范围</label>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-disabled="vm.organization.level != '省公司'" ng-model="vm.organization.province"
+                                            <select name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-disabled="vm.organization.level != '二级机构'" ng-model="vm.organization.province"
                                                 ng-options="p.name as p.name for p in vm.provinces">
                                                 <option value="">选择所在省</option>
                                             </select>
                                         </section>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" data-ng-show="['市公司','区县公司', '营业部'].indexOf(vm.organization.level) != -1" ng-disabled="vm.organization.level != '市公司' || !vm.organization.province" data-ng-change="vm.cityChanged()"
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.organization.province" data-ng-change="vm.cityChanged()"
                                                 ng-model="vm.organization.city" ng-options="c.name as c.name for c in vm.cities">
                                                 <option value="">选择所在市</option>
                                             </select>
                                         </section>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" data-ng-show="['区县公司', '营业部'].indexOf(vm.organization.level) != -1" ng-disabled="vm.organization.level != '区县公司' || !vm.organization.city" data-ng-change="vm.districtChanged()"
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.organization.city" data-ng-change="vm.districtChanged()"
                                                 ng-model="vm.organization.district" ng-options="c.name as c.name for c in vm.districts">
                                                 <option value="">选择所在区县</option>
                                             </select>
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div ng-show="vm.organization._id" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <div ng-show="vm.organization._id && vm.organization.level='五级机构'" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>下属业务员</h2>
@@ -106,8 +106,8 @@
                 </div>
             </div>
 
-            <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkAssign()" class="btn btn-primary">批量添加选中业务员到该营业部</button>
-            <div ng-show="vm.organization._id" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+            <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkAssign()" class="btn btn-primary">批量添加选中业务员到该五级机构</button>
+            <div ng-show="vm.organization._id && vm.organization.level='五级机构'" class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>待分配业务员</h2>

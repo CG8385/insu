@@ -3,14 +3,14 @@
 
     <div class="row">
         <article class="col-sm-12">
-             <select name='cat' class="input-sm" data-ng-show="vm.level!='省公司'" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Org" ng-options="c._id as c.name for c in vm.level2Orgs">
-                <option value="">选择所属省公司</option>
+             <select name='cat' class="input-sm" data-ng-show="vm.level!='二级机构'" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                <option value="">选择所属二级机构</option>
              </select>
-             <select name='cat' class="input-sm" data-ng-show="vm.level=='区县公司' || vm.level=='营业部'" ng-disabled="!vm.setting.level2Org" data-ng-change="vm.level3Changed()" ng-model="vm.setting.level3Org" ng-options="c._id as c.name for c in vm.level3Orgs">
-                <option value="">选择所属市公司</option>
+             <select name='cat' class="input-sm" data-ng-show="vm.level=='四级机构' || vm.level=='五级机构'" ng-disabled="!vm.setting.level2Org" data-ng-change="vm.level3Changed()" ng-model="vm.setting.level3Org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                <option value="">选择所属三级机构</option>
              </select>
-             <select name='cat' class="input-sm" data-ng-show="vm.level=='营业部'" ng-disabled="!vm.setting.level3Org" data-ng-change="vm.level4Changed()" ng-model="vm.setting.level4Org" ng-options="c._id as c.name for c in vm.level4Orgs">
-                <option value="">选择所属区县公司</option>
+             <select name='cat' class="input-sm" data-ng-show="vm.level=='五级机构'" ng-disabled="!vm.setting.level3Org" data-ng-change="vm.level4Changed()" ng-model="vm.setting.level4Org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                <option value="">选择所属四级机构</option>
              </select>
             <button ng-click="vm.addSubOrg()" ng-show="vm.setting.parentId" class="btn btn-primary btn-sm">添加下辖{{vm.level}}</button>
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">

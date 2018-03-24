@@ -26,19 +26,19 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     })
 
     if ($state.is('app.organization.org2.new')) {
-        vm.organization.level = "省公司";
+        vm.organization.level = "二级机构";
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org3.new')) {
-        vm.organization.level = "市公司";
+        vm.organization.level = "三级机构";
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     } else if ($state.is('app.organization.org4.new')) {
-        vm.organization.level = "区县公司";
+        vm.organization.level = "四级机构";
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     }else if ($state.is('app.organization.org5.new')) {
-        vm.organization.level = "营业部";
+        vm.organization.level = "五级机构";
         vm.editable = true;
         vm.organization.parent = $stateParams.parentId;
     }
@@ -49,7 +49,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             vm.organization.province = parentOrg.province;
             vm.organization.city = parentOrg.city;
             vm.organization.district = parentOrg.district;
-            if(vm.organization.level == '营业部'){
+            if(vm.organization.level == '五级机构'){
                 vm.organization.area_code = parentOrg.area_code;
             }
         })
@@ -195,16 +195,16 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
                 vm.organization.level = temp.level;
                 vm.organization.parent = temp.parent;
                 if (vm.back) {
-                    if (temp.level == "省公司") {
+                    if (temp.level == "二级机构") {
                         $state.go("app.organization.org2.all");
-                    } else if (temp.level == "市公司") {
+                    } else if (temp.level == "三级机构") {
                         vm.organization.province = temp.province;
                         $state.go("app.organization.org3.all");
-                    } else if (temp.level == "区县公司") {
+                    } else if (temp.level == "四级机构") {
                         vm.organization.province = temp.province;
                         vm.organization.city = temp.city;
                         $state.go("app.organization.org4.all");
-                    } else if (temp.level == "营业部") {
+                    } else if (temp.level == "五级机构") {
                         vm.organization.province = temp.province;
                         vm.organization.city = temp.city;
                         vm.organization.district = temp.district;
