@@ -58,7 +58,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
 
     vm.provinceChanged = function() {
         var province = vm.provinces.filter(p=>p.name == vm.organization.province)[0];
-        vm.organization.area_code = province.code;
+        vm.organization.area_code = "0" + province.code;
         vm.cities = province.children;
         vm.disctricts = [];
     }
@@ -66,7 +66,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.cityChanged = function() {
         var city = vm.cities.filter(c=>c.name == vm.organization.city)[0];
         if(city){
-            vm.organization.area_code = city.code;
+            vm.organization.area_code = "0" + city.code;
             vm.districts = city.children;
         }else{
             vm.disctricts = [];
@@ -77,7 +77,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
     vm.districtChanged = function() {
         var district = vm.districts.filter(d=>d.name == vm.organization.district)[0];
         if(district){
-            vm.organization.area_code = district.code;
+            vm.organization.area_code = "0" + district.code;
         }
     }
 

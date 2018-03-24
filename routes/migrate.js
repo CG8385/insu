@@ -23,7 +23,9 @@ router.get('/step1', asyncMiddleware(async (req, res, next) => {
     let root = new Organization();
     root.name="红叶保险代理法人机构";
     root.level="一级机构";
-    root.py = makePy(data.name);
+    root.area_code="0";
+
+    root.py = makePy(root.name);
     root.save(function(err,data){
         res.json(data);
     })
