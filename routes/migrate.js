@@ -37,7 +37,7 @@ router.get('/step1', asyncMiddleware(async (req, res, next) => {
     level3 = new Organization({name:'连云港分公司', level:'三级机构', province:'江苏省', city:'连云港市', area_code:'03207', parent: level2._id})
     level3 = Promise.promisifyAll(level3);
     await level3.saveAsync();
-    level3 = new Organization({name:'南京新街口营业部', level:'三级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level2._id})
+    level3 = new Organization({name:'南京分公司', level:'三级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level2._id})
     level3 = Promise.promisifyAll(level3);
     await level3.saveAsync();
     res.json("finish");
