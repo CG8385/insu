@@ -47,12 +47,18 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     let level3 = await Organization.findOne({name:'南京分公司'}).exec();
     await Organization.updateAsync({name:'南京溧水营业部'}, {level:'四级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level3._id});
     await Organization.updateAsync({name:'南京新街口营业部'}, {level:'四级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level3._id});
+    await Organization.updateAsync({name:'南京分公司财险营业部'}, {level:'四级机构', province:'江苏省', city:'南京市', area_code:'03201', parent: level3._id});
     level3 = await Organization.findOne({name:'宿迁分公司'}).exec();
     await Organization.updateAsync({name:'泗洪营业部'}, {level:'四级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level3._id});
     await Organization.updateAsync({name:'宿迁开发区营业部'}, {level:'四级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level3._id});
     await Organization.updateAsync({name:'宿迁宿城营业部'}, {level:'四级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level3._id});
     await Organization.updateAsync({name:'宿迁沭阳营业部'}, {level:'四级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level3._id});
+    await Organization.updateAsync({name:'宿迁分公司车险业务部'}, {level:'四级机构', province:'江苏省', city:'宿迁市', area_code:'03213', parent: level3._id});
     level3 = await Organization.findOne({name:'徐州分公司'}).exec();
+    await Organization.updateAsync({name:'徐州出单中心'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
+    await Organization.updateAsync({name:'徐州分公司财险部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
+    await Organization.updateAsync({name:'徐州分公司车险部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
+    await Organization.updateAsync({name:'徐州个险营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
     await Organization.updateAsync({name:'徐州丰县营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
     await Organization.updateAsync({name:'徐州沛县营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
     await Organization.updateAsync({name:'徐州贾汪营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level3._id});
@@ -61,6 +67,8 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     level3 = await Organization.findOne({name:'徐州睢宁分公司'}).exec();
     await Organization.updateAsync({name:'商务中心（省内）运营部'}, {level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id});
     await Organization.updateAsync({name:'徐州睢宁沙集营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id});
+    level3 = await Organization.findOne({name:'苏州分公司'}).exec();
+    await Organization.updateAsync({name:'苏州个险业务部'}, {level:'四级机构', province:'江苏省', city:'苏州市', area_code:'03205', parent: level3._id});
     res.json("finish");
 }));
 
