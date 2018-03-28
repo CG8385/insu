@@ -42,12 +42,6 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
 
 
 
-    // CompanyService.getCompanyCatogories()
-    //     .then(function (companyCatogories) {
-    //         vm.companyCatogories = companyCatogories;
-    //     })
-
-
 
     if ($state.is("app.company.new")) {
         vm.editable = true;

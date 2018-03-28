@@ -16,6 +16,7 @@ var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
+var locations = require('./locations');
 var router = express.Router();
 
 /* GET home page. */
@@ -37,6 +38,7 @@ router.use('/migrate', migrate);
 router.use('/sts', sts);
 router.use('/logs', logs);
 router.use('/roles', roles);
+router.use('/locations', locations);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

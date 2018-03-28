@@ -3,11 +3,20 @@
 
     <div class="row">
         <article class="col-sm-12">
-
+             <select name='cat' class="input-sm" data-ng-show="vm.level!='二级机构'" data-ng-change="vm.level2Changed()" ng-model="vm.setting.level2Org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                <option value="">选择所属二级机构</option>
+             </select>
+             <select name='cat' class="input-sm" data-ng-show="vm.level=='四级机构' || vm.level=='五级机构'" ng-disabled="!vm.setting.level2Org" data-ng-change="vm.level3Changed()" ng-model="vm.setting.level3Org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                <option value="">选择所属三级机构</option>
+             </select>
+             <select name='cat' class="input-sm" data-ng-show="vm.level=='五级机构'" ng-disabled="!vm.setting.level3Org" data-ng-change="vm.level4Changed()" ng-model="vm.setting.level4Org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                <option value="">选择所属四级机构</option>
+             </select>
+            <button ng-click="vm.addSubOrg()" ng-show="vm.setting.parentId" class="btn btn-primary btn-sm">添加下辖{{vm.level}}</button>
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>分支机构</h2>
+                    <h2>下辖{{vm.level}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
@@ -15,7 +24,7 @@
                         <table class = "table-striped table-condensed" tr-ng-grid items="vm.organizations" page-items="15" enable-filtering="false">
                             <thead>
                                 <tr>
-                                    <th field-name="name" display-name="分支机构名称" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>
