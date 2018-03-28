@@ -450,8 +450,6 @@
                                 </div>
                             </fieldset>
 
-
-
                             <fieldset class="optional-input-field-set" ng-disabled=true>
                                 <div class="row">
                                     <section class="col col-2">
@@ -463,7 +461,26 @@
                                     </section>
                                 </div>
                             </fieldset>
-
+                            <div class="row" ng-show="vm.policy.policy_status!='待审核'">
+                                <!--section class="col col-3" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class="label">银行</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-bank"></i>
+                                        <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank" validator="required">
+                                    </label>
+                                </section>
+                                <section class="col col-4" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class="label">支付凭证号</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-key"></i>
+                                        <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof" validator="required">
+                                    </label>
+                                </section-->
+                                <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
+                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" ng-click="vm.pay()"
+                                        class="btn btn-primary btn-lg">修改保单状态为已支付</button>
+                                </section>
+                            </div>
                             <footer>
                                 <span>
                                     <button ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
@@ -471,6 +488,8 @@
                                     <button class="btn btn-primary" ng-show="vm.editable"
                                             ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                 </span>
                             </footer>
                         </form>

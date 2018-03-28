@@ -530,7 +530,21 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 var deferred = $q.defer();
                 var orderBy = "submit_date";
                 var orderByReverse = true;
-                
+
+                if (type == "to-be-reviewed") {
+                    filterSettings.policy_status = "待审核";
+                    orderByReverse = false;
+                } else if (type == "to-be-paid") {
+                    filterSettings.policy_status = "待支付";
+                    orderByReverse = false;
+                } else if (type == "paid") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
+                } else if (type == "rejected") {
+                    filterSettings.policy_status = "被驳回";
+                    orderByReverse = false;
+                }
+
                 var end = new Date(toDate);
                 end.setDate(end.getDate()+1);
                 var config = {

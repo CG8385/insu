@@ -280,34 +280,84 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
             }, function (err) { });
     };
 
-    // vm.pay = function () {
-    //     $.SmartMessageBox({
-    //         title: "修改保单状态",
-    //         content: "确认已支付该保单？",
-    //         buttons: '[取消][确认]'
-    //     }, function (ButtonPressed) {
-    //         if (ButtonPressed === "确认") {
-    //             vm.policy.policy_status = "已支付";
-    //             vm.policy.paid_at = Date.now();
-    //             LifePolicyService.savePolicy(vm.policy)
-    //                 .then(function (data) {
-    //                     $.smallBox({
-    //                         title: "服务器确认信息",
-    //                         content: "保单状态已成功更改为已支付",
-    //                         color: "#739E73",
-    //                         iconSmall: "fa fa-check",
-    //                         timeout: 5000
-    //                     });
-    //                 }, function (err) { });
-    //         }
-    //         if (ButtonPressed === "取消") {
+    vm.pay = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认已支付该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "已支付";
+                vm.policy.paid_at = Date.now();
+                LifePolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
 
-    //         }
+            }
 
-    //     });
+        });
 
-    // };
+    };
+    vm.approve = function () {
+        $.SmartMessageBox({
+            title: "修改保单状态",
+            content: "确认要批准该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "待支付";
+                LifePolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        $state.go("app.life-policy.to-be-reviewed");
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
 
+            }
+        });
+    };
+
+    vm.reject = function () {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认要驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                vm.policy.policy_status = "被驳回";
+                LifePolicyService.savePolicy(vm.policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        $state.go("app.life-policy.to-be-reviewed");
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+        });
+    };
     vm.updateFee = function (subPolicy) {
         if(subPolicy.fee == undefined) return;
         subPolicy.payment = subPolicy.fee * subPolicy.payment_rate / 100;

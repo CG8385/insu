@@ -28,7 +28,34 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
 
     vm.listType = "all";
-    if ($state.is("app.life-policy.to-be-paid")) {
+    if ($state.is("app.life-policy.to-be-reviewed")) {
+        vm.listType = "to-be-reviewed";
+        vm.filterSettings = localStorageService.get("life-review-filterSettings") ? localStorageService.get("life-review-filterSettings") : {};
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.fromDate = localStorageService.get("life-review-fromDate") ? localStorageService.get("life-review-fromDate") : undefined;
+        vm.toDate = localStorageService.get("life-review-toDate") ? localStorageService.get("life-review-toDate") : undefined;
+        vm.tableHeader = "待审核保单";
+        if (screenSize.is('xs, sm')) {
+            vm.displayFields = ["client.name", "plate"];
+        }
+    }else if ($state.is("app.life-policy.rejected")) {
+        vm.listType = "rejected";
+        vm.filterSettings = localStorageService.get("life-rejected-filterSettings") ? localStorageService.get("life-rejected-filterSettings") : {};
+        // if(vm.filterSettings.client){
+        //     LifePolicyService.getClient(vm.filterSettings.client)
+        //         .then(function (clientInfo) {
+        //             vm.clientInfo = clientInfo;
+        //         })
+        // }
+        vm.fromDate = localStorageService.get("life-rejected-fromDate") ? localStorageService.get("life-rejected-fromDate") : undefined;
+        vm.toDate = localStorageService.get("life-rejected-toDate") ? localStorageService.get("life-rejected-toDate") : undefined;
+        vm.tableHeader = "被驳回保单";
+    } else if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
         // if(vm.filterSettings.client){
@@ -39,7 +66,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         // }
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
-        vm.tableHeader = "保单列表";
+        vm.tableHeader = "待支付保单";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
         vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
@@ -62,7 +89,11 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     };
 
     vm.filterChanged = function () {
-        if ($state.is("app.life-policy.to-be-paid")) {
+        if ($state.is("app.life-policy.to-be-reviewed")){
+            localStorageService.set("life-review-filterSettings", vm.filterSettings);
+            localStorageService.set('life-review-fromDate', vm.fromDate);
+            localStorageService.set('life-review-toDate', vm.toDate);
+        }else if ($state.is("app.life-policy.to-be-paid")) {
             localStorageService.set("life-filterSettings1", vm.filterSettings);
             localStorageService.set('life-fromDate', vm.fromDate);
             localStorageService.set('life-toDate', vm.toDate);
@@ -71,6 +102,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             localStorageService.set("life-paid-filterSettings", vm.filterSettings);
             localStorageService.set('life-paid-fromDate', vm.fromDate);
             localStorageService.set('life-paid-toDate', vm.toDate);
+        }else if($state.is("app.life-policy.rejected")){
+            localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
+            localStorageService.set('life-rejected-fromDate', vm.fromDate);
+            localStorageService.set('life-rejected-toDate', vm.toDate);
         }
         
         vm.refreshPolicies();
@@ -147,12 +182,43 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     // };
 
 
-    vm.pay = function (policyId) {
-        $state.go("app.life-policy.pay", { policyId: policyId });
+    vm.pay = function (life_policy) {
+        $state.go("app.life-policy.pay", { policyId: life_policy._id });
     };
 
-    vm.view = function (policyId) {
-        $state.go("app.life-policy.view", { policyId: policyId });
+    vm.view = function (life_policy) {
+        $state.go("app.life-policy.view", { policyId: life_policy._id });
+    };
+
+    vm.reject = function (life_policy) {
+        $.SmartMessageBox({
+            title: "驳回保单",
+            content: "确认驳回该保单？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                life_policy.policy_status = "被驳回";
+                LifePolicyService.savePolicy(life_policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已成功更改为被驳回",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
+    vm.approve = function (life_policy) {
+        $state.go("app.life-policy.approve", { policyId: life_policy._id });
     };
 
 

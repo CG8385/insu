@@ -50,6 +50,66 @@ angular.module('app.life-policy').config(function ($stateProvider, localStorageS
                 }
             }
         })
+        .state('app.life-policy.approve', {
+            url: '/life-policies/approve/:policyId',
+            data: {
+                title: '保单审核'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifePolicyEditorController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy.html'
+                }
+            }
+        })
+        .state('app.life-policy.rejected', {
+            url: '/life-policies/rejected',
+            data: {
+                title: '被驳回保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifePolicyListController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy-rejected-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.life-policy.to-be-reviewed', {
+            url: '/life-policies/to-be-reviewed',
+            data: {
+                title: '待审核保单'
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifePolicyListController as vm',
+                    templateUrl: 'app/life-policy/views/life-policy-review-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
         .state('app.life-policy.to-be-paid', {
             url: '/life-policies/to-be-paid',
             data: {
@@ -58,7 +118,7 @@ angular.module('app.life-policy').config(function ($stateProvider, localStorageS
             views: {
                 "content@app": {
                     controller: 'LifePolicyListController as vm',
-                    templateUrl: 'app/life-policy/views/life-policy-list.html'
+                    templateUrl: 'app/life-policy/views/life-policy-list-to-be-paid.html'
                 }
             },
             resolve: {

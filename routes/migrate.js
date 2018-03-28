@@ -36,6 +36,36 @@ router.get('/set-role', asyncMiddleware(async (req, res, next) => {
     res.send('done');
 }));
 
+//update all life-policies to to-be-reviewed status
+router.get('/life-policy-status', asyncMiddleware(async (req, res, next) => {
+    r = await LifePolicy.update({},{policy_status:'待审核'},{multi: true});
+    res.send('done');
+}));
+
+//仅更新超级管理员对寿险的权限,测试用。上线时应根据业务需要来设置
+router.get('/life-policy-roles', asyncMiddleware(async (req, res, next) => {
+    r = await Role.update({name:'超级管理员'},
+    {
+        lifePolicy_to_be_reviewed: {
+            reject:true,export:true,pay:false,aprove:true,append:true,delete:true,
+            view:true,edit:true
+        },
+        lifePolicy_to_be_paid: {
+            export:true,pay:true,aprove:true,append:true,delete:true,
+            view:true,edit:true
+        },
+        lifePolicy_paid: {
+            export:true,pay:true,aprove:true,append:true,delete:true,
+            view:true,edit:true
+        },
+        lifePolicy_rejected: {
+            export:true,append:true,delete:true,
+            view:true,edit:true
+        },
+    });
+    res.send('done');
+}));
+
 router.get('/remove-check', asyncMiddleware(async (req, res, next) => {
     r = await Policy.update({policy_status: '已核对'}, {policy_status: '已支付'}, {multi: true});
 }));

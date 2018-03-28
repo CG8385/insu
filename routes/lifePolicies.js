@@ -16,6 +16,7 @@ router.post('/', function (req, res) {
 
     var policy = new Policy(data);
     policy.seller = req.user._id;
+    policy.policy_status = '待审核';
     policy.save(function (err, policy, numAffected) {
         if (err) {
             logger.error(err);
@@ -135,6 +136,7 @@ router.post('/excel', function (req, res) {
                 'director.name',
                 'organization.name',
                 'seller.name',
+                'policy_status',
             ];
             var fieldNames = [
                 '交单日',
@@ -163,6 +165,7 @@ router.post('/excel', function (req, res) {
                 '直属总监',
                 '所属机构',
                 '出单员',
+                '保单状态',
             ];
 
             var dateFormat = require('dateformat');
@@ -206,6 +209,7 @@ router.post('/excel', function (req, res) {
                 row.director.name = policy.director ? policy.director.name : '';
                 row.organization.name = policy.organization ? policy.organization.name: '';
                 row.seller.name = policy.seller ? policy.seller.name: '';
+                row.policy_status = policy.policy_status;
                 arr.push(row);
             }
             json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
@@ -286,6 +290,7 @@ router.put('/:id', function (req, res) {
         policy.director = req.body.director;
         policy.seller = req.body.seller;
         policy.organization = req.body.organization;
+        policy.policy_status = req.body.policy_status;
         policy.remark = req.body.remark;
 
 
