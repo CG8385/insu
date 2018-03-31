@@ -48,9 +48,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             vm.organization.province = parentOrg.province;
             vm.organization.city = parentOrg.city;
             vm.organization.district = parentOrg.district;
-            if(vm.organization.level == '五级机构'){
-                vm.organization.area_code = parentOrg.area_code;
-            }
+            vm.organization.area_code = parentOrg.area_code;
         })
     }
 

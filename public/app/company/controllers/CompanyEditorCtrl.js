@@ -69,6 +69,10 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             CompanyService.getCompany(vm.company.parent)
                 .then(function (parentCompany) {
                     vm.parentName = parentCompany.name;
+                    vm.company.province = parentCompany.province;
+                    vm.company.city = parentCompany.city;
+                    vm.company.district = parentCompany.district;
+                    vm.company.area_code = parentCompany.area_code;
                 })
         }
     }
@@ -90,7 +94,7 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             .then(function (company) {
                 vm.company = company;
                 vm.setParentName();
-                if(vm.provinces.length > 0 && vm.organization.province){
+                if(vm.provinces && vm.provinces.length > 0 && vm.company.province){
                     vm.provinceChanged();
                     vm.cityChanged();
                 }
