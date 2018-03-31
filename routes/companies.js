@@ -176,14 +176,14 @@ router.put('/rules/:id', asyncMiddleware(async (req, res, next) => {
   let rule = await Rule.findOne({ _id: req.params.id }).exec();
   rule.name = data.name;
   rule.py = makePy(data.name);
-  rule.mandatory_income=data.mandatory_income,
-  rule.mandatory_payment=data.mandatory_payment,
-  rule.commercial_income=data.commercial_income,
-  rule.commercial_payment=data.commercial_payment,
-  rule.tax_income= data.tax_income,
-  rule.tax_payment=data.tax_payment,
-  rule.other_income=data.other_income,
-  rule.other_payment=data.other_payment
+  rule.mandatory_income=data.mandatory_income;
+  rule.mandatory_payment=data.mandatory_payment;
+  rule.commercial_income=data.commercial_income;
+  rule.commercial_payment=data.commercial_payment;
+  rule.tax_income= data.tax_income;
+  rule.tax_payment=data.tax_payment;
+  rule.other_income=data.other_income;
+  rule.other_payment=data.other_payment;
   await rule.save();
   res.json({ message: '费率政策已成功更新' });
 }));
@@ -193,14 +193,14 @@ router.post('/rules', asyncMiddleware(async (req, res, next) => {
   let rule = new Rule();
   rule.name = data.name;
   rule.py = makePy(data.name);
-  rule.mandatory_income=data.mandatory_income,
-  rule.mandatory_payment=data.mandatory_payment,
-  rule.commercial_income=data.commercial_income,
-  rule.commercial_payment=data.commercial_payment,
-  rule.tax_income= data.tax_income,
-  rule.tax_payment=data.tax_payment,
-  rule.other_income=data.other_income,
-  rule.other_payment=data.other_payment
+  rule.mandatory_income=data.mandatory_income;
+  rule.mandatory_payment=data.mandatory_payment;
+  rule.commercial_income=data.commercial_income;
+  rule.commercial_payment=data.commercial_payment;
+  rule.tax_income= data.tax_income;
+  rule.tax_payment=data.tax_payment;
+  rule.other_income=data.other_income;
+  rule.other_payment=data.other_payment;
   rule.company = data.company._id;
   await rule.save();
   res.json({ message: '费率政策已成功保存' });
@@ -243,7 +243,11 @@ router.put('/:id', function (req, res) {
     company.contact = req.body.contact;
     company.phone = req.body.phone;
     company.catogory = req.body.catogory;
-    company.rates = req.body.rates;
+    company.province = req.body.province;
+    company.city = req.body.city;
+    company.district = req.body.district;
+    company.area_code = req.body.area_code;
+    // company.rates = req.body.rates;
     // company.rates_based_on_taxed = req.body.rates_based_on_taxed;
     company.save(function (err) {
       if (err) {

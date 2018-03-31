@@ -21,7 +21,6 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
         if(vm.organization.province){
             vm.provinceChanged();
             vm.cityChanged();
-            vm.refreshClients();
         }
     })
 

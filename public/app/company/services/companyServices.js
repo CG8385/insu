@@ -21,8 +21,33 @@ angular.module('app.company').factory('CompanyService',
                 getRules: getRules,
                 getRule: getRule,
                 saveRule: saveRule,
-                deleteRule: deleteRule
+                deleteRule: deleteRule,
+                getLocations: getLocations
             });
+
+            function getLocations() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/locations/')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function saveCompany(company) {
                 // create a new instance of deferred

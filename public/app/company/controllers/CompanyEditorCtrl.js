@@ -10,6 +10,41 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     vm.parentName = "";
     vm.showRateEditor = false;
 
+    CompanyService.getLocations()
+    .then(function(locations){
+        vm.locations = locations;
+        vm.provinces = locations;
+        if(vm.company.province){
+            vm.provinceChanged();
+            vm.cityChanged();
+        }
+    })
+
+    vm.provinceChanged = function() {
+        var province = vm.provinces.filter(p=>p.name == vm.company.province)[0];
+        vm.company.area_code = "0" + province.code;
+        vm.cities = province.children;
+        vm.disctricts = [];
+    }
+
+    vm.cityChanged = function() {
+        var city = vm.cities.filter(c=>c.name == vm.company.city)[0];
+        if(city){
+            vm.company.area_code = "0" + city.code;
+            vm.districts = city.children;
+        }else{
+            vm.disctricts = [];
+        }
+
+    }
+
+    vm.districtChanged = function() {
+        var district = vm.districts.filter(d=>d.name == vm.company.district)[0];
+        if(district){
+            vm.company.area_code = "0" + district.code;
+        }
+    }
+
     if ($state.is('app.company.company2.new')) {
         vm.company.level = "二级";
         vm.editable = true;
@@ -55,6 +90,10 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             .then(function (company) {
                 vm.company = company;
                 vm.setParentName();
+                if(vm.provinces.length > 0 && vm.organization.province){
+                    vm.provinceChanged();
+                    vm.cityChanged();
+                }
             });
         CompanyService.getRules(companyId)
             .then(function (rules) {
@@ -84,12 +123,12 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     }
 
     vm.submit = function () {
-        if (vm.current_rate) {
-            if (!vm.company.rates) {
-                vm.company.rates = [];
-            }
-            vm.company.rates.unshift(vm.current_rate);
-        }
+        // if (vm.current_rate) {
+        //     if (!vm.company.rates) {
+        //         vm.company.rates = [];
+        //     }
+        //     vm.company.rates.unshift(vm.current_rate);
+        // }
         CompanyService.saveCompany(vm.company)
             .then(function (data) {
                 $.smallBox({
@@ -111,8 +150,11 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
                     if (vm.currentLevel == "二级") {
                         $state.go("app.company.company2.all");
                     } else if (vm.currentLevel == "三级") {
+                        vm.company.province = temp.province;
                         $state.go("app.company.company3.all");
                     } else if (vm.currentLevel == "四级") {
+                        vm.company.province = temp.province;
+                        vm.company.city = temp.city;
                         $state.go("app.company.company4.all");
                     } else {
                         $state.go("app.company.all");
