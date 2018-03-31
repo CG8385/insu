@@ -69,10 +69,12 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             CompanyService.getCompany(vm.company.parent)
                 .then(function (parentCompany) {
                     vm.parentName = parentCompany.name;
-                    vm.company.province = parentCompany.province;
-                    vm.company.city = parentCompany.city;
-                    vm.company.district = parentCompany.district;
-                    vm.company.area_code = parentCompany.area_code;
+                    if(vm.editable){
+                        vm.company.province = parentCompany.province;
+                        vm.company.city = parentCompany.city;
+                        vm.company.district = parentCompany.district;
+                        vm.company.area_code = parentCompany.area_code;
+                    }
                 })
         }
     }
