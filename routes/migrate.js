@@ -133,7 +133,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     await Organization.updateAsync({name:'徐州分公司财险综合拓展部'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
     level4 = await Organization.findOne({name:'徐州邳州营业部'}).exec();
     await Organization.updateAsync({name:'个险-邳州'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
-    let level4List = await Organization.findOne({level:'四级机构'}).exec();
+    let level4List = await Organization.find({level:'四级机构'}).exec();
     for(let i = 0; i < level4List.length; i++){
         let l = level4List[i];
         let level5 = new Organization({name:'车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
