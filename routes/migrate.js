@@ -120,7 +120,6 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     level3 = await Organization.findOne({name:'徐州睢宁分公司'}).exec();
     await Organization.updateAsync({name:'商务中心（省内）运营部'}, {level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id});
     await Organization.updateAsync({name:'徐州睢宁沙集营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id});
-    await Organization.updateAsync({name:'睢宁分公司直属营业部'}, {level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id});
     let level4 = new Organization({name:'睢宁分公司直属营业部', level:'四级机构', province:'江苏省', city:'徐州市', district:'睢宁县', area_code:'0320324', parent: level3._id})
     level4 = Promise.promisifyAll(level4);
     await level4.saveAsync();
@@ -134,6 +133,18 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     await Organization.updateAsync({name:'徐州分公司财险综合拓展部'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
     level4 = await Organization.findOne({name:'徐州邳州营业部'}).exec();
     await Organization.updateAsync({name:'个险-邳州'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
+    let level4List = await Organization.findOne({level:'四级机构'}).exec();
+    level4List.forEach(l => {
+        let level5 = new Organization({name:'车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        level5 = Promise.promisifyAll(level5);
+        await level5.saveAsync();
+        let level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        level5 = Promise.promisifyAll(level5);
+        await level5.saveAsync();
+        let level5 = new Organization({name:'财险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        level5 = Promise.promisifyAll(level5);
+        await level5.saveAsync();
+    });
     res.json("finish");
 }));
 
