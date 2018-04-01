@@ -138,10 +138,10 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         let level5 = new Organization({name:'车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         level5 = Promise.promisifyAll(level5);
         await level5.saveAsync();
-        let level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         level5 = Promise.promisifyAll(level5);
         await level5.saveAsync();
-        let level5 = new Organization({name:'财险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        level5 = new Organization({name:'财险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         level5 = Promise.promisifyAll(level5);
         await level5.saveAsync();
     });
