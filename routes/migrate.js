@@ -136,15 +136,18 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     let level4List = await Organization.find({level:'四级机构'}).exec();
     for(let i = 0; i < level4List.length; i++){
         let l = level4List[i];
-        let level5 = new Organization({name:'车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        if(l.name.indexOf('个险') != -1 || l.name.indexOf('财险') != -1){
+            continue;
+        }
+        let level5 = new Organization({name:l.name + '车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         level5 = Promise.promisifyAll(level5);
         await level5.saveAsync();
-        level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
-        level5 = Promise.promisifyAll(level5);
-        await level5.saveAsync();
-        level5 = new Organization({name:'财险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
-        level5 = Promise.promisifyAll(level5);
-        await level5.saveAsync();
+        // level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        // level5 = Promise.promisifyAll(level5);
+        // await level5.saveAsync();
+        // level5 = new Organization({name:'财险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
+        // level5 = Promise.promisifyAll(level5);
+        // await level5.saveAsync();
     };
     res.json("finish");
 }));
