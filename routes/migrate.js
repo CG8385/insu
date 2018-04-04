@@ -165,7 +165,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         let level1_id = level2.parent;
         level5 = await Organization.findOne({name:l.name + '车险部'}).exec();
         let level5_id = level5._id;
-        if(leve4.name == "睢宁分公司直属营业部"){
+        if(l.name == "睢宁分公司直属营业部"){
             await Client.updateAsync({organization: level3_id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id, organization: level5_id}, {multi: true});
         }else{
             await Client.updateAsync({organization: l._id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id, organization: level5_id}, {multi: true});
