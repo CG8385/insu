@@ -14,7 +14,7 @@ var Rule = require('../models/rule.js')(db);
 var Migrate = require('../models/migrate.js')(db);
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
-var Client = require('../models/client.js')(db);
+var Client = Promise.promisifyAll(require('../models/client.js')(db));
 var Organization = Promise.promisifyAll(require('../models/organization.js')(db));
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
@@ -133,6 +133,21 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     await Organization.updateAsync({name:'徐州分公司财险综合拓展部'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
     level4 = await Organization.findOne({name:'徐州邳州营业部'}).exec();
     await Organization.updateAsync({name:'个险-邳州'}, {level:'五级机构', province:'江苏省', city:'徐州市', area_code:'03203', parent: level4._id});
+
+    let level5List = await Organization.find({level:'五级机构'}).exec();
+    for(let i = 0; i < level5List.length; i++){
+        let level5 = level5List[i];
+        let level5_id = level5._id;
+        let level4_id = level5.parent;
+        let level4 = await Organization.findOne({_id: level4_id}).exec();
+        let level3_id = level4.parent;
+        let level3 = await Organization.findOne({_id: level3_id}).exec();
+        let level2_id = level3.parent;
+        let level2 = await Organization.findOne({_id: level2_id}).exec();
+        let level1_id = level1.parent;
+        await Client.updateAsync({organization: level5_id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id}, {multi: true});
+    }
+
     let level4List = await Organization.find({level:'四级机构'}).exec();
     for(let i = 0; i < level4List.length; i++){
         let l = level4List[i];
@@ -142,6 +157,15 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         let level5 = new Organization({name:l.name + '车险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         level5 = Promise.promisifyAll(level5);
         await level5.saveAsync();
+
+        let level3_id = l.parent;
+        let level3 = await Organization.findOne({_id: level3_id}).exec();
+        let level2_id = leve3.parent;
+        let level2 = await Organization.findOne({_id: level2_id}).exec();
+        let level1_id = leve2.parent;
+        level5 = await Organization.findOne({name:l.name + '车险部'}).exec();
+        let level5_id = level5._id;
+        await Client.updateAsync({organization: l._id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id, organization: level5_id}, {multi: true});
         // level5 = new Organization({name:'寿险部', level:'五级机构', province:l.province, city:l.city, district:l.area_code, area_code:l.adminRole, parent: l._id})
         // level5 = Promise.promisifyAll(level5);
         // await level5.saveAsync();
