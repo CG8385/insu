@@ -30,13 +30,25 @@
                                     </div>
                                     <div class="row">
                                         <label class="label">所属营业部</label>
-                                        <label class="select">
+                                        <!-- <label class="select">
                                             <select name='organization' class="input-lg" ng-model="vm.client.organization" ng-options="o._id as o.name for o in vm.organizations"
                                                 validator="required">
                                                 <option value="">请选择所属营业部</option>
                                             </select>
                                             <i></i>
-                                        </label>
+                                        </label> -->
+                                        <select name='level1_org' class="input-sm"  data-ng-change="vm.level2Changed()" ng-model="vm.client.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                                            <option value="">选择所属二级机构</option>
+                                         </select>
+                                         <select name='level2_org' class="input-sm" ng-disabled="!vm.client.level2_org" data-ng-change="vm.level3Changed()" ng-model="vm.client.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                                            <option value="">选择所属三级机构</option>
+                                         </select>
+                                         <select name='level4_org' class="input-sm" ng-disabled="!vm.client.level3_org" data-ng-change="vm.level4Changed()" ng-model="vm.client.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                                            <option value="">选择所属四级机构</option>
+                                         </select>
+                                         <select name='level5_org' class="input-sm" ng-disabled="!vm.client.level4_org" data-ng-change="vm.level5Changed()" ng-model="vm.client.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                                            <option value="">选择所属五级机构</option>
+                                         </select>
                                     </div>
                                     <div class="row">
                                         <label class="label">执业证号</label>

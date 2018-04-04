@@ -138,7 +138,12 @@ router.put('/:id', function (req, res) {
     client.wechats = req.body.wechats;
     client.other_accounts = req.body.other_accounts;
     client.payment_substract_rate = req.body.payment_substract_rate;
-    client.organization = req.body.organization;
+    client.level1_org = req.body.level1_org;
+    client.level2_org = req.body.level2_org;
+    client.level3_org = req.body.level3_org;
+    client.level4_org = req.body.level4_org;
+    client.level5_org = req.body.level5_org;
+    client.organization = req.body.level5_org;
     client.license_photo = req.body.license_photo;
     client.license_no = req.body.license_no;
     client.identity1_filename = req.body.identity1_filename;
