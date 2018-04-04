@@ -145,7 +145,7 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         let level2_id = level3.parent;
         let level2 = await Organization.findOne({_id: level2_id}).exec();
         let level1_id = level2.parent;
-        await Client.updateAsync({organization: level5_id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id}, {multi: true});
+        await Client.updateAsync({organization: level5_id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: level4_id,level5_org: level5_id}, {multi: true});
     }
 
     let level4List = await Organization.find({level:'四级机构'}).exec();
