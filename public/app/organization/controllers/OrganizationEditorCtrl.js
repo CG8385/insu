@@ -154,7 +154,7 @@ angular.module('app.organization').controller('OrganizationEditorController', fu
             if (ButtonPressed === "确认") {
                 var data = {};
                 data.clientIds = clientIds;
-                data.organization = vm.organization._id;
+                data.level5_id = vm.organization._id;
                 OrganizationService.bulkAssign(data)
                     .then(function (result) {
                         $.smallBox({

@@ -170,8 +170,9 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
         }else{
             await Client.updateAsync({organization: l._id}, {level1_org: level1_id, level2_org: level2_id,level3_org: level3_id,level4_org: l._id,level5_org: level5_id, organization: level5_id}, {multi: true});
         }
-        
     };
+
+    await Client.updateAsync({level5_org: { $exists: false }}, {$unset: {organization: 1 }}, {multi: true});
 
 
 
