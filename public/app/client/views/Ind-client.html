@@ -29,14 +29,7 @@
 
                                     </div>
                                     <div class="row">
-                                        <label class="label">所属营业部</label>
-                                        <!-- <label class="select">
-                                            <select name='organization' class="input-lg" ng-model="vm.client.organization" ng-options="o._id as o.name for o in vm.organizations"
-                                                validator="required">
-                                                <option value="">请选择所属营业部</option>
-                                            </select>
-                                            <i></i>
-                                        </label> -->
+                                        <label class="label">所属机构</label>
                                         <select name='level1_org' class="input-sm"  data-ng-change="vm.level2Changed()" ng-model="vm.client.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                                             <option value="">选择所属二级机构</option>
                                          </select>

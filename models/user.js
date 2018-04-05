@@ -14,7 +14,12 @@ var schema = new mongoose.Schema({
     created_at: { type: Date },
     updated_at: { type: Date },
     phone: String,
-    client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client'}
+    client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client'},
+    level1_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level2_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level3_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level4_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level5_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
 });
 
 schema.plugin(passportLocalMongoose);
