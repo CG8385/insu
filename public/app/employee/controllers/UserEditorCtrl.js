@@ -66,23 +66,27 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
         delete vm.user.level3_org;
         delete vm.user.level4_org;
         delete vm.user.level5_org;
+        vm.user.org = vm.user.level2_org;
         vm.loadLevel3Orgs();
     }
 
     vm.level3Changed = function () {
         delete vm.user.level4_org;
         delete vm.user.level5_org;
+        vm.user.org = vm.user.level3_org;
         vm.loadLevel4Orgs();
     }
 
     vm.level4Changed = function () {
         delete vm.user.level5_org;
+        vm.user.org = vm.user.level4_org;
         vm.loadLevel5Orgs();
     }
 
 
     EmployeeService.getRoles()
         .then(function (roles) {
+            vm.user.org = vm.user.level5_org;
             vm.roles = roles;
         })
 
