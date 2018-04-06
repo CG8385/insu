@@ -184,6 +184,7 @@ router.get('/step3', asyncMiddleware(async (req, res, next) => {
     for(let i = 0; i < users.length; i++){
         let user = users[i];
         let organization = user.org;
+        if(!organization) continue;
         if(organization.level=='一级机构'){
             user.level1_org = organization._id;
         }else if(organization.level=='二级机构'){
