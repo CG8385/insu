@@ -159,7 +159,9 @@ angular.module('app.company').controller('CompanyListController', function (scre
 angular.module('app.company')
 .filter("getAreaString", function () {
     return function (fieldValueUnused, item) {
+        console.log(item.province)
         var province = item.province ? item.province : '';
+        console.log(province);
         var city = item.city ?  item.city : '';
         var disctrict = item.disctrict ?  item.city : '';
         return province + city + district;  
