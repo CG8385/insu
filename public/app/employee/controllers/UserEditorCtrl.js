@@ -83,6 +83,10 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
         vm.loadLevel5Orgs();
     }
 
+    vm.level5Changed = function () {
+        vm.user.org = vm.user.level5_org;
+    }
+
 
     EmployeeService.getRoles()
         .then(function (roles) {
