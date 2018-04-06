@@ -42,9 +42,9 @@ router.get('/level1', function (req, res) {
 });
 
 router.get('/level2', function (req, res) {
-  if(organization_scope == '无'){
-    return res.json([]);
-  }
+  // if(organization_scope == '无'){
+  //   return res.json([]);
+  // }
   let query = { level: "二级机构" };
   let organization_scope = req.user.userrole.organization_scope;
   let user_level2_org = req.user.level2_org;
