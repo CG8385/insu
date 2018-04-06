@@ -220,7 +220,7 @@ router.get('/step3', asyncMiddleware(async (req, res, next) => {
             user.level4_org = level4_id;
             user.level5_org = organization._id;
         }
-        await user.saveAsync();
+        user.save();
     }
     res.json("finish");
 }));
