@@ -179,4 +179,50 @@ router.get('/step2', asyncMiddleware(async (req, res, next) => {
     res.json("finish");
 }));
 
+router.get('/step3', asyncMiddleware(async (req, res, next) => {
+    let users = await User.find({}).populate('org').exec();
+    for(let i = 0; i < users.length; i++){
+        let user = users[i];
+        let organization = user.org;
+        if(organization.level=='一级机构'){
+            user.level1_org = organization._id;
+        }else if(organization.level=='二级机构'){
+            user.level1_org = organization.parent;
+            user.level2_org = organization._id;
+        }else if(organization.level=='三级机构'){
+            let level2_id = organization.parent;
+            let level2 = await Organization.findOne({_id: level2_id}).exec();
+            let level1_id = level2.parent;
+            user.level1_org = level1_id;
+            user.level2_org = level2_id;
+            user.level3_org = organization._id;
+        }else if(organization.level=='四级机构'){
+            let level3_id = organization.parent;
+            let level3 = await Organization.findOne({_id: level3_id}).exec();
+            let level2_id = level3.parent;
+            let level2 = await Organization.findOne({_id: level2_id}).exec();
+            let level1_id = level2.parent;
+            user.level1_org = level1_id;
+            user.level2_org = level2_id;
+            user.level3_org = level3_id;
+            user.level4_org = organization._id;
+        }else if(organization.level=='五级机构'){
+            let level4_id = organization.parent;
+            let level4 = await Organization.findOne({_id: level4_id}).exec();
+            let level3_id = level4.parent;
+            let level3 = await Organization.findOne({_id: level3_id}).exec();
+            let level2_id = level3.parent;
+            let level2 = await Organization.findOne({_id: level2_id}).exec();
+            let level1_id = level2.parent;
+            user.level1_org = level1_id;
+            user.level2_org = level2_id;
+            user.level3_org = level3_id;
+            user.level4_org = level4_id;
+            user.level5_org = organization._id;
+        }
+        await user.saveAsync();
+    }
+    res.json("finish");
+}));
+
 module.exports = router;
