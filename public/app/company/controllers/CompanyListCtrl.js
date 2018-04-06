@@ -162,7 +162,6 @@ angular.module('app.company')
         var province = item.province ? item.province : '';
         var city = item.city ?  item.city : '';
         var district = item.district ?  item.district : '';
-        console.log(province + city + district);
         return province + city + district;  
     };
 });

@@ -40,6 +40,18 @@
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">分支机构可见范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.organization_scope" ng-options="s for s in vm.organization_scopes" validator="required">
+                                                <option value="">分支机构可见范围</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+
                             </fieldset>
                             <div class="row table-responsive">
                                 <section class="col col-12" style="width:100%;">

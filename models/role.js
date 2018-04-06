@@ -176,7 +176,11 @@ var schema = new mongoose.Schema({
         view: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
-    scope: String
+    scope: String,
+    organization_scope:  {type: String, default: '一级' }, // 一级，二级，三级，四级，五级, 无
+    company_scope: String, // 全国，本省，本市，本区县，无
+    user_scope: String, // 一级，二级，三级，四级，五级，无
+    policy_scope: String // 一级，二级，三级，四级，五级，无
 });
 
 mongoose.model('Role', schema);
