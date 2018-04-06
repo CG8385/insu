@@ -157,23 +157,11 @@ angular.module('app.company').controller('CompanyListController', function (scre
 });
 
 angular.module('app.company')
-.filter("getIncomeRatesString", function () {
+.filter("getAreaString", function () {
     return function (fieldValueUnused, item) {
-        if(!item.rates){
+        if(!item.province){
             return "";
         }
-        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
-                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
-        return str;  
-    };
-})
-.filter("getPaymentRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
-                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
-        return str;  
+        return item.province + item.city + item.district;  
     };
 });
