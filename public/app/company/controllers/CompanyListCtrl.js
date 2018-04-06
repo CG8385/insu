@@ -159,9 +159,9 @@ angular.module('app.company').controller('CompanyListController', function (scre
 angular.module('app.company')
 .filter("getAreaString", function () {
     return function (fieldValueUnused, item) {
-        if(!item.province){
-            return "";
-        }
-        return item.province + item.city + item.district;  
+        var province = item.province || '';
+        var city = item.city || '';
+        var disctrict = item.disctrict || '';
+        return province + city + district;  
     };
 });
