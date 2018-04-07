@@ -167,13 +167,13 @@
                     <span class="menu-item-parent">分支机构管理</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="['一级','二级'].indexOf(user.userrole.organization_scope) != -1">
                         <a data-ui-sref="app.organization.org2.all">二级机构</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="['一级','二级','三级'].indexOf(user.userrole.organization_scope) != -1">
                         <a data-ui-sref="app.organization.org3.all">三级机构</a>
                     </li>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="['一级','二级','三级','四级'].indexOf(user.userrole.organization_scope) != -1">
                         <a data-ui-sref="app.organization.org4.all">四级机构</a>
                     </li>
                     <li data-ui-sref-active="active">
