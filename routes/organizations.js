@@ -1,10 +1,13 @@
 var express = require('express');
 var db = require('../utils/database.js').connection;
-var Organization = require('../models/organization.js')(db);
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var router = express.Router();
 var Q = require('q');
 var logger = require('../utils/logger.js');
 var makePy = require('../utils/pinyin');
+var Promise = require('bluebird');
+var asyncMiddleware = require('../middlewares/asyncMiddleware');
+var Organization = Promise.promisifyAll(require('../models/organization.js')(db));
 
 function IsIncomplete(data) {
   if (data.level == "二级机构") {
@@ -42,13 +45,12 @@ router.get('/level1', function (req, res) {
 });
 
 router.get('/level2', function (req, res) {
-  // if(organization_scope == '无'){
-  //   return res.json([]);
-  // }
   let query = { level: "二级机构" };
   let organization_scope = req.user.userrole.organization_scope;
   let user_level2_org = req.user.level2_org;
-  if(organization_scope != '一级'){
+  if(organization_scope == '无'){
+    query._id = "-999";
+  }else if(organization_scope != '一级'){
     query._id = user_level2_org;
   }
   Organization.find(query)
@@ -64,8 +66,25 @@ router.get('/level2', function (req, res) {
     )
 });
 
-router.get('/sub/:parentId', function (req, res) {
-  Organization.find({ parent: req.params.parentId })
+router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
+  let organization_scope = req.user.userrole.organization_scope;
+  let parentId = req.params.parentId;
+  let parent = await Organization.findById(parentId).exec();
+  let query = { parent: req.params.parentId };
+  if(parent.level=='二级机构'){
+    if(['三级机构','四级机构','五级机构'].indexOf(organization_scope) != -1){
+      query._id = req.user.level3_org;
+    }
+  }else if(parent.level=='三级机构'){
+    if(['四级机构','五级机构'].indexOf(organization_scope) != -1){
+      query._id = req.user.level4_org;
+    }
+  }else if(parent.level=='四级机构'){
+    if(['五级机构'].indexOf(organization_scope) != -1){
+      query._id = req.user.level5_org;
+    }
+  }
+  Organization.find(query)
     .sort({ py: -1 })
     .exec()
     .then(function (organizations) {
@@ -74,7 +93,7 @@ router.get('/sub/:parentId', function (req, res) {
       logger.error(err);
       res.status(500).send(err);
     });
-});
+}));
 
 router.get('/:id', function (req, res) {
   Organization.findOne({ _id: req.params.id })
