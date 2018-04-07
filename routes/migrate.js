@@ -38,7 +38,7 @@ router.get('/set-role', asyncMiddleware(async (req, res, next) => {
 
 //update all life-policies to to-be-reviewed status
 router.get('/life-policy-status', asyncMiddleware(async (req, res, next) => {
-    r = await LifePolicy.update({},{policy_status:'待审核'},{multi: true});
+    r = await LifePolicy.update({},{policy_status:'已支付'},{multi: true});
     res.send('done');
 }));
 
