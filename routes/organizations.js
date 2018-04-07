@@ -72,15 +72,15 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
   let parent = await Organization.findById(parentId).exec();
   let query = { parent: req.params.parentId };
   if(parent.level=='二级机构'){
-    if(['三级机构','四级机构','五级机构'].indexOf(organization_scope) != -1){
+    if(['三级','四级','五级'].indexOf(organization_scope) != -1){
       query._id = req.user.level3_org;
     }
   }else if(parent.level=='三级机构'){
-    if(['四级机构','五级机构'].indexOf(organization_scope) != -1){
+    if(['四级','五级'].indexOf(organization_scope) != -1){
       query._id = req.user.level4_org;
     }
   }else if(parent.level=='四级机构'){
-    if(['五级机构'].indexOf(organization_scope) != -1){
+    if(['五级'].indexOf(organization_scope) != -1){
       query._id = req.user.level5_org;
     }
   }
