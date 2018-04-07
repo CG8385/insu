@@ -112,6 +112,11 @@ angular.module('app.organization').controller('OrganizationListController', func
             vm.setting.parentId = null;
             vm.setting.level3Org = null;
             vm.loadLevel3Orgs();
+        }else if (vm.level == "五级机构") {
+            vm.setting.parentId = null;
+            vm.setting.level3Org = null;
+            vm.setting.level4Org = null;
+            vm.loadLevel3Orgs();
         }
         localStorageService.set(vm.settingString, vm.setting);
         vm.refreshOrganizations();
