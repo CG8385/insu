@@ -127,6 +127,9 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
         if (!vm.user.level1_org){
             vm.user.level1_org = vm.level2Orgs[0].parent;
         }
+        if (!vm.user.level2_org){
+            vm.user.org = vm.level2Orgs[0].parent;
+        }
         EmployeeService.saveUser(vm.user)
             .then(function (data) {
                 $.smallBox({
