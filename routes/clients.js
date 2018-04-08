@@ -90,7 +90,7 @@ router.get('/sub', function (req, res, next) {
 });
 
 
-router.get('/excel', async function (req, res) {
+router.post('/excel', async function (req, res) {
   let clients = await Client.find({client_type: '个人'}).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
   let json2csv = require('json2csv');
   let fields = [

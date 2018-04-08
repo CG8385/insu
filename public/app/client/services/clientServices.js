@@ -24,7 +24,7 @@ function ($q, $http, uuid) {
             function getCSV() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                $http.get("/api/clients/excel")
+                $http.post("/api/clients/excel",{requestTrapped: true})
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
