@@ -128,12 +128,12 @@ router.get('/excel', async function (req, res) {
     let client = clients[j];
     var row = {};
     row.name = client.name;
-    row.license_no = "'" + client.license_no;
-    row.identity = "'" + client.identity;
+    row.license_no = client.license_no ? "'" + client.license_no : '';
+    row.identity = client.identity ? "'" + client.identity : '';
     row.payee = client.payee;
     row.bank = client.bank;
     row.account = "'" + client.account;
-    row.phone = "'" + client.phone;
+    row.phone = client.phone ? "'" + client.phone : '';
     row.level1_org = client.level1_org ? client.level1_org.name : '';
     row.level2_org = client.level2_org ? client.level2_org.name : '';
     row.level3_org = client.level3_org ? client.level3_org.name : '';
