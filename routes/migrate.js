@@ -230,16 +230,12 @@ router.get('/correction', asyncMiddleware(async (req, res, next) => {
     let correctLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司江苏分公司'}).exec();
     let wrongLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
     let level3 = await Company.findOne({level:'三级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
-    // let policies = Policy.find({level2_company: wrongLevel2._id, level3_company: {$exists: false}}).exec();
 
-    let policies = await Policy.find({level2_company: wrongLevel2._id}).exec();
-    res.json(policies);
-
-    // await Policy.update({level2_company: wrongLevel2._id, level3_company: {$exists: false}}, {level2_company: correctLevel2._id, level3_company: level3._id, company: level3._id}, {multi: true});
-    // level3.parent = correctLevel2._id;
-    // level3.save();
-    // wrongLevel2.remove();
-    // res.send("done");
+    await Policy.update({level2_company: wrongLevel2._id}, {level2_company: correctLevel2._id, level3_company: level3._id, company: level3._id}, {multi: true});
+    level3.parent = correctLevel2._id;
+    level3.save();
+    wrongLevel2.remove();
+    res.send("done");
 }));
 
 module.exports = router;
