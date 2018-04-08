@@ -235,7 +235,7 @@ router.get('/correction', asyncMiddleware(async (req, res, next) => {
     console.log(wrongLevel2)
     console.log(level3);
 
-    await Policy.update({level2_company: wrongLevel2._id}, {level2_company: correctLevel2._id, level3_company: level3._id, company: level3._id}, {multi: true});
+    await Policy.update({level2_company: wrongLevel2._id, level3_company: {$exists: false}}, {level2_company: correctLevel2._id, level3_company: level3._id, company: level3._id}, {multi: true});
     level3.parent = correctLevel2._id;
     level3.save();
     wrongLevel2.remove();
