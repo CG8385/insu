@@ -230,11 +230,29 @@ router.get('/correction', asyncMiddleware(async (req, res, next) => {
     let correctLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司江苏分公司'}).exec();
     let wrongLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
     let level3 = await Company.findOne({level:'三级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
-
+    level3 = Promise.promisifyAll(level3);
+    wrongLevel2 = Promise.promisifyAll(wrongLevel2);
     await Policy.update({level2_company: wrongLevel2._id}, {level2_company: correctLevel2._id, level3_company: level3._id, company: level3._id}, {multi: true});
     level3.parent = correctLevel2._id;
-    level3.save();
-    wrongLevel2.remove();
+    await level3.saveAsync();
+    await wrongLevel2.removeAsync();
+
+    wrongLevel2 = await Company.findOne({level:'二级', name:'新华人寿保险股份有限公司 南京分公司'}).exec();
+    level3 = await Company.findOne({level:'三级', name:'新华人寿保险股份有限公司南京分公司'}).exec();
+    await Policy.update({level2_company: wrongLevel2._id}, {level2_company: level3.parent, level3_company: level3._id, company: level3._id}, {multi: true});
+    wrongLevel2 = Promise.promisifyAll(wrongLevel2);
+    await wrongLevel2.removeAsync();
+
+    let wrongLevel3 = await Company.findOne({level:'三级', name:'中国人民财产保险股份有限公司江苏分公司'}).exec();
+    level3 = await Company.findOne({level:'三级', name:'中国人民财产保险股份有限公司苏州中心支公司'}).exec();
+    await Policy.update({level3_company: wrongLevel3._id}, {level3_company: level3._id, company: level3._id}, {multi: true});
+
+    wrongLevel3 = await Company.findOne({level:'三级', name:'中国人民财产保险股份有限公司南京支公司第一营业部'}).exec();
+    let correctLevel3 = await Company.findOne({level:'三级', name:'中国人民财产保险股份有限公司南京支公司'}).exec();
+    wrongLevel3.level = '四级';
+    wrongLevel3.parent = correctLevel3._id;
+    await Policy.update({level3_company: wrongLevel3._id}, {level3_company: correctLevel3._id, level3_company: wrongLevel3._id}, {multi: true});
+
     res.send("done");
 }));
 
