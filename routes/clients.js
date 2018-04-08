@@ -89,6 +89,68 @@ router.get('/sub', function (req, res, next) {
 
 });
 
+
+router.get('/excel', async function (req, res) {
+  let clients = await Client.find({client_type: '个人'}).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
+  let json2csv = require('json2csv');
+  let fields = [
+    'name',
+    'license_no',
+    'identity',
+    'payee',
+    'bank',
+    'account',
+    'phone',
+    'level1_org',
+    'level2_org',
+    'level3_org',
+    'level4_org',
+    'level5_org',
+    'dealer',
+  ];
+  let fieldNames = [
+    '姓名',
+    '执业证号',
+    '身份证号',
+    '收款人姓名',
+    '开户行',
+    '首款账户',
+    '电话',
+    '所属一级机构',
+    '所属二级机构',
+    '所属三级机构',
+    '所属四级机构',
+    '所属五级机构',
+    '所属车商',
+  ];
+  let arr = [];
+  for (let j = 0; j < clients.length; j++) {
+    let client = clients[j];
+    var row = {};
+    row.name = client.name;
+    row.license_no = "'" + client.license_no;
+    row.identity = "'" + client.identity;
+    row.payee = client.payee;
+    row.bank = client.bank;
+    row.account = "'" + client.account;
+    row.phone = "'" + client.phone;
+    row.level1_org = client.level1_org ? client.level1_org.name : '';
+    row.level2_org = client.level2_org ? client.level2_org.name : '';
+    row.level3_org = client.level3_org ? client.level3_org.name : '';
+    row.level4_org = client.level4_org ? client.level4_org.name : '';
+    row.level5_org = client.level5_org ? client.level5_org.name : '';
+    row.dealer = client.parent ? client.parent.name : '';
+    arr.push(row);
+  }
+  json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
+    if (err) console.log(err);
+    var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
+    res.setHeader('Content-Type', 'text/csv;charset=utf-8');
+    res.setHeader("Content-Disposition", "attachment;filename=" + "clients.csv");
+    res.send(dataBuffer);
+  });
+});
+
 router.get('/:id', function (req, res) {
   Client.findOne({ _id: req.params.id })
     .exec()
@@ -164,66 +226,6 @@ router.put('/:id', function (req, res) {
 });
 
 
-router.get('/excel', async function (req, res) {
-  let clients = await Client.find({client_type: '个人'}).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
-  let json2csv = require('json2csv');
-  let fields = [
-    'name',
-    'license_no',
-    'identity',
-    'payee',
-    'bank',
-    'account',
-    'phone',
-    'level1_org',
-    'level2_org',
-    'level3_org',
-    'level4_org',
-    'level5_org',
-    'dealer',
-  ];
-  let fieldNames = [
-    '姓名',
-    '执业证号',
-    '身份证号',
-    '收款人姓名',
-    '开户行',
-    '首款账户',
-    '电话',
-    '所属一级机构',
-    '所属二级机构',
-    '所属三级机构',
-    '所属四级机构',
-    '所属五级机构',
-    '所属车商',
-  ];
-  let arr = [];
-  for (let j = 0; j < clients.length; j++) {
-    let client = clients[j];
-    var row = {};
-    row.name = client.name;
-    row.license_no = "'" + client.license_no;
-    row.identity = "'" + client.identity;
-    row.payee = client.payee;
-    row.bank = client.bank;
-    row.account = "'" + client.account;
-    row.phone = "'" + client.phone;
-    row.level1_org = client.level1_org ? client.level1_org.name : '';
-    row.level2_org = client.level2_org ? client.level2_org.name : '';
-    row.level3_org = client.level3_org ? client.level3_org.name : '';
-    row.level4_org = client.level4_org ? client.level4_org.name : '';
-    row.level5_org = client.level5_org ? client.level5_org.name : '';
-    row.dealer = client.parent ? client.parent.name : '';
-    arr.push(row);
-  }
-  json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
-    if (err) console.log(err);
-    var dataBuffer = Buffer.concat([new Buffer('\xEF\xBB\xBF', 'binary'), new Buffer(csv)]);
-    res.setHeader('Content-Type', 'text/csv;charset=utf-8');
-    res.setHeader("Content-Disposition", "attachment;filename=" + "clients.csv");
-    res.send(dataBuffer);
-  });
-});
 
 
 router.delete('/:id', function (req, res) {
