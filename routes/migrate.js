@@ -29,12 +29,40 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
     // await Organization.updateAsync({ name: '苏州车险业务部' }, { level: '四级机构', parent: level3._id });
 
 
-    // let level4 = await Organization.findOne({ name: '睢宁分公司个险部' }).exec();
+    // let level4 = await Organization.findOne({ name: '睢宁分公司个险部' }).exec();s
     // await Organization.updateAsync({ name: '个险-睢宁-公司' }, { level: '五级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level4._id });
+    let level4 = await Organization.findOne({ name: '睢宁分公司个险部' }).exec();
+    let level5 = await Organization.findOne({ name: '个险-睢宁-公司' }).exec();
+    await Client.updateAsync({ level5_org: level5._id }, { level4_org: level4._id }, { multi: true });
+    level5 = await Organization.findOne({ name: '个险-睢宁-团队' }).exec();
+    await Client.updateAsync({ level5_org: level5._id }, { level4_org: level4._id }, { multi: true });
+    level5 = await Organization.findOne({ name: '个险-睢宁-同业' }).exec();
+    await Client.updateAsync({ level5_org: level5._id }, { level4_org: level4._id }, { multi: true });
+    let level3 = await Organization.findOne({ name: '徐州睢宁分公司' }).exec();
+    let clients = await Client.find({ level3_org: level3._id }).exec();
+    level4 = await Organization.findOne({ name: '睢宁分公司车险部' }).exec();
+    level5 = await Organization.findOne({ name: '睢宁分公司车险1部' }).exec();
+    for (let i = 0; i < clients.length; i++) {
+        let client = clients[i];
+        if (!client.level4_org) {
+            client.level4_org = level4._id;
+            client.level5_org = level5._id;
+            client = Promise.promisifyAll(client);
+            await client.saveAsync();
+        } else {
+            let level4_org = await Organization.findOne({ _id: client.level4_org }).exec();
+            if (!level4_org) {
+                client.level4_org = level4._id;
+                client.level5_org = level5._id;
+                client = Promise.promisifyAll(client);
+                await client.saveAsync();
+            }
+        }
+    }
     // await Organization.updateAsync({ name: '个险-睢宁-团队' }, { level: '五级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level4._id });
     // await Organization.updateAsync({ name: '个险-睢宁-同业' }, { level: '五级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level4._id });
 
-    
+
     // await Organization.updateAsync({ name: '财产险' }, { level: '四级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level3._id });
     // level4 = await Organization.findOne({ name: '财产险' }).exec();
     // let level5 = new Organization({ name: '睢宁分公司财产险1部', level: '五级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level4._id })
@@ -47,13 +75,13 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
 
     // let level3 = await Organization.findOne({ name: '徐州睢宁分公司' }).exec();
     // let level4 = await Organization.findOne({ name: '睢宁分公司车险部' }).exec();
-    let level5 = await Organization.findOne({ name: '睢宁分公司车险1部' }).exec();
-    let ooo = await Organization.findOne({ name: '车险业务部' }).exec();
+    // let level5 = await Organization.findOne({ name: '睢宁分公司车险1部' }).exec();
+    // let ooo = await Organization.findOne({ name: '车险业务部' }).exec();
     // let level2_id = level3.parent;
     // let level2 = await Organization.findOne({ _id: level2_id }).exec();
     // let level1_id = level2.parent;
     // await Client.updateAsync({ organization: ooo._id }, { level1_org: level1_id, level2_org: level2_id, level3_org: level3._id, level4_org: level4._id, level5_org: level5._id, organization: level5._id }, { multi: true });
-    await Policy.updateAsync({ organization: ooo._id }, {organization: level5._id}, { multi: true });
+    // await Policy.updateAsync({ organization: ooo._id }, {organization: level5._id}, { multi: true });
 
     res.json('done');
 }));
