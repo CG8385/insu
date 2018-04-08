@@ -237,7 +237,7 @@ router.get('/correction', asyncMiddleware(async (req, res, next) => {
     // await level3.saveAsync();
     // await wrongLevel2.removeAsync();
 
-    wrongLevel2 = await Company.findOne({level:'二级', name:'新华人寿保险股份有限公司 南京分公司'}).exec();
+    wrongLevel2 = await Company.findOne({level:'二级', name:{$regex : ".*南京分公司.*"}}).exec();
     level3 = await Company.findOne({level:'三级', name:'新华人寿保险股份有限公司南京分公司'}).exec();
 
     // await Policy.update({level2_company: wrongLevel2._id}, {level2_company: level3.parent, level3_company: level3._id, company: level3._id}, {multi: true});
