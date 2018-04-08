@@ -36,13 +36,11 @@ router.get('/set-role', asyncMiddleware(async (req, res, next) => {
     res.send('done');
 }));
 
-//update all life-policies to to-be-reviewed status
 router.get('/life-policy-status', asyncMiddleware(async (req, res, next) => {
     r = await LifePolicy.update({},{policy_status:'已支付'},{multi: true});
     res.send('done');
 }));
 
-//仅更新超级管理员对寿险的权限,测试用。上线时应根据业务需要来设置
 router.get('/life-policy-roles', asyncMiddleware(async (req, res, next) => {
     r = await Role.update({name:'超级管理员'},
     {

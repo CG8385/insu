@@ -66,31 +66,47 @@ angular.module('app.employee').controller('UserEditorController', function ($sco
         delete vm.user.level3_org;
         delete vm.user.level4_org;
         delete vm.user.level5_org;
-        vm.user.org = vm.user.level2_org;
+        if(vm.user.level2_org){
+            vm.user.org = vm.user.level2_org;
+        }else{
+            vm.user.org = vm.level2Orgs[0].parent;
+        }
+        
         vm.loadLevel3Orgs();
     }
 
     vm.level3Changed = function () {
         delete vm.user.level4_org;
         delete vm.user.level5_org;
-        vm.user.org = vm.user.level3_org;
+        if(vm.user.level3_org){
+            vm.user.org = vm.user.level3_org;
+        }else{
+            vm.user.org = vm.user.level2_org;
+        }
         vm.loadLevel4Orgs();
     }
 
     vm.level4Changed = function () {
         delete vm.user.level5_org;
-        vm.user.org = vm.user.level4_org;
+        if(vm.user.level4_org){
+            vm.user.org = vm.user.level4_org;
+        }else{
+            vm.user.org = vm.user.level3_org;
+        }
         vm.loadLevel5Orgs();
     }
 
     vm.level5Changed = function () {
-        vm.user.org = vm.user.level5_org;
+        if(vm.user.level5_org){
+            vm.user.org = vm.user.level5_org;
+        }else{
+            vm.user.org = vm.user.level4_org;
+        }
     }
 
 
     EmployeeService.getRoles()
         .then(function (roles) {
-            vm.user.org = vm.user.level5_org;
             vm.roles = roles;
         })
 
