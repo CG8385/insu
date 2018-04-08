@@ -31,7 +31,7 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
 
     // let level4 = await Organization.findOne({ name: '睢宁分公司个险部' }).exec();s
     // await Organization.updateAsync({ name: '个险-睢宁-公司' }, { level: '五级机构', province: '江苏省', city: '徐州市', district: '睢宁县', area_code: '0320324', parent: level4._id });
-    let clients = await Client.find({ level3_org: level3._id }).exec();
+    let clients = await Client.find({}).exec();
     for (let i = 0; i < clients.length; i++) {
         let client = clients[i];
         client = Promise.promisifyAll(client);
