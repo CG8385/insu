@@ -163,48 +163,6 @@ router.put('/:id', function (req, res) {
   });
 });
 
-router.delete('/:id', function (req, res) {
-  Client.remove({ _id: req.params.id }, function (err, client) {
-    if (err) {
-      logger.error(err);
-      res.send(err);
-    }
-    logger.info(req.user.name + " 删除了一个业务员。" + req.clientIP);
-    res.json({ message: '业务员已成功删除' });
-  });
-});
-
-
-router.post('/bulk-assign', asyncMiddleware(async (req, res, next) => {
-  var ids = req.body.clientIds;
-  var level5_id = req.body.level5_id;
-  let level5 = await Organization.findOne({ _id: level5_id }).exec();
-  let level4_id = level5.parent;
-  let level4 = await Organization.findOne({ _id: level4_id }).exec();
-  let level3_id = level4.parent;
-  let level3 = await Organization.findOne({ _id: level3_id }).exec();
-  let level2_id = level3.parent;
-  let level2 = await Organization.findOne({ _id: level2_id }).exec();
-  let level1_id = level2.parent;
-  var query = Client.find().where('_id').in(ids);
-  query
-    .exec()
-    .then(function (clients) {
-      for (var i = 0; i < clients.length; i++) {
-        clients[i].level1_org = level1_id;
-        clients[i].level2_org = level2_id;
-        clients[i].level3_org = level3_id;
-        clients[i].level4_org = level4_id;
-        clients[i].level5_org = level5_id;
-        clients[i].organization = level5_id;
-        clients[i].save();
-      };
-      logger.info(req.user.name + " 批量设置了业务员归属营业部。" + req.clientIP);
-      res.json({ message: '归属部门已成功设置' });
-    }, function (err) {
-      logger.error(err);
-    })
-}));
 
 router.get('/excel', async function (req, res) {
   let clients = await Client.find({client_type: '个人'}).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
@@ -266,6 +224,50 @@ router.get('/excel', async function (req, res) {
     res.send(dataBuffer);
   });
 });
+
+
+router.delete('/:id', function (req, res) {
+  Client.remove({ _id: req.params.id }, function (err, client) {
+    if (err) {
+      logger.error(err);
+      res.send(err);
+    }
+    logger.info(req.user.name + " 删除了一个业务员。" + req.clientIP);
+    res.json({ message: '业务员已成功删除' });
+  });
+});
+
+
+router.post('/bulk-assign', asyncMiddleware(async (req, res, next) => {
+  var ids = req.body.clientIds;
+  var level5_id = req.body.level5_id;
+  let level5 = await Organization.findOne({ _id: level5_id }).exec();
+  let level4_id = level5.parent;
+  let level4 = await Organization.findOne({ _id: level4_id }).exec();
+  let level3_id = level4.parent;
+  let level3 = await Organization.findOne({ _id: level3_id }).exec();
+  let level2_id = level3.parent;
+  let level2 = await Organization.findOne({ _id: level2_id }).exec();
+  let level1_id = level2.parent;
+  var query = Client.find().where('_id').in(ids);
+  query
+    .exec()
+    .then(function (clients) {
+      for (var i = 0; i < clients.length; i++) {
+        clients[i].level1_org = level1_id;
+        clients[i].level2_org = level2_id;
+        clients[i].level3_org = level3_id;
+        clients[i].level4_org = level4_id;
+        clients[i].level5_org = level5_id;
+        clients[i].organization = level5_id;
+        clients[i].save();
+      };
+      logger.info(req.user.name + " 批量设置了业务员归属营业部。" + req.clientIP);
+      res.json({ message: '归属部门已成功设置' });
+    }, function (err) {
+      logger.error(err);
+    })
+}));
 
 
 module.exports = router;
