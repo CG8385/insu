@@ -253,7 +253,7 @@ router.get('/correction', asyncMiddleware(async (req, res, next) => {
     wrongLevel3.level = '四级';
     wrongLevel3.parent = correctLevel3._id;
     await Policy.update({level3_company: wrongLevel3._id}, {level3_company: correctLevel3._id, level3_company: wrongLevel3._id}, {multi: true});
-
+    wrongLevel3.save();
     res.json('done');
 }));
 
