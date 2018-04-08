@@ -226,4 +226,12 @@ router.get('/step3', asyncMiddleware(async (req, res, next) => {
     res.json("finish");
 }));
 
+router.get('/correction', asyncMiddleware(async (req, res, next) => {
+    let correctLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司江苏分公司'}).exec();
+    let wrongLevel2 = await Company.findOne({level:'二级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
+    let level3 = await Company.findOne({level:'三级', name:'永诚财产保险股份有限公司徐州支公司'}).exec();
+    
+    res.json(roles);
+}));
+
 module.exports = router;
