@@ -18,7 +18,29 @@ function ($q, $http, uuid) {
                 uploadFile: uploadFile,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
+                getCSV: getCSV,
             });
+
+            function getCSV() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.get("/api/clients/excel")
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getLevel2Orgs() {
                 // create a new instance of deferred

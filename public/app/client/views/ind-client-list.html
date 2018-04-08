@@ -4,6 +4,10 @@
     <div class="row">
         <article class="col-sm-12">
 
+            <span>
+                    <button ng-show="user.userrole.client.export" ng-click="vm.exportClients()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+            </span>
+
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>

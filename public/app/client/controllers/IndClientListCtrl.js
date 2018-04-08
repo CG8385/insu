@@ -21,6 +21,22 @@ angular.module('app.client').controller('IndClientListController', function(scre
         $state.go("app.client.individual.view", {clientId: clientId});
     };
 
+
+    vm.exportClients = function () {
+        ClientService.getCSV()
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'clients.csv'
+                })[0].click();
+            })
+    };
     /*
      * SmartAlerts
      */
