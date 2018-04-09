@@ -312,8 +312,7 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
   // delete query.city;
   // delete query.district;
   let companies = await Company.find(query).sort({py: -1}).exec();
-  // res.status(200).json(companies);
-  res.status(200).json({'result':companies,'q':query});
+  res.status(200).json(companies);
 }));
 
 
