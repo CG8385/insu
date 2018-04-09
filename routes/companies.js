@@ -309,7 +309,7 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
     }
   }
   // res.status(200).json(query);
-  let companies = await Company.find({provine:'江苏省'}).sort({py: -1}).exec();
+  let companies = await Company.find({}).sort({py: -1}).exec();
   // let companies = await Company.find(query).sort({py: -1}).exec();
   res.status(200).json(companies);
 }));
