@@ -25,12 +25,14 @@ router.get('/roles', asyncMiddleware(async (req, res, next) => {
 }));
 
 router.get('/step4', asyncMiddleware(async (req, res, next) => {
-    let wrongLevel4 = await Company.findOne({ name: '中国人民财产保险股份有限公司睢宁分公司' }).exec();
-    let correctLevel4 = await Company.findOne({ name: '中国人民财产保险股份有限公司睢宁支公司' }).exec();
-    await Rule.update({ company: wrongLevel4._id }, { company: correctLevel4._id }, { multi: true });
-    await Policy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
-    await OrgPolicy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
-    res.json('done');
+    // let wrongLevel4 = await Company.findOne({ name: '中国人民财产保险股份有限公司睢宁分公司' }).exec();
+    // let correctLevel4 = await Company.findOne({ name: '中国人民财产保险股份有限公司睢宁支公司' }).exec();
+    // await Rule.update({ company: wrongLevel4._id }, { company: correctLevel4._id }, { multi: true });
+    // await Policy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
+    // await OrgPolicy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
+    let level4 = await Company.find({ name: '中国人民财产保险股份有限公司睢宁支公司' }).exec()
+    res.json(level4);
+    // res.json('done');
 }));
 
 // router.get('/set-role', asyncMiddleware(async (req, res, next) => {
