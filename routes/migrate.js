@@ -8,9 +8,9 @@ var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Policy = Promise.promisifyAll(require('../models/policy.js')(db));
-var LifePolicy = require('../models/life-policy.js')(db);
-var OrgPolicy = require('../models/org-policy.js')(db);
-var Rule = require('../models/rule.js')(db);
+var LifePolicy = Promise.promisifyAll(require('../models/life-policy.js')(db));
+var OrgPolicy = Promise.promisifyAll(require('../models/org-policy.js')(db));
+var Rule = Promise.promisifyAll(require('../models/rule.js')(db));
 var Migrate = require('../models/migrate.js')(db);
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
@@ -25,11 +25,11 @@ router.get('/roles', asyncMiddleware(async (req, res, next) => {
 }));
 
 router.get('/step4', asyncMiddleware(async (req, res, next) => {
-    let user = await User.findOne({name:'管理员'}).exec();
-    let org = await Organization.findOne({name:'红叶保险代理有限公司法人机构'}).exec();
-    user.org = org._id;
-    user.save();
-
+    let wrongLevel4 = await Organization.findOne({ name: '中国人民财产保险股份有限公司睢宁分公司' }).exec();
+    let correctLevel4 = await Organization.findOne({ name: '中国人民财产保险股份有限公司睢宁支公司' }).exec();
+    await Rule.update({ company: wrongLevel4._id }, { company: correctLevel4._id }, { multi: true });
+    await Policy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
+    await OrgPolicy.update({ level4_company: wrongLevel4._id }, { level4_company: correctLevel4._id }, { multi: true });
     res.json('done');
 }));
 
