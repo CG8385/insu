@@ -308,9 +308,9 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
       query.district = req.user.org.district;
     }
   }
-  res.status(200).json(query);
-  // let companies = await Company.find(query).sort({py: -1}).exec();
-  // res.status(200).json(companies);
+  // res.status(200).json(query);
+  let companies = await Company.find(query).sort({py: -1}).exec();
+  res.status(200).json(companies);
 }));
 
 
