@@ -13,7 +13,6 @@ var schema = new mongoose.Schema({
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     rates: [{ set_at: { type: Date }, mandatory_income: Number, mandatory_payment: Number, commercial_income: Number, commercial_payment: Number, tax_income: Number, tax_payment: Number, other_income: Number, other_payment: Number }],
     py: String,
-
     province: String,
     city: String,
     district: String,
