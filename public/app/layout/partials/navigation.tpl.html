@@ -188,17 +188,17 @@
                     <span class="menu-item-parent">保险公司管理</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="['全国'].indexOf(user.userrole.company_scope) != -1">
                         <a data-ui-sref="app.company.companycatogory.all">一级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company2.all">二级保险公司</a>
+                        <a data-ui-sref="app.company.company2.all" ng-show="['全国','本省'].indexOf(user.userrole.company_scope) != -1">二级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company3.all">三级保险公司</a>
+                        <a data-ui-sref="app.company.company3.all" ng-show="['全国','本省', '本市'].indexOf(user.userrole.company_scope) != -1">三级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company4.all">四级保险公司</a>
+                        <a data-ui-sref="app.company.company4.all" ng-show="['全国','本省', '本市', '本区县'].indexOf(user.userrole.company_scope) != -1">四级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.company.policyname.all">险种名称</a>
