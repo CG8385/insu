@@ -58,7 +58,7 @@ var User = require('./models/user')(db);
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(function(username, done) {
-  User.findOne({username: username}).populate('userrole').exec()
+  User.findOne({username: username}).populate('userrole org').exec()
   .then(function(user){
     done(null, user);
   })

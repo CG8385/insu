@@ -178,7 +178,7 @@ var schema = new mongoose.Schema({
     },
     scope: {type: String, default: '本人'},
     organization_scope:  {type: String, default: '一级' }, // 一级，二级，三级，四级，五级, 无
-    company_scope: String, // 全国，本省，本市，本区县，无
+    company_scope: {type: String, default: '全国' }, // 全国，本省，本市，本区县
     user_scope: String, // 一级，二级，三级，四级，五级，无
     policy_scope: String // 一级，二级，三级，四级，五级，无
 });

@@ -39,7 +39,12 @@ router.get('/level1', function (req, res) {
 });
 
 router.get('/level2', function (req, res) {
-  Company.find({ level: "二级" })
+  let query = { level: "二级" };
+  let company_scope = req.user.company_scope;
+  if(company_scope != '全国'){
+    query.province = req.user.org.province;
+  }
+  Company.find(query)
     .populate('catogory')
     .sort({py: -1})
     .exec()
@@ -272,28 +277,41 @@ router.delete('/:id', function (req, res) {
   });
 });
 
-router.get('/sub/:parentId', function (req, res) {
-  Company.find({ parent: req.params.parentId })
-    .sort({py: -1})
-    .exec()
-    .then(function (companies) {
-      if (companies.length > 0) {
-        res.status(200).json(companies);
-      } else {
-        Company.find({ catogory: req.params.parentId, level: "二级" })
-          .exec()
-          .then(function (companies) {
-            res.status(200).json(companies);
-          }, function (err) {
-            logger.error(err);
-            res.status(500).send(err);
-          });
-      }
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
+router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
+  let parent = await Company.findById(req.params.parentId).exec();
+  let parentLevel = '';
+  if(!parent){
+    parent = await CompanyCatogory.findById(req.params.parentId);
+    parentLevel = '一级';
+  }else{
+    parentLevel = parent.level;
+  }
+  let company_scope = req.user.company_scope;
+  let query = {};
+  if(parentLevel == '一级'){
+    query.catogory = req.params.parentId;
+    query.level = '二级';
+    if(company_scope != '全国'){
+      query.province = req.user.org.province;
+    }
+  }else if(parentLevel == '二级'){
+    query.parent = req.params.parentId;
+    if(['本市','本区县'].indexOf(company_scope) != -1){
+      query.province = req.user.org.province;
+      query.city = req.user.org.city;
+    }
+  }else if(parentLevel == '三级'){
+    query.parent = req.params.parentId;
+    if(['本区县'].indexOf(company_scope) != -1){
+      query.province = req.user.org.province;
+      query.city = req.user.org.city;
+      query.district = req.user.org.district;
+    }
+  }
+
+  let companies = await Company.find(query).sort({py: -1}).exec();
+  res.status(200).json(companies);
+}));
 
 
 
