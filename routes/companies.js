@@ -309,7 +309,7 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
     }
   }
   let companies = await Company.find(query).sort({py: -1}).exec();
-  res.status(200).json({'x': companies, 'y': query, 'z': parentLevel, 'a': req.user.company_scope, 'b': req.user.org});
+  res.status(200).json({'x': companies, 'y': query, 'z': parentLevel, 'a': req.user, 'b': req.user.org});
   // res.status(200).json(companies);
 }));
 
