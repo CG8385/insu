@@ -40,7 +40,7 @@ router.get('/level1', function (req, res) {
 
 router.get('/level2', function (req, res) {
   let query = { level: "二级" };
-  let company_scope = req.user.company_scope;
+  let company_scope = req.user.userrole.company_scope;
   if(company_scope != '全国'){
     query.province = req.user.org.province;
   }
@@ -286,7 +286,7 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
   }else{
     parentLevel = parent.level;
   }
-  let company_scope = req.user.company_scope;
+  let company_scope = req.user.userrole.company_scope;
   let query = {};
   if(parentLevel == '一级'){
     query.catogory = req.params.parentId;
@@ -309,8 +309,7 @@ router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
     }
   }
   let companies = await Company.find(query).sort({py: -1}).exec();
-  res.status(200).json({'x': companies, 'y': query, 'z': parentLevel, 'a': req.user, 'b': req.user.org});
-  // res.status(200).json(companies);
+  res.status(200).json(companies);
 }));
 
 
