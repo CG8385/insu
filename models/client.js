@@ -32,6 +32,8 @@ var schema = new mongoose.Schema({
     level3_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     level4_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     level5_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    client_status: {type: String, default: '正常'}, // 正常,已注销
+    remark: String
 });
 
 mongoose.model('Client', schema);

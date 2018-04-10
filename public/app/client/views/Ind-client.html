@@ -30,18 +30,21 @@
                                     </div>
                                     <div class="row">
                                         <label class="label">所属机构</label>
-                                        <select name='level1_org' class="input-sm"  data-ng-change="vm.level2Changed()" ng-model="vm.client.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                                        <select name='level1_org' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.client.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                                             <option value="">选择所属二级机构</option>
-                                         </select>
-                                         <select name='level2_org' class="input-sm" ng-disabled="!vm.client.level2_org" data-ng-change="vm.level3Changed()" ng-model="vm.client.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                                        </select>
+                                        <select name='level2_org' class="input-sm" ng-disabled="!vm.client.level2_org" data-ng-change="vm.level3Changed()" ng-model="vm.client.level3_org"
+                                            ng-options="c._id as c.name for c in vm.level3Orgs">
                                             <option value="">选择所属三级机构</option>
-                                         </select>
-                                         <select name='level4_org' class="input-sm" ng-disabled="!vm.client.level3_org" data-ng-change="vm.level4Changed()" ng-model="vm.client.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                                        </select>
+                                        <select name='level4_org' class="input-sm" ng-disabled="!vm.client.level3_org" data-ng-change="vm.level4Changed()" ng-model="vm.client.level4_org"
+                                            ng-options="c._id as c.name for c in vm.level4Orgs">
                                             <option value="">选择所属四级机构</option>
-                                         </select>
-                                         <select name='level5_org' class="input-sm" ng-disabled="!vm.client.level4_org" data-ng-change="vm.level5Changed()" ng-model="vm.client.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                                        </select>
+                                        <select name='level5_org' class="input-sm" ng-disabled="!vm.client.level4_org" data-ng-change="vm.level5Changed()" ng-model="vm.client.level5_org"
+                                            ng-options="c._id as c.name for c in vm.level5Orgs">
                                             <option value="">选择所属五级机构</option>
-                                         </select>
+                                        </select>
                                     </div>
                                     <div class="row">
                                         <label class="label">执业证号</label>
@@ -77,9 +80,9 @@
                                     <div class="row">
                                         <label class="label">收款人身份证号</label>
                                         <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="identity1_file_selector" name="identity1_file_selector"
-                                        onchange="angular.element(this).scope().vm.uploadIDPhoto1(this.files);" />
+                                            onchange="angular.element(this).scope().vm.uploadIDPhoto1(this.files);" />
                                         <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="identity2_file_selector" name="identity2_file_selector"
-                                        onchange="angular.element(this).scope().vm.uploadIDPhoto2(this.files);" />
+                                            onchange="angular.element(this).scope().vm.uploadIDPhoto2(this.files);" />
 
                                         <button ng-show="vm.editable && !vm.isInReviewMode" type="button" class="btn btn-primary" id="select_file1" onclick="identity1_file_selector.click()">上传身份证正面照片</button>
                                         <a ng-show="vm.client.identity1_filename" ng-href={{vm.getAttachmentUrl(vm.client.identity1_filename)}} target="_blank">查看身份证正面照片</a>
@@ -142,14 +145,29 @@
                                             <i></i>该业务员为车商代理人</label>
                                     </div> -->
                                     <div class="row">
-                                            <label class="label">所属车商(仅针对车商代理人)</label>
-                                            <label class="select">
-                                                <select name='parent' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers">
-                                                    <option value="">请选择所属车商</option>
-                                                </select>
-                                                <i></i>
-                                            </label>
-                                        </div>
+                                        <label class="label">所属车商(仅针对车商代理人)</label>
+                                        <label class="select">
+                                            <select name='parent' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers">
+                                                <option value="">请选择所属车商</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">状态</label>
+                                        <label class="select">
+                                            <select name='status' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.client_status" ng-options="s for s in vm.statusList">
+                                                <option value="">请选择代理人状态</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                    <div class="row">
+                                        <label class="label">备注</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="remark" ng-model="vm.client.remark">
+                                        </label>
+                                    </div>
                                 </fieldset>
                             </section>
 
