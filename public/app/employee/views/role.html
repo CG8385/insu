@@ -62,6 +62,17 @@
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">代理人状态可见范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.client_status_scope" ng-options="s for s in vm.client_status_scopes">
+                                                <option value="">请选择代理人状态可见范围</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
                             </fieldset>
                             <div class="row table-responsive">
                                 <section class="col col-12" style="width:100%;">

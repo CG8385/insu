@@ -11,6 +11,7 @@ var Client = Promise.promisifyAll(require('../models/client.js')(db));
 
 router.get('/', function (req, res, next) {
   var query = {};
+
   var type = req.query.type;
   var org = req.query.organization;
   if (org) {
@@ -53,6 +54,10 @@ router.get('/', function (req, res, next) {
     } else if (type == "dealer") {
       query = { client_type: '个人', parent: { $exists: true } };
     }
+  }
+
+  if(req.user.userrole.client_status_scope == "仅可见正常状态代理人"){
+    query.client_status = '正常';
   }
 
   Client.find(query)

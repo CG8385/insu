@@ -179,8 +179,9 @@ var schema = new mongoose.Schema({
     scope: {type: String, default: '本人'},
     organization_scope:  {type: String, default: '一级' }, // 一级，二级，三级，四级，五级, 无
     company_scope: {type: String, default: '全国' }, // 全国，本省，本市，本区县
+    client_status_scope: {type: String, default: '包含已注销代理人' }, // "包含已注销代理人","仅可见正常状态代理人"
     user_scope: String, // 一级，二级，三级，四级，五级，无
-    policy_scope: String // 一级，二级，三级，四级，五级，无
+    policy_scope: String, // 一级，二级，三级，四级，五级，无
 });
 
 mongoose.model('Role', schema);
