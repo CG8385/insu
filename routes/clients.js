@@ -107,6 +107,8 @@ router.post('/excel', async function (req, res) {
     'level4_org',
     'level5_org',
     'dealer',
+    'client_status',
+    'remark'
   ];
   let fieldNames = [
     '姓名',
@@ -122,6 +124,8 @@ router.post('/excel', async function (req, res) {
     '所属四级机构',
     '所属五级机构',
     '所属车商',
+    '状态',
+    '备注'
   ];
   let arr = [];
   for (let j = 0; j < clients.length; j++) {
@@ -140,6 +144,8 @@ router.post('/excel', async function (req, res) {
     row.level4_org = client.level4_org ? client.level4_org.name : '';
     row.level5_org = client.level5_org ? client.level5_org.name : '';
     row.dealer = client.parent ? client.parent.name : '';
+    row.client_status = client.client_status;
+    row.remark = client.remark;
     arr.push(row);
   }
   json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
@@ -213,6 +219,8 @@ router.put('/:id', function (req, res) {
     client.parent = req.body.parent;
     client.dealer_level = req.body.dealer_level;
     client.pending = req.body.pending;
+    client.client_status = req.body.client_status;
+    client.remark = req.body.remark;
     client.save(function (err) {
       if (err) {
         logger.error(err);
