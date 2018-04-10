@@ -57,7 +57,7 @@ router.get('/', function (req, res, next) {
   }
 
   if(req.user.userrole.client_status_scope == "仅可见正常状态代理人"){
-    query.client_status = '正常';
+    query.client_status = {$ne: '已注销'};
   }
 
   Client.find(query)
