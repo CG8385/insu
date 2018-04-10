@@ -31,10 +31,12 @@
                                     </th>
                                     <th field-name="phone" display-name="联系电话" enable-filtering="true" enable-sorting="false">
                                     </th>
+                                    <th field-name="client_status" display-name="状态" enable-filtering="true" enable-sorting="false">
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-class="{'txt-color-red':gridItem.client_status=='已注销'}">
                                     <td>
                                         <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm" ng-show="user.userrole.client.delete">删除</button>                                   
