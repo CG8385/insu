@@ -14,6 +14,7 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.level3Orgs = [];
     vm.level4Orgs = [];
     vm.level5Orgs = [];
+    vm.statusList = ['正常', '已注销'];
 
     vm.loadLevel2Orgs = function () {
         ClientService.getLevel2Orgs()
