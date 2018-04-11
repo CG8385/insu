@@ -8,6 +8,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
        ClientService.getIndClients()
        .then(function(clients){
            vm.clients = clients;
+           console.log(vm.setting);
            vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
        }, function(err){
            
@@ -17,7 +18,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
     vm.refreshClients();
 	
     vm.view = function(clientId){
-        localStorageService.set('ind-client-list-current-page', $scope.gridOptions);
+        localStorageService.set('ind-client-list', vm.setting );
         $state.go("app.client.individual.view", {clientId: clientId});
     };
 
