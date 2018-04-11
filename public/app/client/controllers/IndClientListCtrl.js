@@ -3,14 +3,12 @@
 angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService, localStorageService){
     var vm = this;
     vm.clients = [];
-    //vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-    // $scope.currentPage = localStorageService.get('ind-client-list-current-page') ? localStorageService.get('ind-client-list-current-page') : 0;
-    $scope.gridOptions = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-
+    vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
     vm.refreshClients = function(){
        ClientService.getIndClients()
        .then(function(clients){
            vm.clients = clients;
+           vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
        }, function(err){
            
        });
