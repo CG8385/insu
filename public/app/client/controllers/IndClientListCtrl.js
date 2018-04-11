@@ -4,7 +4,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
     var vm = this;
     vm.clients = [];
     vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-    $scope.gridOptions.currentPage = vm.setting.currentPage;
+    $scope.currentPage = vm.setting.currentPage;
 
     vm.refreshClients = function(){
        ClientService.getIndClients()
