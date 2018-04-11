@@ -10,6 +10,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
            vm.clients = clients;
            console.log(vm.setting);
            vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
+           console.log(vm.setting);
        }, function(err){
            
        });
