@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
+angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService, localStorageService){
     var vm = this;
     vm.clients = [];
     vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
