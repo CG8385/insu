@@ -1,21 +1,24 @@
 'use strict'
 
-angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService, localStorageService){
+angular.module('app.client').controller('IndClientListController', function(screenSize, $timeout, $rootScope, $state, $scope, ClientService, localStorageService){
     var vm = this;
     vm.clients = [];
     vm.refreshClients = function(){
        ClientService.getIndClients()
        .then(function(clients){
            vm.clients = clients;
+           $timeout(function(){ 
+                 vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
+            }, 1000);
        }, function(err){ 
        });
     };
     
     vm.refreshClients();
 
-    setTimeout(function(){ 
-        vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-        }, 3000);   
+    // setTimeout(function(){ 
+    //     vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
+    //     }, 3000);   
 
     vm.view = function(clientId){
         localStorageService.set('ind-client-list', vm.setting );
