@@ -25,19 +25,20 @@ angular.module('app.client').controller('IndClientListController', function(scre
 
 
     vm.exportClients = function () {
-        ClientService.getCSV()
-            .then(function (csv) {
-                var file = new Blob(['\ufeff', csv], {
-                    type: 'application/csv'
-                });
-                var fileURL = window.URL.createObjectURL(file);
-                var anchor = angular.element('<a/>');
-                anchor.attr({
-                    href: fileURL,
-                    target: '_blank',
-                    download: 'clients.csv'
-                })[0].click();
-            })
+        vm.setting = {currentPage: 4};
+        // ClientService.getCSV()
+        //     .then(function (csv) {
+        //         var file = new Blob(['\ufeff', csv], {
+        //             type: 'application/csv'
+        //         });
+        //         var fileURL = window.URL.createObjectURL(file);
+        //         var anchor = angular.element('<a/>');
+        //         anchor.attr({
+        //             href: fileURL,
+        //             target: '_blank',
+        //             download: 'clients.csv'
+        //         })[0].click();
+        //     })
     };
     /*
      * SmartAlerts
