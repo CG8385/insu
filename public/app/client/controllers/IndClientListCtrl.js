@@ -9,7 +9,7 @@ angular.module('app.client').controller('IndClientListController', function(scre
            vm.clients = clients;
            $timeout(function(){ 
                  vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-            }, 1000);
+            }, 300);
        }, function(err){ 
        });
     };
