@@ -8,11 +8,10 @@ angular.module('app.client').controller('IndClientListController', function(scre
        ClientService.getIndClients()
        .then(function(clients){
            vm.clients = clients;
-           console.log(vm.setting);
-           vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-           console.log(vm.setting);
-       }, function(err){
-           
+           setTimeout(function(){ 
+            vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
+            }, 1000);   
+       }, function(err){ 
        });
     };
     
@@ -25,20 +24,19 @@ angular.module('app.client').controller('IndClientListController', function(scre
 
 
     vm.exportClients = function () {
-        vm.setting = {currentPage: 4};
-        // ClientService.getCSV()
-        //     .then(function (csv) {
-        //         var file = new Blob(['\ufeff', csv], {
-        //             type: 'application/csv'
-        //         });
-        //         var fileURL = window.URL.createObjectURL(file);
-        //         var anchor = angular.element('<a/>');
-        //         anchor.attr({
-        //             href: fileURL,
-        //             target: '_blank',
-        //             download: 'clients.csv'
-        //         })[0].click();
-        //     })
+        ClientService.getCSV()
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'clients.csv'
+                })[0].click();
+            })
     };
     /*
      * SmartAlerts
