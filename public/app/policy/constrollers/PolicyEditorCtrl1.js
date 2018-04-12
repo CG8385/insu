@@ -501,76 +501,81 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
+    function RoundNum(num, length) { 
+        var number = Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
+        return number;
+    }
+
     vm.updateFee = function () {
         vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee / 1.06;
         if (vm.policy.mandatory_fee_taxed) {
-            vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee_taxed.toFixed(2);
+            vm.policy.mandatory_fee_taxed = RoundNum(vm.policy.mandatory_fee_taxed, 2);
         }
         vm.policy.commercial_fee_taxed = vm.policy.commercial_fee / 1.06;
         if (vm.policy.commercial_fee_taxed) {
-            vm.policy.commercial_fee_taxed = vm.policy.commercial_fee_taxed.toFixed(2);
+            vm.policy.commercial_fee_taxed = RoundNum(vm.policy.commercial_fee_taxed, 2);
         }
         vm.policy.other_fee_taxed = vm.policy.other_fee / 1.06;
         if (vm.policy.other_fee_taxed) {
-            vm.policy.other_fee_taxed = vm.policy.other_fee_taxed.toFixed(2);
+            vm.policy.other_fee_taxed = RoundNum(vm.policy.other_fee_taxed, 2);
         }
 
         var divideBy = vm.policy.rates_based_on_taxed ? 106 : 100;
 
         vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / divideBy;
         if (vm.policy.mandatory_fee_income) {
-            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+            vm.policy.mandatory_fee_income = RoundNum(vm.policy.mandatory_fee_income, 2);
         }
         vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / divideBy;
         if (vm.policy.commercial_fee_income) {
-            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+            vm.policy.commercial_fee_income = RoundNum(vm.policy.commercial_fee_income, 2);
         }
         vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
         if (vm.policy.tax_fee_income) {
-            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+            vm.policy.tax_fee_income = RoundNum(vm.policy.tax_fee_income, 2);
         }
         vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / divideBy;
         if (vm.policy.other_fee_income) {
-            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+            vm.policy.other_fee_income = RoundNum(vm.policy.other_fee_income, 2);
         }
 
         if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
             vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
         vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / divideBy;
 
         if (vm.policy.mandatory_fee_payment) {
-            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+            vm.policy.mandatory_fee_payment = RoundNum(vm.policy.mandatory_fee_payment, 2);
         }
         vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / divideBy;
         if (vm.policy.commercial_fee_payment) {
-            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+            vm.policy.commercial_fee_payment = RoundNum(vm.policy.commercial_fee_payment, 2);
         }
         vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
         if (vm.policy.tax_fee_payment) {
-            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+            vm.policy.tax_fee_payment = RoundNum(vm.policy.tax_fee_payment, 2);
         }
         vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / divideBy;
         if (vm.policy.other_fee_payment) {
-            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+            vm.policy.other_fee_payment = RoundNum(vm.policy.other_fee_payment, 2);
         }
         if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment) && !isNaN(vm.policy.other_fee_payment)) {
             vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
         }
         if (vm.policy.payment_addition) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
             vm.policy.total_income = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
         if (vm.policy.payment_substraction) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
             vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_substraction);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
     }

@@ -16,10 +16,6 @@ angular.module('app.client').controller('IndClientListController', function(scre
     
     vm.refreshClients();
 
-    // setTimeout(function(){ 
-    //     vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
-    //     }, 3000);   
-
     vm.view = function(clientId){
         localStorageService.set('ind-client-list', vm.setting );
         $state.go("app.client.individual.view", {clientId: clientId});

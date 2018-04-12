@@ -64,7 +64,7 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.userrole.policy_to_be_reviewed.aprove">
+                                        <div>
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
                                                     ng-change="vm.filterChanged()">
