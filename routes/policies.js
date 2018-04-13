@@ -309,6 +309,7 @@ router.put('/:id', function (req, res) {
     if (err)
       res.send(err);
     policy.policy_no = req.body.policy_no;
+    policy.mandatory_policy_no = req.body.mandatory_policy_no;
     policy.plate_no = req.body.plate_no;
     policy.applicant = req.body.applicant;
     policy.frame_no = req.body.frame_no;
