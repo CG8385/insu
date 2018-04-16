@@ -553,7 +553,7 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
                 if (product._id) {
                     product.updated_at = Date.now();
-                    $http.put('api/companies/roperty-products/' + product._id, product)
+                    $http.put('api/companies/property-products/' + product._id, product)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -566,7 +566,7 @@ angular.module('app.company').factory('CompanyService',
                         });
                 } else {
                     product.updated_at = Date.now();
-                    $http.post('api/companies/roperty-products', product)
+                    $http.post('api/companies/property-products', product)
                         .success(function (data, status) {
                             if (status === 200) {
                                 deferred.resolve(data);
@@ -587,7 +587,7 @@ angular.module('app.company').factory('CompanyService',
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.delete('api/companies/roperty-products/' + productId)
+                $http.delete('api/companies/property-products/' + productId)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
