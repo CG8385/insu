@@ -8,7 +8,7 @@ var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Rule = require('../models/rule.js')(db);
-var PropertyProduct = Promise.promisifyAll(require('../models/property-porduct.js')(db));
+var PropertyProduct = Promise.promisifyAll(require('../models/property-product.js')(db));
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
 
