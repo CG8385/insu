@@ -65,20 +65,19 @@
                                     <div class="row">
                                         <label class="label">所在区域</label>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-model="vm.company.province"
-                                                ng-options="p.name as p.name for p in vm.provinces">
+                                            <select name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-model="vm.company.province" ng-options="p.name as p.name for p in vm.provinces">
                                                 <option value="">选择所在省</option>
                                             </select>
                                         </section>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.province" data-ng-change="vm.cityChanged()"
-                                                ng-model="vm.company.city" ng-options="c.name as c.name for c in vm.cities">
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.province" data-ng-change="vm.cityChanged()" ng-model="vm.company.city"
+                                                ng-options="c.name as c.name for c in vm.cities">
                                                 <option value="">选择所在市</option>
                                             </select>
                                         </section>
                                         <section class="col col-3">
-                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.city" data-ng-change="vm.districtChanged()"
-                                                ng-model="vm.company.district" ng-options="c.name as c.name for c in vm.districts">
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.city" data-ng-change="vm.districtChanged()" ng-model="vm.company.district"
+                                                ng-options="c.name as c.name for c in vm.districts">
                                                 <option value="">选择所在区县</option>
                                             </select>
                                         </section>
@@ -162,11 +161,39 @@
                                     </section>
                                 </div>
                             </section> -->
+                        <div>
+
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#auto-product" data-toggle="tab">车险费率政策</a>
+                                </li>
+                                <li>
+                                    <a href="#property-product" data-toggle="tab">财险险种</a>
+                                </li>
+                                <li>
+                                    <a href="#life-product" data-toggle="tab">寿险险种</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content padding-10">
+                                <div class="tab-pane active" id="auto-product">
+
+                                </div>
+                                <div class="tab-pane fade" id="property-product">
+
+                                </div>
+                                <div class="tab-pane fade" id="life-product">
+
+                                </div>
+                            </div>
+
+                        </div>
 
                         <div class="rules-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                             <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>费率政策</h2>
+                                <span class="widget-icon">
+                                    <i class="fa fa-table"></i>
+                                </span>
+                                <h2>费率政策</h2>
                             </header>
                             <div>
                                 <div class="widget-body no-padding table-responsive">

@@ -8,6 +8,7 @@ var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Rule = require('../models/rule.js')(db);
+var PropertyProduct = Promise.promisifyAll(require('../models/property-porduct.js')(db));
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
 
@@ -216,6 +217,48 @@ router.delete('/rules/:id', asyncMiddleware(async (req, res, next) => {
   logger.info(req.user.name + " 删除了一条费率政策，费率政策名称为：" + rule.name + "。" + req.clientIP);
   await rule.remove();
   res.json({ message: '费率政策已成功删除' });
+}));
+
+router.get('/:id/rules', function (req, res) {
+  Rule.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (rules) {
+      res.status(200).json(rules);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  let producet = await PropertyProduct.findOne({ _id: req.params.id }).populate('company').exec();
+  res.status(200).json(producet);
+}));
+
+router.put('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  await PropertyProduct.findOneAndUpdateAsync({_id:req.params.id}, req.body);
+  res.json({ message: '财险险种已成功更新' });
+}));
+
+router.post('/property-products', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let product = new PropertyProduct();
+  product.name = data.name;
+  product.py = makePy(data.name);
+  product.company=data.company;
+  product.income_rate=data.income_rate;
+  product.payment_rate=data.payment_rate;
+  product.company = data.company._id;
+  await product.save();
+  res.json({ message: '财险险种已成功保存' });
+}));
+
+router.delete('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await PropertyProduct.findOne({_id: req.params.id}).exec();
+  logger.info(req.user.name + " 删除了一条财险险种，财险险种名称为：" + rule.name + "。" + req.clientIP);
+  await rule.remove();
+  res.json({ message: '财险险种已成功删除' });
 }));
 
 router.post('/', function (req, res) {
