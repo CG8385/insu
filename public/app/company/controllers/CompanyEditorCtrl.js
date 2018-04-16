@@ -210,7 +210,6 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     }
 
     vm.addPropertyProduct = function () {
-        console.log($state.current);
         $state.go("app.company.property-product.new", { companyId: vm.company._id, previousState: $state.current.name });
        
     }

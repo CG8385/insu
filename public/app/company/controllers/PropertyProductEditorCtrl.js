@@ -36,8 +36,6 @@ angular.module('app.company').controller('PropertyProductEditorController', func
                     timeout: 5000
                 });
                 if (vm.back) {
-                    console.log($stateParams.previousState);
-                    console.log(vm.product.company);
                     $state.go($stateParams.previousState, { companyId: vm.product.company._id });
                 }
             }, function (err) { });
