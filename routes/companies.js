@@ -172,6 +172,18 @@ router.get('/:id/rules', function (req, res) {
     });
 });
 
+router.get('/:id/property-products', function (req, res) {
+  PropertyProduct.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (products) {
+      res.status(200).json(products);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
 router.get('/rules/:id', asyncMiddleware(async (req, res, next) => {
   let rule = await Rule.findOne({ _id: req.params.id }).populate('company').exec();
   res.status(200).json(rule);
