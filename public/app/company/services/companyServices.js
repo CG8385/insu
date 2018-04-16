@@ -500,7 +500,7 @@ angular.module('app.company').factory('CompanyService',
                 return deferred.promise;
             }
 
-            function getPropertyProductS(companyId) {
+            function getPropertyProducts(companyId) {
 
                 // create a new instance of deferred
                 var deferred = $q.defer();
