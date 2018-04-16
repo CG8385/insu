@@ -22,6 +22,10 @@ angular.module('app.company').factory('CompanyService',
                 getRule: getRule,
                 saveRule: saveRule,
                 deleteRule: deleteRule,
+                getPropertyProducts: getPropertyProducts,
+                getPropertyProduct: getPropertyProduct,
+                savePropertyProduct: savePropertyProduct,
+                deletePropertyProduct: deletePropertyProduct,
                 getLocations: getLocations
             });
 
@@ -479,6 +483,111 @@ angular.module('app.company').factory('CompanyService',
                 var deferred = $q.defer();
 
                 $http.delete('api/companies/rules/' + ruleId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPropertyProductS(companyId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get(`api/companies/${companyId}/property-products`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getPropertyProduct(productId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get(`api/companies/roperty-products/${productId}`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function savePropertyProduct(product) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                if (product._id) {
+                    product.updated_at = Date.now();
+                    $http.put('api/companies/roperty-products/' + product._id, product)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                } else {
+                    product.updated_at = Date.now();
+                    $http.post('api/companies/roperty-products', product)
+                        .success(function (data, status) {
+                            if (status === 200) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(status);
+                            }
+                        })
+                        .error(function (err) {
+                            deferred.reject(status);
+                        });
+                }
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function deletePropertyProduct(productId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.delete('api/companies/roperty-products/' + productId)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

@@ -5,6 +5,7 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     vm.company = {};
     vm.companyCatogories = [];
     vm.rules = [];
+    vm.propertyProducts = [];
     vm.editable = false;
     vm.currentLevel = "";
     vm.parentName = "";
@@ -105,6 +106,10 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             .then(function (rules) {
                 vm.rules = rules;
             });
+        CompanyService.getPropertyProducts(companyId)
+            .then(function (propertyProducts) {
+                vm.propertyProducts = propertyProducts;
+            });
     }
 
 
@@ -190,6 +195,41 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
                 CompanyService.deleteRule(ruleId)
                     .then(function () {
                         vm.refreshRules();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    }
+
+    vm.addPropertyProduct = function () {
+        $state.go("app.company.property-product.new", { companyId: vm.company._id, previousState: $state.current.name });
+       
+    }
+
+    vm.refreshPropertyProducts = function () {
+        CompanyService.getPropertyProducts(vm.company._id)
+        .then(function (propertyProducts) {
+            vm.propertyProducts = propertyProducts;
+        });
+    };
+
+    vm.editPropertyProduct = function (productId) {
+        $state.go("app.company.property-product.view", { productId: productId, previousState: $state.current.name });
+    }
+
+    vm.deletePropertyProduct= function (productId) {
+        $.SmartMessageBox({
+            title: "删除财险险种",
+            content: "确认删除该财险险种？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deletePropertyProduct(productId)
+                    .then(function () {
+                        vm.refreshPropertyProducts();
                     })
             }
             if (ButtonPressed === "取消") {
