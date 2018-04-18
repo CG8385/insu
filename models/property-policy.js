@@ -10,28 +10,42 @@ var schema = new mongoose.Schema({
   level3_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   level4_company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
   product: { type: mongoose.Schema.Types.ObjectId, ref: 'PropertyProduct' },
-  receipt_date: { type: Date },
+  payer_name: String,
+  insured_name: String,
+  phone: String,
+  start_date: { type: Date },
   end_date: { type: Date },
-  remark: String,
+  remarks: String,
+
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  policy_status: String,
 
   rates_based_on_taxed : Boolean,
   total_fee: Number,
+  total_fee_taxed: Number,
   income_rate: Number,
   payment_rate: Number,
+  income: Number,
+  payment: Number,
   payment_addition: Number,
   payment_substraction: Number,
   payment_addition_comment: String,
   payment_substraction_comment: String,
-  total_fee: Number,
+  total_income: Number,
   total_payment: Number,
 
   policy_photo: String,
+  sign_photo: String,
+  identity_photo: String,
   agreement_photo: String,
   other_photo: String,
 
   created_at: { type: Date },
   updated_at: { type: Date },
-
+  paid_at: { type: Date },
+  has_warning: Boolean
 });
 
 schema.pre('save', function(next){
@@ -48,5 +62,3 @@ mongoose.model('PropertyPolicy', schema);
 module.exports = function (connection){
     return (connection || mongoose).model('PropertyPolicy');
 };
-
-
