@@ -33,6 +33,12 @@ router.get('/step4', asyncMiddleware(async (req, res, next) => {
     res.json('done');
 }));
 
+router.get('/step5', asyncMiddleware(async (req, res, next) => {
+    let level2 = await Organization.findOne({ name: '江苏省分公司' }).exec();
+    await Organization.updateAsync({ name: '出单中心' }, { level: '三级机构', province: '江苏省', area_code: '032', parent: level2._id });
+    res.json('done');
+}));
+
 // router.get('/set-role', asyncMiddleware(async (req, res, next) => {
 //     let sellerRole = await Role.findOne({ name: '出单员' }).exec();
 //     let financeRole = await Role.findOne({ name: '财务' }).exec();

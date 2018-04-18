@@ -15,7 +15,7 @@
                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+                <button ng-show="user.userrole.property_policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
                  <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>                       
             </span>
@@ -33,32 +33,15 @@
                             total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th ng-show="user.userrole.policy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
+                                    <th ng-show="user.userrole.property_policy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
-                                    <!--<th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            业务来源
-                                        </div>
-                                        <div class="tr-ng-column-filter">
-                                            <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
-                                                <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems"
-                                                     infinite-scroll="vm.addMoreItems()"
-                                                     infinite-scroll-distance="2">
-                                                    <div ng-bind-html="client.name"></div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </div>
-                                    </th>-->
                                     <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="applicant.name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
                                         <div class="tr-ng-title">
@@ -73,27 +56,15 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th field-name="mandatory_fee" display-name="交强保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="total_fee" display-name="总保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="income_rate" display-name="跟单费率(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="mandatory_fee_income" display-name="交强跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="mandatory_fee_payment_rate" display-name="交结(%)" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="payment_rate" display-name="结算费率(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="mandatory_fee_payment" display-name="交强结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="commercial_fee" display-name="商业保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="payment_addition" display-name="结算加" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="commercial_fee_income_rate" display-name="商跟(%)" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <!--<th field-name="commercial_fee_income" display-name="商业跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="commercial_fee_payment_rate" display-name="商结(%)" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <!--<th field-name="commercial_fee_payment" display-name="商业结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="payment_substraction_rate" display-name="结算扣减(%)" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="payment_substraction" display-name="结算减" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -111,10 +82,10 @@
                                     <!--<td field-name="client.name"></td>-->
                                     <td field-name="organization.name"></td>
                                     <td>
-                                        <button ng-show="user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
-                                        <button ng-show="!user.userrole.policy_to_be_reviewed.aprove && user.userrole.policy_to_be_reviewed.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="user.userrole.policy_to_be_reviewed.reject" ng-click="vm.reject(gridItem)" class="btn btn-primary btn-sm">驳回</button>
-                                        <button ng-show="user.userrole.policy_to_be_reviewed.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                        <button ng-show="user.userrole.property_policy_to_be_reviewed.aprove" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
+                                        <button ng-show="!user.userrole.property_policy_to_be_reviewed.aprove && user.userrole.property_policy_to_be_reviewed.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.property_policy_to_be_reviewed.reject" ng-click="vm.reject(gridItem)" class="btn btn-primary btn-sm">驳回</button>
+                                        <button ng-show="user.userrole.property_policy_to_be_reviewed.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>
                                 </tr>
