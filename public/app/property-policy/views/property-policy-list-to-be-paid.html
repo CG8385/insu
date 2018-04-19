@@ -9,42 +9,60 @@
 
 
     <div class="row">
-       <article class="col-sm-12">
+        <article class="col-sm-12">
             <span>
-               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                <button ng-click="vm.refreshClicked()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-show="user.userrole.policy_to_be_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
-                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>                                         
+                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <select style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()" ng-model="vm.filterSettings.level2_org"
+                    ng-options="c._id as c.name for c in vm.level2Orgs">
+                    <option value="">选择二级机构</option>
+                </select>
+                <select style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org" data-ng-change="vm.level3OrgChanged()"
+                    ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                    <option value="">选择三级机构</option>
+                </select>
+                <select style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org" data-ng-change="vm.level4OrgChanged()"
+                    ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                    <option value="">选择四级机构</option>
+                </select>
+                <select style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org" data-ng-change="vm.level5OrgChanged()"
+                    ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                    <option value="">选择五级机构</option>
+                </select>
+                <br/>
+                <button ng-click="vm.refreshClicked()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-show="user.userrole.policy_to_be_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}
+                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>
             </span>
 
 
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-table"></i>
+                    </span>
                     <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize" enable-filtering="false"
-                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
                             <thead>
                                 <tr>
-                                    <th ng-show="user.userrole.policy_to_be_paid.pay" display-align="center" cell-width="2em">
+                                    <th ng-show="user.userrole.property_policy_to_be_paid.pay" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
-                                    <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="applicant.name" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="payer_name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
                                         <div class="tr-ng-title">
@@ -53,9 +71,8 @@
                                         <div class="tr-ng-column-filter">
                                             <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
                                                 <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems"
-                                                     infinite-scroll="vm.addMoreItems()"
-                                                     infinite-scroll-distance="2">
+                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems" infinite-scroll="vm.addMoreItems()"
+                                                    infinite-scroll-distance="2">
                                                     <!--<ui-select-choices repeat="client in vm.clients| filter: $select.search">-->
                                                     <!--<div ng-bind-html="client.name | highlight: $select.search"></div>-->
                                                     <div ng-bind-html="client.name"></div>
@@ -68,17 +85,6 @@
                                     <th field-name="client.account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            营业部
-                                        </div>
-                                        <div>
-                                            <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </th>
                                     <th field-name="total_income" display-name="跟单费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -88,18 +94,17 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td ng-show="user.userrole.policy_to_be_paid.pay">
+                                    <td ng-show="user.userrole.property_policy_to_be_paid.pay">
                                         <div>
                                             <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
                                         </div>
                                     </td>
                                     <td field-name="client.name"></td>
-                                    <td field-name="organization.name"></td>
-                                    <!-- <td field-name="seller.name"></td> -->
                                     <td>
-                                        <button ng-show="user.userrole.policy_to_be_paid.pay" ng-click="vm.pay(gridItem)" class="btn btn-primary btn-sm">处理</button>
-                                        <button ng-show="!user.userrole.policy_to_be_paid.pay && user.userrole.policy_to_be_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="user.userrole.policy_to_be_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                        <button ng-show="user.userrole.property_policy_to_be_paid.pay" ng-click="vm.pay(gridItem)" class="btn btn-primary btn-sm">处理</button>
+                                        <button ng-show="!user.userrole.property_policy_to_be_paid.pay && user.userrole.property_policy_to_be_paid.view" ng-click="vm.view(gridItem)"
+                                            class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.property_policy_to_be_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>
                                 </tr>
@@ -110,7 +115,7 @@
                         <section class="col col-4">
                             <button class="btn btn-primary" ng-show="vm.pageSize < vm.policyTotalCount" ng-click="vm.showAll()">在一页显示所有符合筛选条件的保单(最多300条一页)</button>
                         </section>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </article>

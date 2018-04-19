@@ -254,6 +254,42 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
                 }
             }
         })
+        .state('app.company.property-product', {
+            abstract: true,
+            data: {
+                title: '财险险种管理'
+            }
+        })
+        .state('app.company.property-product.view', {
+            url: '/companies/property-product/:productId',
+            data: {
+                title: '财险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'PropertyProductEditorController as vm',
+                    templateUrl: 'app/company/views/property-product.html'
+                }
+            }
+        })
+        .state('app.company.property-product.new', {
+            url: '/companies/property-product/new/:companyId',
+            data: {
+                title: '添加财险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'PropertyProductEditorController as vm',
+                    templateUrl: 'app/company/views/property-product.html'
+                }
+            }
+        })
         .state('app.company.policyname', {
             abstract: true,
             data: {
