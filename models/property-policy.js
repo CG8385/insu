@@ -20,6 +20,10 @@ var schema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level2_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level3_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level4_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level5_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
   policy_status: String,
 
   rates_based_on_taxed : Boolean,

@@ -91,10 +91,97 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.filterChanged();
     }
 
+    //////////
+    vm.loadLevel3Orgs = function () {
+        if (!vm.filterSettings.level2_org) {
+            vm.level3Orgs = [];
+        } else {
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level2_org)
+                .then(function (level3Orgs) {
+                    vm.level3Orgs = level3Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Orgs = function () {
+        if (!vm.filterSettings.level3_org) {
+            vm.level4Orgs = [];
+        } else {
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level3_org)
+                .then(function (level4Orgs) {
+                    vm.level4Orgs = level4Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel5Orgs = function () {
+        if (!vm.filterSettings.level4_org) {
+            vm.level5Orgs = [];
+        } else {
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level4_org)
+                .then(function (level5Orgs) {
+                    vm.level5Orgs = level5Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.level2OrgChanged = function () {
+        if (!vm.filterSettings.level2_org) {
+            delete vm.filterSettings.level2_org;
+        } 
+        delete vm.filterSettings.level3_org;
+        delete vm.filterSettings.level4_org;
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel3Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level3OrgChanged = function () {
+        if (!vm.filterSettings.level3_org) {
+            delete vm.filterSettings.level3_org;
+        } 
+        delete vm.filterSettings.level4_org;
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel4Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level4OrgChanged = function () {
+        if (!vm.filterSettings.level4_org) {
+             delete vm.filterSettings.level4_org;
+        }
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel5Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level5OrgChanged = function () {
+        if (!vm.filterSettings.level5_org) {
+             delete vm.filterSettings.level5_org;
+        }
+        vm.filterChanged();
+    }
+
+    //////////
+
     vm.listType = "all";
     if ($state.is("app.property-policy.to-be-reviewed")) {
+        PropertyPolicyService.getLevel2Orgs()
+        .then(function (level2Orgs) {
+            vm.level2Orgs = level2Orgs;
+
+        })
         vm.listType = "to-be-reviewed";
         vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
         if (vm.filterSettings.client) {
             PropertyPolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
@@ -106,8 +193,16 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.tableHeader = "待审核保单";
     }
     else if ($state.is("app.property-policy.to-be-paid")) {
+        PropertyPolicyService.getLevel2Orgs()
+        .then(function (level2Orgs) {
+            vm.level2Orgs = level2Orgs;
+
+        })
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
         if (vm.filterSettings.client) {
             PropertyPolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
