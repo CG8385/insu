@@ -625,4 +625,28 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                 return deferred.promise;
             }
 
+            function getLevel2Companies() {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/companies/level2')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
         }]);
