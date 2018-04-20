@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.property-policy').controller('PhotoReviewController', function (data, PolicyService) {
+angular.module('app.property-policy').controller('PhotoReviewController1', function (data, PolicyService) {
     var vm = this;
     vm.policy = data.policy;
     vm.photoOnly = data.photoOnly;

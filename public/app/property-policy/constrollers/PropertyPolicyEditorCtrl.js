@@ -495,7 +495,7 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
         ngDialog.open({
             template: 'app/property-policy/views/photo-review.html',
             className: 'ngdialog-theme-default',
-            controller: 'PhotoReviewController as vm',
+            controller: 'PhotoReviewController1 as vm',
             resolve: {
                 data: function () {
                     var val = {};
