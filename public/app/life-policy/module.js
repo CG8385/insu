@@ -5,7 +5,7 @@ angular.module('app.life-policy', ['ui.router','validation','ui.select'])
 
 
 angular.module('app.life-policy').config(function ($stateProvider, localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('insu');
+    localStorageServiceProvider.setPrefix('life');
     
     $stateProvider
         .state('app.life-policy', {

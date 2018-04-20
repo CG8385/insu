@@ -29,10 +29,6 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             clients.unshift({ _id: -1, name: "全部业务员" });
             vm.clients = clients;
         })
-    // PropertyPolicyService.getOrganizations()
-    //     .then(function (organizations) {
-    //         vm.organizations = organizations;
-    //     })
 
     PropertyPolicyService.getSellers()
         .then(function (sellers) {

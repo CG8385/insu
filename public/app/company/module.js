@@ -5,7 +5,7 @@ angular.module('app.company', ['ui.router','validation'])
 
 
 angular.module('app.company').config(function ($stateProvider, localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('insu');
+    localStorageServiceProvider.setPrefix('company');
 
     $stateProvider
        .state('app.company', {
