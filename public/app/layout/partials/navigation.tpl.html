@@ -116,6 +116,29 @@
                     </li>
                 </ul>
             </li>
+            <li data-menu-collapse ng-show="user.userrole.property_policy.view">
+                <a href="#">
+                    <i class="fa fa-lg fa-fw fa-user"></i>
+                    <span class="menu-item-parent">财险</span>
+                </a>
+                <ul>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_reviewed.append">
+                        <a data-ui-sref="app.property-policy.new">保单录入</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lproperty_policy_rejected.view">
+                        <a data-ui-sref="app.property-policy.rejected">被驳回保单</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_reviewed.view">
+                        <a data-ui-sref="app.property-policy.to-be-reviewed">待审核保单</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_paid.view">
+                        <a data-ui-sref="app.property-policy.to-be-paid">待支付保单</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_paid.view">
+                        <a data-ui-sref="app.property-policy.paid">已支付保单</a>
+                    </li>
+                </ul>
+            </li>
             <li ng-show="user.userrole.client.view" data-menu-collapse>
                 <a href="#">
                     <i class="fa fa-lg fa-fw fa-user"></i>
