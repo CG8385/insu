@@ -254,7 +254,7 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                 var deferred = $q.defer();
 
                 // send a post request to the server
-                $http.get('/api/clients?type=individual')
+                $http.get('/api/clients?type=individual&withorg=1')
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
