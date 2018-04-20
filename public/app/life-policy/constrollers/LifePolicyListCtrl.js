@@ -85,6 +85,21 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
+                //构建多个增员人显示
+                for(var j=0;j<vm.policies.length;j++){
+                    var policy = vm.policies[j];
+                    policy.zy_client={};
+                    for (var i = 0; i < policy.zy_infos.length; i++){
+                        if(policy.zy_infos[i].zy_client!=undefined){
+                            if(policy.zy_client.name==undefined){
+                                policy.zy_client.name = policy.zy_infos[i].zy_client.name;
+                            }else{
+                                policy.zy_client.name += policy.zy_infos[i].zy_client.name;
+                            }
+                            policy.zy_client.name +=" "
+                        }
+                    }
+                }
             }, function (err) { });
     };
 
@@ -183,10 +198,24 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
 
     vm.pay = function (life_policy) {
+        life_policy.client = life_policy.client._id;
+        if (life_policy.manager){
+            life_policy.manager = life_policy.manager._id;
+        }
+        if (life_policy.director){
+            life_policy.director = life_policy.director._id;
+        }
         $state.go("app.life-policy.pay", { policyId: life_policy._id });
     };
 
     vm.view = function (life_policy) {
+        life_policy.client = life_policy.client._id;
+        if (life_policy.manager){
+            life_policy.manager = life_policy.manager._id;
+        }
+        if (life_policy.director){
+            life_policy.director = life_policy.director._id;
+        }
         $state.go("app.life-policy.view", { policyId: life_policy._id });
     };
 
@@ -218,6 +247,13 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     };
 
     vm.approve = function (life_policy) {
+        life_policy.client = life_policy.client._id;
+        if (life_policy.manager){
+            life_policy.manager = life_policy.manager._id;
+        }
+        if (life_policy.director){
+            life_policy.director = life_policy.director._id;
+        }
         $state.go("app.life-policy.approve", { policyId: life_policy._id });
     };
 

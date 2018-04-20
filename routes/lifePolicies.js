@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
         query = { seller: user._id };
     }
     Policy.find(query)
-        .populate('client seller organization company zy_client manager director')
+        .populate('client seller organization company zy_infos.zy_client manager director')
         .exec()
         .then(function (policies) {
             res.status(200).json(policies);
@@ -104,7 +104,7 @@ router.post('/excel', function (req, res) {
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
-        .populate('client seller organization company zy_client manager director')
+        .populate('client seller organization company zyinfos.zy_client manager director')
         .exec()
         .then(function (policies) {
             var json2csv = require('json2csv');
@@ -228,7 +228,7 @@ router.post('/excel', function (req, res) {
 
 router.get('/:id', function (req, res) {
     Policy.findOne({ _id: req.params.id })
-        .populate('client zy_client manager director')
+        .populate('client zy_infos.zy_client manager director')
         .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
         .exec()
         .then(function (policy) {
@@ -283,9 +283,10 @@ router.put('/:id', function (req, res) {
         policy.applicant = req.body.applicant;
         policy.insurants = req.body.insurants;
         policy.client = req.body.client;
-        policy.zy_client = req.body.zy_client;
-        policy.zy_rate = req.body.zy_rate;
-        policy.zy_payment = req.body.zy_payment;
+        //policy.zy_client = req.body.zy_client;
+        //policy.zy_rate = req.body.zy_rate;
+        //policy.zy_payment = req.body.zy_payment;
+        policy.zy_infos = req.body.zy_infos;
         policy.manager = req.body.manager;
         policy.director = req.body.director;
         policy.seller = req.body.seller;
@@ -351,7 +352,7 @@ router.post('/search', function (req, res) {
         .sort(sortParam)
         .skip(req.body.currentPage * req.body.pageSize)
         .limit(req.body.pageSize)
-        .populate('client seller organization zy_client level1_company level2_company level3_company level4_company')
+        .populate('client seller organization zy_infos.zy_client level1_company level2_company level3_company level4_company')
         .exec()
         .then(function (policies) {
             Policy.count(conditions, function (err, c) {

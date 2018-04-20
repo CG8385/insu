@@ -19,18 +19,21 @@ var schema = new mongoose.Schema({
   invoice_no: String,
   invoice_date: { type: Date },
   
-  sub_policies: [{ insurant: String, policy_name: {type: mongoose.Schema.Types.ObjectId, ref: 'PolicyName' }, year: String, fee: Number, payment_rate: Number, payment: Number}],
+  sub_policies: [{ insurant: String, policy_name: {type: mongoose.Schema.Types.ObjectId, ref: 'PolicyName' }, year: String, fee: Number, direct_payment_rate: Number, direct_payment: Number,class_payment_rate: Number, class_payment: Number}],
   payment_total: Number,
   taxed_payment_total: Number,
+  direct_payment_total:Number,
+  taxed_direct_payment_total:Number,
   
   applicant: {name: String, address: String, phone: String, identity: String, sex: String, birthday: String},
   insurants:[{name: String, address: String, phone: String, identity: String, sex: String, birthday: String}],
   
 
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  zy_client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  zy_rate: Number,
+  //zy_client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  //zy_rate: Number,
   zy_payment: Number,
+  zy_infos:[{zy_client:{ type: mongoose.Schema.Types.ObjectId, ref: 'Client' },zy_rate:Number,zy_payment:Number}],
   manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   director: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

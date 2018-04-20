@@ -5,7 +5,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.policy = {};
     vm.applicant = {};
     vm.clientInfo = {};
-    vm.zy_clientInfo = {};
+    //vm.zy_clientInfo = {};
     vm.managerInfo = {};
     vm.directorInfo = {};
     vm.sellerInfo = $rootScope.user;
@@ -117,11 +117,19 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.editable = false;
 
     vm.addSubPolicy = function () {
-        vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'payment_rate': undefined, 'payment': undefined });
+        vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'direct_payment_rate': undefined, 'direct_payment': undefined,'class_payment_rate': undefined, 'class_payment': undefined  });
     };
 
     vm.removeSubPolicy = function () {
         vm.policy.sub_policies.pop();
+    };
+
+    vm.addZyInfo = function () {
+        vm.policy.zy_infos.push({ 'zy_rate': undefined, 'zy_payment': undefined, 'zy_client': undefined,'zy_clientInfo':undefined  });
+    };
+
+    vm.removeZyInfo = function () {
+        vm.policy.zy_infos.pop();
     };
 
     vm.addInsurant = function () {
@@ -202,8 +210,10 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     if ($state.is("app.life-policy.new")) {
         vm.policy.sub_policies = [];
+        vm.policy.zy_infos = [];
         vm.policy.insurants = [];
         vm.addSubPolicy();
+        vm.addZyInfo();
         vm.addInsurant();
         vm.editable = true;
     }
@@ -217,13 +227,19 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 vm.policy = policy;
                 vm.clientInfo = policy.client;
                 vm.sellerInfo = policy.seller;
-                vm.zy_clientInfo = policy.zy_client;
+                //vm.zy_clientInfo = policy.zy_client;
+                //vm.zy_infos = policy.zy_infos;
                 vm.managerInfo = policy.manager;
                 vm.directorInfo = policy.director;
 
                 policy.client = policy.client._id;
                 policy.seller = policy.seller._id;
-                policy.zy_client = policy.zy_client._id;
+                //policy.zy_client = policy.zy_client._id;
+                for (var i = 0; i < policy.zy_infos.length; i++){
+                    policy.zy_infos[i].zy_clientInfo = policy.zy_infos[i].zy_client;
+                    policy.zy_infos[i].zy_client = policy.zy_infos[i].zy_clientInfo._id;
+                }
+                policy.client = policy.client._id;
                 policy.manager = policy.manager._id;
                 policy.director = policy.director._id;
                 vm.loadLevel2Companies();
@@ -246,8 +262,11 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     vm.submit = function () {
         vm.policy.client = vm.clientInfo._id;
-        if (vm.zy_clientInfo){
-            vm.policy.zy_client = vm.zy_clientInfo._id;
+        //if (vm.zy_clientInfo){
+        //    vm.policy.zy_client = vm.zy_clientInfo._id;
+        //}
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
         }
         if (vm.managerInfo){
             vm.policy.manager = vm.managerInfo._id;
@@ -267,12 +286,14 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 vm.policy = {};
                 vm.applicant = {};
                 vm.clientInfo = {};
-                vm.zy_clientInfo = {};
+                //vm.zy_clientInfo = {};
                 vm.managerInfo = {};
                 vm.directorInfo = {};
                 vm.policy.sub_policies = [];
+                vm.policy.zy_infos = [];
                 vm.policy.insurants = [];
                 vm.addSubPolicy();
+                vm.addZyInfo();
                 vm.addInsurant();
                 if (vm.back) {
                     $state.go("app.life-policy.to-be-paid");
@@ -281,6 +302,16 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.pay = function () {
+        vm.policy.client = vm.clientInfo._id;
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+        }
+        if (vm.managerInfo){
+            vm.policy.manager = vm.managerInfo._id;
+        }
+        if (vm.directorInfo){
+            vm.policy.director = vm.directorInfo._id;
+        }
         $.SmartMessageBox({
             title: "修改保单状态",
             content: "确认已支付该保单？",
@@ -308,6 +339,16 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     };
     vm.approve = function () {
+        vm.policy.client = vm.clientInfo._id;
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+        }
+        if (vm.managerInfo){
+            vm.policy.manager = vm.managerInfo._id;
+        }
+        if (vm.directorInfo){
+            vm.policy.director = vm.directorInfo._id;
+        }
         $.SmartMessageBox({
             title: "修改保单状态",
             content: "确认要批准该保单？",
@@ -334,6 +375,16 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.reject = function () {
+        vm.policy.client = vm.clientInfo._id;
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+        }
+        if (vm.managerInfo){
+            vm.policy.manager = vm.managerInfo._id;
+        }
+        if (vm.directorInfo){
+            vm.policy.director = vm.directorInfo._id;
+        }
         $.SmartMessageBox({
             title: "驳回保单",
             content: "确认要驳回该保单？",
@@ -360,24 +411,37 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
     vm.updateFee = function (subPolicy) {
         if(subPolicy.fee == undefined) return;
-        subPolicy.payment = subPolicy.fee * subPolicy.payment_rate / 100;
+        subPolicy.direct_payment = subPolicy.fee * subPolicy.direct_payment_rate / 100;
+        subPolicy.class_payment = subPolicy.fee * subPolicy.class_payment_rate / 100;
         vm.policy.payment_total = 0;
+        vm.policy.direct_payment_total = 0;
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
-            vm.policy.payment_total += vm.policy.sub_policies[i].payment;
+            vm.policy.payment_total += vm.policy.sub_policies[i].direct_payment;
+            vm.policy.payment_total += vm.policy.sub_policies[i].class_payment;
+            vm.policy.direct_payment_total += vm.policy.sub_policies[i].direct_payment;
         }
         vm.policy.taxed_payment_total = vm.policy.payment_total / 1.066;
-        if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
-            vm.policy.zy_payment = vm.policy.taxed_payment_total * vm.policy.zy_rate / 100;
-            vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
-        }    
+        vm.policy.taxed_direct_payment_total = vm.policy.direct_payment_total / 1.066;
+        vm.policy.zy_payment = 0;
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            if (vm.policy.zy_infos[i].zy_rate && vm.policy.taxed_direct_payment_total) {
+                vm.policy.zy_payment += vm.policy.taxed_direct_payment_total * vm.policy.zy_infos[i].zy_rate / 100;
+            }
+        }
+        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         vm.policy.taxed_payment_total = vm.policy.taxed_payment_total.toFixed(2);      
     }
 
     vm.updateZYPayment = function () {
-        if (vm.policy.zy_rate && vm.policy.taxed_payment_total) {
-            vm.policy.zy_payment = parseFloat(vm.policy.taxed_payment_total) * vm.policy.zy_rate / 100;
-            vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
+        vm.policy.zy_payment = 0;
+        for (var i = 0; i < vm.policy.zy_infos.length; i++){
+            if (vm.policy.zy_infos[i].zy_rate && vm.policy.taxed_direct_payment_total) {
+                vm.policy.zy_infos[i].zy_payment = parseFloat(vm.policy.taxed_direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
+                vm.policy.zy_payment += vm.policy.zy_infos[i].zy_payment;
+                vm.policy.zy_infos[i].zy_payment = vm.policy.zy_infos[i].zy_payment.toFixed(2);
+            }
         }
+        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
     }
 });
 
