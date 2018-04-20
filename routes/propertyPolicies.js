@@ -22,7 +22,9 @@ router.post('/', function (req, res) {
     } else {
       if (!data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
-      } else {
+      } else if (!data.product){
+        res.status(400).send('必须选择险种');
+      }else {
         var policy = new Policy(data);
         policy.seller = req.user._id;
         // policy.organization = req.user.org;
@@ -73,7 +75,7 @@ router.post('/excel', function (req, res) {
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
-    .populate('client seller organization company level1_company level2_company level3_company level4_company')
+    .populate('client seller organization company level1_company level2_company level3_company level4_company product')
     .exec()
     .then(function (policies) {
       var json2csv = require('json2csv');
@@ -82,6 +84,7 @@ router.post('/excel', function (req, res) {
         'policy_no',
         'company.name',
         'company.contact',
+        'product_name',
         'payer_name',
         'insured_name',
         'phone',
@@ -111,6 +114,7 @@ router.post('/excel', function (req, res) {
         '保单号',
         '保险公司',
         '对接人',
+        '险种名称',
         '投保人',
         '被保险人',
         '投保人电话',
@@ -150,6 +154,7 @@ router.post('/excel', function (req, res) {
         row.policy_no = "'" + policy.policy_no;
         row.company.name = policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
         row.company.contact = policy.level4_company ? policy.level4_company.contact :  policy.level3_company? policy.level3_company.contact :policy.level2_company? policy.level2_company.contact : '';
+        row.product_name = policy.product.name;
         row.payer_name = policy.payer_name;
         row.insured_name = policy.insured_name;
         row.phone = "'" + policy.phone;
