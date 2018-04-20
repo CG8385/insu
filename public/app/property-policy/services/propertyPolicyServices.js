@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('app.policy').factory('PropertyPolicyService',
+angular.module('app.property-policy').factory('PropertyPolicyService',
     ['$q', '$http','uuid',
         function ($q, $http,uuid) {
             // return available functions for use in controllers

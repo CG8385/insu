@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('app.policy').controller('PropertyPolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PropertyPolicyService, ngDialog) {
+angular.module('app.property-policy').controller('PropertyPolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, PropertyPolicyService, ngDialog) {
     var vm = this;
     var defaultPolicy = {
         payment_addition: 0,
