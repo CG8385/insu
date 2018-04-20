@@ -276,6 +276,7 @@ router.post('/search', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  console.log(conditions);
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
