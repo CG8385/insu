@@ -6,6 +6,7 @@ angular.module('app.employee').controller('RoleEditorController', function ($sco
     vm.editable = false;
     vm.scopes = ["本人","全公司"];
     vm.organization_scopes = ["无","一级","二级","三级","四级","五级"];
+    vm.policy_scopes = ["无","一级","二级","三级","四级","五级"];
     vm.company_scopes = ["全国","本省","本市","本区县"];
     vm.client_status_scopes = ["包含已注销代理人","仅可见正常状态代理人"];
 
