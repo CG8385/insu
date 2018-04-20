@@ -25,7 +25,7 @@ router.post('/', function (req, res) {
       } else {
         var policy = new Policy(data);
         policy.seller = req.user._id;
-        policy.organization = req.user.org;
+        // policy.organization = req.user.org;
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {

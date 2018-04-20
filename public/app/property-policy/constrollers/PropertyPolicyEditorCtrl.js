@@ -417,16 +417,19 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
             vm.policy.payment = RoundNum(vm.policy.payment, 2);
         }
 
+        vm.policy.total_income = vm.policy.income;
+        vm.policy.total_payment = vm.policy.payment;
+
         if (vm.policy.payment_addition) {
-            vm.policy.total_payment = parseFloat(vm.policy.payment) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
             vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
-            vm.policy.total_income = parseFloat(vm.policy.income) + parseFloat(vm.policy.payment_addition);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.payment_addition);
             vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
         if (vm.policy.payment_substraction) {
-            vm.policy.total_payment = parseFloat(vm.policy.payment) - parseFloat(vm.policy.payment_substraction);
+            vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
             vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
-            vm.policy.total_income = parseFloat(vm.policy.income) -  parseFloat(vm.policy.payment_substraction);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_substraction);
             vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
