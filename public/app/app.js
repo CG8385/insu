@@ -43,6 +43,7 @@ angular.module('app', [
     'app.smartAdmin',
     'app.policy',
     'app.life-policy',
+    'app.property-policy',
     'app.client',
     'app.employee',
     'app.organization',
