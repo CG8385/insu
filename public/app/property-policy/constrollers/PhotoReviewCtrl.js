@@ -22,7 +22,7 @@ angular.module('app.property-policy').controller('PhotoReviewController1', funct
     
 });
 
-angular.module('app.property-policy').directive('ngMagnify', function () {
+angular.module('app.property-policy').directive('ngMagnify1', function () {
     return {
       restrict: 'EA',
       replace: true,
