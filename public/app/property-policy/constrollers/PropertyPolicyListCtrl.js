@@ -418,6 +418,9 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
 
     vm.pay = function (policy) {
             var created = new Date(policy.created_at);
+            var ids = vm.policies.map(function (item) { return item._id });
+            var index = ids.indexOf(policy._id);
+            ids.splice(index, 1);
             $state.go("app.property-policy.pay", { policyId: policy._id, ids: ids });            
     };
 
@@ -457,7 +460,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     };
 
     vm.view = function (policy) {
-            $state.go("app.property-policy.view", { policyId: policy._id });
+        $state.go("app.property-policy.view", { policyId: policy._id });
 
     };
 
