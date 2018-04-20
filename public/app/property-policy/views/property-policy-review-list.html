@@ -15,19 +15,19 @@
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.toDate" ng-change="vm.filterChanged()">
 
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()" ng-model="vm.filterSettings.level2_org"
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()" ng-model="vm.filterSettings.level2_org"
                     ng-options="c._id as c.name for c in vm.level2Orgs">
                     <option value="">选择二级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org" data-ng-change="vm.level3OrgChanged()"
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org" data-ng-change="vm.level3OrgChanged()"
                     ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
                     <option value="">选择三级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org" data-ng-change="vm.level4OrgChanged()"
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org" data-ng-change="vm.level4OrgChanged()"
                     ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
                     <option value="">选择四级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org" data-ng-change="vm.level5OrgChanged()"
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org" data-ng-change="vm.level5OrgChanged()"
                     ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
                     <option value="">选择五级机构</option>
                 </select>
