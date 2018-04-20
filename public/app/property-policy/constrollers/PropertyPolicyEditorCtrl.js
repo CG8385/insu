@@ -463,6 +463,20 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
             })
     }
 
+    vm.identityPhotoChanged = function (files) {
+        vm.uploadIdentityPhoto(files[0]);
+    };
+
+    vm.uploadIdentityPhoto = function (file) {
+        PropertyPolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.identity_photo = fileName;
+                if (vm.policy._id) {
+                    PropertyPolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
     vm.agreementPhotoChanged = function (files) {
         vm.uploadAgreementPhoto(files[0]);
     };
