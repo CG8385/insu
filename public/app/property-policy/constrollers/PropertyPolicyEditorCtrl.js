@@ -88,11 +88,11 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
     }
 
     vm.productChanged = function () {
-        if (!vm.policy.rule) {
+        if (!vm.policy.product) {
             vm.resetProduct();
         } else {
-            var rule = vm.rules.filter(r => r._id == vm.policy.rule)[0];
-            vm.applyProduct(rule);
+            var product = vm.products.filter(r => r._id == vm.policy.product)[0];
+            vm.applyProduct(product);
         }
     }
 
