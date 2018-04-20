@@ -84,9 +84,9 @@ router.post('/excel', function (req, res) {
         }
     }
 
-    if (req.user.userrole.scope != '全公司') {
+    if (req.user.userrole.policy_scope =='本人') {
         conditions['seller'] = req.user._id;
-    }
+      }
 
     var sortParam = "";
     if (req.body.orderByReverse) {
@@ -326,9 +326,9 @@ router.post('/search', function (req, res) {
         }
     }
 
-    if (req.user.userrole.scope != '全公司') {
+    if (req.user.userrole.policy_scope =='本人') {
         conditions['seller'] = req.user._id;
-    }
+      }
 
     var sortParam = "";
     if (req.body.orderByReverse) {
