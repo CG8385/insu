@@ -248,7 +248,7 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (req.user.userrole.policy_scope =='本人') {
+  if (req.user.userrole.policy_scope == '本人') {
     conditions['seller'] = req.user._id;
   }else if (req.user.userrole.policy_scope =='无') {
     conditions['level1_org'] = "-999";
@@ -276,28 +276,27 @@ router.post('/search', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
-  res.status(200).json(conditions);
-  // var query = Policy.find(conditions);
-  // query
-  //   .sort(sortParam)
-  //   .skip(req.body.currentPage * req.body.pageSize)
-  //   .limit(req.body.pageSize)
-  //   .populate('client seller organization company level2_company level3_company level4_company')
-  //   .exec()
-  //   .then(function (policies) {
-  //     Policy.count(conditions, function (err, c) {
-  //       if (err) {
-  //         logger.error(err);
-  //         res.status(500).send("获取保单总数失败");
-  //       }
-  //       res.status(200).json({
-  //         totalCount: c,
-  //         policies: policies
-  //       })
-  //     });
-  //   }, function (err) {
-  //     logger.error(err);
-  //   })
+  var query = Policy.find(conditions);
+  query
+    .sort(sortParam)
+    .skip(req.body.currentPage * req.body.pageSize)
+    .limit(req.body.pageSize)
+    .populate('client seller organization company level2_company level3_company level4_company')
+    .exec()
+    .then(function (policies) {
+      Policy.count(conditions, function (err, c) {
+        if (err) {
+          logger.error(err);
+          res.status(500).send("获取保单总数失败");
+        }
+        res.status(200).json({
+          totalCount: c,
+          policies: policies
+        })
+      });
+    }, function (err) {
+      logger.error(err);
+    })
 });
 
 
