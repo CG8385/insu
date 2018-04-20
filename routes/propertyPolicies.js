@@ -209,7 +209,7 @@ router.put('/:id', asyncMiddleware(async (req, res, next) => {
     res.status(400).send('第二级保险公司必须填写');
   }
   await Policy.findOneAndUpdateAsync({_id:req.params.id}, req.body);
-  logger.info(req.user.name + " 更新了一份财险保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+  logger.info(req.user.name + " 更新了一份财险保单，保单号为：" + req.body.policy_no + "。" + req.clientIP);
   res.json({ message: '保单已成功更新' });
 }));
 
