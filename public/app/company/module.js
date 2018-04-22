@@ -253,6 +253,41 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
                     templateUrl: 'app/company/views/rule.html'
                 }
             }
+        }).state('app.company.life-product', {
+            abstract: true,
+            data: {
+                title: '寿险险种管理'
+            }
+        })
+        .state('app.company.life-product.view', {
+            url: '/companies/life-product/:productId',
+            data: {
+                title: '寿险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeProductEditorController as vm',
+                    templateUrl: 'app/company/views/life-product.html'
+                }
+            }
+        })
+        .state('app.company.life-product.new', {
+            url: '/companies/life-product/new/:companyId',
+            data: {
+                title: '添加寿险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeProductEditorController as vm',
+                    templateUrl: 'app/company/views/life-product.html'
+                }
+            }
         })
         .state('app.company.property-product', {
             abstract: true,

@@ -6,6 +6,8 @@
                     <i class="fa fa-fw fa-unlock"></i>编辑</button>
                 <button ng-click="vm.addRule()" class="btn btn-primary" ng-show="user.userrole.company.append">
                     <i class="fa fa-calculator"></i>添加费率政策</button>
+                <button ng-click="vm.addLifeProduct()" class="btn btn-primary" ng-show="user.userrole.company.append">
+                    <i class="fa fa-calculator"></i>添加寿险险种</button>
                 <button ng-click="vm.addPropertyProduct()" class="btn btn-primary" ng-show="user.userrole.company.append">
                     <i class="fa fa-calculator"></i>添加财险险种</button>
             </div>
@@ -173,10 +175,10 @@
                                         <a href="#auto-product" data-toggle="tab">车险费率政策</a>
                                     </li>
                                     <li>
-                                        <a href="#property-product" data-toggle="tab">财险险种</a>
+                                        <a href="#life-product" data-toggle="tab">寿险险种</a>
                                     </li>
                                     <li>
-                                        <a href="#life-product" data-toggle="tab">寿险险种</a>
+                                        <a href="#property-product" data-toggle="tab">财险险种</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content padding-10">
@@ -224,6 +226,38 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="life-product">
+                                        <header>
+                                            <span class="widget-icon">
+                                                <i class="fa fa-table"></i>
+                                            </span>
+                                            <h2>寿险险种</h2>
+                                        </header>
+                                        <div>
+                                            <div class="widget-body no-padding table-responsive">
+                                                <table class="table-striped table-condensed" tr-ng-grid items="vm.lifeProducts" page-items="15" enable-filtering="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="income_rate" display-name="跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="payment_rate" display-name="结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <button ng-click="vm.editLifeProduct(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                                                <button ng-click="vm.deleteLifeProduct(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="tab-pane fade" id="property-product">
                                         <header>
                                             <span class="widget-icon">
@@ -255,9 +289,6 @@
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="life-product">
-                                        <p>test3</p>
                                     </div>
                                 </div>
 

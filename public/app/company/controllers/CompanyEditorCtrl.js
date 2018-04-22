@@ -5,6 +5,7 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     vm.company = {};
     vm.companyCatogories = [];
     vm.rules = [];
+    vm.lifeProducts = [];
     vm.propertyProducts = [];
     vm.editable = false;
     vm.currentLevel = "";
@@ -105,6 +106,10 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
         CompanyService.getRules(companyId)
             .then(function (rules) {
                 vm.rules = rules;
+            });
+        CompanyService.getLifeProducts(companyId)
+            .then(function (lifeProducts) {
+                vm.lifeProducts = lifeProducts;
             });
         CompanyService.getPropertyProducts(companyId)
             .then(function (propertyProducts) {
@@ -207,6 +212,39 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     vm.addRule = function () {
         $state.go("app.company.rule.new", { companyId: vm.company._id, previousState: $state.current.name });
        
+    }
+    vm.addLifeProduct = function () {
+        $state.go("app.company.life-product.new", { companyId: vm.company._id, previousState: $state.current.name });
+    }
+
+    vm.refreshLifeProducts = function () {
+        CompanyService.getLifeProducts(vm.company._id)
+        .then(function (lifeProducts) {
+            vm.lifeProducts = lifeProducts;
+        });
+    };
+
+    vm.editLifeProduct = function (productId) {
+        $state.go("app.company.life-product.view", { productId: productId, previousState: $state.current.name });
+    }
+
+    vm.deleteLifeProduct= function (productId) {
+        $.SmartMessageBox({
+            title: "删除寿险险种",
+            content: "确认删除该寿险险种？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteLifeProduct(productId)
+                    .then(function () {
+                        vm.refreshLifeProducts();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
     }
 
     vm.addPropertyProduct = function () {
