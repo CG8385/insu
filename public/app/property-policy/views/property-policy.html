@@ -256,6 +256,13 @@
                                             </ui-select>
                                         </label>
                                     </section>
+                                    <section class="col col-4">
+                                        <label class="label">营业部</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input ng-disabled=true class="input-lg" name="organization" ng-model="vm.client.organization.name">
+                                        </label>
+                                    </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-3">
@@ -485,7 +492,7 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset class="optional-input-field-set" ng-disabled=true>
+                            <!-- <fieldset class="optional-input-field-set" ng-disabled=true>
                                 <div class="row">
                                     <section class="col col-2">
                                         <label class="label">出单员</label>
@@ -502,7 +509,7 @@
                                         </label>
                                     </section>
                                 </div>
-                            </fieldset>
+                            </fieldset> -->
 
                             <footer>
                                 <span>
