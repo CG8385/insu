@@ -8,6 +8,7 @@ var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Rule = require('../models/rule.js')(db);
+var LifeProduct = Promise.promisifyAll(require('../models/life-product.js')(db));
 var PropertyProduct = Promise.promisifyAll(require('../models/property-product.js')(db));
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
@@ -172,18 +173,6 @@ router.get('/:id/rules', function (req, res) {
     });
 });
 
-router.get('/:id/property-products', function (req, res) {
-  PropertyProduct.find({ company: req.params.id })
-    .sort({py: 1})
-    .exec()
-    .then(function (products) {
-      res.status(200).json(products);
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
-
 router.get('/rules/:id', asyncMiddleware(async (req, res, next) => {
   let rule = await Rule.findOne({ _id: req.params.id }).populate('company').exec();
   res.status(200).json(rule);
@@ -237,6 +226,59 @@ router.get('/:id/rules', function (req, res) {
     .exec()
     .then(function (rules) {
       res.status(200).json(rules);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+router.get('/:id/life-products', function (req, res) {
+  LifeProduct.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (products) {
+      res.status(200).json(products);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  let producet = await LifeProduct.findOne({ _id: req.params.id }).populate('company').exec();
+  res.status(200).json(producet);
+}));
+
+router.put('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  await LifeProduct.findOneAndUpdateAsync({_id:req.params.id}, req.body);
+  res.json({ message: '寿险险种已成功更新' });
+}));
+
+router.post('/life-products', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let product = new LifeProduct();
+  product.name = data.name;
+  product.py = makePy(data.name);
+  product.company=data.company;
+  product.income_rate=data.income_rate;
+  product.payment_rate=data.payment_rate;
+  product.company = data.company._id;
+  await product.save();
+  res.json({ message: '寿险险种已成功保存' });
+}));
+
+router.delete('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await LifeProduct.findOne({_id: req.params.id}).exec();
+  logger.info(req.user.name + " 删除了一条寿险险种，寿险险种名称为：" + rule.name + "。" + req.clientIP);
+  await rule.remove();
+  res.json({ message: '财险险种已成功删除' });
+}));
+
+router.get('/:id/property-products', function (req, res) {
+  PropertyProduct.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (products) {
+      res.status(200).json(products);
     }, function (err) {
       logger.error(err);
       res.status(500).send(err);
