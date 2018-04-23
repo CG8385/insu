@@ -33,8 +33,57 @@ angular.module('app.policy').factory('PolicyService',
                 processImagePolicy: processImagePolicy,
                 deleteImagePolicy: deleteImagePolicy,
                 downloadToBeProcessedImages: downloadToBeProcessedImages,
-                downloadProcessedImages: downloadProcessedImages
+                downloadProcessedImages: downloadProcessedImages,
+                getLevel2Orgs: getLevel2Orgs,
+                getSubOrgs: getSubOrgs, 
             });
+
+            function getLevel2Orgs() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/level2')
+                // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubOrgs(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/sub/' + parentId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getRules(companyId) {
                 // create a new instance of deferred

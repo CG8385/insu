@@ -96,7 +96,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!vm.filterSettings.level2_org) {
             vm.level3Orgs = [];
         } else {
-            PropertyPolicyService.getSubOrgs(vm.filterSettings.level2_org)
+            PolicyService.getSubOrgs(vm.filterSettings.level2_org)
                 .then(function (level3Orgs) {
                     vm.level3Orgs = level3Orgs;
                 }, function (err) {
@@ -109,7 +109,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!vm.filterSettings.level3_org) {
             vm.level4Orgs = [];
         } else {
-            PropertyPolicyService.getSubOrgs(vm.filterSettings.level3_org)
+            PolicyService.getSubOrgs(vm.filterSettings.level3_org)
                 .then(function (level4Orgs) {
                     vm.level4Orgs = level4Orgs;
                 }, function (err) {
@@ -122,7 +122,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (!vm.filterSettings.level4_org) {
             vm.level5Orgs = [];
         } else {
-            PropertyPolicyService.getSubOrgs(vm.filterSettings.level4_org)
+            PolicyService.getSubOrgs(vm.filterSettings.level4_org)
                 .then(function (level5Orgs) {
                     vm.level5Orgs = level5Orgs;
                 }, function (err) {
@@ -172,7 +172,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.listType = "all";
     if ($state.is("app.policy.to-be-reviewed")) {
-        PropertyPolicyService.getLevel2Orgs()
+        PolicyService.getLevel2Orgs()
         .then(function (level2Orgs) {
             vm.level2Orgs = level2Orgs;
 
@@ -196,7 +196,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
     }
     else if ($state.is("app.policy.to-be-paid")) {
-        PropertyPolicyService.getLevel2Orgs()
+        PolicyService.getLevel2Orgs()
         .then(function (level2Orgs) {
             vm.level2Orgs = level2Orgs;
 
