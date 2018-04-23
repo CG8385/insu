@@ -89,17 +89,6 @@
                                     <th field-name="client.account" display-name="收款账号" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            营业部
-                                        </div>
-                                        <div>
-                                            <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                    ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </th>
                                     <th field-name="total_income" display-name="跟单费总额" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -115,7 +104,6 @@
                                         </div>
                                     </td>
                                     <td field-name="client.name"></td>
-                                    <td field-name="organization.name"></td>
                                     <!-- <td field-name="seller.name"></td> -->
                                     <td>
                                         <button ng-show="user.userrole.policy_to_be_paid.pay" ng-click="vm.pay(gridItem)" class="btn btn-primary btn-sm">处理</button>
