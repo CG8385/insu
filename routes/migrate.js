@@ -18,26 +18,19 @@ var Client = Promise.promisifyAll(require('../models/client.js')(db));
 var Organization = Promise.promisifyAll(require('../models/organization.js')(db));
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
+var User = Promise.promisifyAll(require('../models/user.js')(db));
 
-router.get('/roles', asyncMiddleware(async (req, res, next) => {
-    roles = await Role.find({}).exec();
-    res.json(roles);
-}));
 
-router.get('/step4', asyncMiddleware(async (req, res, next) => {
-    let wrongLevel4 = await Company.findOne({_id:'56d3e4108cfb5481224e307b'}).exec();
-    let correctLevel4 = await Company.findOne({ name: '5a71175c7c98a05813305d96' }).exec();
-    await Rule.update({ company: '56d3e4108cfb5481224e307b'}, { company: '5a71175c7c98a05813305d96'}, { multi: true });
-    await Policy.update({ level4_company: '56d3e4108cfb5481224e307b'}, { level4_company: '5a71175c7c98a05813305d96' }, { multi: true });
-    await OrgPolicy.update({ level4_company: '56d3e4108cfb5481224e307b'}, { level4_company: '5a71175c7c98a05813305d96'}, { multi: true });
+router.get('/step1', asyncMiddleware(async (req, res, next) => {
+    let sellers = await User.find().exec();
+    for(let i = 0; i < sellers.length; i++){
+        let s = sellers[i];
+        await Policy.update({ seller: s._id}, { level1_org: s.level1_org, level2_org: s.level2_org, level3_org: s.level3_org, level4_org: s.level4_org, level5_org: s.level5_org }, { multi: true });
+    }
+
     res.json('done');
 }));
 
-router.get('/step5', asyncMiddleware(async (req, res, next) => {
-    let level2 = await Organization.findOne({ name: '江苏省分公司' }).exec();
-    await Organization.updateAsync({ name: '出单中心' }, { level: '三级机构', province: '江苏省', area_code: '032', parent: level2._id });
-    res.json('done');
-}));
 
 // router.get('/set-role', asyncMiddleware(async (req, res, next) => {
 //     let sellerRole = await Role.findOne({ name: '出单员' }).exec();

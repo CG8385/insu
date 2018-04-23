@@ -26,8 +26,6 @@ router.post('/', function (req, res) {
         res.status(400).send('二级保险公司必须填写');
       } else {
         var policy = new Policy(data);
-        policy.seller = req.user._id;
-        policy.organization = req.user.org;
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
@@ -47,23 +45,6 @@ router.post('/', function (req, res) {
 });
 
 
-router.get('/upgrade', function (req, res) {
-  var query = Policy.find({ policy_status: '已支付' });
-  query
-    .populate('seller')
-    .exec()
-    .then(function (policies) {
-      // console.log(policies);
-      for (var i = 0; i < policies.length; i++) {
-        var policy = policies[i];
-        policy.organization = policy.seller.org;
-        // console.log(policy.organization);
-        policy.save();
-      }
-
-    });
-});
-
 router.post('/excel', function (req, res) {
   var conditions = {};
   for (var key in req.body.filterByFields) {
@@ -74,6 +55,16 @@ router.post('/excel', function (req, res) {
 
   if (req.user.userrole.policy_scope =='本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";
@@ -395,8 +386,18 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (req.user.userrole.policy_scope =='本人') {
+  if (req.user.userrole.policy_scope == '本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";

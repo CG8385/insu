@@ -230,7 +230,7 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
             // vm.policy.level4_org = vm.clientInfo.level4_org;
             // vm.policy.level5_org = vm.clientInfo.level5_org;
             // vm.policy.organization = vm.clientInfo.level5_org;
-            vm.policy.seller = vm.sellerInfo;
+            vm.policy.seller = vm.sellerInfo._id;
             vm.policy.level1_org = vm.sellerInfo.level1_org;
             vm.policy.level2_org = vm.sellerInfo.level2_org;
             vm.policy.level3_org = vm.sellerInfo.level3_org;
