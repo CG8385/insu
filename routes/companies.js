@@ -259,8 +259,7 @@ router.post('/life-products', asyncMiddleware(async (req, res, next) => {
   product.name = data.name;
   product.py = makePy(data.name);
   product.company=data.company;
-  product.income_rate=data.income_rate;
-  product.payment_rate=data.payment_rate;
+  product.direct_payment_rate=data.direct_payment_rate;
   product.company = data.company._id;
   await product.save();
   res.json({ message: '寿险险种已成功保存' });

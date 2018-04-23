@@ -145,10 +145,11 @@
                                     <section class="col col-5">
                                         <label class="label">险种名称</label>
                                         <label class="select">
-                                            <select name='policy_name' class="input-lg" ng-model="subPolicy.policy_name" ng-options="c._id as c.name for c in vm.policyNames | orderBy:['name']"
-                                            validator="required">
-                                                <option value="">请选择险种名称</option>
-                                            </select> <i></i>
+                                            <select name='policy_name' class="input-lg" data-ng-change="vm.productChanged(subPolicy)" ng-model="subPolicy.product"
+                                                ng-options="p._id as p.name for p in vm.products | orderBy:['name']" validator="required">
+                                                <option value="">请选择寿险种名称</option>
+                                            </select>
+                                            <i></i>
                                         </label>
                                     </section>
                                     <section class="col col-2">

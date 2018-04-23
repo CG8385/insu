@@ -5,8 +5,7 @@ var mongoose = require('mongoose');
 var schema = new mongoose.Schema({
     company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     name: String,
-    income_rate: Number,
-    payment_rate: Number,
+    direct_payment_rate: Number,
     py: String,
     updated_at: { type: Date },
 });

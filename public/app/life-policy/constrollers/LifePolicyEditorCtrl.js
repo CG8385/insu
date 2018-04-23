@@ -13,6 +13,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.level2Companies = [];
     vm.level3Companies = [];
     vm.level4Companies = [];
+    vm.products = [];
 
     LifePolicyService.getLevel1Companies()
     .then(function (level1Companies) {
@@ -59,37 +60,72 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
     vm.level1Changed = function () {
+        vm.resetProduct();
         if (!vm.policy.level1_company) {
             vm.company = undefined;
         } else {
             vm.company = vm.level1Companies.find(c => c._id === vm.policy.level1_company);
         }
         vm.loadLevel2Companies();
+        vm.loadProducts();
     }
 
     vm.level2Changed = function () {
+        vm.resetProduct();
         if (!vm.policy.level2_company) {
             vm.company = vm.level1Companies.find(c => c._id === vm.policy.level1_company);
         } else {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
         }
         vm.loadLevel3Companies();
+        vm.loadProducts();
     }
 
     vm.level3Changed = function () {
+        vm.resetProduct();
         if (!vm.policy.level3_company) {
             vm.company = vm.level2Companies.find(c => c._id === vm.policy.level2_company);
         } else {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         }
         vm.loadLevel4Companies();
+        vm.loadProducts();
     }
 
     vm.level4Changed = function () {
+        vm.resetProduct();
         if (!vm.policy.level4_company) {
             vm.company = vm.level3Companies.find(c => c._id === vm.policy.level3_company);
         } else {
             vm.company = vm.level4Companies.find(c => c._id === vm.policy.level4_company);
+        }
+        vm.loadProducts();
+    }
+
+    vm.resetProduct = function () {
+        vm.policy.product = undefined;
+    }
+
+    vm.loadProducts = function () {
+        var companyId = vm.policy.level4_company ? vm.policy.level4_company : vm.policy.level3_company ? vm.policy.level3_company : vm.policy.level2_company;
+        if (companyId) {
+            LifePolicyService.getProducts(companyId)
+                .then(function (products) {
+                    vm.products = products;
+                })
+        } else {
+            vm.products = [];
+        }
+    }
+
+    vm.productChanged = function (subPolicy) {
+        for(var i=0;i<vm.products.length;i++){
+            if(vm.products[i]._id == subPolicy.product){
+                subPolicy.direct_payment_rate = vm.products[i].direct_payment_rate;
+                vm.updateFee(subPolicy);
+                vm.updateZYPayment();
+                break;
+            }
         }
     }
 
@@ -105,10 +141,10 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     //     .then(function (companies) {
     //         vm.companies = companies;
     //     })
-    LifePolicyService.getPolicyNames()
-        .then(function (policyNames) {
-            vm.policyNames = policyNames;
-        })
+    // LifePolicyService.getPolicyNames()
+    //     .then(function (policyNames) {
+    //         vm.policyNames = policyNames;
+    //     })
     LifePolicyService.getOrganizations()
         .then(function (organizations) {
             vm.organizations = organizations;
@@ -117,7 +153,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.editable = false;
 
     vm.addSubPolicy = function () {
-        vm.policy.sub_policies.push({ 'insurant': '', 'policy_name': '', 'year': '', 'fee': undefined, 'direct_payment_rate': undefined, 'direct_payment': undefined,'class_payment_rate': undefined, 'class_payment': undefined  });
+        vm.policy.sub_policies.push({ 'insurant': '', 'product': '','year': '', 'fee': undefined, 'direct_payment_rate': undefined, 'direct_payment': undefined,'class_payment_rate': undefined, 'class_payment': undefined  });
     };
 
     vm.removeSubPolicy = function () {
@@ -239,12 +275,16 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                     policy.zy_infos[i].zy_clientInfo = policy.zy_infos[i].zy_client;
                     policy.zy_infos[i].zy_client = policy.zy_infos[i].zy_clientInfo._id;
                 }
+                for(var i = 0; i < policy.sub_policies.length; i++){
+                    policy.sub_policies[i].product = policy.sub_policies[i].product._id;
+                }
                 policy.client = policy.client._id;
                 policy.manager = policy.manager._id;
                 policy.director = policy.director._id;
                 vm.loadLevel2Companies();
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
+                vm.loadProducts();
             });
     }
 

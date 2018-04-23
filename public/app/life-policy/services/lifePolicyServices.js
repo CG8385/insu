@@ -28,7 +28,9 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getFilteredStatementCSV: getFilteredStatementCSV,
                 deleteStatement: deleteStatement,
                 getManagers: getManagers,
-                getPolicyNames: getPolicyNames,
+                //getPolicyNames: getPolicyNames,
+                getProduct: getProduct,
+                getProducts: getProducts,
                 getClient: getClient,
                 uploadFile: uploadFile,
                 updatePhoto: updatePhoto,
@@ -501,6 +503,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
             
+            /*
             function getPolicyNames() {
 
                 // create a new instance of deferred
@@ -521,6 +524,47 @@ angular.module('app.life-policy').factory('LifePolicyService',
                         deferred.reject(status);
                     });
 
+                // return promise object
+                return deferred.promise;
+            }
+            */
+            function getProduct(productId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                // send a post request to the server
+                $http.get(`api/companies/life-products/${productId}`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+                // return promise object
+                return deferred.promise;
+            }
+            function getProducts(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                // send a post request to the server
+                $http.get(`api/companies/${companyId}/life-products`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
                 // return promise object
                 return deferred.promise;
             }
