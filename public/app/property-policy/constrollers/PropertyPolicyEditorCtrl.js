@@ -135,13 +135,13 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
     vm.shouldShowEditButton = function (){
         if(vm.editable) return false;
         if(vm.policy.policy_status == "待审核"){
-            return $rootScope.user.userrole.policy_to_be_reviewed.edit;
+            return $rootScope.user.userrole.property_policy_to_be_reviewed.edit;
         }else if(vm.policy.policy_status == "待支付"){
-            return $rootScope.user.userrole.policy_to_be_paid.edit;
+            return $rootScope.user.userrole.property_policy_to_be_paid.edit;
         }else if(vm.policy.policy_status == "已支付"){
-            return $rootScope.user.userrole.policy_paid.edit;
+            return $rootScope.user.userrole.property_policy_paid.edit;
         }else if(vm.policy.policy_status == "被驳回"){
-            return $rootScope.user.userrole.policy_rejected.edit;
+            return $rootScope.user.userrole.property_policy_rejected.edit;
         }
     }
 
