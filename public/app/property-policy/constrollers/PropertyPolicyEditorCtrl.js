@@ -223,13 +223,20 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
 
     vm.submit = function () {
         vm.checkProductRates();
-        if (vm.clientInfo) {
-            vm.policy.client = vm.clientInfo._id;
-            vm.policy.level2_org = vm.clientInfo.level2_org;
-            vm.policy.level3_org = vm.clientInfo.level3_org;
-            vm.policy.level4_org = vm.clientInfo.level4_org;
-            vm.policy.level5_org = vm.clientInfo.level5_org;
-            vm.policy.organization = vm.clientInfo.level5_org;
+        if (!vm.policy.organization) {
+            // vm.policy.client = vm.clientInfo._id;
+            // vm.policy.level2_org = vm.clientInfo.level2_org;
+            // vm.policy.level3_org = vm.clientInfo.level3_org;
+            // vm.policy.level4_org = vm.clientInfo.level4_org;
+            // vm.policy.level5_org = vm.clientInfo.level5_org;
+            // vm.policy.organization = vm.clientInfo.level5_org;
+            vm.policy.seller = vm.sellerInfo;
+            vm.policy.level1_org = vm.sellerInfo.level1_org;
+            vm.policy.level2_org = vm.sellerInfo.level2_org;
+            vm.policy.level3_org = vm.sellerInfo.level3_org;
+            vm.policy.level4_org = vm.sellerInfo.level4_org;
+            vm.policy.level5_org = vm.sellerInfo.level5_org;
+            vm.policy.organization = vm.sellerInfo.org._id;
         }
         if (vm.policy.policy_status == "被驳回") {
             vm.policy.policy_status = "待审核";

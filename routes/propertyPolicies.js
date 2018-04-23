@@ -26,8 +26,7 @@ router.post('/', function (req, res) {
         res.status(400).send('必须选择险种');
       }else {
         var policy = new Policy(data);
-        policy.seller = req.user._id;
-        // policy.organization = req.user.org;
+
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
