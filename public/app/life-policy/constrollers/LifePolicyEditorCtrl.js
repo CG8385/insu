@@ -234,6 +234,14 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         });
     }
 
+    vm.getZyBasedString = function () {
+        if (vm.policy.zy_payment_based_on_taxed) {
+            return "";
+        } else {
+            return "(税后)";
+        }
+    }
+
     vm.getAttachmentUrl = function (fileName) {
         return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
     }
@@ -314,7 +322,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         //    vm.policy.zy_client = vm.zy_clientInfo._id;
         //}
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            if(vm.policy.zy_infos[i].zy_clientInfo){
+                vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            }
         }
         if (vm.managerInfo){
             vm.policy.manager = vm.managerInfo._id;
@@ -461,6 +471,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         if(subPolicy.fee == undefined) return;
         subPolicy.direct_payment = subPolicy.fee * subPolicy.direct_payment_rate / 100;
         subPolicy.class_payment = subPolicy.fee * subPolicy.class_payment_rate / 100;
+
         vm.policy.payment_total = 0;
         vm.policy.direct_payment_total = 0;
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
@@ -482,9 +493,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     vm.updateZYPayment = function () {
         vm.policy.zy_payment = 0;
+        var direct_payment_total;
+        if(vm.policy.zy_payment_based_on_taxed){
+            direct_payment_total = vm.policy.direct_payment_total;
+        }else{
+            direct_payment_total = vm.policy.taxed_direct_payment_total;
+        }
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            if (vm.policy.zy_infos[i].zy_rate && vm.policy.taxed_direct_payment_total) {
-                vm.policy.zy_infos[i].zy_payment = parseFloat(vm.policy.taxed_direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
+            if (vm.policy.zy_infos[i].zy_rate && direct_payment_total) {
+                vm.policy.zy_infos[i].zy_payment = parseFloat(direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
                 vm.policy.zy_payment += vm.policy.zy_infos[i].zy_payment;
                 vm.policy.zy_infos[i].zy_payment = vm.policy.zy_infos[i].zy_payment.toFixed(2);
             }

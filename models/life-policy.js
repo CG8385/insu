@@ -32,6 +32,7 @@ var schema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   //zy_client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   //zy_rate: Number,
+  zy_payment_based_on_taxed : Boolean,
   zy_payment: Number,
   zy_infos:[{zy_client:{ type: mongoose.Schema.Types.ObjectId, ref: 'Client' },zy_rate:Number,zy_payment:Number}],
   manager: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
