@@ -241,7 +241,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
 
     vm.shouldShowEditButton = function (){
         if(vm.editable) return false;
-        return $rootScope.user.userrole.lifePolicy.edit;
+        if(vm.policy.policy_status == "待审核"){
+            return $rootScope.user.userrole.lifePolicy_to_be_reviewed.edit;
+        }else if(vm.policy.policy_status == "待支付"){
+            return $rootScope.user.userrole.lifePolicy_to_be_paid.edit;
+        }else if(vm.policy.policy_status == "已支付"){
+            return $rootScope.user.userrole.lifePolicy_paid.edit;
+        }else if(vm.policy.policy_status == "被驳回"){
+            return $rootScope.user.userrole.lifePolicy_rejected.edit;
+        }
     }
 
     if ($state.is("app.life-policy.new")) {

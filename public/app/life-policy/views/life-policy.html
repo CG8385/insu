@@ -3,7 +3,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-show="vm.shouldShowEditButton()" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -507,7 +507,7 @@
                                     </label>
                                 </section-->
                                 <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
-                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" ng-click="vm.pay()"
+                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付' && user.userrole.lifePolicy_to_be_paid.pay" ng-click="vm.pay()"
                                         class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                                 </section>
                             </div>
@@ -518,8 +518,8 @@
                                     <button class="btn btn-primary" ng-show="vm.editable"
                                             ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
-                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
-                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.lifePolicy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.lifePolicy_to_be_reviewed.reject" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                 </span>
                             </footer>
                         </form>
