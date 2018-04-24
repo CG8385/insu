@@ -44,6 +44,20 @@ router.post('/excel', function (req, res) {
     }
   }
 
+  if (req.user.userrole.policy_scope =='本人') {
+    conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
+  }
+
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();
@@ -57,6 +71,11 @@ router.post('/excel', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  
+  if(conditions.organization){
+    delete conditions.organization;
+  }
+
 
   var query = DealerPolicy.find(conditions);
   query
@@ -259,8 +278,19 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (req.user.userrole.scope != '全公司') {
+
+  if (req.user.userrole.policy_scope =='本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";
