@@ -36,6 +36,12 @@ function IsIncomplete(data) {
     if (!data.submit_date) {
         return true;
     }
+    if (!data.client) {
+        return true;
+    }
+    if (!data.organization) {
+        return true;
+    }
 }
 
 router.get('/', function (req, res) {
@@ -286,6 +292,7 @@ router.put('/:id', function (req, res) {
         //policy.zy_client = req.body.zy_client;
         //policy.zy_rate = req.body.zy_rate;
         //policy.zy_payment = req.body.zy_payment;
+        policy.zy_payment_based_on_taxed = req.body.zy_payment_based_on_taxed;
         policy.zy_infos = req.body.zy_infos;
         policy.manager = req.body.manager;
         policy.director = req.body.director;
