@@ -209,7 +209,7 @@ router.post('/excel', function (req, res) {
 router.get('/:id', function (req, res) {
   Policy.findOne({ _id: req.params.id })
     .populate('client organization seller')
-    .deepPopulate('client.organization seller.organization')
+    .deepPopulate('client.organization seller.org')
     .exec()
     .then(function (policy) {
       res.status(200).json(policy);
