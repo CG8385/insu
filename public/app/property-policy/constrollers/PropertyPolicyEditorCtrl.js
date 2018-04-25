@@ -223,6 +223,9 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
 
     vm.submit = function () {
         vm.checkProductRates();
+        if (vm.clientInfo) {
+            vm.policy.client = vm.clientInfo._id;
+        }
         if (!vm.policy.organization) {
             // vm.policy.client = vm.clientInfo._id;
             // vm.policy.level2_org = vm.clientInfo.level2_org;
