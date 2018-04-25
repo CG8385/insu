@@ -515,6 +515,40 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
             })
     }
 
+    vm.deletePolicyPhoto = function () {
+        delete vm.policy.policy_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteSignPhoto = function () {
+        delete vm.policy.sign_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+    vm.deleteIdentityPhoto = function () {
+        delete vm.policy.identity_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
     vm.reviewPhoto = function (fileName) {
         ngDialog.open({
             template: 'app/property-policy/views/photo-review.html',
