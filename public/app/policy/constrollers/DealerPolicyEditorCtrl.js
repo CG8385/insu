@@ -376,6 +376,40 @@ angular.module('app.policy').controller('DealerPolicyEditorController', function
         }
     }
 
+    vm.deleteSignPhoto = function () {
+        delete vm.policy.sign_photo;
+        if (vm.policy._id) {
+            DealerPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id) {
+            DealerPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            DealerPolicyService.updatePhoto(vm.policy)
+        }
+    };
+    vm.deleteCommercialPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            DealerPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteMandatoryPhoto = function () {
+        delete vm.policy.mandatory_policy_photo;
+        if (vm.policy._id) {
+            DealerPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
     vm.signPhotoChanged = function (files) {
         vm.uploadSignPhoto(files[0]);
     };
