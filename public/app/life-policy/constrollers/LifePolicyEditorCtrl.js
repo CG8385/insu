@@ -217,6 +217,27 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
             })
     }
 
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id){
+            LifePolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deletePolicyPhoto = function () {
+        delete vm.policy.policy_photo;
+        if (vm.policy._id){
+            LifePolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteClientInfoPhoto = function () {
+        delete vm.policy.client_info_photo;
+        if (vm.policy._id){
+            LifePolicyService.updatePhoto(vm.policy)
+        }
+    };
+
     vm.reviewPhoto = function (fileName, photoOnly) {
         ngDialog.open({
             template: 'app/policy/views/photo-review.html',
