@@ -487,7 +487,7 @@
                                             />
                                             <button ng-show="vm.editable && !vm.policy.mandatory_policy_photo" type="button" class="btn btn-primary" id="select_file" onclick="mandatory_file_selector.click()">上传扫描件
                                             </button>
-                                            <button ng-show="vm.editable && vm.policy.mandatory_policy_photo" type="button" class="btn btn-primary" onclick="vm.deleteMandatoryPhoto()">删除扫描件
+                                            <button ng-show="vm.editable && vm.policy.mandatory_policy_photo" type="button" class="btn btn-primary" ng-click="vm.deleteMandatoryPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.mandatory_policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</a>
                                         </label>
@@ -544,7 +544,7 @@
 
                                             <button ng-show="vm.editable && !vm.policy.commercial_policy_photo" type="button" class="btn btn-primary" id="select_file" onclick="commercial_file_selector.click()">上传扫描件
                                             </button>
-                                            <button ng-show="vm.editable && vm.policy.commercial_policy_photo" type="button" class="btn btn-primary" onclick="vm.deleteCommercialPhoto()">删除扫描件
+                                            <button ng-show="vm.editable && vm.policy.commercial_policy_photo" type="button" class="btn btn-primary" ng-click="vm.deleteCommercialPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.commercial_policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
@@ -749,7 +749,7 @@
 
                                             <button ng-show="vm.editable && !vm.policy.agreement_photo" type="button" class="btn btn-primary" id="select_file" onclick="agreement_file_selector.click()">上传扫描件
                                             </button>
-                                            <button ng-show="vm.editable && vm.policy.agreement_photo" type="button" class="btn btn-primary" onclick="vm.deleteAgreementPhoto()">删除扫描件
+                                            <button ng-show="vm.editable && vm.policy.agreement_photo" type="button" class="btn btn-primary" ng-click="vm.deleteAgreementPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.agreement_photo" ng-href={{vm.getAttachmentUrl(vm.policy.agreement_photo)}} target="_blank">查看客户告知书</a>
                                         </label>
@@ -765,7 +765,7 @@
                                                 onchange="angular.element(this).scope().vm.signPhotoChanged(this.files);" />
                                             <button ng-show="vm.editable && !vm.policy.sign_photo" type="button" class="btn btn-primary" id="select_file" onclick="sign_file_selector.click()">上传扫描件
                                             </button>
-                                            <button ng-show="vm.editable && vm.policy.sign_photo" type="button" class="btn btn-primary" onclick="vm.deleteSignPhoto()">删除扫描件
+                                            <button ng-show="vm.editable && vm.policy.sign_photo" type="button" class="btn btn-primary" ng-click="vm.deleteSignPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.sign_photo" ng-href={{vm.getAttachmentUrl(vm.policy.sign_photo)}} target="_blank">查看客户签字照</a>
                                         </label>
@@ -782,7 +782,7 @@
 
                                             <button ng-show="vm.editable && !vm.policy.other_photo" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
                                             </button>
-                                            <button ng-show="vm.editable && vm.policy.other_photo" type="button" class="btn btn-primary" onclick="vm.deleteOtherPhoto()">删除扫描件
+                                            <button ng-show="vm.editable && vm.policy.other_photo" type="button" class="btn btn-primary" ng-click="vm.deleteOtherPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.other_photo" ng-href={{vm.getAttachmentUrl(vm.policy.other_photo)}} target="_blank">查看其它扫描件</a>
                                         </label>
