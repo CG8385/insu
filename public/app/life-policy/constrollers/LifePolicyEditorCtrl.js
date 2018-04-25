@@ -469,16 +469,19 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
     vm.updateFee = function (subPolicy) {
         if(subPolicy.fee == undefined) return;
-        subPolicy.direct_payment = subPolicy.fee * subPolicy.direct_payment_rate / 100;
-        subPolicy.class_payment = subPolicy.fee * subPolicy.class_payment_rate / 100;
+        subPolicy.direct_payment = parseFloat(subPolicy.fee) * subPolicy.direct_payment_rate / 100;
+        subPolicy.class_payment = parseFloat(subPolicy.fee) * subPolicy.class_payment_rate / 100;
+        subPolicy.direct_payment = subPolicy.direct_payment.toFixed(2);
+        subPolicy.class_payment = subPolicy.class_payment.toFixed(2);
 
         vm.policy.payment_total = 0;
         vm.policy.direct_payment_total = 0;
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
-            vm.policy.payment_total += vm.policy.sub_policies[i].direct_payment;
-            vm.policy.payment_total += vm.policy.sub_policies[i].class_payment;
-            vm.policy.direct_payment_total += vm.policy.sub_policies[i].direct_payment;
+            vm.policy.payment_total += parseFloat(vm.policy.sub_policies[i].direct_payment);
+            vm.policy.payment_total += parseFloat(vm.policy.sub_policies[i].class_payment);
+            vm.policy.direct_payment_total += parseFloat(vm.policy.sub_policies[i].direct_payment);
         }
+        vm.policy.payment_total = vm.policy.payment_total.toFixed(2);
         vm.policy.taxed_payment_total = vm.policy.payment_total / 1.066;
         vm.policy.taxed_direct_payment_total = vm.policy.direct_payment_total / 1.066;
         vm.policy.zy_payment = 0;

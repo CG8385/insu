@@ -161,14 +161,14 @@
                                     <section class="col col-2">
                                         <label class="label">保费</label>
                                         <label class="input">
-                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateZYFee(subPolicy)" validator="required">
+                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()" validator="required">
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">直接佣金</label>
                                         <section class="col col-4 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="subPolicy.direct_payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="subPolicy.direct_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
                                                 validator="required">
                                             </label>
                                         </section>
@@ -185,7 +185,7 @@
                                         <label class="label">职级佣金</label>
                                         <section class="col col-4 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="class_payment_rate" price ng-model="subPolicy.class_payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                <input type="text" class="input-lg" name="class_payment_rate" price ng-model="subPolicy.class_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
                                                 validator="required">
                                             </label>
                                         </section>
@@ -403,7 +403,7 @@
                                 <div class="row" data-ng-repeat="zyInfo in vm.policy.zy_infos">
                                     <section class="col col-3">
                                         <label class="label">增员奖{{vm.getZyBasedString()}}</label>
-                                        <section class="col col-3 no-padding">
+                                        <section class="col col-4 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="zy_rate" price ng-model="zyInfo.zy_rate" ng-change="vm.updateZYPayment()">
                                             </label>
@@ -411,7 +411,7 @@
                                         <section class="col col-1 no-padding">
                                             <label class="percent">%</label>
                                         </section>
-                                        <section class="col col-8 no-padding">
+                                        <section class="col col-5 no-padding">
                                             <label class="input" ng-disabled=true>
                                                 <input type="text" class="input-lg" name="zy_payment" price ng-model="zyInfo.zy_payment" ng-disabled=true>
                                             </label>
