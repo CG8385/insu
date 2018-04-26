@@ -289,7 +289,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                 //policy.zy_client = policy.zy_client._id;
                 for (var i = 0; i < policy.zy_infos.length; i++){
                     policy.zy_infos[i].zy_clientInfo = policy.zy_infos[i].zy_client;
-                    policy.zy_infos[i].zy_client = policy.zy_infos[i].zy_clientInfo._id;
+                    if(policy.zy_infos[i].zy_clientInfo){
+                        policy.zy_infos[i].zy_client = policy.zy_infos[i].zy_clientInfo._id;
+                    }
                 }
                 for(var i = 0; i < policy.sub_policies.length; i++){
                     policy.sub_policies[i].product = policy.sub_policies[i].product._id;
@@ -362,7 +364,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.pay = function () {
         vm.policy.client = vm.clientInfo._id;
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            if(vm.policy.zy_infos[i].zy_clientInfo){
+                vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            }
         }
         if (vm.managerInfo){
             vm.policy.manager = vm.managerInfo._id;
@@ -399,7 +403,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.approve = function () {
         vm.policy.client = vm.clientInfo._id;
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            if(vm.policy.zy_infos[i].zy_clientInfo){
+                vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            }
         }
         if (vm.managerInfo){
             vm.policy.manager = vm.managerInfo._id;
@@ -435,7 +441,9 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.reject = function () {
         vm.policy.client = vm.clientInfo._id;
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            if(vm.policy.zy_infos[i].zy_clientInfo){
+                vm.policy.zy_infos[i].zy_client = vm.policy.zy_infos[i].zy_clientInfo._id;
+            }
         }
         if (vm.managerInfo){
             vm.policy.manager = vm.managerInfo._id;
