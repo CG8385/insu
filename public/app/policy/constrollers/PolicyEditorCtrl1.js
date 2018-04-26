@@ -627,6 +627,8 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.uploadAgreementPhoto(files[0]);
     };
 
+
+
     vm.uploadAgreementPhoto = function (file) {
         PolicyService.uploadFile(file)
             .then(function (fileName) {
@@ -640,6 +642,41 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     vm.commercialPhotoChanged = function (files) {
         vm.uploadCommercialPhoto(files[0]);
     };
+
+    vm.deleteSignPhoto = function () {
+        delete vm.policy.sign_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+    vm.deleteCommercialPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteMandatoryPhoto = function () {
+        delete vm.policy.mandatory_policy_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
 
     vm.uploadCommercialPhoto = function (file) {
         PolicyService.uploadFile(file)

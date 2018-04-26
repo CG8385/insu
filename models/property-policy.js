@@ -1,6 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var schema = new mongoose.Schema({
   policy_no: { type: String, index: true, unique: true },
@@ -61,7 +62,11 @@ schema.pre('save', function(next){
   next();
 });
 
+schema.plugin(deepPopulate, {});
+
 mongoose.model('PropertyPolicy', schema);
+
+
 
 module.exports = function (connection){
     return (connection || mongoose).model('PropertyPolicy');

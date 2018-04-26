@@ -161,14 +161,14 @@
                                     <section class="col col-2">
                                         <label class="label">保费</label>
                                         <label class="input">
-                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateZYFee(subPolicy)" validator="required">
+                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()" validator="required">
                                         </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">直接佣金</label>
                                         <section class="col col-4 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="subPolicy.direct_payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="subPolicy.direct_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
                                                 validator="required">
                                             </label>
                                         </section>
@@ -185,7 +185,7 @@
                                         <label class="label">职级佣金</label>
                                         <section class="col col-4 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="class_payment_rate" price ng-model="subPolicy.class_payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                <input type="text" class="input-lg" name="class_payment_rate" price ng-model="subPolicy.class_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
                                                 validator="required">
                                             </label>
                                         </section>
@@ -403,7 +403,7 @@
                                 <div class="row" data-ng-repeat="zyInfo in vm.policy.zy_infos">
                                     <section class="col col-3">
                                         <label class="label">增员奖{{vm.getZyBasedString()}}</label>
-                                        <section class="col col-3 no-padding">
+                                        <section class="col col-4 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="zy_rate" price ng-model="zyInfo.zy_rate" ng-change="vm.updateZYPayment()">
                                             </label>
@@ -411,7 +411,7 @@
                                         <section class="col col-1 no-padding">
                                             <label class="percent">%</label>
                                         </section>
-                                        <section class="col col-8 no-padding">
+                                        <section class="col col-5 no-padding">
                                             <label class="input" ng-disabled=true>
                                                 <input type="text" class="input-lg" name="zy_payment" price ng-model="zyInfo.zy_payment" ng-disabled=true>
                                             </label>
@@ -447,7 +447,9 @@
                                             <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="policy_file_selector" name="policy_file_selector"
                                                 onchange="angular.element(this).scope().vm.policyPhotoChanged(this.files);"
                                             />
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="policy_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.policy_photo" type="button" class="btn btn-primary" id="select_file" onclick="policy_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.policy_photo" type="button" class="btn btn-primary" ng-click="vm.deletePolicyPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.policy_photo" ng-href={{vm.getAttachmentUrl(vm.policy.policy_photo)}} target="_blank">查看保单扫描件</a>
                                         </label>
@@ -462,7 +464,9 @@
                                             <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="client_info_file_selector" name="client_info_file_selector"
                                                 onchange="angular.element(this).scope().vm.clientInfoPhotoChanged(this.files);" />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="client_info_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.client_info_photo" type="button" class="btn btn-primary" id="select_file" onclick="client_info_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.client_info_photo" type="button" class="btn btn-primary" ng-click="vm.deleteClientInfoPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.client_info_photo" ng-href={{vm.getAttachmentUrl(vm.policy.client_info_photo)}} target="_blank">查看客户信息扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
@@ -478,7 +482,9 @@
                                             <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="other_file_selector" name="other_file_selector"
                                                 onchange="angular.element(this).scope().vm.otherPhotoChanged(this.files);" />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.other_photo" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.other_photo" type="button" class="btn btn-primary" ng-click="vm.deleteOtherPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.other_photo" ng-href={{vm.getAttachmentUrl(vm.policy.other_photo)}} target="_blank">查看其它扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->

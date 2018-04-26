@@ -223,6 +223,9 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
 
     vm.submit = function () {
         vm.checkProductRates();
+        if (vm.clientInfo) {
+            vm.policy.client = vm.clientInfo._id;
+        }
         if (!vm.policy.organization) {
             // vm.policy.client = vm.clientInfo._id;
             // vm.policy.level2_org = vm.clientInfo.level2_org;
@@ -511,6 +514,40 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
                 }
             })
     }
+
+    vm.deletePolicyPhoto = function () {
+        delete vm.policy.policy_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteSignPhoto = function () {
+        delete vm.policy.sign_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
+    vm.deleteIdentityPhoto = function () {
+        delete vm.policy.identity_photo;
+        if (vm.policy._id) {
+            PropertyPolicyService.updatePhoto(vm.policy)
+        }
+    };
 
     vm.reviewPhoto = function (fileName) {
         ngDialog.open({
