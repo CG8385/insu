@@ -318,8 +318,12 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                     policy.sub_policies[i].product = policy.sub_policies[i].product._id;
                 }
                 policy.client = policy.client._id;
-                policy.manager = policy.manager._id;
-                policy.director = policy.director._id;
+		if(policy.manager){
+                    policy.manager = policy.manager._id;
+                }
+		if(policy.director){
+                    policy.director = policy.director._id;
+                }
                 vm.loadLevel2Companies();
                 vm.loadLevel3Companies();
                 vm.loadLevel4Companies();
