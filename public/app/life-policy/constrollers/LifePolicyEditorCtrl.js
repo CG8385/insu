@@ -1,5 +1,4 @@
 'use strict'
-
 angular.module('app.life-policy').controller('LifePolicyEditorController', function ($scope, $filter, $rootScope, $state, $stateParams, LifePolicyService, ngDialog) {
     var vm = this;
     vm.policy = {};
@@ -359,6 +358,10 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         if (vm.directorInfo){
             vm.policy.director = vm.directorInfo._id;
         }
+        if (vm.policy.policy_status == "被驳回") {
+            vm.policy.policy_status = "待审核";
+        }
+
         LifePolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({
