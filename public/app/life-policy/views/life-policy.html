@@ -342,7 +342,7 @@
                                                 <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true validator="required">
                                         </label>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-2">
                                         <label class="label">业务员</label>
                                         <label class="input">
                                             <ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
@@ -352,6 +352,12 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">收款人</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.payee" ng-disabled=true>
+                                            </label>
                                     </section>
                                     <section class="col col-3">
                                             <label class="label">开户行</label>
@@ -431,7 +437,7 @@
                                             </label>
                                         </section>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-2">
                                         <label class="label">增员人</label>
                                         <label class="input">
                                             <ui-select style="min-width: 164px;" ng-model="zyInfo.zy_clientInfo" theme="select2" ng-disabled="!vm.editable">
@@ -441,6 +447,12 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">收款人</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.payee" ng-disabled=true>
+                                            </label>
                                     </section>
                                     <section class="col col-3">
                                             <label class="label">开户行</label>
