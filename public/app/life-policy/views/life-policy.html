@@ -333,11 +333,6 @@
                                     结算汇总信息
                                 </header>
                                 <div class="row">
-                                    <section class="col col-3">
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="zy_payment_based_on_taxed" ng-model="vm.policy.zy_payment_based_on_taxed" ng-change="vm.updateZYPayment()">
-                                            <i></i>增员奖基于不含税保费</label>
-                                    </section>
                                     <section class="col col-2">
                                         <label class="label">结算费{{vm.getZyBasedString()}}</label>
                                         <label class="input" ng-show="vm.policy.zy_payment_based_on_taxed">
@@ -359,12 +354,16 @@
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label">增员奖合计{{vm.getZyBasedString()}}</label>
-                                        <section class="col col-8 no-padding">
-                                            <label class="input" ng-disabled=true>
-                                                <input type="text" class="input-lg" name="zy_payment_total" price ng-model="vm.policy.zy_payment" ng-disabled=true>
+                                            <label class="label">开户行</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.bank" ng-disabled=true>
                                             </label>
-                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">账号</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.account" ng-disabled=true>
+                                            </label>
                                     </section>
                                 </div>
                                 <div class="row">
@@ -400,6 +399,21 @@
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="zy_payment_based_on_taxed" ng-model="vm.policy.zy_payment_based_on_taxed" ng-change="vm.updateZYPayment()">
+                                            <i></i>增员奖基于不含税保费</label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">增员奖合计{{vm.getZyBasedString()}}</label>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="zy_payment_total" price ng-model="vm.policy.zy_payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                </div>
                                 <div class="row" data-ng-repeat="zyInfo in vm.policy.zy_infos">
                                     <section class="col col-3">
                                         <label class="label">增员奖{{vm.getZyBasedString()}}</label>
@@ -427,6 +441,18 @@
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">开户行</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.bank" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">账号</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.account" ng-disabled=true>
+                                            </label>
                                     </section>
                                 </div>
                                     <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addZyInfo()">添加一行</button>
