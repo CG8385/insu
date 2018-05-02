@@ -153,11 +153,23 @@ router.post('/excel', function (req, res) {
                 'payment_total',
                 'taxed_payment_total',
                 'client.name',
+                'client.payee',
+                'client.bank',
+                'client.account',
                 'manager.name',
                 'director.name',
                 'organization.name',
                 'zy_payment',
-                'zy_client.name',
+                'zy_client1.name',
+                'zy_client1.zy_payment',
+                'zy_client1.payee',
+                'zy_client1.bank',
+                'zy_client1.account',
+                'zy_client2.name',
+                'zy_client2.zy_payment',
+                'zy_client2.payee',
+                'zy_client2.bank',
+                'zy_client2.account',
                 'seller.name',
                 'policy_status',
             ];
@@ -188,11 +200,23 @@ router.post('/excel', function (req, res) {
                 '结算费总额',
                 '结算费(税后)',
                 '业务员',
+                '收款人',
+                '开户行',
+                '收款账号',
                 '直属经理',
                 '直属总监',
                 '所属机构',
-                '增员奖合计(税后)',
-                '增员人',
+                '增员奖合计',
+                '增员人1',
+                '增1增员奖',
+                '增1收款人',
+                '增1开户行',
+                '增1收款账号',
+                '增员人2',
+                '增2增员奖',
+                '增2收款人',
+                '增2开户行',
+                '增2收款账号',
                 '出单员',
                 '保单状态',
             ];
@@ -208,7 +232,8 @@ router.post('/excel', function (req, res) {
                 row.seller = {};
                 row.client = {};
                 row.manager = {};
-                row.zy_client = {};
+                row.zy_client1 = {};
+                row.zy_client2 = {};
                 row.director = {};
                 row.sub_policies = {};
                 row.submit_date = (dateFormat(policy.submit_date, "mm/dd/yyyy"));
@@ -232,6 +257,9 @@ router.post('/excel', function (req, res) {
                 row.payment_total = policy.payment_total;
                 row.taxed_payment_total = policy.taxed_payment_total;
                 row.client.name = policy.client ? policy.client.name : '';
+                row.client.bank = policy.client ? policy.client.bank : '';
+                row.client.account = policy.client ? "'" + policy.client.account : '';
+                row.client.payee = policy.client ? policy.client.payee : '';
                 //row.zy_client.name = policy.zy_client ? policy.zy_client.name : '';
                 row.zy_payment = policy.zy_payment;
                 row.manager.name = policy.manager ? policy.manager.name : '';
@@ -254,11 +282,25 @@ router.post('/excel', function (req, res) {
                         newRow.sub_policies.direct_payment = policy.sub_policies[j].direct_payment?policy.sub_policies[j].direct_payment:'';
                         newRow.sub_policies.class_payment = policy.sub_policies[j].class_payment?policy.sub_policies[j].class_payment:'';
                         if(policy.zy_infos){
-                            newRow.zy_client.name = "";
-                            for(var k = 0; k < policy.zy_infos.length; k++){
-                                if(policy.zy_infos[k].zy_client){
-                                    newRow.zy_client.name += policy.zy_infos[k].zy_client.name?policy.zy_infos[k].zy_client.name:'';
-                                    newRow.zy_client.name += " ";
+                            //only support 2 zy people
+                            if(policy.zy_infos.length>=1){
+                                var zy_client_info = policy.zy_infos[0].zy_client;
+                                if(zy_client_info){
+                                    newRow.zy_client1.name = zy_client_info.name;
+                                    newRow.zy_client1.zy_payment = policy.zy_infos[0].zy_payment;
+                                    newRow.zy_client1.payee = zy_client_info.payee;
+                                    newRow.zy_client1.bank = zy_client_info.bank;
+                                    newRow.zy_client1.account = "'"+zy_client_info.account;
+                                }
+                            }
+                            if(policy.zy_infos.length>=2){
+                                var zy_client_info = policy.zy_infos[1].zy_client;
+                                if(zy_client_info){
+                                    newRow.zy_client2.name = zy_client_info.name;
+                                    newRow.zy_client2.zy_payment = policy.zy_infos[1].zy_payment;
+                                    newRow.zy_client2.payee = zy_client_info.payee;
+                                    newRow.zy_client2.bank = zy_client_info.bank;
+                                    newRow.zy_client2.account = "'"+zy_client_info.account;
                                 }
                             }
                         }
