@@ -5,6 +5,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     vm.policies = [];
     vm.organizations = [];
     vm.clientInfo = {};
+    vm.areAllSelected = false;
+    vm.summary = { taxed_payment_total: 0, zy_payment: 0};
 
     // vm.totalIncome = 0;
     // vm.totalPayment = 0;
@@ -100,6 +102,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
                         }
                     }
                 }
+                vm.selectionChanged();
             }, function (err) { });
     };
 
@@ -167,35 +170,81 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             })
     };
 
-    // vm.bulkPay = function () {
-    //     $.SmartMessageBox({
-    //         title: "批量修改保单状态",
-    //         content: "确认已支付筛选出的所有保单？结算费共计:" + vm.totalPayment.toFixed(2),
-    //         buttons: '[取消][确认]'
-    //     }, function (ButtonPressed) {
-    //         if (ButtonPressed === "确认") {
-    //             LifePolicyService.bulkPay(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
-    //                 .then(function (data) {
-    //                     $.smallBox({
-    //                         title: "服务器确认信息",
-    //                         content: "保单状态已批量更改为已支付",
-    //                         color: "#739E73",
-    //                         iconSmall: "fa fa-check",
-    //                         timeout: 5000
-    //                     });
-    //                     vm.refreshPolicies();
-    //                     vm.refreshSummary();
-    //                 }, function (err) {
+    vm.bulkPay = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 结算费共计:" + vm.summary.taxed_payment_total.toFixed(2) + "增员奖共计:"+vm.summary.zy_payment.toFixed(2),
+            buttons: '[取消][确认]',
+            input: "text",
+            placeholder: "可填写转账银行与日期备注"
+        }, function (ButtonPressed, value) {
+            if (ButtonPressed === "确认") {
+                var data = {};
+                data.policyIds = policyIds;
+                data.remarks = value;
+                LifePolicyService.bulkPay(data)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为已支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) {
 
-    //                 });
-    //         }
-    //         if (ButtonPressed === "取消") {
+                    });
+            }
+            if (ButtonPressed === "取消") {
 
-    //         }
+            }
 
-    //     });
-    // };
+        });
+    };
 
+    vm.getSelectedPolicyIds = function () {
+        var ids = [];
+        if (vm.policies) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                if (vm.policies[i].isSelected) {
+                    ids.push(vm.policies[i]._id);
+                }
+            }
+        }
+        return ids;
+    }
+
+    vm.bulkApprove = function () {
+        var policyIds = vm.getSelectedPolicyIds();
+        $.SmartMessageBox({
+            title: "批量修改保单状态",
+            content: "确认批准选中的" + policyIds.length + "条保单?",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                LifePolicyService.bulkApprove(policyIds)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "保单状态已批量更改为待支付",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                        // vm.refreshSummary();
+                    }, function (err) {
+
+                    });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
 
     vm.pay = function (life_policy) {
         life_policy.client = life_policy.client._id;
@@ -257,7 +306,44 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         $state.go("app.life-policy.approve", { policyId: life_policy._id });
     };
 
+    vm.selectionChanged = function () {
+        if (!vm.policies) {
+            vm.summary = { taxed_payment_total: 0, zy_payment: 0};
+            vm.selectedPolicies = [];
+            vm.isShowBulkOperationButton = false;
+        }
+        vm.selectedPolicies = vm.policies.filter(function (item) {
+            return item.isSelected
+        });
+        vm.summary = vm.selectedPolicies.reduce(function (a, b) {
+            return { taxed_payment_total: a.taxed_payment_total + b.taxed_payment_total, zy_payment: a.zy_payment + b.zy_payment}
+        }, { taxed_payment_total: 0, zy_payment: 0});
+        if(vm.selectedPolicies.length == 0){
+            vm.isShowBulkOperationButton = false;
+        }else if ($state.is("app.life-policy.to-be-reviewed")){
+            vm.isShowBulkOperationButton = $rootScope.user.userrole.lifePolicy_to_be_reviewed.aprove;
+        }else if ($state.is("app.life-policy.to-be-paid")){
+            vm.isShowBulkOperationButton = $rootScope.user.userrole.lifePolicy_to_be_paid.pay;
+        }
+    }
 
+    vm.selectAll = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = true;
+            }
+        }
+        vm.selectionChanged();
+    }
+
+    vm.clearSelection = function () {
+        if (vm.policies && vm.policies.length > 0) {
+            for (var i = 0; i < vm.policies.length; i++) {
+                vm.policies[i].isSelected = false;
+            }
+        }
+        vm.selectionChanged();
+    }
     /*
      * SmartAlerts
      */

@@ -356,6 +356,45 @@ router.post('/update-photo', function (req, res) {
     });
 });
 
+router.post('/bulk-pay', function (req, res) {
+    var ids = req.body.policyIds;
+    var remarks = req.body.remarks;
+    var query = Policy.find().where('_id').in(ids);
+    query
+      .exec()
+      .then(function (policies) {
+        for (var i = 0; i < policies.length; i++) {
+          policies[i].policy_status = '已支付';
+          policies[i].payment_bank = remarks;
+          policies[i].paid_at = Date.now();
+          policies[i].save();
+          logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+        };
+        logger.info(req.user.name + " 批量支付了保单。" + req.clientIP);
+        res.json({ message: '保单状态已批量更改为已支付' });
+      }, function (err) {
+        logger.error(err);
+      })
+  });
+
+router.post('/bulk-approve', function (req, res) {
+    var ids = req.body;
+    var query = Policy.find().where('_id').in(ids);
+    query
+      .exec()
+      .then(function (policies) {
+        for (var i = 0; i < policies.length; i++) {
+          policies[i].policy_status = '待支付';
+          policies[i].save();
+          logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
+        };
+        logger.info(req.user.name + " 批量审批通过了保单。" + req.clientIP);
+        res.json({ message: '保单已成功批量审批通过' });
+      }, function (err) {
+        logger.error(err);
+      })
+  });
+
 router.put('/:id', function (req, res) {
     Policy.findById(req.params.id, function (err, policy) {
         if (err)
