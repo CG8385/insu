@@ -291,7 +291,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 ocalStorageService.set("review-currentPage", vm.currentPage);
             }
             else if ($state.is("app.policy.to-be-paid")) {
-                ocalStorageService.set("currentPage", vm.currentPage);
+                localStorageService.set("currentPage", vm.currentPage);
             }
             else if ($state.is("app.policy.paid")) {
                 localStorageService.set("paid-currentPage", vm.currentPage);
