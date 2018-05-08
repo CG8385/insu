@@ -91,17 +91,6 @@
                                     <!--<th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
                                     </th>-->
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            营业部
-                                        </div>
-                                        <div ng-show="user.userrole.scope!='本人'">
-                                            <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                    ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </th>
                                     <th field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -125,7 +114,6 @@
                                         </div>
                                     </td>
                                     <td field-name="client.name"></td>
-                                    <td field-name="organization.name"></td>
                                     <td>
                                         <button ng-show="user.userrole.policy_paid.check" ng-click="vm.check(gridItem)" class="btn btn-primary btn-sm">核对</button>
                                         <button ng-show="user.userrole.policy_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
