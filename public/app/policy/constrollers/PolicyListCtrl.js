@@ -215,6 +215,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.currentPage = localStorageService.get("currentPage") ? localStorageService.get("currentPage") : undefined;
+        console.log("i am here");
+        console.log(vm.currentPage);
+        console.log("i am here");
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
