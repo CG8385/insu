@@ -242,24 +242,8 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        if ($state.is("app.property-policy.to-be-reviewed")) {
-            localStorageService.set("property-review-page", vm.currentPage);
-        }
-        else if ($state.is("app.property-policy.to-be-paid")) {
-            localStorageService.set("property-page", vm.currentPage);
-        }
-        else if ($state.is("app.property-policy.paid")) {
-            localStorageService.set("property-paid-page", vm.currentPage);
-        }
-        else if ($state.is("app.property-policy.checked")) {
-            localStorageService.set("property-checked-page", vm.currentPage);
-        }
-        else if ($state.is("app.property-policy.rejected")) {
-            localStorageService.set("property-rejected-page", vm.currentPage);
-        }
         vm.areAllSelected = false;
         vm.currentPage = currentPage;
-        console.log(vm.currentPage);
         vm.pageItems = pageItems;
         PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
