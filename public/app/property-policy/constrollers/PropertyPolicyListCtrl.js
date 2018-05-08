@@ -303,11 +303,11 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.refreshPolicies();
     }
     vm.refreshPolicies = function () {
-        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+        if (typeof (vm.filterSettings.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
         vm.pageSize = 15;
-        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
+        vm.onServerSideItemsRequested(vm.filterSettings.currentPage, vm.pageItems);
     };
 
     vm.refreshSummary = function () {

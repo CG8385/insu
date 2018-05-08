@@ -53,7 +53,7 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
-                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.setting.currentPage">
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.filterSetting.currentPage">
                             <thead>
                                 <tr>
                                     <th ng-show="user.userrole.policy_to_be_paid.pay" display-align="center" cell-width="2em">
