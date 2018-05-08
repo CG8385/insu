@@ -215,9 +215,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.currentPage = localStorageService.get("currentPage") ? localStorageService.get("currentPage") : undefined;
-        console.log("i am here");
-        console.log(vm.currentPage);
-        console.log("i am here");
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -275,18 +272,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        if ($state.is("app.policy.to-be-reviewed")) {
-            localStorageService.set("review-currentPage", vm.currentPage);
-        }
-        else if ($state.is("app.policy.to-be-paid")) {
-            localStorageService.set("currentPage", vm.currentPage);
-        }
-        else if ($state.is("app.policy.paid")) {
-            localStorageService.set("paid-currentPage", vm.currentPage);
-        }
-        else if ($state.is("app.policy.rejected")) {
-            localStorageService.set("rejected-currentPage", vm.currentPage);
-        }
+        console.log("in refresh");
+        console.log(vm.currentPage);
+        console.log("=====");
         vm.areAllSelected = false;
         vm.currentPage = currentPage;
         // vm.pageItems = pageItems;
@@ -359,6 +347,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
+        console.log("in refresh");
+        console.log(vm.currentPage);
+        console.log("=====");
         vm.pageSize = 15;
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
         // vm.refreshSummary();
@@ -372,6 +363,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 vm.totalProfit = data.total_profit;
             }, function (err) { });
     };
+
 
     vm.refreshPolicies();
     // vm.refreshSummary();
@@ -503,6 +495,18 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policy) {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
@@ -544,6 +548,18 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
 
     vm.approve = function (policy) {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
@@ -583,6 +599,18 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.view = function (policy) {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
             if(created.getFullYear() < 2017){
