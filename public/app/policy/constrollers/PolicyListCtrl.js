@@ -289,13 +289,22 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             else if ($state.is("app.policy.rejected")) {
                 vm.currentPage = localStorageService.get("rejected-currentPage");
             }
-        }else{
             vm.firstEntry = false;
+        }else{
+            if ($state.is("app.policy.to-be-reviewed")) {
+                ocalStorageService.set("review-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.to-be-paid")) {
+                ocalStorageService.set("currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.paid")) {
+                localStorageService.set("paid-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.rejected")) {
+                localStorageService.set("rejected-currentPage", vm.currentPage);
+            }
         }
         vm.areAllSelected = false;
-        // vm.currentPage = currentPage;
-        // vm.pageItems = pageItems;
-        console.log(vm.currentPage);
         PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.policies;
@@ -378,25 +387,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }, function (err) { });
     };
 
-    //hack 控件的烂bug。。。
     // vm.refreshPolicies();
-    // $timeout(function () {
-    //     if ($state.is("app.policy.to-be-reviewed")) {
-    //         vm.currentPage = localStorageService.get("review-currentPage");
-    //     }
-    //     else if ($state.is("app.policy.to-be-paid")) {
-    //         vm.currentPage = localStorageService.get("currentPage");
-    //     }
-    //     else if ($state.is("app.policy.paid")) {
-    //         vm.currentPage = localStorageService.get("paid-currentPage");
-    //     }
-    //     else if ($state.is("app.policy.rejected")) {
-    //         vm.currentPage = localStorageService.get("rejected-currentPage");
-    //     }
-    //     console.log("before 2 refresh");
-    //     console.log(vm.currentPage);
-    //     vm.refreshPolicies();
-    // }, 800);
 
     vm.refreshClicked = function () {
         vm.refreshPolicies();
