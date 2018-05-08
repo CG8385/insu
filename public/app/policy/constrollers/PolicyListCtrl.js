@@ -10,6 +10,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.areAllSelected = false;
     vm.summary = { total_income: 0, total_payment: 0, total_profit: 0 };
     vm.pageSize = 15;
+    vm.firstEntry = true;
 
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
@@ -275,9 +276,22 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        console.log("in refresh");
-        console.log(vm.currentPage);
-        console.log("=====");
+        if(vm.firstEntry){
+            if ($state.is("app.policy.to-be-reviewed")) {
+                vm.currentPage = localStorageService.get("review-currentPage");
+            }
+            else if ($state.is("app.policy.to-be-paid")) {
+                vm.currentPage = localStorageService.get("currentPage");
+            }
+            else if ($state.is("app.policy.paid")) {
+                vm.currentPage = localStorageService.get("paid-currentPage");
+            }
+            else if ($state.is("app.policy.rejected")) {
+                vm.currentPage = localStorageService.get("rejected-currentPage");
+            }
+        }else{
+            vm.firstEntry = false;
+        }
         vm.areAllSelected = false;
         // vm.currentPage = currentPage;
         // vm.pageItems = pageItems;
@@ -383,7 +397,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     //     console.log(vm.currentPage);
     //     vm.refreshPolicies();
     // }, 800);
-    vm.currentPage = 3;
 
     vm.refreshClicked = function () {
         vm.refreshPolicies();
