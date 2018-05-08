@@ -278,7 +278,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-currentPage", vm.currentPage);
         }
-        else if ($state.is("app.olicy.to-be-paid")) {
+        else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("currentPage", vm.currentPage);
         }
         else if ($state.is("app.policy.paid")) {
