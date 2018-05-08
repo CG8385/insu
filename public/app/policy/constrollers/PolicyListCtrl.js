@@ -214,7 +214,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        console.log("fetch page number");
         vm.currentPage = localStorageService.get("currentPage") ? localStorageService.get("currentPage") : undefined;
+        console.log(vm.currentPage);
+        console.log("fetched page number");
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -495,6 +498,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policy) {
+        console.log("lalala");
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-currentPage", vm.currentPage);
         }
@@ -576,25 +580,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             var index = ids.indexOf(policy._id);
             ids.splice(index, 1);
             $state.go("app.policy.approve1", { policyId: policy._id, ids: ids });
-        }
-    };
-
-    vm.check = function (policy) {
-        if (!policy.level2_company) {
-            var created = new Date(policy.created_at);
-            if(created.getFullYear() < 2017){
-                $state.go("app.policy.check", { policyId: policy._id }); //this is from old version
-            }else{
-                var ids = vm.policies.map(function (item) { return item._id });
-                var index = ids.indexOf(policy._id);
-                ids.splice(index, 1);
-                $state.go("app.policy.check1", { policyId: policy._id, ids: ids });                
-            }
-        } else {
-            var ids = vm.policies.map(function (item) { return item._id });
-            var index = ids.indexOf(policy._id);
-            ids.splice(index, 1);
-            $state.go("app.policy.check1", { policyId: policy._id, ids: ids });
         }
     };
 
