@@ -16,7 +16,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getSellers: getSellers,
                 getFilteredCSV: getFilteredCSV,
                 // getSummary: getSummary,
-                // bulkPay: bulkPay,
+                bulkPay: bulkPay,
+                bulkApprove: bulkApprove,
                 saveSalary: saveSalary,
                 getSalary: getSalary,
                 searchSalaries: searchSalaries,
@@ -192,7 +193,49 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
+            function bulkPay(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/life-policies/bulk-pay", policyIds)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function bulkApprove(policyIds) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/life-policies/bulk-approve", policyIds)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
             function saveSalary(salary) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
