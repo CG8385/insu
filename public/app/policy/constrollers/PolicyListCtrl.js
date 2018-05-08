@@ -301,6 +301,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 localStorageService.set("rejected-currentPage", vm.currentPage);
             }
         }
+        console.log(vm.currentPage);
         vm.areAllSelected = false;
         PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
