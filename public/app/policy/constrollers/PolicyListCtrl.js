@@ -10,7 +10,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.areAllSelected = false;
     vm.summary = { total_income: 0, total_payment: 0, total_profit: 0 };
     vm.pageSize = 15;
-    vm.firstEntry = true;
+    vm.entries = 0;
 
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
@@ -273,7 +273,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         
-        if(vm.firstEntry){
+        if(vm.entries < 2){
             if ($state.is("app.policy.to-be-reviewed")) {
                 vm.currentPage = localStorageService.get("review-currentPage");
             }
@@ -286,7 +286,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             else if ($state.is("app.policy.rejected")) {
                 vm.currentPage = localStorageService.get("rejected-currentPage");
             }
-            vm.firstEntry = false;
+            vm.entries = vm.entries + 1;
         }else{
             if ($state.is("app.policy.to-be-reviewed")) {
                 ocalStorageService.set("review-currentPage", vm.currentPage);
