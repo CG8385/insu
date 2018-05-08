@@ -214,6 +214,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.currentPage = localStorageService.get("currentPage") ? localStorageService.get("currentPage") : undefined;
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -272,16 +273,16 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         if ($state.is("app.policy.to-be-reviewed")) {
-            localStorageService.set("review-page", vm.currentPage);
+            localStorageService.set("review-currentPage", vm.currentPage);
         }
         else if ($state.is("app.olicy.to-be-paid")) {
-            localStorageService.set("page", vm.currentPage);
+            localStorageService.set("currentPage", vm.currentPage);
         }
         else if ($state.is("app.policy.paid")) {
-            localStorageService.set("paid-page", vm.currentPage);
+            localStorageService.set("paid-currentPage", vm.currentPage);
         }
         else if ($state.is("app.policy.rejected")) {
-            localStorageService.set("rejected-page", vm.currentPage);
+            localStorageService.set("rejected-currentPage", vm.currentPage);
         }
         vm.areAllSelected = false;
         vm.currentPage = currentPage;
