@@ -242,26 +242,26 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        console.log(vm.filterSettings.currentPage);
         if ($state.is("app.property-policy.to-be-reviewed")) {
-            localStorageService.set("property-review-filterSettings", vm.filterSettings);
+            localStorageService.set("property-review-page", vm.currentPage);
         }
         else if ($state.is("app.property-policy.to-be-paid")) {
-            localStorageService.set("property-filterSettings", vm.filterSettings);
+            localStorageService.set("property-page", vm.currentPage);
         }
         else if ($state.is("app.property-policy.paid")) {
-            localStorageService.set("property-paid-filterSettings", vm.filterSettings);
+            localStorageService.set("property-paid-page", vm.currentPage);
         }
         else if ($state.is("app.property-policy.checked")) {
-            localStorageService.set("property-checked-filterSettings", vm.filterSettings);
+            localStorageService.set("property-checked-page", vm.currentPage);
         }
         else if ($state.is("app.property-policy.rejected")) {
-            localStorageService.set("property-rejected-filterSettings", vm.filterSettings);
+            localStorageService.set("property-rejected-page", vm.currentPage);
         }
         vm.areAllSelected = false;
-        vm.filterSettings.currentPage = currentPage;
+        // vm.currentPage = currentPage;
+        console.log(vm.currentPage);
         vm.pageItems = pageItems;
-        PropertyPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -319,11 +319,11 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.refreshPolicies();
     }
     vm.refreshPolicies = function () {
-        if (typeof (vm.filterSettings.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
+        if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
         vm.pageSize = 15;
-        vm.onServerSideItemsRequested(vm.filterSettings.currentPage, vm.pageItems);
+        vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
 
     vm.refreshSummary = function () {
