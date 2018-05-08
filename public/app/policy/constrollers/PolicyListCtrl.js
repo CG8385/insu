@@ -68,7 +68,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.level2Changed = function () {
         if (!vm.filterSettings.level2_company) {
             delete vm.filterSettings.level2_company;
-        } 
+        }
         delete vm.filterSettings.level3_company;
         delete vm.filterSettings.level4_company;
         vm.loadLevel3Companies();
@@ -78,7 +78,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.level3Changed = function () {
         if (!vm.filterSettings.level3_company) {
             delete vm.filterSettings.level3_company;
-        } 
+        }
         delete vm.filterSettings.level4_company;
         vm.loadLevel4Companies();
         vm.filterChanged();
@@ -86,7 +86,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.level4Changed = function () {
         if (!vm.filterSettings.level4_company) {
-             delete vm.filterSettings.level4_company;
+            delete vm.filterSettings.level4_company;
         }
         vm.filterChanged();
     }
@@ -134,7 +134,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.level2OrgChanged = function () {
         if (!vm.filterSettings.level2_org) {
             delete vm.filterSettings.level2_org;
-        } 
+        }
         delete vm.filterSettings.level3_org;
         delete vm.filterSettings.level4_org;
         delete vm.filterSettings.level5_org;
@@ -145,7 +145,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.level3OrgChanged = function () {
         if (!vm.filterSettings.level3_org) {
             delete vm.filterSettings.level3_org;
-        } 
+        }
         delete vm.filterSettings.level4_org;
         delete vm.filterSettings.level5_org;
         vm.loadLevel4Orgs();
@@ -154,7 +154,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.level4OrgChanged = function () {
         if (!vm.filterSettings.level4_org) {
-             delete vm.filterSettings.level4_org;
+            delete vm.filterSettings.level4_org;
         }
         delete vm.filterSettings.level5_org;
         vm.loadLevel5Orgs();
@@ -163,7 +163,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.level5OrgChanged = function () {
         if (!vm.filterSettings.level5_org) {
-             delete vm.filterSettings.level5_org;
+            delete vm.filterSettings.level5_org;
         }
         vm.filterChanged();
     }
@@ -173,10 +173,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.listType = "all";
     if ($state.is("app.policy.to-be-reviewed")) {
         PolicyService.getLevel2Orgs()
-        .then(function (level2Orgs) {
-            vm.level2Orgs = level2Orgs;
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
 
-        })
+            })
         vm.listType = "to-be-reviewed";
         vm.filterSettings = localStorageService.get("review-filterSettings") ? localStorageService.get("review-filterSettings") : {};
         vm.loadLevel3Orgs();
@@ -197,10 +197,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
     else if ($state.is("app.policy.to-be-paid")) {
         PolicyService.getLevel2Orgs()
-        .then(function (level2Orgs) {
-            vm.level2Orgs = level2Orgs;
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
 
-        })
+            })
         vm.listType = "to-be-paid";
         vm.filterSettings = localStorageService.get("filterSettings") ? localStorageService.get("filterSettings") : {};
         vm.loadLevel3Orgs();
@@ -344,18 +344,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("rejected-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
-        // vm.refreshSummary();
     }
+
+
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
-        console.log("in refresh");
-        console.log(vm.currentPage);
-        console.log("=====");
         vm.pageSize = 15;
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
-        // vm.refreshSummary();
     };
 
     vm.refreshSummary = function () {
@@ -367,13 +364,27 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }, function (err) { });
     };
 
-
+    //hack 控件的烂bug。。。
     vm.refreshPolicies();
+    $timeout(function () {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            vm.currentPage = localStorageService.get("review-currentPage");
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            vm.currentPage = localStorageService.get("currentPage");
+        }
+        else if ($state.is("app.policy.paid")) {
+            vm.currentPage = localStorageService.get("paid-currentPage");
+        }
+        else if ($state.is("app.policy.rejected")) {
+            vm.currentPage = localStorageService.get("rejected-currentPage");
+        }
+        vm.refreshPolicies();
+    }, 300);
     // vm.refreshSummary();
 
     vm.refreshClicked = function () {
         vm.refreshPolicies();
-        // vm.refreshSummary();
     }
 
     vm.exportFilteredPolicies = function () {
@@ -498,7 +509,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     };
 
     vm.pay = function (policy) {
-        console.log("lalala");
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-currentPage", vm.currentPage);
         }
@@ -513,11 +523,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
-            if(created.getFullYear() < 2017){
+            if (created.getFullYear() < 2017) {
                 $state.go("app.policy.pay", { policyId: policy._id }); //this is from old version
-            }else{
-                $state.go("app.policy.pay1", { policyId: policy._id, ids: ids });                
-            }            
+            } else {
+                $state.go("app.policy.pay1", { policyId: policy._id, ids: ids });
+            }
         } else {
             $state.go("app.policy.pay1", { policyId: policy._id });
         }
@@ -566,15 +576,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
-            if(created.getFullYear() < 2017){
+            if (created.getFullYear() < 2017) {
                 $state.go("app.policy.approve", { policyId: policy._id }); //this is from old version
-            }else{
+            } else {
                 var ids = vm.policies.map(function (item) { return item._id });
                 var index = ids.indexOf(policy._id);
                 ids.splice(index, 1);
-                $state.go("app.policy.approve1", { policyId: policy._id, ids: ids });                
+                $state.go("app.policy.approve1", { policyId: policy._id, ids: ids });
             }
-            
+
         } else {
             var ids = vm.policies.map(function (item) { return item._id });
             var index = ids.indexOf(policy._id);
@@ -598,10 +608,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
-            if(created.getFullYear() < 2017){
+            if (created.getFullYear() < 2017) {
                 $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
-            }else{
-                $state.go("app.policy.view1", { policyId: policy._id, ids: ids });                
+            } else {
+                $state.go("app.policy.view1", { policyId: policy._id, ids: ids });
             }
         } else {
             $state.go("app.policy.view1", { policyId: policy._id });
@@ -622,15 +632,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
             return { total_income: a.total_income + b.total_income, total_payment: a.total_payment + b.total_payment, total_profit: a.total_income + b.total_income - a.total_payment - b.total_payment }
         }, { total_income: 0, total_payment: 0, total_profit: 0 });
-        if(vm.selectedPolicies.length == 0){
+        if (vm.selectedPolicies.length == 0) {
             vm.isShowBulkOperationButton = false;
-        }else if ($state.is("app.policy.to-be-reviewed")){
+        } else if ($state.is("app.policy.to-be-reviewed")) {
             vm.isShowBulkOperationButton = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
-        }else if ($state.is("app.policy.to-be-paid")){
+        } else if ($state.is("app.policy.to-be-paid")) {
             vm.isShowBulkOperationButton = $rootScope.user.userrole.policy_to_be_paid.pay;
         }
-            
-        
+
+
 
     }
 
