@@ -380,7 +380,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             vm.currentPage = localStorageService.get("rejected-currentPage");
         }
         vm.refreshPolicies();
-    }, 300);
+    }, 800);
     // vm.refreshSummary();
 
     vm.refreshClicked = function () {
