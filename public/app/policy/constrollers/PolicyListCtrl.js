@@ -273,7 +273,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         
-        if(vm.entries < 2){
+        if(vm.entries < 2 && currentPage == 0){
             if ($state.is("app.policy.to-be-reviewed")) {
                 vm.currentPage = localStorageService.get("review-currentPage");
             }
@@ -301,7 +301,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 localStorageService.set("rejected-currentPage", vm.currentPage);
             }
         }
-        console.log(vm.currentPage);
         vm.areAllSelected = false;
         PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
