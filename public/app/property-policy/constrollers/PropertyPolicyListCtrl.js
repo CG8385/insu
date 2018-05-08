@@ -242,7 +242,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        console.log(vm.filterSettings.currentpage);
+        console.log(vm.filterSettings.currentPage);
         if ($state.is("app.property-policy.to-be-reviewed")) {
             localStorageService.set("property-review-filterSettings", vm.filterSettings);
         }
