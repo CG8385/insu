@@ -258,7 +258,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             localStorageService.set("property-rejected-page", vm.currentPage);
         }
         vm.areAllSelected = false;
-        // vm.currentPage = currentPage;
+        vm.currentPage = currentPage;
         console.log(vm.currentPage);
         vm.pageItems = pageItems;
         PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
