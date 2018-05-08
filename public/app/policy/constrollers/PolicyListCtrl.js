@@ -271,10 +271,23 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-page", vm.currentPage);
+        }
+        else if ($state.is("app.olicy.to-be-paid")) {
+            localStorageService.set("page", vm.currentPage);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-page", vm.currentPage);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-page", vm.currentPage);
+        }
         vm.areAllSelected = false;
         vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        PolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        console.log(vm.currentPage);
+        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
