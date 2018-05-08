@@ -285,7 +285,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.areAllSelected = false;
         vm.currentPage = currentPage;
-        vm.pageItems = pageItems;
+        // vm.pageItems = pageItems;
         console.log(vm.currentPage);
         PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
