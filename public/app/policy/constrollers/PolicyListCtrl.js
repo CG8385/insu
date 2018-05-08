@@ -383,6 +383,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     //     console.log(vm.currentPage);
     //     vm.refreshPolicies();
     // }, 800);
+    vm.currentPage = 3;
 
     vm.refreshClicked = function () {
         vm.refreshPolicies();
