@@ -379,6 +379,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         else if ($state.is("app.policy.rejected")) {
             vm.currentPage = localStorageService.get("rejected-currentPage");
         }
+        console.log("before 2 refresh");
+        console.log(vm.currentPage);
         vm.refreshPolicies();
     }, 800);
     // vm.refreshSummary();
