@@ -272,6 +272,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        console.log(currentPage);
         if(vm.firstEntry){
             if ($state.is("app.policy.to-be-reviewed")) {
                 vm.currentPage = localStorageService.get("review-currentPage");
