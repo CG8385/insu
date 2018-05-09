@@ -49,7 +49,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         console.log(vm.entries);
         console.log(currentPage);
-        if(vm.entries < 2 && currentPage == 0){
+        if(vm.entries < 3 && currentPage == 0){
             if ($state.is("app.policy.org-policy.to-be-paid")) {
                 vm.currentPage = localStorageService.get("org-currentPage");
             }
