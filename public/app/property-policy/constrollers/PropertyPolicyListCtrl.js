@@ -272,7 +272,6 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             }
         }
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {

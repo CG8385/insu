@@ -7,6 +7,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
     vm.areAllSelected = false;
     vm.summary = { total_income: 0};
     vm.pageSize = 15;
+    vm.entries = 0;
 
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
@@ -127,8 +128,35 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if(vm.entries < 2 && currentPage == 0){
+            if ($state.is("app.policy.dealer.to-be-reviewed")) {
+                vm.currentPage = localStorageService.get("dealer-review-currentPage");
+            }
+            else if ($state.is("app.policy.dealer.to-be-paid")) {
+                vm.currentPage = localStorageService.get("dealer-currentPage");
+            }
+            else if ($state.is("app.policy.dealer.paid")) {
+                vm.currentPage = localStorageService.get("dealer-paid-currentPage");
+            }
+            else if ($state.is("app.policy.dealer.rejected")) {
+                vm.currentPage = localStorageService.get("dealer-rejected-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.policy.dealer.to-be-reviewed")) {
+                localStorageService.set("dealer-review-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.dealer.to-be-paid")) {
+                localStorageService.set("dealer-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.dealer.paid")) {
+                localStorageService.set("dealer-paid-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.dealer.rejected")) {
+                localStorageService.set("dealer-rejected-currentPage", vm.currentPage);
+            }
+        }
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         DealerPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
