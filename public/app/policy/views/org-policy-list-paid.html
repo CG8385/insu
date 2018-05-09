@@ -23,7 +23,7 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
-                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th field-name="created_at" display-name="出单时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">

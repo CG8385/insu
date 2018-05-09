@@ -6,6 +6,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     vm.areAllSelected = false;
     vm.summary = {income:0, payment:0, profit:0};
     vm.pageSize = 15;
+    vm.entries = 0;
 
     vm.totalIncome = 0;
     vm.totalPayment = 0;
@@ -46,8 +47,24 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if(vm.entries < 3 && currentPage == 0){
+            if ($state.is("app.policy.org-policy.to-be-paid")) {
+                vm.currentPage = localStorageService.get("org-currentPage");
+            }
+            else if ($state.is("app.policy.org-policy.paid")) {
+                vm.currentPage = localStorageService.get("org-paid-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.policy.org-policy.to-be-paid")) {
+                localStorageService.set("org-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.org-policy.paid")) {
+                localStorageService.set("org-paid-currentPage", vm.currentPage);
+            }
+        }
+        
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {

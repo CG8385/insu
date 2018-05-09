@@ -10,6 +10,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     vm.areAllSelected = false;
     vm.summary = { total_income: 0, total_payment: 0, total_profit: 0 };
     vm.pageSize = 15;
+    vm.entries = 0;
 
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
@@ -242,8 +243,35 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if(vm.entries < 2 && currentPage == 0){
+            if ($state.is("app.property-policy.to-be-reviewed")) {
+                vm.currentPage = localStorageService.get("property-review-currentPage");
+            }
+            else if ($state.is("app.property-policy.to-be-paid")) {
+                vm.currentPage = localStorageService.get("property-currentPage");
+            }
+            else if ($state.is("app.property-policy.paid")) {
+                vm.currentPage = localStorageService.get("property-paid-currentPage");
+            }
+            else if ($state.is("app.property-policy.rejected")) {
+                vm.currentPage = localStorageService.get("property-rejected-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.property-policy.to-be-reviewed")) {
+                localStorageService.set("property-review-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.property-policy.to-be-paid")) {
+                localStorageService.set("property-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.property-policy.paid")) {
+                localStorageService.set("property-paid-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.property-policy.rejected")) {
+                localStorageService.set("property-rejected-currentPage", vm.currentPage);
+            }
+        }
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
