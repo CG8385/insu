@@ -54,9 +54,23 @@ angular.module('app.policy').controller('ImagePolicyListController', function (s
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if(vm.entries < 2 && currentPage == 0){
+            if ($state.is("app.policy.image-policy.to-be-processed")) {
+                vm.currentPage = localStorageService.get("image-to-be-processed-currentPage");
+            }
+            else if ($state.is("app.policy.image-policy.processed")) {
+                vm.currentPage = localStorageService.get("image-processed-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.policy.image-policy.to-be-processed")) {
+                localStorageService.set("image-to-be-processed-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.image-policy.processed")) {
+                localStorageService.set("image-processed-currentPage", vm.currentPage);
+            }
+        }
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
-        vm.pageItems = pageItems;
         PolicyService.searchImagePolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
                 vm.policies = data.imagePolicies;
