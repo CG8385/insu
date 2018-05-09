@@ -102,7 +102,17 @@ router.post('/excel', function (req, res) {
 
     if (req.user.userrole.policy_scope =='本人') {
         conditions['seller'] = req.user._id;
-      }
+    }else if (req.user.userrole.policy_scope =='无') {
+        conditions['level1_org'] = "-999";
+    }else if (req.user.userrole.policy_scope =='二级') {
+        conditions['level2_org'] = req.user.level2_org;
+    }else if (req.user.userrole.policy_scope =='三级') {
+        conditions['level3_org'] = req.user.level3_org;
+    }else if (req.user.userrole.policy_scope =='四级') {
+        conditions['level4_org'] = req.user.level4_org;
+    }else if (req.user.userrole.policy_scope =='五级') {
+        conditions['level5_org'] = req.user.level5_org;
+    }
 
     var sortParam = "";
     if (req.body.orderByReverse) {
@@ -116,6 +126,9 @@ router.post('/excel', function (req, res) {
         conditions['submit_date'] = { $gte: req.body.fromDate };
     } else if (req.body.toDate != undefined) {
         conditions['submit_date'] = { $lte: req.body.toDate };
+    }
+    if(conditions.organization){
+        delete conditions.organization;
     }
     var query = Policy.find(conditions);
     query
@@ -326,8 +339,9 @@ router.post('/excel', function (req, res) {
 
 router.get('/:id', function (req, res) {
     Policy.findOne({ _id: req.params.id })
-        .populate('client sub_policies.product zy_infos.zy_client manager director')
+        .populate('sub_policies.product zy_infos.zy_client manager director')
         .populate({ path: 'seller', model: 'User', populate: { path: 'org', model: 'Organization' } })
+        .populate({ path: 'client', model: 'Client', populate: { path: 'organization', model: 'Organization' } })
         .exec()
         .then(function (policy) {
             res.status(200).json(policy);
@@ -464,8 +478,18 @@ router.post('/search', function (req, res) {
         }
     }
 
-    if (req.user.userrole.policy_scope =='本人') {
+    if (req.user.userrole.policy_scope == '本人') {
         conditions['seller'] = req.user._id;
+      }else if (req.user.userrole.policy_scope =='无') {
+        conditions['level1_org'] = "-999";
+      }else if (req.user.userrole.policy_scope =='二级') {
+        conditions['level2_org'] = req.user.level2_org;
+      }else if (req.user.userrole.policy_scope =='三级') {
+        conditions['level3_org'] = req.user.level3_org;
+      }else if (req.user.userrole.policy_scope =='四级') {
+        conditions['level4_org'] = req.user.level4_org;
+      }else if (req.user.userrole.policy_scope =='五级') {
+        conditions['level5_org'] = req.user.level5_org;
       }
 
     var sortParam = "";
@@ -482,8 +506,9 @@ router.post('/search', function (req, res) {
     } else if (req.body.toDate != undefined) {
         conditions['submit_date'] = { $lte: req.body.toDate };
     }
-
-
+    if(conditions.organization){
+        delete conditions.organization;
+      }
 
     var query = Policy.find(conditions);
     query

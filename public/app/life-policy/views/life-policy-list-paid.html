@@ -15,6 +15,19 @@
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
+                    ng-options="c._id as c.name for c in vm.level2Companies">
+                    <option value="">选择二级保险公司</option>
+                </select>
+                <select style="min-width: 240px;" name='level3Company' class="input-sm" ng-disabled="!vm.filterSettings.level2_company" data-ng-change="vm.level3Changed()"
+                    ng-model="vm.filterSettings.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                    <option value="">选择三级保险公司(如有)</option>
+                </select>
+                <select style="min-width: 240px;" name='level4Company' class="input-sm" ng-disabled="!vm.filterSettings.level3_company" data-ng-change="vm.level4Changed()"
+                                            ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                    <option value="">选择四级保险公司(如有)</option>
+                </select>
+                <ng-show="user.userrole.policy_scope!='本人'" br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <!--<a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>              -->
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary" ng-show="user.userrole.lifePolicy_paid.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>

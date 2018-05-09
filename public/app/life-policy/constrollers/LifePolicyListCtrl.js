@@ -27,14 +27,150 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         .then(function (sellers) {
             vm.sellers = sellers;
         })
+    vm.loadLevel3Companies = function () {
+        if (!vm.filterSettings.level2_company) {
+            vm.level3Companies = [];
+        } else {
+            LifePolicyService.getSubCompanies(vm.filterSettings.level2_company)
+                .then(function (level3Companies) {
+                    vm.level3Companies = level3Companies;
+                }, function (err) {
 
+                });
+        }
+    }
+
+    vm.loadLevel4Companies = function () {
+        if (!vm.filterSettings.level3_company) {
+            vm.level4Companies = [];
+        } else {
+            LifePolicyService.getSubCompanies(vm.filterSettings.level3_company)
+                .then(function (level4Companies) {
+                    vm.level4Companies = level4Companies;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.level2Changed = function () {
+        if (!vm.filterSettings.level2_company) {
+            delete vm.filterSettings.level2_company;
+        }
+        delete vm.filterSettings.level3_company;
+        delete vm.filterSettings.level4_company;
+        vm.loadLevel3Companies();
+        vm.filterChanged();
+    }
+
+    vm.level3Changed = function () {
+        if (!vm.filterSettings.level3_company) {
+            delete vm.filterSettings.level3_company;
+        }
+        delete vm.filterSettings.level4_company;
+        vm.loadLevel4Companies();
+        vm.filterChanged();
+    }
+
+    vm.level4Changed = function () {
+        if (!vm.filterSettings.level4_company) {
+            delete vm.filterSettings.level4_company;
+        }
+        vm.filterChanged();
+    }
+    //////////
+    vm.loadLevel3Orgs = function () {
+        if (!vm.filterSettings.level2_org) {
+            vm.level3Orgs = [];
+        } else {
+            LifePolicyService.getSubOrgs(vm.filterSettings.level2_org)
+                .then(function (level3Orgs) {
+                    vm.level3Orgs = level3Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Orgs = function () {
+        if (!vm.filterSettings.level3_org) {
+            vm.level4Orgs = [];
+        } else {
+            LifePolicyService.getSubOrgs(vm.filterSettings.level3_org)
+                .then(function (level4Orgs) {
+                    vm.level4Orgs = level4Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel5Orgs = function () {
+        if (!vm.filterSettings.level4_org) {
+            vm.level5Orgs = [];
+        } else {
+            LifePolicyService.getSubOrgs(vm.filterSettings.level4_org)
+                .then(function (level5Orgs) {
+                    vm.level5Orgs = level5Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.level2OrgChanged = function () {
+        if (!vm.filterSettings.level2_org) {
+            delete vm.filterSettings.level2_org;
+        }
+        delete vm.filterSettings.level3_org;
+        delete vm.filterSettings.level4_org;
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel3Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level3OrgChanged = function () {
+        if (!vm.filterSettings.level3_org) {
+            delete vm.filterSettings.level3_org;
+        }
+        delete vm.filterSettings.level4_org;
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel4Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level4OrgChanged = function () {
+        if (!vm.filterSettings.level4_org) {
+            delete vm.filterSettings.level4_org;
+        }
+        delete vm.filterSettings.level5_org;
+        vm.loadLevel5Orgs();
+        vm.filterChanged();
+    }
+
+    vm.level5OrgChanged = function () {
+        if (!vm.filterSettings.level5_org) {
+            delete vm.filterSettings.level5_org;
+        }
+        vm.filterChanged();
+    }
+
+    //////////
 
     vm.listType = "all";
     if ($state.is("app.life-policy.to-be-reviewed")) {
         vm.listType = "to-be-reviewed";
+        LifePolicyService.getLevel2Orgs()
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
+
+            })
         vm.filterSettings = localStorageService.get("life-review-filterSettings") ? localStorageService.get("life-review-filterSettings") : {};
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
         if (vm.filterSettings.client) {
-            PolicyService.getClient(vm.filterSettings.client)
+            LifePolicyService.getClient(vm.filterSettings.client)
                 .then(function (clientInfo) {
                     vm.clientInfo = clientInfo;
                 })
@@ -59,7 +195,15 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.tableHeader = "被驳回保单";
     } else if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
+        LifePolicyService.getLevel2Orgs()
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
+
+            })
         vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
         // if(vm.filterSettings.client){
         //     LifePolicyService.getClient(vm.filterSettings.client)
         //         .then(function (clientInfo) {
@@ -71,7 +215,14 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
+        LifePolicyService.getLevel2Companies()
+            .then(function (level2Companies) {
+                vm.level2Companies = level2Companies;
+
+            })
         vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
+        vm.loadLevel3Companies();
+        vm.loadLevel4Companies();
         vm.fromDate = localStorageService.get("life-paid-fromDate") ? localStorageService.get("life-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-paid-toDate") ? localStorageService.get("life-paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
