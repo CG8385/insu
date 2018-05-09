@@ -65,25 +65,28 @@
                                         </div>
                                         <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['py']" ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
+                                                <ui-select style="min-width: 100px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
+                                                    <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                    <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                        <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
                                             </div>
                                         </div>
                                     </th>
                                     <th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.userrole.scope!='本人'">
+                                        <!--div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </th>
                                     <th field-name="payment_total" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>

@@ -311,11 +311,51 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.refreshPolicies();
     };
 
-    // vm.clientFilterChanged = function (){
-    //     vm.filterSettings.client = vm.clientInfo._id;
-    //     localStorageService.set("life-filterSettings1", vm.filterSettings);
-    //     vm.refreshPolicies();
-    // }
+    vm.sellerFilterChanged = function () {
+        if (vm.sellerInfo._id != -1) {
+            vm.filterSettings.seller = vm.sellerInfo._id;
+        }
+        else {
+            vm.filterSettings.seller = undefined;
+        }
+
+        if ($state.is("app.life-policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("paid-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+        }
+        vm.refreshPolicies();
+    }
+
+    vm.clientFilterChanged = function () {
+        if (vm.clientInfo._id != -1) {
+            vm.filterSettings.client = vm.clientInfo._id;
+        }
+        else {
+            vm.filterSettings.client = undefined;
+        }
+
+        if ($state.is("app.life-policy.to-be-reviewed")) {
+            localStorageService.set("review-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("paid-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.life-policy.rejected")) {
+            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+        }
+        vm.refreshPolicies();
+    }
 
     vm.refreshPolicies = function () {
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
