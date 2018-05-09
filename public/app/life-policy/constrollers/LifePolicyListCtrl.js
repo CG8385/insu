@@ -7,6 +7,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     vm.clientInfo = {};
     vm.areAllSelected = false;
     vm.summary = { taxed_payment_total: 0, zy_payment: 0};
+    vm.pageSize = 15;
+    vm.entries = 0;
 
     // vm.totalIncome = 0;
     // vm.totalPayment = 0;
@@ -232,7 +234,36 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        vm.currentPage = currentPage;
+        if(vm.entries < 2 && currentPage == 0){
+            if ($state.is("app.life-policy.to-be-reviewed")) {
+                vm.currentPage = localStorageService.get("review-currentPage");
+            }
+            else if ($state.is("app.life-policy.to-be-paid")) {
+                vm.currentPage = localStorageService.get("currentPage");
+            }
+            else if ($state.is("app.life-policy.paid")) {
+                vm.currentPage = localStorageService.get("paid-currentPage");
+            }
+            else if ($state.is("app.life-policy.rejected")) {
+                vm.currentPage = localStorageService.get("rejected-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.life-policy.to-be-reviewed")) {
+                localStorageService.set("review-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.life-policy.to-be-paid")) {
+                localStorageService.set("currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.life-policy.paid")) {
+                localStorageService.set("paid-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.life-policy.rejected")) {
+                localStorageService.set("rejected-currentPage", vm.currentPage);
+            }
+        }
+        vm.areAllSelected = false;
+        //vm.currentPage = currentPage;
         vm.pageItems = pageItems;
         LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
             .then(function (data) {
@@ -290,6 +321,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         if (typeof (vm.currentPage) == 'undefined' || typeof (vm.pageItems) == 'undefined') {
             return;
         }
+        vm.pageSize = 15;
         vm.onServerSideItemsRequested(vm.currentPage, vm.pageItems);
     };
 
@@ -398,6 +430,18 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     };
 
     vm.pay = function (life_policy) {
+        if ($state.is("app.life-policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         life_policy.client = life_policy.client._id;
         if (life_policy.manager){
             life_policy.manager = life_policy.manager._id;
@@ -409,6 +453,18 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     };
 
     vm.view = function (life_policy) {
+        if ($state.is("app.life-policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         life_policy.client = life_policy.client._id;
         if (life_policy.manager){
             life_policy.manager = life_policy.manager._id;
@@ -447,6 +503,18 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     };
 
     vm.approve = function (life_policy) {
+        if ($state.is("app.life-policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.life-policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
         life_policy.client = life_policy.client._id;
         if (life_policy.manager){
             life_policy.manager = life_policy.manager._id;
@@ -495,6 +563,11 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         }
         vm.selectionChanged();
     }
+
+    vm.showAll = function () {
+        vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
+    }
+
     /*
      * SmartAlerts
      */
