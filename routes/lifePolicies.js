@@ -133,7 +133,7 @@ router.post('/excel', function (req, res) {
     var query = Policy.find(conditions);
     query
         .sort(sortParam)
-        .populate('client seller organization company sub_policies.product zy_infos.zy_client manager director')
+        .populate('client seller organization company level1_company level2_company level3_company level4_company sub_policies.product zy_infos.zy_client manager director')
         .exec()
         .then(function (policies) {
             var json2csv = require('json2csv');
@@ -251,7 +251,7 @@ router.post('/excel', function (req, res) {
                 row.sub_policies = {};
                 row.submit_date = (dateFormat(policy.submit_date, "mm/dd/yyyy"));
                 row.policy_no = "'" + policy.policy_no;
-                row.company.name = policy.company ? policy.company.name: '';
+                row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
                 row.policy_type = policy.policy_type;
                 row.stage = policy.stage;
                 row.effective_date = (dateFormat(policy.effective_date, "mm/dd/yyyy"));
