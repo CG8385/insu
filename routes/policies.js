@@ -421,7 +421,7 @@ router.post('/search', function (req, res) {
 
   if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
     let searchText = '/' + req.body.policyNoSearch + '/';
-    conditions['policy_no']= {$regex : searchText, $options : 'i'}
+    conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
     // conditions.$or = [{ policy_no: searchText },{mandatory_policy_no: searchText}]
   }
 
