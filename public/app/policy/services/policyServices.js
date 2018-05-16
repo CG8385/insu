@@ -358,7 +358,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -390,7 +390,8 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    policyNoSearch: policyNoSearch
                 };
 
 
@@ -565,7 +566,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -594,7 +595,8 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    policyNoSearch: policyNoSearch
                 };
                 $http.post("/api/policies/excel", config)
                     // handle success

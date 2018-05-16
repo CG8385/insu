@@ -419,6 +419,11 @@ router.post('/search', function (req, res) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
 
+  if (req.body.policyNoSearch != undefined) {
+    let searchText = '/' + req.body.policyNoSearch + '/';
+    conditions['$or'] = [{ policy_no: searchText },{mandatory_policy_no: searchText}]
+  }
+
   if(conditions.organization){
     delete conditions.organization;
   }
