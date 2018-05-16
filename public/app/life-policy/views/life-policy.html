@@ -395,13 +395,10 @@
                                             </ui-select>
                                         </label>
                                     </section>
-                                    <section class="col col-5">
+                                    <section class="col col-3">
                                         <label class="label">所属机构</label>
-                                        <label class="select">
-                                            <select name='organization' class="input-lg" ng-model="vm.policy.organization"
-                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
-                                                <option value="">请选择所属机构</option>
-                                            </select> <i></i>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" ng-model="vm.clientInfo.organization.name" ng-disabled=true>
                                         </label>
                                     </section>
                                 </div>
@@ -443,7 +440,7 @@
                                             <ui-select style="min-width: 164px;" ng-model="zyInfo.zy_clientInfo" theme="select2" ng-disabled="!vm.editable">
                                                 <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                    <div ng-bind-html="client.name + ' (' + client.organization.name + ')' "></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
@@ -538,6 +535,13 @@
                                         <label class="input">
                                             <i class="icon-append fa fa-user"></i>
                                             <input class="input-lg" name="cdy" ng-model="vm.sellerInfo.name">
+                                        </label>
+                                    </section>
+                                    <section class="col col-6">
+                                        <label class="label">营业部</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input class="input-lg" name="organization" ng-model="vm.sellerInfo.org.name">
                                         </label>
                                     </section>
                                 </div>

@@ -361,7 +361,15 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         if (vm.policy.policy_status == "被驳回") {
             vm.policy.policy_status = "待审核";
         }
-
+        if (!vm.policy.organization) {
+            vm.policy.seller = vm.sellerInfo._id;
+            vm.policy.level1_org = vm.sellerInfo.level1_org;
+            vm.policy.level2_org = vm.sellerInfo.level2_org;
+            vm.policy.level3_org = vm.sellerInfo.level3_org;
+            vm.policy.level4_org = vm.sellerInfo.level4_org;
+            vm.policy.level5_org = vm.sellerInfo.level5_org;
+            vm.policy.organization = vm.sellerInfo.org._id;
+        }
         LifePolicyService.savePolicy(vm.policy)
             .then(function (data) {
                 $.smallBox({

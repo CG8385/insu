@@ -29,7 +29,7 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
-                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th field-name="submit_date" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
@@ -49,16 +49,16 @@
                                             <div class="tr-ng-column-filter">
                                                 <!--<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">-->
 
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['py']"
+                                                <!--select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['py']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
-                                                </select>
-                                                <!--<ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-change = "vm.clientFilterChanged()">
-                                                    <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                </select-->
+                                                <ui-select style="min-width: 100px;" ng-model="vm.clientInfo" theme="select2" ng-change = "vm.clientFilterChanged()">
+                                                    <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
                                                     <ui-select-choices repeat="client in vm.clients| filter: $select.search">
                                                         <div ng-bind-html="client.name | highlight: $select.search"></div>
                                                     </ui-select-choices>
-                                                </ui-select>-->
+                                                </ui-select>
                                             </div>
                                         </div>
                                     </th>
@@ -81,14 +81,14 @@
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.userrole.scope!='本人'">
+                                        <!--div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </th>
                                     <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
                                         <div class="tr-ng-title">
@@ -96,10 +96,16 @@
                                         </div>
                                         <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
+                                                <!--select class="form-control input-sm" ng-model="vm.filterSettings.seller" ng-options="s._id as s.name for s in vm.sellers | orderBy:['name']"
                                                 ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
-                                                </select>
+                                                </select-->
+                                                <ui-select style="min-width: 100px;" ng-model="vm.sellerInfo" theme="select2" ng-change="vm.sellerFilterChanged()">
+                                                    <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                    <ui-select-choices repeat="seller in vm.sellers| filter: $select.search">
+                                                        <div ng-bind-html="seller.name | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
                                             </div>
                                         </div>
                                     </th>

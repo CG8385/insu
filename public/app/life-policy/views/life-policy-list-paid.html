@@ -15,10 +15,23 @@
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
+                    ng-options="c._id as c.name for c in vm.level2Companies">
+                    <option value="">选择二级保险公司</option>
+                </select>
+                <select style="min-width: 240px;" name='level3Company' class="input-sm" ng-disabled="!vm.filterSettings.level2_company" data-ng-change="vm.level3Changed()"
+                    ng-model="vm.filterSettings.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                    <option value="">选择三级保险公司(如有)</option>
+                </select>
+                <select style="min-width: 240px;" name='level4Company' class="input-sm" ng-disabled="!vm.filterSettings.level3_company" data-ng-change="vm.level4Changed()"
+                                            ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                    <option value="">选择四级保险公司(如有)</option>
+                </select>
+                <ng-show="user.userrole.policy_scope!='本人'" br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <!--<a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>              -->
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary" ng-show="user.userrole.lifePolicy_paid.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
-                <label> 跟单费总额:{{vm.totalIncome.toFixed(2)}}  结算费总额:{{vm.totalPayment.toFixed(2)}}  毛利润总额:{{vm.totalProfit.toFixed(2)}}</label>
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 结算费总额:{{vm.summary.taxed_payment_total.toFixed(2)}} 增员奖总额:{{vm.summary.zy_payment.toFixed(2)}}</label>
             
             </span>
 
@@ -32,7 +45,7 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
@@ -52,25 +65,28 @@
                                         </div>
                                         <div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.client" ng-options="c._id as c.name for c in vm.clients | orderBy:['py']" ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
+                                                <ui-select style="min-width: 100px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
+                                                    <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                    <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                        <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                    </ui-select-choices>
+                                                </ui-select>
                                             </div>
                                         </div>
                                     </th>
                                     <th field-name="client.payee" display-name="收款人" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="organization.name" display-name="营业部" enable-filtering="true" enable-sorting="false">
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
                                         <div class="tr-ng-title">
                                             营业部
                                         </div>
-                                        <div ng-show="user.userrole.scope!='本人'">
+                                        <!--div ng-show="user.userrole.scope!='本人'">
                                             <div class="tr-ng-column-filter">
                                                 <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']" ng-change="vm.filterChanged()">
                                                     <option value="" selected></option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </th>
                                     <th field-name="payment_total" display-name="支付手续费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
