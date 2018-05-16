@@ -152,6 +152,8 @@ router.post('/excel', function (req, res) {
                 'sub_policies.name',
                 'sub_policies.year',
                 'sub_policies.fee',
+                'sub_policies.income',
+                'sub_policies.supplementary_agreement',
                 'sub_policies.direct_payment',
                 'sub_policies.class_payment',
                 'applicant.name',
@@ -163,6 +165,9 @@ router.post('/excel', function (req, res) {
 
                 'total_fee',
                 'standard_fee',
+                'total_income',
+                'total_supplementary_agreement',
+                'taxed_profit',
                 'payment_total',
                 'taxed_payment_total',
                 'client.name',
@@ -200,6 +205,8 @@ router.post('/excel', function (req, res) {
                 '险种名称',
                 '缴费年限',
                 '保费',
+                '跟单费',
+                '补充协议费',
                 '直接佣金',
                 '职级佣金',
                 '投保人',
@@ -210,6 +217,9 @@ router.post('/excel', function (req, res) {
                 '生日',
                 '总单保费',
                 '标准保费',
+                '跟单费合计',
+                '补充协议费合计',
+                '毛利润(含税)',
                 '结算费总额',
                 '结算费(税后)',
                 '业务员',
@@ -267,6 +277,9 @@ router.post('/excel', function (req, res) {
                 row.applicant.birthday = policy.applicant.birthday;
                 row.total_fee = policy.total_fee;
                 row.standard_fee = policy.standard_fee;
+                row.total_income = policy.total_income;
+                row.total_supplementary_agreement = policy.total_supplementary_agreement;
+                row.taxed_profit = policy.taxed_profit;
                 row.payment_total = policy.payment_total;
                 row.taxed_payment_total = policy.taxed_payment_total;
                 row.client.name = policy.client ? policy.client.name : '';
@@ -281,10 +294,37 @@ router.post('/excel', function (req, res) {
                 row.seller.name = policy.seller ? policy.seller.name: '';
                 row.policy_status = policy.policy_status;
 
+                if(policy.zy_infos){
+                    //only support 2 zy people
+                    if(policy.zy_infos.length>=1){
+                        var zy_client_info = policy.zy_infos[0].zy_client;
+                        if(zy_client_info){
+                            row.zy_client1.name = zy_client_info.name;
+                            row.zy_client1.zy_payment = policy.zy_infos[0].zy_payment;
+                            row.zy_client1.payee = zy_client_info.payee;
+                            row.zy_client1.bank = zy_client_info.bank;
+                            row.zy_client1.account = "'"+zy_client_info.account;
+                        }
+                    }
+                    if(policy.zy_infos.length>=2){
+                        var zy_client_info = policy.zy_infos[1].zy_client;
+                        if(zy_client_info){
+                            row.zy_client2.name = zy_client_info.name;
+                            row.zy_client2.zy_payment = policy.zy_infos[1].zy_payment;
+                            row.zy_client2.payee = zy_client_info.payee;
+                            row.zy_client2.bank = zy_client_info.bank;
+                            row.zy_client2.account = "'"+zy_client_info.account;
+                        }
+                    }
+                }
+
                 if(policy.sub_policies){
                     //sub_polices
                     for(var j = 0; j < policy.sub_policies.length; j++){
-                        var newRow = copy(row);
+                        var newRow={};
+                        if(j==0){
+                            newRow = copy(row);
+                        }
                         newRow.sub_policies = {};
                         newRow.sub_policies.insurant = policy.sub_policies[j].insurant?policy.sub_policies[j].insurant:'';
                         if(policy.sub_policies[j].product){
@@ -292,31 +332,10 @@ router.post('/excel', function (req, res) {
                         }
                         newRow.sub_policies.year = policy.sub_policies[j].year?policy.sub_policies[j].year:'';
                         newRow.sub_policies.fee = policy.sub_policies[j].fee?policy.sub_policies[j].fee:'';
+                        newRow.sub_policies.income = policy.sub_policies[j].income?policy.sub_policies[j].income:'';
+                        newRow.sub_policies.supplementary_agreement = policy.sub_policies[j].supplementary_agreement?policy.sub_policies[j].supplementary_agreement:'';
                         newRow.sub_policies.direct_payment = policy.sub_policies[j].direct_payment?policy.sub_policies[j].direct_payment:'';
                         newRow.sub_policies.class_payment = policy.sub_policies[j].class_payment?policy.sub_policies[j].class_payment:'';
-                        if(policy.zy_infos){
-                            //only support 2 zy people
-                            if(policy.zy_infos.length>=1){
-                                var zy_client_info = policy.zy_infos[0].zy_client;
-                                if(zy_client_info){
-                                    newRow.zy_client1.name = zy_client_info.name;
-                                    newRow.zy_client1.zy_payment = policy.zy_infos[0].zy_payment;
-                                    newRow.zy_client1.payee = zy_client_info.payee;
-                                    newRow.zy_client1.bank = zy_client_info.bank;
-                                    newRow.zy_client1.account = "'"+zy_client_info.account;
-                                }
-                            }
-                            if(policy.zy_infos.length>=2){
-                                var zy_client_info = policy.zy_infos[1].zy_client;
-                                if(zy_client_info){
-                                    newRow.zy_client2.name = zy_client_info.name;
-                                    newRow.zy_client2.zy_payment = policy.zy_infos[1].zy_payment;
-                                    newRow.zy_client2.payee = zy_client_info.payee;
-                                    newRow.zy_client2.bank = zy_client_info.bank;
-                                    newRow.zy_client2.account = "'"+zy_client_info.account;
-                                }
-                            }
-                        }
                         arr.push(newRow);
                     }
                 }else{
