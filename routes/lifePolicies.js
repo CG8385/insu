@@ -429,6 +429,10 @@ router.put('/:id', function (req, res) {
         policy.invoice_no = req.body.invoice_no;
         policy.invoice_date = req.body.invoice_date;
         policy.sub_policies = req.body.sub_policies;
+        policy.total_income = req.body.total_income;
+        policy.total_supplementary_agreement = req.body.total_supplementary_agreement;
+        policy.profit = req.body.profit;
+        policy.taxed_profit = req.body.taxed_profit;
         policy.payment_total = req.body.payment_total;
         policy.taxed_payment_total = req.body.taxed_payment_total;
         policy.applicant = req.body.applicant;
@@ -436,8 +440,9 @@ router.put('/:id', function (req, res) {
         policy.client = req.body.client;
         //policy.zy_client = req.body.zy_client;
         //policy.zy_rate = req.body.zy_rate;
-        //policy.zy_payment = req.body.zy_payment;
-        policy.zy_payment_based_on_taxed = req.body.zy_payment_based_on_taxed;
+        policy.zy_payment = req.body.zy_payment;
+        policy.taxed_zy_payment = req.body.taxed_zy_payment;
+        //policy.zy_payment_based_on_taxed = req.body.zy_payment_based_on_taxed;
         policy.zy_infos = req.body.zy_infos;
         policy.manager = req.body.manager;
         policy.director = req.body.director;
