@@ -429,8 +429,6 @@ router.post('/search', function (req, res) {
     delete conditions.organization;
   }
 
-  console.log(conditions);
-
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
