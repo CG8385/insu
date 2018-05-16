@@ -31,6 +31,8 @@
                     <option value="">选择五级机构</option>
                 </select>
                 <br/>
+                <input type="text" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
+                <br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary">
                     <i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">

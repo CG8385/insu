@@ -189,6 +189,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("review-policyNoSearch") ? localStorageService.get("review-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
         vm.toDate = localStorageService.get("review-toDate") ? localStorageService.get("review-toDate") : undefined;
         vm.tableHeader = "待审核保单";
@@ -213,6 +214,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("policyNoSearch") ? localStorageService.get("policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
         vm.tableHeader = "待支付保单";
@@ -235,6 +237,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("paid-policyNoSearch") ? localStorageService.get("paid-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
@@ -250,6 +253,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("checked-policyNoSearch") ? localStorageService.get("checked-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("checked-fromDate") ? localStorageService.get("checked-fromDate") : undefined;
         vm.toDate = localStorageService.get("checked-toDate") ? localStorageService.get("checked-toDate") : undefined;
         vm.tableHeader = "已核对保单";
@@ -266,6 +270,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("rejected-policyNoSearch") ? localStorageService.get("rejected-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("rejected-fromDate") ? localStorageService.get("rejected-fromDate") : undefined;
         vm.toDate = localStorageService.get("rejected-toDate") ? localStorageService.get("rejected-toDate") : undefined;
         vm.tableHeader = "被驳回保单";
@@ -303,7 +308,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.pageItems = pageItems;
         vm.areAllSelected = false;
-        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -316,29 +321,27 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("review-filterSettings", vm.filterSettings);
             localStorageService.set('review-fromDate', vm.fromDate);
             localStorageService.set('review-toDate', vm.toDate);
+            localStorageService.set('review-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
             localStorageService.set('toDate', vm.toDate);
+            localStorageService.set('policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.paid")) {
             localStorageService.set("paid-filterSettings", vm.filterSettings);
             localStorageService.set('paid-fromDate', vm.fromDate);
             localStorageService.set('paid-toDate', vm.toDate);
-        }
-        else if ($state.is("app.policy.checked")) {
-            localStorageService.set("checked-filterSettings", vm.filterSettings);
-            localStorageService.set('checked-fromDate', vm.fromDate);
-            localStorageService.set('checked-toDate', vm.toDate);
+            localStorageService.set('paid-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.rejected")) {
             localStorageService.set("rejected-filterSettings", vm.filterSettings);
             localStorageService.set('rejected-fromDate', vm.fromDate);
             localStorageService.set('rejected-toDate', vm.toDate);
+            localStorageService.set('rejected-policyNoSearch', vm.policyNoSearch);
         }
         vm.refreshPolicies();
-        // vm.refreshSummary();
     };
 
     vm.clientFilterChanged = function () {
@@ -392,7 +395,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

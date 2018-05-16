@@ -35,6 +35,8 @@
                         <option value="">选择四级保险公司(如有)</option>
                     </select>
                 <br>
+                <input type="text" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
+                <br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-show="user.userrole.policy_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkCheck()" class="btn btn-primary">批量核对选中的保单</button>   
@@ -71,7 +73,7 @@
                                     </th>
                                     <!--<th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
                                     </th>-->
-                                    <th field-name="applicant.name" display-name="被保险人" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="applicant.name" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
