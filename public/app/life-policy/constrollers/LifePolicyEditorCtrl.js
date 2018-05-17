@@ -13,6 +13,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.level3Companies = [];
     vm.level4Companies = [];
     vm.products = [];
+    vm.zy_payment_based_on_taxed = false;
 
     LifePolicyService.getLevel1Companies()
     .then(function (level1Companies) {
@@ -152,7 +153,8 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.editable = false;
 
     vm.addSubPolicy = function () {
-        vm.policy.sub_policies.push({ 'insurant': '', 'product': '','year': '', 'fee': undefined, 'direct_payment_rate': undefined, 'direct_payment': undefined,'class_payment_rate': undefined, 'class_payment': undefined  });
+        vm.policy.sub_policies.push({ 'insurant': '', 'product': '','year': '', 'fee': undefined,
+        'income_rate':undefined,'income':undefined,'supplementary_agreement_rate':undefined,'supplementary_agreement':undefined, 'direct_payment_rate': undefined, 'direct_payment': undefined,'class_payment_rate': undefined, 'class_payment': undefined  });
     };
 
     vm.removeSubPolicy = function () {
@@ -160,7 +162,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
 
     vm.addZyInfo = function () {
-        vm.policy.zy_infos.push({ 'zy_rate': undefined, 'zy_payment': undefined, 'zy_client': undefined,'zy_clientInfo':undefined  });
+        vm.policy.zy_infos.push({ 'zy_rate': undefined, 'zy_payment': undefined, 'taxed_zy_payment': undefined,'zy_client': undefined,'zy_clientInfo':undefined  });
     };
 
     vm.removeZyInfo = function () {
@@ -255,10 +257,10 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
     vm.getZyBasedString = function () {
-        if (vm.policy.zy_payment_based_on_taxed) {
-            return "";
+        if (vm.zy_payment_based_on_taxed) {
+            return "(不含税)";
         } else {
-            return "(税后)";
+            return "(含税)";
         }
     }
 
@@ -513,47 +515,71 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     };
     vm.updateFee = function (subPolicy) {
         if(subPolicy.fee == undefined) return;
+        subPolicy.income = parseFloat(subPolicy.fee) * subPolicy.income_rate / 100;
+        subPolicy.income = subPolicy.income.toFixed(2);
+        subPolicy.supplementary_agreement = parseFloat(subPolicy.fee) * subPolicy.supplementary_agreement_rate / 100;
+        subPolicy.supplementary_agreement = subPolicy.supplementary_agreement.toFixed(2);
         subPolicy.direct_payment = parseFloat(subPolicy.fee) * subPolicy.direct_payment_rate / 100;
-        subPolicy.class_payment = parseFloat(subPolicy.fee) * subPolicy.class_payment_rate / 100;
         subPolicy.direct_payment = subPolicy.direct_payment.toFixed(2);
+        subPolicy.class_payment = parseFloat(subPolicy.fee) * subPolicy.class_payment_rate / 100;
         subPolicy.class_payment = subPolicy.class_payment.toFixed(2);
 
+        vm.policy.total_income = 0;
+        vm.policy.total_supplementary_agreement = 0;
         vm.policy.payment_total = 0;
         vm.policy.direct_payment_total = 0;
         for (var i = 0; i < vm.policy.sub_policies.length; i++) {
+            vm.policy.total_income += parseFloat(vm.policy.sub_policies[i].income);
+            vm.policy.total_supplementary_agreement += parseFloat(vm.policy.sub_policies[i].supplementary_agreement);
             vm.policy.payment_total += parseFloat(vm.policy.sub_policies[i].direct_payment);
             vm.policy.payment_total += parseFloat(vm.policy.sub_policies[i].class_payment);
             vm.policy.direct_payment_total += parseFloat(vm.policy.sub_policies[i].direct_payment);
         }
+        vm.policy.total_income = vm.policy.total_income*(1-0.066);
+        vm.policy.total_income = vm.policy.total_income.toFixed(2);
+        vm.policy.total_supplementary_agreement = vm.policy.total_supplementary_agreement*(1-0.066);
+        vm.policy.total_supplementary_agreement = vm.policy.total_supplementary_agreement.toFixed(2);
         vm.policy.payment_total = vm.policy.payment_total.toFixed(2);
         vm.policy.taxed_payment_total = vm.policy.payment_total / 1.066;
         vm.policy.taxed_direct_payment_total = vm.policy.direct_payment_total / 1.066;
         vm.policy.zy_payment = 0;
-        for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            if (vm.policy.zy_infos[i].zy_rate && vm.policy.taxed_direct_payment_total) {
-                vm.policy.zy_payment += vm.policy.taxed_direct_payment_total * vm.policy.zy_infos[i].zy_rate / 100;
-            }
-        }
-        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
+        vm.policy.taxed_zy_payment = 0;
+        //for (var i = 0; i < vm.policy.zy_infos.length; i++){
+        //    if (vm.policy.zy_infos[i].zy_rate && vm.policy.taxed_direct_payment_total) {
+        //        vm.policy.zy_payment += vm.policy.taxed_direct_payment_total * vm.policy.zy_infos[i].zy_rate / 100;
+        //    }
+        //}
+        //vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
         vm.policy.taxed_payment_total = vm.policy.taxed_payment_total.toFixed(2);      
     }
 
     vm.updateZYPayment = function () {
         vm.policy.zy_payment = 0;
-        var direct_payment_total;
-        if(vm.policy.zy_payment_based_on_taxed){
-            direct_payment_total = vm.policy.direct_payment_total;
-        }else{
-            direct_payment_total = vm.policy.taxed_direct_payment_total;
-        }
+        vm.policy.taxed_zy_payment = 0;
+        vm.policy.profit = 0;
+        vm.policy.taxed_profit = 0;
+        //var direct_payment_total;
+        //if(vm.policy.zy_payment_based_on_taxed){
+        //    direct_payment_total = vm.policy.direct_payment_total;
+        //}else{
+        //    direct_payment_total = vm.policy.taxed_direct_payment_total;
+        //}
         for (var i = 0; i < vm.policy.zy_infos.length; i++){
-            if (vm.policy.zy_infos[i].zy_rate && direct_payment_total) {
-                vm.policy.zy_infos[i].zy_payment = parseFloat(direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
-                vm.policy.zy_payment += vm.policy.zy_infos[i].zy_payment;
+            if (vm.policy.zy_infos[i].zy_rate && vm.policy.direct_payment_total) {
+                vm.policy.zy_infos[i].zy_payment = parseFloat(vm.policy.direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
                 vm.policy.zy_infos[i].zy_payment = vm.policy.zy_infos[i].zy_payment.toFixed(2);
+                vm.policy.zy_payment += vm.policy.zy_infos[i].zy_payment;
+                vm.policy.zy_infos[i].taxed_zy_payment = parseFloat(vm.policy.taxed_direct_payment_total) * vm.policy.zy_infos[i].zy_rate / 100;
+                vm.policy.zy_infos[i].taxed_zy_payment = vm.policy.zy_infos[i].taxed_zy_payment.toFixed(2);
+                vm.policy.taxed_zy_payment += vm.policy.zy_infos[i].taxed_zy_payment;
             }
         }
-        vm.policy.zy_payment = vm.policy.zy_payment.toFixed(2);
+        vm.policy.zy_payment = parseFloat(vm.policy.zy_payment).toFixed(2);
+        vm.policy.taxed_zy_payment = parseFloat(vm.policy.taxed_zy_payment).toFixed(2);
+        vm.policy.profit = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.total_supplementary_agreement) - parseFloat(vm.policy.payment_total) - parseFloat(vm.policy.zy_payment);
+        vm.policy.profit = vm.policy.profit.toFixed(2);
+        vm.policy.taxed_profit = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.total_supplementary_agreement) - parseFloat(vm.policy.taxed_payment_total)-parseFloat(vm.policy.taxed_zy_payment);
+        vm.policy.taxed_profit = vm.policy.taxed_profit.toFixed(2);
     }
 });
 
