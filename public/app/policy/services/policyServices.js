@@ -381,7 +381,9 @@ angular.module('app.policy').factory('PolicyService',
                 }
 
                 var end = new Date(toDate);
+                console.log(end);
                 end.setDate(end.getDate() + 1);
+                cosole.log(end);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
