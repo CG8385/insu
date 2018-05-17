@@ -382,8 +382,8 @@ angular.module('app.policy').factory('PolicyService',
 
                 var end = new Date(toDate);
                 console.log(end);
-                end.setDate(end.getDate() + 1);
-                end.setHours(0,0,0,0)
+                // end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0)
                 console.log(end);
                 var config = {
                     pageSize: pageSize,
