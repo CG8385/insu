@@ -31,6 +31,7 @@
                     data-ng-change="vm.level5OrgChanged()" ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
                     <option value="">选择五级机构</option>
                 </select>
+                <input type="text" ng-show="user.userrole.policy_scope!='本人'" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
                 <ng-show="user.userrole.policy_scope!='本人'" br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary" ng-show="user.userrole.lifePolicy_to_be_paid.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>

@@ -127,6 +127,11 @@ router.post('/excel', function (req, res) {
     } else if (req.body.toDate != undefined) {
         conditions['submit_date'] = { $lte: req.body.toDate };
     }
+    if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
+        let searchText = '/' + req.body.policyNoSearch + '/';
+        conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
+        //conditions.$or = [{ policy_no: {$regex : req.body.policyNoSearch, $options : 'i'} },{mandatory_policy_no: {$regex : req.body.policyNoSearch, $options : 'i'}}]
+    }
     if(conditions.organization){
         delete conditions.organization;
     }
@@ -530,9 +535,14 @@ router.post('/search', function (req, res) {
     } else if (req.body.toDate != undefined) {
         conditions['submit_date'] = { $lte: req.body.toDate };
     }
+    if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
+        let searchText = '/' + req.body.policyNoSearch + '/';
+        conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
+        //conditions.$or = [{ policy_no: {$regex : req.body.policyNoSearch, $options : 'i'} },{mandatory_policy_no: {$regex : req.body.policyNoSearch, $options : 'i'}}]
+    }
     if(conditions.organization){
         delete conditions.organization;
-      }
+    }
 
     var query = Policy.find(conditions);
     query

@@ -177,6 +177,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
                     vm.clientInfo = clientInfo;
                 })
         }
+        vm.policyNoSearch = localStorageService.get("life-review-policyNoSearch") ? localStorageService.get("life-review-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-review-fromDate") ? localStorageService.get("life-review-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-review-toDate") ? localStorageService.get("life-review-toDate") : undefined;
         vm.tableHeader = "待审核保单";
@@ -192,6 +193,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         //             vm.clientInfo = clientInfo;
         //         })
         // }
+        vm.policyNoSearch = localStorageService.get("life-rejected-policyNoSearch") ? localStorageService.get("life-rejected-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-rejected-fromDate") ? localStorageService.get("life-rejected-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-rejected-toDate") ? localStorageService.get("life-rejected-toDate") : undefined;
         vm.tableHeader = "被驳回保单";
@@ -212,6 +214,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         //             vm.clientInfo = clientInfo;
         //         })
         // }
+        vm.policyNoSearch = localStorageService.get("life-policyNoSearch") ? localStorageService.get("life-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
         vm.tableHeader = "待支付保单";
@@ -225,6 +228,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.filterSettings = localStorageService.get("life-paid-filterSettings") ? localStorageService.get("life-paid-filterSettings") : {};
         vm.loadLevel3Companies();
         vm.loadLevel4Companies();
+        vm.policyNoSearch = localStorageService.get("life-paid-policyNoSearch") ? localStorageService.get("life-paid-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-paid-fromDate") ? localStorageService.get("life-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-paid-toDate") ? localStorageService.get("life-paid-toDate") : undefined;
         vm.tableHeader = "已支付保单";
@@ -265,7 +269,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.areAllSelected = false;
         //vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -293,19 +297,23 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             localStorageService.set("life-review-filterSettings", vm.filterSettings);
             localStorageService.set('life-review-fromDate', vm.fromDate);
             localStorageService.set('life-review-toDate', vm.toDate);
+            localStorageService.set('life-review-policyNoSearch', vm.policyNoSearch);
         }else if ($state.is("app.life-policy.to-be-paid")) {
             localStorageService.set("life-filterSettings1", vm.filterSettings);
             localStorageService.set('life-fromDate', vm.fromDate);
             localStorageService.set('life-toDate', vm.toDate);
+            localStorageService.set('life-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.life-policy.paid")) {
             localStorageService.set("life-paid-filterSettings", vm.filterSettings);
             localStorageService.set('life-paid-fromDate', vm.fromDate);
             localStorageService.set('life-paid-toDate', vm.toDate);
+            localStorageService.set('life-paid-policyNoSearch', vm.policyNoSearch);
         }else if($state.is("app.life-policy.rejected")){
             localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
             localStorageService.set('life-rejected-fromDate', vm.fromDate);
             localStorageService.set('life-rejected-toDate', vm.toDate);
+            localStorageService.set('life-rejected-policyNoSearch', vm.policyNoSearch);
         }
         
         vm.refreshPolicies();
@@ -378,7 +386,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     poller();
 
     vm.exportFilteredPolicies = function () {
-        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

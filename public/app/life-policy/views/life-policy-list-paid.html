@@ -27,6 +27,7 @@
                                             ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
                     <option value="">选择四级保险公司(如有)</option>
                 </select>
+                <input type="text" ng-show="user.userrole.policy_scope!='本人'" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
                 <ng-show="user.userrole.policy_scope!='本人'" br/>
                 <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <!--<a ng-href="/api/policies/excel" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</a>              -->
