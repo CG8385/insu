@@ -682,7 +682,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -756,7 +756,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 var orderByReverse = true;
                 
                 var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -883,7 +883,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 //     orderByReverse = true;
                 // }
                 var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields:filterSettings,
                     orderBy: orderBy,

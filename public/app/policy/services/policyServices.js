@@ -381,10 +381,7 @@ angular.module('app.policy').factory('PolicyService',
                 }
 
                 var end = new Date(toDate);
-                console.log(end);
-                // end.setDate(end.getDate() + 1);
-                end.setHours(23,59,59,0)
-                console.log(end);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -432,7 +429,7 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -546,7 +543,7 @@ angular.module('app.policy').factory('PolicyService',
             function downloadProcessedImages(fromDate, toDate){
                 var deferred = $q.defer();
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     fromDate: fromDate,
                     toDate: end
@@ -591,7 +588,7 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse = false;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -822,7 +819,7 @@ angular.module('app.policy').factory('PolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,

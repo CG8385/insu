@@ -316,7 +316,7 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -408,7 +408,7 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     orderByReverse = false;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,

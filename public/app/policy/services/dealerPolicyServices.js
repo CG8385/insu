@@ -240,7 +240,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -287,7 +287,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -373,7 +373,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,

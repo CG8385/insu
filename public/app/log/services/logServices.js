@@ -66,7 +66,7 @@ angular.module('app.log').factory('LogService',
                 var orderByReverse = true;
                 
                 var end = new Date(toDate);
-                end.setDate(end.getDate()+1);
+                end.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
