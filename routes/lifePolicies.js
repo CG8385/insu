@@ -158,7 +158,6 @@ router.post('/excel', function (req, res) {
                 'sub_policies.year',
                 'sub_policies.fee',
                 'sub_policies.income',
-                'sub_policies.supplementary_agreement',
                 'sub_policies.direct_payment',
                 'sub_policies.class_payment',
                 'applicant.name',
@@ -171,10 +170,8 @@ router.post('/excel', function (req, res) {
                 'total_fee',
                 'standard_fee',
                 'total_income',
-                'total_supplementary_agreement',
-                'taxed_profit',
+                'profit',
                 'payment_total',
-                'taxed_payment_total',
                 'client.name',
                 'client.payee',
                 'client.bank',
@@ -211,7 +208,6 @@ router.post('/excel', function (req, res) {
                 '缴费年限',
                 '保费',
                 '跟单费',
-                '补充协议费',
                 '直接佣金',
                 '职级佣金',
                 '投保人',
@@ -223,10 +219,8 @@ router.post('/excel', function (req, res) {
                 '总单保费',
                 '标准保费',
                 '跟单费合计',
-                '补充协议费合计',
-                '毛利润(含税)',
+                '毛利润',
                 '结算费总额',
-                '结算费(税后)',
                 '业务员',
                 '收款人',
                 '开户行',
@@ -283,10 +277,8 @@ router.post('/excel', function (req, res) {
                 row.total_fee = policy.total_fee;
                 row.standard_fee = policy.standard_fee;
                 row.total_income = policy.total_income;
-                row.total_supplementary_agreement = policy.total_supplementary_agreement;
-                row.taxed_profit = policy.taxed_profit;
+                row.profit = policy.profit;
                 row.payment_total = policy.payment_total;
-                row.taxed_payment_total = policy.taxed_payment_total;
                 row.client.name = policy.client ? policy.client.name : '';
                 row.client.bank = policy.client ? policy.client.bank : '';
                 row.client.account = policy.client ? "'" + policy.client.account : '';
@@ -338,7 +330,6 @@ router.post('/excel', function (req, res) {
                         newRow.sub_policies.year = policy.sub_policies[j].year?policy.sub_policies[j].year:'';
                         newRow.sub_policies.fee = policy.sub_policies[j].fee?policy.sub_policies[j].fee:'';
                         newRow.sub_policies.income = policy.sub_policies[j].income?policy.sub_policies[j].income:'';
-                        newRow.sub_policies.supplementary_agreement = policy.sub_policies[j].supplementary_agreement?policy.sub_policies[j].supplementary_agreement:'';
                         newRow.sub_policies.direct_payment = policy.sub_policies[j].direct_payment?policy.sub_policies[j].direct_payment:'';
                         newRow.sub_policies.class_payment = policy.sub_policies[j].class_payment?policy.sub_policies[j].class_payment:'';
                         arr.push(newRow);
@@ -454,19 +445,15 @@ router.put('/:id', function (req, res) {
         policy.invoice_date = req.body.invoice_date;
         policy.sub_policies = req.body.sub_policies;
         policy.total_income = req.body.total_income;
-        policy.total_supplementary_agreement = req.body.total_supplementary_agreement;
         policy.profit = req.body.profit;
-        policy.taxed_profit = req.body.taxed_profit;
         policy.payment_total = req.body.payment_total;
-        policy.taxed_payment_total = req.body.taxed_payment_total;
         policy.applicant = req.body.applicant;
         policy.insurants = req.body.insurants;
         policy.client = req.body.client;
         //policy.zy_client = req.body.zy_client;
         //policy.zy_rate = req.body.zy_rate;
         policy.zy_payment = req.body.zy_payment;
-        policy.taxed_zy_payment = req.body.taxed_zy_payment;
-        //policy.zy_payment_based_on_taxed = req.body.zy_payment_based_on_taxed;
+        policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
         policy.zy_infos = req.body.zy_infos;
         policy.manager = req.body.manager;
         policy.director = req.body.director;
