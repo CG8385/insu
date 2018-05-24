@@ -203,7 +203,7 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                         policy.income_rate = row[7] > 1 ? row[7] : row[7] * 100;
                         policy.income = row[8];
                         policy.payment_rate = row[9] > 1 ? row[9] : row[9] * 100;
-                        policy.income = row[10];
+                        policy.payment = row[10];
                         policy.level1_company = level1_company;
                         policy.level2_company = level2_company;
                         policy.level3_company = level3_company;
