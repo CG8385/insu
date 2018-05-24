@@ -373,6 +373,8 @@ router.post('/update-photo', function (req, res) {
         policy.policy_photo = req.body.policy_photo;
         policy.client_info_photo = req.body.client_info_photo;
         policy.other_photo = req.body.other_photo;
+        policy.agreement_photo = req.body.agreement_photo;
+
         policy.save(function (err) {
             if (err) {
                 logger.error(err);

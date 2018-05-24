@@ -217,6 +217,20 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
             })
     }
 
+    vm.agreementPhotoChanged = function (files) {
+        vm.uploadAgreementPhoto(files[0]);
+    };
+
+    vm.uploadAgreementPhoto = function (file) {
+        LifePolicyService.uploadFile(file)
+            .then(function (fileName) {
+                vm.policy.agreement_photo = fileName;
+                if (vm.policy._id) {
+                    LifePolicyService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
     vm.deleteOtherPhoto = function () {
         delete vm.policy.other_photo;
         if (vm.policy._id){
@@ -234,6 +248,13 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     vm.deleteClientInfoPhoto = function () {
         delete vm.policy.client_info_photo;
         if (vm.policy._id){
+            LifePolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
             LifePolicyService.updatePhoto(vm.policy)
         }
     };
