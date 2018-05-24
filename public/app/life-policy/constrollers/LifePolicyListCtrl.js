@@ -6,7 +6,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     vm.organizations = [];
     vm.clientInfo = {};
     vm.areAllSelected = false;
-    vm.summary = { taxed_payment_total: 0, zy_payment: 0};
+    vm.summary = { total_income:0, payment_total: 0, zy_payment: 0,profit:0};
     vm.pageSize = 15;
     vm.entries = 0;
 
@@ -405,7 +405,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         var policyIds = vm.getSelectedPolicyIds();
         $.SmartMessageBox({
             title: "批量修改保单状态",
-            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 结算费共计:" + vm.summary.taxed_payment_total.toFixed(2) + "增员奖共计:"+vm.summary.zy_payment.toFixed(2),
+            content: "确认支付选中的" + vm.selectedPolicies.length + "条保单? 跟单费共计:"+vm.summary.total_income
+                    +"结算费共计:" + vm.summary.payment_total + "增员奖共计:"+vm.summary.zy_payment+"毛利润共计:"+vm.summary.profit,
             buttons: '[取消][确认]',
             input: "text",
             placeholder: "可填写转账银行与日期备注"
@@ -575,7 +576,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
 
     vm.selectionChanged = function () {
         if (!vm.policies) {
-            vm.summary = { taxed_payment_total: 0, zy_payment: 0};
+            vm.summary = { total_income:0,payment_total: 0, zy_payment: 0,profit:0};
             vm.selectedPolicies = [];
             vm.isShowBulkOperationButton = false;
         }
@@ -583,8 +584,9 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return item.isSelected
         });
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
-            return { taxed_payment_total: a.taxed_payment_total + b.taxed_payment_total, zy_payment: a.zy_payment + b.zy_payment}
-        }, { taxed_payment_total: 0, zy_payment: 0});
+            return { total_income: a.total_income + b.total_income,payment_total: a.payment_total + b.payment_total,
+                 zy_payment: a.zy_payment + b.zy_payment,profit:a.profit + b.profit}
+        }, { total_income:0,payment_total: 0, zy_payment: 0,profit:0});
         if(vm.selectedPolicies.length == 0){
             vm.isShowBulkOperationButton = false;
         }else if ($state.is("app.life-policy.to-be-reviewed")){
