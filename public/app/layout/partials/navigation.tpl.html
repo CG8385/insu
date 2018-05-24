@@ -122,20 +122,29 @@
                     <span class="menu-item-parent">财险</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_reviewed.append">
+                    <li ng-show="user.userrole.property_policy_to_be_reviewed.append">
                         <a data-ui-sref="app.property-policy.new">保单录入</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_rejected.view">
+                    <li ng-show="user.userrole.property_policy_rejected.view">
                         <a data-ui-sref="app.property-policy.rejected">被驳回保单</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_reviewed.view">
+                    <li ng-show="user.userrole.property_policy_to_be_reviewed.view">
                         <a data-ui-sref="app.property-policy.to-be-reviewed">待审核保单</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_to_be_paid.view">
+                    <li ng-show="user.userrole.property_policy_to_be_paid.view">
                         <a data-ui-sref="app.property-policy.to-be-paid">待支付保单</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.property_policy_paid.view">
+                    <li ng-show="user.userrole.property_policy_paid.view">
                         <a data-ui-sref="app.property-policy.paid">已支付保单</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_to_be_paid.import" data-ui-sref-active="active">
+                        <a data-ui-sref="aapp.property-policy.bulk-property-policy.import">保单批量导入</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_to_be_paid.view" data-ui-sref-active="active">
+                        <a data-ui-sref="app.property-policy.bulk-property-policy.to-be-paid">待支付批量保单</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_paid.view" data-ui-sref-active="active">
+                        <a data-ui-sref="app.property-policy.bulk-property-policy.paid">已支付批量保单</a>
                     </li>
                 </ul>
             </li>
