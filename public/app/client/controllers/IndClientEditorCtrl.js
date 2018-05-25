@@ -228,12 +228,12 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     }
 
     vm.getPhotoUrl = function () {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
+        return appConfig.policyOssUrl + vm.client.license_photo + "?x-oss-process=style/resize";
         // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
     }
 
     vm.getAttachmentUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+        return appConfig.policyOssUrl + fileName;
     }
 
 

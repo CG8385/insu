@@ -723,7 +723,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
     vm.getAttachmentUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+        return appConfig.policyOssUrl + fileName;
     }
 
 });

@@ -743,12 +743,12 @@ angular.module('app.policy').factory('PolicyService',
                 getStsCredential()
                 .then(function(credentials){
                     var client = new OSS.Wrapper({
-                    region: 'oss-cn-shanghai',
+                    region: appConfig.policyOssRegion,
                     accessKeyId: credentials.AccessKeyId,
                     accessKeySecret: credentials.AccessKeySecret,
                     stsToken: credentials.SecurityToken,
                     // bucket: 'cwang1'
-                    bucket: 'hy-policy'
+                    bucket: appConfig.policyOssBucket
                 }, function(err){
                     document.body.style.cursor='default';   
                     $.bigBox({
@@ -765,7 +765,7 @@ angular.module('app.policy').factory('PolicyService',
                 var fileName = uuid.v1() + ext;
 
                 client.multipartUpload(fileName, file).then(function (result) {
-                    var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                    var url = appConfig.policyOssUrl + fileName;
                     // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
                     $.smallBox({
                             title: "服务器确认信息",

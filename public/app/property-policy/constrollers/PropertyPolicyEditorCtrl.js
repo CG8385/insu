@@ -566,7 +566,7 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
     }
 
     vm.getAttachmentUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+        return appConfig.policyOssUrl  + fileName;
     }
 
 });
