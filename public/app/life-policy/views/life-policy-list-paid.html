@@ -111,7 +111,7 @@
                                     <td field-name="organization.name"></td>
                                     <td>
                                         <button ng-show="user.userrole.lifePolicy_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                    
+                                        <button ng-show="user.userrole.lifePolicy_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
                                     </td>
                                 </tr>
                             </tbody>

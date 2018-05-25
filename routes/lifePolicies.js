@@ -146,6 +146,7 @@ router.post('/excel', function (req, res) {
                 'submit_date',
                 'policy_no',
                 'company.name',
+                'organization.name',
                 'policy_type',
                 'stage',
                 'effective_date',
@@ -153,33 +154,28 @@ router.post('/excel', function (req, res) {
                 'invoice_no',
                 'invoice_date',
 
-                'sub_policies.insurant',
-                'sub_policies.name',
-                'sub_policies.year',
-                'sub_policies.fee',
-                'sub_policies.income',
-                'sub_policies.direct_payment',
-                'sub_policies.class_payment',
                 'applicant.name',
                 'applicant.identity',
                 'applicant.phone',
                 'applicant.adress',
                 'applicant.sex',
                 'applicant.birthday',
+                'sub_policies.insurant',
 
-                'total_fee',
-                'standard_fee',
-                'total_income',
-                'profit',
-                'payment_total',
+                'sub_policies.name',
+                'sub_policies.year',
+                'sub_policies.fee',
+                'sub_policies.income',
+                'sub_policies.direct_payment',
+                'sub_policies.class_payment',
+                'direct_and_class_payment',
+
                 'client.name',
                 'client.payee',
                 'client.bank',
                 'client.account',
                 'manager.name',
                 'director.name',
-                'organization.name',
-                'zy_payment',
                 'zy_client1.name',
                 'zy_client1.zy_payment',
                 'zy_client1.payee',
@@ -190,6 +186,14 @@ router.post('/excel', function (req, res) {
                 'zy_client2.payee',
                 'zy_client2.bank',
                 'zy_client2.account',
+                'zy_payment',
+
+                'total_fee',
+                'standard_fee',
+                'total_income',
+                'payment_total',
+                'profit',
+
                 'seller.name',
                 'policy_status',
             ];
@@ -197,48 +201,54 @@ router.post('/excel', function (req, res) {
                 '交单日',
                 '保单号',
                 '保险公司',
+                '所属机构',
                 '保单性质',
                 '保单年度',
                 '生效日期',
                 '回执回销日',
                 '所属发票号',
                 '发票日期',
-                '被保险人',
-                '险种名称',
-                '缴费年限',
-                '保费',
-                '跟单费',
-                '直接佣金',
-                '职级佣金',
+
                 '投保人',
                 '身份证号',
                 '电话',
                 '地址',
                 '性别',
                 '生日',
-                '总单保费',
-                '标准保费',
-                '跟单费合计',
-                '毛利润',
-                '结算费总额',
+                '被保险人',
+
+                '险种名称',
+                '缴费年限',
+                '保费',
+                '跟单费',
+                '直接佣金',
+                '职级佣金',
+                '佣金总额',
+
                 '业务员',
                 '收款人',
                 '开户行',
                 '收款账号',
                 '直属经理',
                 '直属总监',
-                '所属机构',
-                '增员奖合计',
                 '增员人1',
-                '增1增员奖',
-                '增1收款人',
-                '增1开户行',
-                '增1收款账号',
+                '增员1奖',
+                '增员1奖收款人',
+                '收款人1开户行',
+                '收款人1账户',
                 '增员人2',
-                '增2增员奖',
-                '增2收款人',
-                '增2开户行',
-                '增2收款账号',
+                '增员2奖',
+                '增员2奖收款人',
+                '收款人2开户行',
+                '收款人2账户',
+                '增员奖合计',
+
+                '总单保费',
+                '标准保费',
+                '跟单费总额',
+                '结算费总额',
+                '毛利润',
+
                 '出单员',
                 '保单状态',
             ];
@@ -278,7 +288,10 @@ router.post('/excel', function (req, res) {
                 row.standard_fee = policy.standard_fee;
                 row.total_income = policy.total_income;
                 row.profit = policy.profit;
-                row.payment_total = policy.payment_total;
+                row.payment_total = parseFloat(policy.payment_total?policy.payment_total:0)
+                    + parseFloat(policy.zy_payment?policy.zy_payment:0);
+                row.direct_and_class_payment = parseFloat(policy.direct_payment_total?policy.direct_payment_total:0)
+                    + parseFloat(policy.class_payment_total?policy.class_payment_total:0);
                 row.client.name = policy.client ? policy.client.name : '';
                 row.client.bank = policy.client ? policy.client.bank : '';
                 row.client.account = policy.client ? "'" + policy.client.account : '';
@@ -373,6 +386,8 @@ router.post('/update-photo', function (req, res) {
         policy.policy_photo = req.body.policy_photo;
         policy.client_info_photo = req.body.client_info_photo;
         policy.other_photo = req.body.other_photo;
+        policy.agreement_photo = req.body.agreement_photo;
+
         policy.save(function (err) {
             if (err) {
                 logger.error(err);
