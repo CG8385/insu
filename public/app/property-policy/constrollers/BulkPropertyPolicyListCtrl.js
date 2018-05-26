@@ -76,6 +76,8 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         vm.filterChanged();
     }
     //////////
+
+
     vm.loadLevel3Orgs = function () {
         if (!vm.filterSettings.level2_org) {
             vm.level3Orgs = [];
@@ -158,6 +160,12 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         .then(function (clients) {
             clients.unshift({ _id: -1, name: "全部代理人" });
             vm.clients = clients;
+        })
+
+    PropertyPolicyService.getLevel2Orgs()
+        .then(function (level2Orgs) {
+            vm.level2Orgs = level2Orgs;
+
         })
 
     vm.listType = "all";
@@ -407,7 +415,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         vm.pageSize = vm.policyTotalCount < 300 ? vm.policyTotalCount : 300;
     }
 
-    vm.getPhotoUrl = function (policy){
+    vm.getPhotoUrl = function (policy) {
         return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + policy.policy_photo;
     }
 

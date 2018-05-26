@@ -213,6 +213,7 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                         policy.level3_org = clientInfo.level3_org;
                         policy.level4_org = clientInfo.level4_org;
                         policy.level5_org = clientInfo.level5_org;
+                        policy.organization = clientInfo.level5_org;
                         policy.client = clientInfo._id;
                         policy.profit = policy.income - policy.payment;
                         policy.policy_status = "待支付";
