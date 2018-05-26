@@ -115,6 +115,7 @@ router.post('/excel', function (req, res) {
       var fields = [
         'created_at',
         'policy_no',
+        'bulk_no',
         'company',
         'payer_name',
         'insured_name',
@@ -133,6 +134,7 @@ router.post('/excel', function (req, res) {
       var fieldNames = [
         '出单日期',
         '保单号',
+        '批单号',
         '保险公司',
         '投保人',
         '被保险人',
@@ -159,6 +161,7 @@ router.post('/excel', function (req, res) {
 
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
         row.policy_no = "'" + policy.policy_no;
+        row.bulk_no = "'" + policy.bulk_no;
 
         if(policy.level4_company){
           row.company = policy.level4_company.name;
@@ -184,6 +187,7 @@ router.post('/excel', function (req, res) {
         row.payment_remarks = policy.payment_remarks ? policy.payment_remarks : '';
         arr.push(row);
       }
+      console.log(arr);
       json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
         if (err) console.log(err);
 
