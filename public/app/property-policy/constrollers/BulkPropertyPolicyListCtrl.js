@@ -164,7 +164,6 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
 
     PropertyPolicyService.getLevel2Companies()
         .then(function (level2Companies) {
-            console.log(level2Companies);
             vm.level2Companies = level2Companies;
 
         })
