@@ -176,28 +176,28 @@ angular.module('app.property-policy').config(function ($stateProvider, localStor
                 }
             }
         })
-        // .state('app.property-policy.bulk-property-policy.to-be-paid', {
-        //     url: '/policies/bulk-property-policies/to-be-paid',
-        //     data: {
-        //         title: '待支付批量财险'
-        //     },
-        //     views: {
-        //         "content@app": {
-        //             controller: 'BulkPropertyPolicyListController as vm',
-        //             templateUrl: 'app/property-policy/views/bulk-property-policy-list.html'
-        //         }
-        //     }
-        // })
-        // .state('app.property-policy.bulk-property-policy.paid', {
-        //     url: '/policies/bulk-property-policies/paid',
-        //     data: {
-        //         title: '已支付批量财险'
-        //     },
-        //     views: {
-        //         "content@app": {
-        //             controller: 'BulkPropertyPolicyListController as vm',
-        //             templateUrl: 'app/property-policy/views/bulk-property-policy-list-paid.html'
-        //         }
-        //     }
-        // })
+        .state('app.property-policy.bulk-property-policy.to-be-paid', {
+            url: '/policies/bulk-property-policies/to-be-paid',
+            data: {
+                title: '待支付批量财险'
+            },
+            views: {
+                "content@app": {
+                    controller: 'BulkPropertyPolicyListController as vm',
+                    templateUrl: 'app/property-policy/views/bulk-property-policy-list.html'
+                }
+            }
+        })
+        .state('app.property-policy.bulk-property-policy.paid', {
+            url: '/policies/bulk-property-policies/paid',
+            data: {
+                title: '已支付批量财险'
+            },
+            views: {
+                "content@app": {
+                    controller: 'BulkPropertyPolicyListController as vm',
+                    templateUrl: 'app/property-policy/views/bulk-property-policy-list-paid.html'
+                }
+            }
+        })
 });
