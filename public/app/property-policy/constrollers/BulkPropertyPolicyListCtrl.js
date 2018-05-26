@@ -161,6 +161,11 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
             clients.unshift({ _id: -1, name: "全部代理人" });
             vm.clients = clients;
         })
+        PropertyPolicyService.getLevel2Companies()
+        .then(function (level2Companies) {
+            vm.level2Companies = level2Companies;
+
+        })
 
     PropertyPolicyService.getLevel2Orgs()
         .then(function (level2Orgs) {
