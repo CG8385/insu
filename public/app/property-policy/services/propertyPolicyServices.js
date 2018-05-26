@@ -626,6 +626,8 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
 
             function getLevel2Companies() {
 
+                console.log("il est la!!!");
+
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
