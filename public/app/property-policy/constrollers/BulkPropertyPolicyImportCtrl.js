@@ -209,6 +209,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyImportContro
                     iconSmall: "fa fa-check",
                     timeout: 5000
                 });
+                vm.policy_photo = null;
                 vm.policies = [];
                 vm.clientInfo = null;
                 vm.level1_company = vm.level2_company = vm.level3_company = vm.level4_company = null;

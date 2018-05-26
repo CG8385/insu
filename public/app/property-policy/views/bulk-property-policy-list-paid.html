@@ -50,42 +50,40 @@
                                 <tr>
                                     <th field-name="created_at" display-name="出单时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
-                                    <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <!--<th field-name="applicant" cell-width="6em" display-name="被保险人" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
-                                    <th field-name="plate" display-name="车牌号" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="client.name" display-name="业务来源" enable-filtering="true" enable-sorting="false">
+                                    <th field-name="final_company" display-name="保险公司" display-format="getCompany:gridItem" enable-filtering="false"
+                                        enable-sorting="false">
+                                    </th>
+                                    <th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
                                         <div class="tr-ng-title">
                                             业务来源
                                         </div>
                                         <div class="tr-ng-column-filter">
                                             <ui-select style="min-width: 124px;" ng-model="vm.clientInfo" theme="select2" ng-change="vm.clientFilterChanged()">
-                                                <ui-select-match class="input-md">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                <ui-select-match class="input-xs">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients | filter: $select.search | limitTo: vm.infiniteScroll.currentItems" infinite-scroll="vm.addMoreItems()"
+                                                    infinite-scroll-distance="2">
+                                                    <div ng-bind-html="client.name"></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
                                     </th>
-                                    <th field-name="company" display-name="保险公司" display-format="getCompanyName:gridItem" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="product_name" display-name="险种名称" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="policy_name" display-name="险种名称" enable-filtering="false" enable-sorting="false">
-                                    </th>
-                                    <!--<th field-name="fee" display-name="保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="fee" display-name="保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="income_rate" display-name="跟单比例(%)" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
+                                    </th>
                                     <th field-name="income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <!--<th field-name="payment_substract_rate" display-name="结算扣(%)" enable-filtering="false" enable-sorting="false">
-                                    </th>-->
+                                    <th field-name="payment_rate" display-name="结算比例(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>
                                     <th field-name="payment" display-name="结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="profit" display-name="毛利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="profit" display-name="利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="payment_remarks" display-name="支付备注" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="url" display-name="保单扫描件" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>
