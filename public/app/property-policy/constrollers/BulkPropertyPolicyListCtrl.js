@@ -28,7 +28,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         if (!vm.filterSettings.level2_company) {
             vm.level3Companies = [];
         } else {
-            PolicyService.getSubCompanies(vm.filterSettings.level2_company)
+            PropertyPolicyService.getSubCompanies(vm.filterSettings.level2_company)
                 .then(function (level3Companies) {
                     vm.level3Companies = level3Companies;
                 }, function (err) {
@@ -41,7 +41,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         if (!vm.filterSettings.level3_company) {
             vm.level4Companies = [];
         } else {
-            PolicyService.getSubCompanies(vm.filterSettings.level3_company)
+            PropertyPolicyService.getSubCompanies(vm.filterSettings.level3_company)
                 .then(function (level4Companies) {
                     vm.level4Companies = level4Companies;
                 }, function (err) {
@@ -82,7 +82,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         if (!vm.filterSettings.level2_org) {
             vm.level3Orgs = [];
         } else {
-            PolicyService.getSubOrgs(vm.filterSettings.level2_org)
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level2_org)
                 .then(function (level3Orgs) {
                     vm.level3Orgs = level3Orgs;
                 }, function (err) {
@@ -95,7 +95,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         if (!vm.filterSettings.level3_org) {
             vm.level4Orgs = [];
         } else {
-            PolicyService.getSubOrgs(vm.filterSettings.level3_org)
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level3_org)
                 .then(function (level4Orgs) {
                     vm.level4Orgs = level4Orgs;
                 }, function (err) {
@@ -108,7 +108,7 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
         if (!vm.filterSettings.level4_org) {
             vm.level5Orgs = [];
         } else {
-            PolicyService.getSubOrgs(vm.filterSettings.level4_org)
+            PropertyPolicyService.getSubOrgs(vm.filterSettings.level4_org)
                 .then(function (level5Orgs) {
                     vm.level5Orgs = level5Orgs;
                 }, function (err) {
