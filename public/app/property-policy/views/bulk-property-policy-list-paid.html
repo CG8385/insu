@@ -8,6 +8,20 @@
                     ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <br>
+                <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
+                    ng-options="c._id as c.name for c in vm.level2Companies">
+                    <option value="">选择二级保险公司</option>
+                </select>
+                <select style="min-width: 240px;" name='level3Company' class="input-sm" ng-disabled="!vm.filterSettings.level2_company" data-ng-change="vm.level3Changed()"
+                    ng-model="vm.filterSettings.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                    <option value="">选择三级保险公司(如有)</option>
+                </select>
+                <select style="min-width: 240px;" name='level4Company' class="input-sm" ng-disabled="!vm.filterSettings.level3_company" data-ng-change="vm.level4Changed()"
+                    ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                    <option value="">选择四级保险公司(如有)</option>
+                </select>
+                <br>
                 <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
                     ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                     <option value="">选择二级机构</option>
@@ -52,8 +66,7 @@
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="final_company" display-name="保险公司" display-format="getCompany:gridItem" enable-filtering="false"
-                                        enable-sorting="false">
+                                    <th field-name="final_company" display-name="保险公司" display-format="getCompany:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="client.name" cell-width="8em" display-name="业务来源" enable-filtering="true" enable-sorting="false">
                                         <div class="tr-ng-title">
@@ -92,9 +105,9 @@
                                     <td field-name="client.name"></td>
                                 </tr>
                                 <td field-name="url">
-                                    <a ng-href= {{vm.getPhotoUrl(gridItem)}} target="_blank">扫描件链接</a>
+                                    <a ng-href={ {vm.getPhotoUrl(gridItem)}} target="_blank">扫描件链接</a>
                                 </td>
-                                
+
                             </tbody>
                         </table>
                     </div>
