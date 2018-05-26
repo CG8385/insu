@@ -16,7 +16,7 @@ angular.module('app.property-policy').controller('PhotoReviewController1', funct
     }
 
     vm.getImageUrl = function() {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + data.fileName + "?x-oss-process=style/resize";;
+        return appConfig.policyOssUrl + data.fileName + "?x-oss-process=style/resize";;
     }
 
     

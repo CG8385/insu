@@ -285,7 +285,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
     vm.getAttachmentUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+        return appConfig.policyOssUrl + fileName;
     }
 
 
