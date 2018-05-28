@@ -584,9 +584,15 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             return item.isSelected
         });
         vm.summary = vm.selectedPolicies.reduce(function (a, b) {
-            return { total_income: a.total_income + b.total_income,payment_total: a.payment_total + b.payment_total,
-                 zy_payment: a.zy_payment + b.zy_payment,profit:a.profit + b.profit}
+            return {total_income: parseFloat(a.total_income?a.total_income:0) + parseFloat(b.total_income?b.total_income:0),
+                payment_total: parseFloat(a.payment_total?a.payment_total:0) + parseFloat(b.payment_total?b.payment_total:0),
+                zy_payment: parseFloat(a.zy_payment?a.zy_payment:0) + parseFloat(b.zy_payment?b.zy_payment:0),
+                profit:parseFloat(a.profit?a.profit:0) + parseFloat(b.profit?b.profit:0)}
         }, { total_income:0,payment_total: 0, zy_payment: 0,profit:0});
+        vm.summary.total_income = vm.summary.total_income.toFixed(2);
+        vm.summary.payment_total = vm.summary.payment_total.toFixed(2);
+        vm.summary.zy_payment = vm.summary.zy_payment.toFixed(2);
+        vm.summary.profit = vm.summary.profit.toFixed(2);
         if(vm.selectedPolicies.length == 0){
             vm.isShowBulkOperationButton = false;
         }else if ($state.is("app.life-policy.to-be-reviewed")){
