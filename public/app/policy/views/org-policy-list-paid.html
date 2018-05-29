@@ -75,10 +75,10 @@
                             <tbody>
                                 <tr>
                                     <td field-name="client.name"></td>
+                                    <td>
+                                        <button ng-show="user.userrole.bulkDealerPolicy_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
                                 </tr>
-                                <td>
-                                    <button ng-show="user.userrole.bulkDealerPolicy_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
-                                </td>
                             </tbody>
                         </table>
                     </div>
