@@ -112,6 +112,12 @@ angular.module('app.client').controller('IndClientEditorController', function ($
                 vm.loadLevel3Orgs();
                 vm.loadLevel4Orgs();
                 vm.loadLevel5Orgs();
+                if(client.parent){
+                    ClientService.getClient(client.parent)
+                    .then(function (dealer) {
+                        vm.dealerInfo = dealer;
+                    })
+                }
             });
     }
     
@@ -169,6 +175,9 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.approve = function(){
         vm.client.client_type = "个人";
         vm.client.pending = false;
+        if(vm.dealerInfo){
+            vm.client.parent = vm.dealerInfo._id;
+        }
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -186,6 +195,9 @@ angular.module('app.client').controller('IndClientEditorController', function ($
 
     vm.submit = function () {
         vm.client.client_type = "个人";
+        if(vm.dealerInfo){
+            vm.client.parent = vm.dealerInfo._id;
+        }
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({

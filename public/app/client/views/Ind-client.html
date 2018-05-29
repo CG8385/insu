@@ -146,11 +146,19 @@
                                     </div> -->
                                     <div class="row">
                                         <label class="label">所属车商(仅针对车商代理人)</label>
-                                        <label class="select">
+                                        <!-- <label class="select">
                                             <select name='parent' ng-disabled="!vm.editable" class="input-lg" ng-model="vm.client.parent" ng-options="o._id as o.name for o in vm.dealers">
                                                 <option value="">请选择所属车商</option>
                                             </select>
                                             <i></i>
+                                        </label> -->
+                                        <label class="input">
+                                            <ui-select style="min-width: 364px;" ng-model="vm.dealerInfo" theme="select2">
+                                                <ui-select-match class="input-lg" placeholder="输入拼音首字母可快速选择">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
                                         </label>
                                     </div>
                                     <div class="row">
