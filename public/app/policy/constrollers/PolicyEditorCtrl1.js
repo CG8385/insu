@@ -664,7 +664,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
     };
     vm.deleteCommercialPhoto = function () {
-        delete vm.policy.agreement_photo;
+        delete vm.policy.commercial_policy_photo;
         if (vm.policy._id) {
             PolicyService.updatePhoto(vm.policy)
         }
