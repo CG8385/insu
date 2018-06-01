@@ -178,7 +178,7 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
   var data = req.body;
-  Client.find({ identity: data.identity }, function (err, clients) {
+  Client.find({ identity: data.identity, client_type: data.client_type }, function (err, clients) {
     if (clients.length > 0) {
       res.status(400).send('系统中已存在该身份证号');
     } else {
