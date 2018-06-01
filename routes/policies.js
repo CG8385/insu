@@ -349,6 +349,7 @@ router.put('/:id', function (req, res) {
     policy.payment_proof = req.body.payment_proof;
     policy.company = req.body.company;
     policy.rule = req.body.rule;
+    policy.comment = req.body.comment;
 
     policy.level1_company = req.body.level1_company;
     policy.level2_company = req.body.level2_company;
