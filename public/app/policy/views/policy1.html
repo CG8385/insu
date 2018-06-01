@@ -287,14 +287,14 @@
                                             <label class="label">银行</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-bank"></i>
-                                                <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank" validator="required">
+                                                <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank">
                                             </label>
                                         </section>
                                         <section class="col col-4" ng-disabled="vm.policy.policy_status=='已支付'">
                                             <label class="label">支付凭证号</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-key"></i>
-                                                <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof" validator="required">
+                                                <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof">
                                             </label>
                                         </section>
                                         <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
