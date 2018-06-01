@@ -422,7 +422,8 @@ angular.module('app.property-policy').controller('BulkPropertyPolicyListControll
     }
 
     vm.getPhotoUrl = function (policy) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + policy.policy_photo;
+        return appConfig.policyOssUrl + vm.client.license_photo + "?x-oss-process=style/resize";
+        // return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + policy.policy_photo;
     }
 
 
