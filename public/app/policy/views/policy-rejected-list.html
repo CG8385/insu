@@ -64,17 +64,6 @@
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            营业部
-                                        </div>
-                                        <div ng-show="user.userrole.scope!='本人'">
-                                            <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                    ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </th>
                                     <th field-name="mandatory_fee" display-name="交强保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -107,7 +96,7 @@
                             <tbody>
                                 <tr ng-class="{'txt-color-red':gridItem.has_warning}">
                                     <!--<td field-name="client.name"></td>-->
-                                    <td field-name="organization.name"></td>
+                                    <!-- <td field-name="organization.name"></td> -->
                                     <td>
                                         <button ng-show="user.userrole.policy_rejected.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-show="user.userrole.policy_rejected.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
