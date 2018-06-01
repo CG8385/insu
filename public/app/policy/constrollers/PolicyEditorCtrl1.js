@@ -471,7 +471,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                             var id = ids.shift();
                             $state.go("app.policy.approve1", { policyId: id, ids: ids });
                         } else {
-                            $state.go("app.policy.to-be-reviewed");
+                            if ($state.is("app.policy.pay")) {
+                                $state.go("app.policy.to-be-paid");
+                            }else{
+                                $state.go("app.policy.to-be-reviewed");
+                            }
                         }
 
                     }, function (err) { });
