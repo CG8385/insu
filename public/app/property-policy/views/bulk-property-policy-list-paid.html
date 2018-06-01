@@ -104,7 +104,7 @@
                                 <tr>
                                     <td field-name="client.name"></td>
                                     <td field-name="url">
-                                        <a ng-href={ {vm.getPhotoUrl(gridItem)}} target="_blank">扫描件链接</a>
+                                        <a ng-href={{vm.getPhotoUrl(gridItem)}} target="_blank">扫描件链接</a>
                                     </td>
                                     <td>
                                         <button ng-show="user.userrole.bulkPropertyPolicy_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
