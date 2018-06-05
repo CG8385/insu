@@ -391,7 +391,11 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
                             var id = ids.shift();
                             $state.go("app.property-policy.approve", { policyId: id, ids: ids });
                         } else {
-                            $state.go("app.property-policy.to-be-reviewed");
+                            if ($state.is("app.property-policy.pay")) {
+                                $state.go("app.property-policy.to-be-paid");
+                            }else{
+                                $state.go("app.property-policy.to-be-reviewed");
+                            }
                         }
 
                     }, function (err) { });
