@@ -56,7 +56,8 @@ var schema = new mongoose.Schema({
   policy_photo: String,
   client_info_photo: String,
   other_photo: String,
-  agreement_photo: String
+  agreement_photo: String,
+  comment: String
 });
 
 schema.pre('save', function(next){

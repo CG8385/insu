@@ -476,7 +476,7 @@ router.put('/:id', function (req, res) {
         policy.organization = req.body.organization;
         policy.policy_status = req.body.policy_status;
         policy.remark = req.body.remark;
-
+        policy.comment = req.body.comment;
 
         policy.save(function (err) {
             if (err) {
