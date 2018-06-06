@@ -487,7 +487,13 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
-                        $state.go("app.life-policy.to-be-reviewed");
+                        var ids = $stateParams.ids;
+                        if (ids && ids.length > 0) {
+                            var id = ids.shift();
+                            $state.go("app.life-policy.approve", { policyId: id, ids: ids });
+                        }else{
+                            $state.go("app.life-policy.to-be-reviewed");
+                        }
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {
@@ -525,7 +531,17 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
                             iconSmall: "fa fa-check",
                             timeout: 5000
                         });
-                        $state.go("app.life-policy.to-be-reviewed");
+                        var ids = $stateParams.ids;
+                        if (ids && ids.length > 0) {
+                            var id = ids.shift();
+                            $state.go("app.life-policy.approve", { policyId: id, ids: ids });
+                        }else{
+                            if ($state.is("app.life-policy.pay")) {
+                                $state.go("app.life-policy.to-be-paid");
+                            }else{
+                                $state.go("app.life-policy.to-be-reviewed");
+                            }
+                        }
                     }, function (err) { });
             }
             if (ButtonPressed === "取消") {

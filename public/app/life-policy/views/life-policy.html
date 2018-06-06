@@ -624,6 +624,18 @@
                                         class="btn btn-primary btn-lg">修改保单状态为已支付</button>
                                 </section>
                             </div>
+                            <div class="row" ng-show="vm.policy.policy_status!='待审核'">
+                                <section class="col col-9" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class="label">备注</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="comment" ng-model="vm.policy.comment">
+                                    </label>
+                                </section>
+                                <section class="col col-2" ng-show="vm.policy.policy_status=='待支付'">
+                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付' && user.userrole.lifePolicy_to_be_paid.reject" ng-click="vm.reject()"
+                                        class="btn btn-primary btn-lg">驳回</button>
+                                </section>
+                            </div>
                             <footer>
                                 <span>
                                     <button ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
