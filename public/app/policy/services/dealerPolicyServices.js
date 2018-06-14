@@ -483,7 +483,8 @@ angular.module('app.policy').factory('DealerPolicyService',
                             accessKeyId: credentials.AccessKeyId,
                             accessKeySecret: credentials.AccessKeySecret,
                             stsToken: credentials.SecurityToken,
-                            bucket: appConfig.policyOssBucket
+                            bucket: appConfig.policyOssBucket,
+                            secure: appConfig.policyOssUseSSL
                         }, function (err) {
                             document.body.style.cursor = 'default';
                             $.bigBox({

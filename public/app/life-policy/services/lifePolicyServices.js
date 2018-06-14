@@ -100,7 +100,8 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     accessKeySecret: credentials.AccessKeySecret,
                     stsToken: credentials.SecurityToken,
                     // bucket: 'cwang1'
-                    bucket: appConfig.policyOssBucket
+                    bucket: appConfig.policyOssBucket,
+                    secure: appConfig.policyOssUseSSL
                 }, function(err){
                     document.body.style.cursor='default';
                     $.bigBox({

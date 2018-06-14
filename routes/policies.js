@@ -220,7 +220,7 @@ router.post('/excel', function (req, res) {
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.organization.name = policy.organization ? policy.organization.name : "";
-        row.seller.name = policy.seller.name;
+        row.seller.name = policy.seller ? policy.seller.name : "";
         row.client.name = policy.client ? policy.client.name : '';
         row.client.bank = policy.client ? policy.client.bank : '';
         row.client.account = policy.client ? "'" + policy.client.account : '';
