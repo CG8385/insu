@@ -39,7 +39,8 @@
                 <button ng-show="user.userrole.policy_to_be_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
                     <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
                 <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}
-                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}
+                </label>
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>
             </span>
 
@@ -55,7 +56,8 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
-                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)"
+                            current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th ng-show="user.userrole.policy_to_be_paid.pay" display-align="center" cell-width="2em">
@@ -63,6 +65,9 @@
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="approved_at" cell-width="6em" display-name="审核时间" display-format="getApprovedTime:gridItem" enable-filtering="false"
+                                        enable-sorting="false">
                                     </th>
                                     <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>-->
