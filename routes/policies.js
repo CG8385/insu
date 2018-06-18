@@ -141,6 +141,7 @@ router.post('/excel', function (req, res) {
         'total_payment',
         'total_profit',
         'policy_status',
+        'approved_at',
         'paid_at',
         'payment_bank'
       ];
@@ -194,6 +195,7 @@ router.post('/excel', function (req, res) {
         '结算费总额',
         '总毛利润',
         '保单状态',
+        '审核日期',
         '支付日期',
         '支付银行'
       ];
@@ -266,6 +268,7 @@ router.post('/excel', function (req, res) {
         row.total_profit = policy.total_income - policy.total_payment;
         row.total_profit = row.total_profit.toFixed(2);
         row.policy_status = policy.policy_status;
+        row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
         arr.push(row);
@@ -335,6 +338,7 @@ router.put('/:id', function (req, res) {
     policy.client = req.body.client;
     policy.seller = req.body.seller;
     policy.policy_status = req.body.policy_status;
+    policy.approved_at = req.body.approved_at;
     policy.paid_at = req.body.paid_at;
     policy.total_income = req.body.total_income;
     policy.payment_addition = req.body.payment_addition;
