@@ -424,6 +424,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "待支付";
+                vm.policy.approved_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({

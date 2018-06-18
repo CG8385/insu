@@ -277,8 +277,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
-        
-        if(vm.entries < 2 && currentPage == 0){
+
+        if (vm.entries < 2 && currentPage == 0) {
             if ($state.is("app.policy.to-be-reviewed")) {
                 vm.currentPage = localStorageService.get("review-currentPage");
             }
@@ -292,7 +292,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                 vm.currentPage = localStorageService.get("rejected-currentPage");
             }
             vm.entries = vm.entries + 1;
-        }else{
+        } else {
             if ($state.is("app.policy.to-be-reviewed")) {
                 localStorageService.set("review-currentPage", vm.currentPage);
             }
@@ -718,6 +718,19 @@ angular.module('app.policy')
             var policy = item
             return policy.company ? policy.company.contact : policy.level4_company ? policy.level4_company.contact : policy.level3_company ? policy.level3_company.contact : policy.level2_company ? policy.level2_company.contact : '';
 
+        }
+    })
+    .filter("getApprovedTime", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            var approved_at = policy.approved_at ? policy.approved_at : policy.updated_at;
+            var d = new Date(approved_at),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
         }
     })
     .filter("getCompany", function () {
