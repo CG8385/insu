@@ -115,6 +115,7 @@ router.post('/excel', function (req, res) {
         'total_payment',
         'total_profit',
         'policy_status',
+        'approved_at',
         'paid_at',
         'remark',
       ];
@@ -145,6 +146,7 @@ router.post('/excel', function (req, res) {
         '结算费',
         '毛利润',
         '保单状态',
+        '审核日期',
         '支付日期',
         '备注'
       ];
@@ -189,6 +191,7 @@ router.post('/excel', function (req, res) {
         row.total_profit = row.total_profit.toFixed(2);
         
         row.policy_status = policy.policy_status;
+        row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.remark = policy.remark ? policy.remark : '';
         arr.push(row);
@@ -352,6 +355,7 @@ router.post('/bulk-approve', function (req, res) {
     .then(function (policies) {
       for (var i = 0; i < policies.length; i++) {
         policies[i].policy_status = '待支付';
+        policies[i].approved_at = Date.now();
         policies[i].save();
         logger.info(req.user.name + " 更新了一份财险保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };

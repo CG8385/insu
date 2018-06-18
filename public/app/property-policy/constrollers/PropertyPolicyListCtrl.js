@@ -586,6 +586,18 @@ angular.module('app.property-policy')
 
         }
     })
+    .filter("getApprovedTime", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            var approved_at = policy.approved_at ? policy.approved_at : policy.updated_at;
+            var d = new Date(approved_at),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
+        }
     .filter("getCompany", function () {
         return function (fieldValueUnused, item) {
             var policy = item

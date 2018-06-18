@@ -49,6 +49,7 @@ var schema = new mongoose.Schema({
 
   created_at: { type: Date },
   updated_at: { type: Date },
+  approved_at: { type: Date },
   paid_at: { type: Date },
   has_warning: Boolean
 });
