@@ -395,10 +395,10 @@ angular.module('app.policy').factory('PolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
-                    approvedFromDate: fromDate,
-                    approvedToDate: end,
-                    paidFromDate: fromDate,
-                    paidToDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
 
@@ -608,10 +608,10 @@ angular.module('app.policy').factory('PolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
-                    approvedFromDate: fromDate,
-                    approvedToDate: end,
-                    paidFromDate: fromDate,
-                    paidToDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
                 $http.post("/api/policies/excel", config)
