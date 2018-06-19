@@ -598,6 +598,7 @@ angular.module('app.property-policy')
             if (day.length < 2) day = '0' + day;
             return [year, month, day].join('-');
         }
+    })
     .filter("getCompany", function () {
         return function (fieldValueUnused, item) {
             var policy = item
