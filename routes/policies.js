@@ -88,6 +88,8 @@ router.post('/excel', function (req, res) {
     conditions['updated_at'] = { $lte: req.body.approvedToDate };
   }
 
+
+
   if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
   } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
@@ -95,7 +97,7 @@ router.post('/excel', function (req, res) {
   } else if (req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
-  
+
   if(conditions.organization){
     delete conditions.organization;
   }
@@ -455,6 +457,8 @@ router.post('/search', function (req, res) {
   } else if (req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
+
+  console.log(conditions);
 
   if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
     let searchText = '/' + req.body.policyNoSearch + '/';
