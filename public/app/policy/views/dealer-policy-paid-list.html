@@ -4,44 +4,53 @@
         <article class="col-sm-12">
             <span>
                 <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+                    ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                
-                    <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
-                                                ng-options="c._id as c.name for c in vm.level2Companies">
-                        <option value="">选择二级保险公司</option>
-                    </select>
+                    ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-from-date" placeholder="起始支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.paidFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-to-date" placeholder="截止支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.paidToDate" ng-change="vm.filterChanged()">
+                <br/>
+                <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
+                    ng-options="c._id as c.name for c in vm.level2Companies">
+                    <option value="">选择二级保险公司</option>
+                </select>
                 <!--</section>-->
                 <!--<section class="col col-2">-->
-                    <select style="min-width: 240px;" name='level3Company' class="input-sm" ng-disabled="!vm.filterSettings.level2_company" data-ng-change="vm.level3Changed()"
-                        ng-model="vm.filterSettings.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
-                        <option value="">选择三级保险公司(如有)</option>
-                    </select>
+                <select style="min-width: 240px;" name='level3Company' class="input-sm" ng-disabled="!vm.filterSettings.level2_company" data-ng-change="vm.level3Changed()"
+                    ng-model="vm.filterSettings.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                    <option value="">选择三级保险公司(如有)</option>
+                </select>
                 <!--</section>-->
                 <!--<sectio n class="col col-2">-->
-                    <select style="min-width: 240px;" name='level4Company' class="input-sm" ng-disabled="!vm.filterSettings.level3_company" data-ng-change="vm.level4Changed()"
-                                                ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
-                        <option value="">选择四级保险公司(如有)</option>
-                    </select>
+                <select style="min-width: 240px;" name='level4Company' class="input-sm" ng-disabled="!vm.filterSettings.level3_company" data-ng-change="vm.level4Changed()"
+                    ng-model="vm.filterSettings.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                    <option value="">选择四级保险公司(如有)</option>
+                </select>
                 <br>
-                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>                 
-            
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
+
             </span>
 
 
 
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-table"></i>
+                    </span>
                     <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
-                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)"
+                            current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
@@ -59,8 +68,7 @@
                                             </ui-select>
                                         </div>
                                     </th>
-                                    <th field-name="final_company" display-name="保险公司" display-format="getCompany:gridItem" enable-filtering="false"
-                                        enable-sorting="false">
+                                    <th field-name="final_company" display-name="保险公司" display-format="getCompany:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false"
                                         enable-sorting="false">
@@ -89,7 +97,7 @@
                                     <td field-name="client.name"></td>
                                     <td>
                                         <button ng-show="user.userrole.dealerPolicy_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
-                                        <button ng-show="user.userrole.dealerPolicy_paid.delete"ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                        <button ng-show="user.userrole.dealerPolicy_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
                                     </td>
                                 </tr>
                             </tbody>

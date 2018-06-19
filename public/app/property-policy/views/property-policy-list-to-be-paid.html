@@ -15,20 +15,25 @@
                     ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()" ng-model="vm.filterSettings.level2_org"
-                    ng-options="c._id as c.name for c in vm.level2Orgs">
+                <input type="text" class="input-md" name="approved-from-date" placeholder="起始审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.approvedFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="approved-to-date" placeholder="截止审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.approvedToDate" ng-change="vm.filterChanged()">
+                <br/>
+                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
+                    ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                     <option value="">选择二级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org" data-ng-change="vm.level3OrgChanged()"
-                    ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org"
+                    data-ng-change="vm.level3OrgChanged()" ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
                     <option value="">选择三级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org" data-ng-change="vm.level4OrgChanged()"
-                    ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org"
+                    data-ng-change="vm.level4OrgChanged()" ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
                     <option value="">选择四级机构</option>
                 </select>
-                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org" data-ng-change="vm.level5OrgChanged()"
-                    ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                <select ng-show="user.userrole.policy_scpoe!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org"
+                    data-ng-change="vm.level5OrgChanged()" ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
                     <option value="">选择五级机构</option>
                 </select>
                 <br/>
@@ -37,7 +42,8 @@
                 <button ng-show="user.userrole.policy_to_be_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
                     <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
                 <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}
-                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}
+                </label>
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkPay()" class="btn btn-primary">批量支付选中的保单</button>
             </span>
 
@@ -53,7 +59,8 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
-                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)"
+                            current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th ng-show="user.userrole.property_policy_to_be_paid.pay" display-align="center" cell-width="2em">
@@ -62,8 +69,7 @@
                                     </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
-                                    <th field-name="approved_at" display-name="审核时间" display-format="getApprovedTime:gridItem" enable-filtering="false"
-                                        enable-sorting="false">
+                                    <th field-name="approved_at" display-name="审核时间" display-format="getApprovedTime:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="payer_name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>

@@ -88,8 +88,6 @@ router.post('/excel', function (req, res) {
     conditions['updated_at'] = { $lte: req.body.approvedToDate };
   }
 
-
-
   if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
   } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {

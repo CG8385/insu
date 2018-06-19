@@ -334,7 +334,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('approvedFromDate', vm.approvedFromDate);
             localStorageService.set('approvedToDate', vm.approvedToDate);
             localStorageService.set('paidFromDate', vm.paidFromDate);
-            localStorageService.set('aidToDate', vm.paidToDate);
+            localStorageService.set('paidToDate', vm.paidToDate);
             localStorageService.set('policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.paid")) {

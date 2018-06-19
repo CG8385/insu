@@ -71,6 +71,21 @@ router.post('/excel', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
   
   if(conditions.organization){
     delete conditions.organization;
@@ -307,6 +322,21 @@ router.post('/search', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
   var query = DealerPolicy.find(conditions);
   query
     .sort(sortParam)
@@ -426,7 +456,7 @@ router.post('/bulk-approve', function (req, res) {
     .then(function (policies) {
       for (var i = 0; i < policies.length; i++) {
         policies[i].policy_status = '待支付';
-        policies[i].paid_at = Date.now();
+        policies[i].approved_at = Date.now();
         policies[i].save();
         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };

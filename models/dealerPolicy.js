@@ -39,6 +39,7 @@ var schema = new mongoose.Schema({
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },
+  approved_at: { type: Date },
   paid_at: {type: Date},
   total_income: Number,
   // has_warning: Boolean,

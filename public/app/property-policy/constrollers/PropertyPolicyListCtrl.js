@@ -187,6 +187,10 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.fromDate = localStorageService.get("property-review-fromDate") ? localStorageService.get("property-review-fromDate") : undefined;
         vm.toDate = localStorageService.get("property-review-toDate") ? localStorageService.get("property-review-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("property-review-approvedFromDate") ? localStorageService.get("property-review-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("property-review-approvedToDate") ? localStorageService.get("property-review-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("property-review-paidFromDate") ? localStorageService.get("property-review-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("property-review-paidToDate") ? localStorageService.get("property-review-paidToDate") : undefined;
         vm.tableHeader = "待审核保单";
     }
     else if ($state.is("app.property-policy.to-be-paid")) {
@@ -208,6 +212,10 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.fromDate = localStorageService.get("property-fromDate") ? localStorageService.get("property-fromDate") : undefined;
         vm.toDate = localStorageService.get("property-toDate") ? localStorageService.get("property-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("property-approvedFromDate") ? localStorageService.get("property-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("property-approvedToDate") ? localStorageService.get("property-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("property-paidFromDate") ? localStorageService.get("property-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("property-paidToDate") ? localStorageService.get("property-paidToDate") : undefined;
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.property-policy.paid")) {
         PropertyPolicyService.getLevel2Companies()
@@ -227,6 +235,11 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.fromDate = localStorageService.get("property-paid-fromDate") ? localStorageService.get("property-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("property-paid-toDate") ? localStorageService.get("property-paid-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("property-paid-approvedFromDate") ? localStorageService.get("property-paid-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("property-paid-approvedToDate") ? localStorageService.get("property-paid-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("property-paid-paidFromDate") ? localStorageService.get("property-paid-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("property-paid-paidToDate") ? localStorageService.get("property-paid-paidToDate") : undefined;
+        vm.tableHeader = "已支付保单";
         vm.tableHeader = "已支付保单";
     } else if ($state.is("app.property-policy.rejected")) {
         vm.listType = "rejected";
@@ -239,6 +252,10 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.fromDate = localStorageService.get("property-rejected-fromDate") ? localStorageService.get("property-rejected-fromDate") : undefined;
         vm.toDate = localStorageService.get("property-rejected-toDate") ? localStorageService.get("property-rejected-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("property-rejected-approvedFromDate") ? localStorageService.get("property-rejected-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("property-rejected-approvedToDate") ? localStorageService.get("property-rejected-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("property-rejected-paidFromDate") ? localStorageService.get("property-rejected-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("property-rejected-paidToDate") ? localStorageService.get("property-rejected-paidToDate") : undefined;
         vm.tableHeader = "被驳回保单";
     }
 
@@ -273,7 +290,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.areAllSelected = false;
         vm.pageItems = pageItems;
-        PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -286,21 +303,37 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             localStorageService.set("property-review-filterSettings", vm.filterSettings);
             localStorageService.set('property-review-fromDate', vm.fromDate);
             localStorageService.set('property-review-toDate', vm.toDate);
+            localStorageService.set('property-review-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('property-review-approvedToDate', vm.approvedToDate);
+            localStorageService.set('property-review-paidFromDate', vm.paidFromDate);
+            localStorageService.set('property-review-paidToDate', vm.paidToDate);
         }
         else if ($state.is("app.property-policy.to-be-paid")) {
             localStorageService.set("property-filterSettings", vm.filterSettings);
             localStorageService.set('property-fromDate', vm.fromDate);
             localStorageService.set('property-toDate', vm.toDate);
+            localStorageService.set('property-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('property-approvedToDate', vm.approvedToDate);
+            localStorageService.set('property-paidFromDate', vm.paidFromDate);
+            localStorageService.set('property-paidToDate', vm.paidToDate);
         }
         else if ($state.is("app.property-policy.paid")) {
             localStorageService.set("property-paid-filterSettings", vm.filterSettings);
             localStorageService.set('property-paid-fromDate', vm.fromDate);
             localStorageService.set('property-paid-toDate', vm.toDate);
+            localStorageService.set('property-paid-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('property-paid-approvedToDate', vm.approvedToDate);
+            localStorageService.set('property-paid-paidFromDate', vm.paidFromDate);
+            localStorageService.set('property-paid-paidToDate', vm.paidToDate);
         }
         else if ($state.is("app.property-policy.rejected")) {
             localStorageService.set("property-rejected-filterSettings", vm.filterSettings);
             localStorageService.set('property-rejected-fromDate', vm.fromDate);
             localStorageService.set('property-rejected-toDate', vm.toDate);
+            localStorageService.set('property-rejected-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('property-rejected-approvedToDate', vm.approvedToDate);
+            localStorageService.set('property-rejected-paidFromDate', vm.paidFromDate);
+            localStorageService.set('property-rejected-paidToDate', vm.paidToDate);
         }
         vm.refreshPolicies();
     };
@@ -354,7 +387,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.exportFilteredPolicies = function () {
-        PropertyPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        PropertyPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

@@ -223,7 +223,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -241,6 +241,10 @@ angular.module('app.policy').factory('DealerPolicyService',
 
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -249,7 +253,11 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd
                 };
 
 
@@ -357,7 +365,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -374,14 +382,23 @@ angular.module('app.policy').factory('DealerPolicyService',
                 }
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd
                 };
+                
                 $http.post("/api/dealer-policies/excel", config)
                     // handle success
                     .success(function (data, status) {
