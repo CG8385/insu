@@ -192,6 +192,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.policyNoSearch = localStorageService.get("review-policyNoSearch") ? localStorageService.get("review-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("review-fromDate") ? localStorageService.get("review-fromDate") : undefined;
         vm.toDate = localStorageService.get("review-toDate") ? localStorageService.get("review-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("review-approvedFromDate") ? localStorageService.get("review-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("review-approvedToDate") ? localStorageService.get("review-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("review-paidFromDate") ? localStorageService.get("review-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("review-paidToDate") ? localStorageService.get("review-paidToDate") : undefined;
         vm.tableHeader = "待审核保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -217,6 +221,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.policyNoSearch = localStorageService.get("policyNoSearch") ? localStorageService.get("policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("pprovedFromDate") ? localStorageService.get("approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("approvedToDate") ? localStorageService.get("approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("paidFromDate") ? localStorageService.get("paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("paidToDate") ? localStorageService.get("paidToDate") : undefined;
         vm.tableHeader = "待支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -240,26 +248,14 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.policyNoSearch = localStorageService.get("paid-policyNoSearch") ? localStorageService.get("paid-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("paid-fromDate") ? localStorageService.get("paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("paid-toDate") ? localStorageService.get("paid-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("paid-approvedFromDate") ? localStorageService.get("paid-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("paid-approvedToDate") ? localStorageService.get("paid-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("paid-paidFromDate") ? localStorageService.get("paid-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("paid-paidToDate") ? localStorageService.get("paid-paidToDate") : undefined;
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
         }
-    } else if ($state.is("app.policy.checked")) {
-        vm.listType = "checked";
-        vm.filterSettings = localStorageService.get("checked-filterSettings") ? localStorageService.get("checked-filterSettings") : {};
-        if (vm.filterSettings.client) {
-            PolicyService.getClient(vm.filterSettings.client)
-                .then(function (clientInfo) {
-                    vm.clientInfo = clientInfo;
-                })
-        }
-        vm.policyNoSearch = localStorageService.get("checked-policyNoSearch") ? localStorageService.get("checked-policyNoSearch") : undefined;
-        vm.fromDate = localStorageService.get("checked-fromDate") ? localStorageService.get("checked-fromDate") : undefined;
-        vm.toDate = localStorageService.get("checked-toDate") ? localStorageService.get("checked-toDate") : undefined;
-        vm.tableHeader = "已核对保单";
-        // if (screenSize.is('xs, sm')) {
-        //     vm.displayFields = ["client.name", "plate", "paid_at"];
-        // }
     }
     else if ($state.is("app.policy.rejected")) {
         vm.listType = "rejected";
@@ -273,6 +269,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.policyNoSearch = localStorageService.get("rejected-policyNoSearch") ? localStorageService.get("rejected-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("rejected-fromDate") ? localStorageService.get("rejected-fromDate") : undefined;
         vm.toDate = localStorageService.get("rejected-toDate") ? localStorageService.get("rejected-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("rejected-approvedFromDate") ? localStorageService.get("rejected-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("rejected-approvedToDate") ? localStorageService.get("rejected-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("rejected-paidFromDate") ? localStorageService.get("rejected-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("rejected-paidToDate") ? localStorageService.get("rejected-paidToDate") : undefined;
         vm.tableHeader = "被驳回保单";
     }
 
@@ -308,7 +308,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.pageItems = pageItems;
         vm.areAllSelected = false;
-        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.policyNoSearch)
+        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -321,24 +321,40 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("review-filterSettings", vm.filterSettings);
             localStorageService.set('review-fromDate', vm.fromDate);
             localStorageService.set('review-toDate', vm.toDate);
+            localStorageService.set('review-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('review-approvedToDate', vm.approvedToDate);
+            localStorageService.set('review-paidFromDate', vm.paidFromDate);
+            localStorageService.set('review-paidToDate', vm.paidToDate);
             localStorageService.set('review-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.to-be-paid")) {
             localStorageService.set("filterSettings", vm.filterSettings);
             localStorageService.set('fromDate', vm.fromDate);
             localStorageService.set('toDate', vm.toDate);
+            localStorageService.set('approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('approvedToDate', vm.approvedToDate);
+            localStorageService.set('paidFromDate', vm.paidFromDate);
+            localStorageService.set('aidToDate', vm.paidToDate);
             localStorageService.set('policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.paid")) {
             localStorageService.set("paid-filterSettings", vm.filterSettings);
             localStorageService.set('paid-fromDate', vm.fromDate);
             localStorageService.set('paid-toDate', vm.toDate);
+            localStorageService.set('paid-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('paid-approvedToDate', vm.approvedToDate);
+            localStorageService.set('paid-paidFromDate', vm.paidFromDate);
+            localStorageService.set('paid-paidToDate', vm.paidToDate);
             localStorageService.set('paid-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.rejected")) {
             localStorageService.set("rejected-filterSettings", vm.filterSettings);
             localStorageService.set('rejected-fromDate', vm.fromDate);
             localStorageService.set('rejected-toDate', vm.toDate);
+            localStorageService.set('rejected-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('rejected-approvedToDate', vm.approvedToDate);
+            localStorageService.set('rejected-paidFromDate', vm.paidFromDate);
+            localStorageService.set('rejected-paidToDate', vm.paidToDate);
             localStorageService.set('rejected-policyNoSearch', vm.policyNoSearch);
         }
         vm.refreshPolicies();
@@ -395,7 +411,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.policyNoSearch)
+        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

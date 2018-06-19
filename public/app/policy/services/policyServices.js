@@ -358,7 +358,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, policyNoSearch=undefined) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -382,6 +382,10 @@ angular.module('app.policy').factory('PolicyService',
 
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -391,6 +395,10 @@ angular.module('app.policy').factory('PolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
+                    approvedFromDate: fromDate,
+                    approvedToDate: end,
+                    paidFromDate: fromDate,
+                    paidToDate: end,
                     policyNoSearch: policyNoSearch
                 };
 
@@ -566,7 +574,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate, policyNoSearch=undefined) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -589,6 +597,10 @@ angular.module('app.policy').factory('PolicyService',
                 }
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -596,6 +608,10 @@ angular.module('app.policy').factory('PolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
+                    approvedFromDate: fromDate,
+                    approvedToDate: end,
+                    paidFromDate: fromDate,
+                    paidToDate: end,
                     policyNoSearch: policyNoSearch
                 };
                 $http.post("/api/policies/excel", config)

@@ -80,6 +80,22 @@ router.post('/excel', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
+  
   if(conditions.organization){
     delete conditions.organization;
   }
@@ -422,6 +438,22 @@ router.post('/search', function (req, res) {
     conditions['created_at'] = { $gte: req.body.fromDate };
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
 
   if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
