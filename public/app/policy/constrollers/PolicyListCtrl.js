@@ -221,7 +221,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.policyNoSearch = localStorageService.get("policyNoSearch") ? localStorageService.get("policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("fromDate") ? localStorageService.get("fromDate") : undefined;
         vm.toDate = localStorageService.get("toDate") ? localStorageService.get("toDate") : undefined;
-        vm.approvedFromDate = localStorageService.get("pprovedFromDate") ? localStorageService.get("approvedFromDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("approvedFromDate") ? localStorageService.get("approvedFromDate") : undefined;
         vm.approvedToDate = localStorageService.get("approvedToDate") ? localStorageService.get("approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("paidFromDate") ? localStorageService.get("paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("paidToDate") ? localStorageService.get("paidToDate") : undefined;
