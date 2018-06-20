@@ -52,6 +52,8 @@ var schema = new mongoose.Schema({
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },
+  approved_at: {type: Date},
+  paid_at: {type: Date},
   remark: String,
   policy_photo: String,
   client_info_photo: String,

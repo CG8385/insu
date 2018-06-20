@@ -15,6 +15,10 @@
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-from-date" placeholder="起始支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.paidFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-to-date" placeholder="截止支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.paidToDate" ng-change="vm.filterChanged()">
                 <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
                     ng-options="c._id as c.name for c in vm.level2Companies">
                     <option value="">选择二级保险公司</option>

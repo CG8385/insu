@@ -478,6 +478,7 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "待支付";
+                vm.policy.approved_at = Date.now();
                 LifePolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
