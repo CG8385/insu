@@ -431,8 +431,7 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     approvedFromDate: approvedFromDate,
                     approvedToDate: approvedEnd,
                     paidFromDate: paidFromDate,
-                    paidToDate: paidEnd,
-                    policyNoSearch: policyNoSearch
+                    paidToDate: paidEnd
                 };
                 $http.post("/api/property-policies/excel", config)
                     // handle success
