@@ -109,7 +109,7 @@
                                         <section class="col col-4">
                                             <label class="input">
                                                 <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="agreement_file_selector"
-                                                    name="contract_file_selector" onchange="angular.element(this).scope().vm.agreementPhotoChanged(this.files);"
+                                                    name="agreement_file_selector" onchange="angular.element(this).scope().vm.agreementPhotoChanged(this.files);"
                                                 />
     
                                                 <button ng-show="vm.editable && !vm.client.agreement_photo" type="button" class="btn btn-primary" id="select_file" onclick="agreement_file_selector.click()">上传扫描件
@@ -129,7 +129,7 @@
                                                 <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="contract_file_selector"
                                                     name="contract_file_selector" onchange="angular.element(this).scope().vm.contractPhotoChanged(this.files);"
                                                 />
-                                                <button ng-show="vm.editable && !vm.client.contract_photo" type="button" class="btn btn-primary" id="select_file" onclick="contractfile_selector.click()">上传扫描件
+                                                <button ng-show="vm.editable && !vm.client.contract_photo" type="button" class="btn btn-primary" id="select_file" onclick="contract_file_selector.click()">上传扫描件
                                                 </button>
                                                 <button ng-show="vm.editable && vm.client.contract_photo" type="button" class="btn btn-primary" ng-click="vm.deleteContractPhoto()">删除扫描件
                                                 </button>
