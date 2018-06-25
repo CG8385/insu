@@ -167,7 +167,9 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
         }
     };
 
-
+    vm.getAttachmentUrl = function (fileName) {
+        return appConfig.policyOssUrl + fileName;
+    }
 
 }); 
 
