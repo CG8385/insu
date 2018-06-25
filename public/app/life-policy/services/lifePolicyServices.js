@@ -662,7 +662,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate,policyNoSearch=undefined) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate,approvedFromDate, approvedToDate, paidFromDate, paidToDate,policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "submit_date";
@@ -684,6 +684,10 @@ angular.module('app.life-policy').factory('LifePolicyService',
 
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -694,6 +698,10 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
 
@@ -872,7 +880,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
             //     return deferred.promise;
             // }
             
-            function getFilteredCSV(type, filterSettings, fromDate, toDate,policyNoSearch=undefined) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate,approvedFromDate, approvedToDate, paidFromDate, paidToDate,policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "submit_date";
@@ -886,6 +894,10 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 // }
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     filterByFields:filterSettings,
                     orderBy: orderBy,
@@ -893,6 +905,10 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
                 $http.post("/api/life-policies/excel", config)

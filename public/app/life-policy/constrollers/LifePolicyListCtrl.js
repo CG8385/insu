@@ -180,6 +180,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.policyNoSearch = localStorageService.get("life-review-policyNoSearch") ? localStorageService.get("life-review-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-review-fromDate") ? localStorageService.get("life-review-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-review-toDate") ? localStorageService.get("life-review-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("life-review-approvedFromDate") ? localStorageService.get("life-review-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("life-review-approvedToDate") ? localStorageService.get("life-review-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("life-review-paidFromDate") ? localStorageService.get("life-eview-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("life-review-paidToDate") ? localStorageService.get("life-eview-paidToDate") : undefined;
         vm.tableHeader = "待审核保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate"];
@@ -196,6 +200,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.policyNoSearch = localStorageService.get("life-rejected-policyNoSearch") ? localStorageService.get("life-rejected-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-rejected-fromDate") ? localStorageService.get("life-rejected-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-rejected-toDate") ? localStorageService.get("life-rejected-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("life-rejected-approvedFromDate") ? localStorageService.get("life-rejected-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("life-rejected-approvedToDate") ? localStorageService.get("life-rejected-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("life-rejected-paidFromDate") ? localStorageService.get("life-rejected-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("life-rejected-paidToDate") ? localStorageService.get("life-rejected-paidToDate") : undefined;
         vm.tableHeader = "被驳回保单";
     } else if ($state.is("app.life-policy.to-be-paid")) {
         vm.listType = "to-be-paid";
@@ -204,7 +212,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
                 vm.level2Orgs = level2Orgs;
 
             })
-        vm.filterSettings = localStorageService.get("life-filterSettings1") ? localStorageService.get("life-filterSettings1") : {};
+        vm.filterSettings = localStorageService.get("life-filterSettings") ? localStorageService.get("life-filterSettings") : {};
         vm.loadLevel3Orgs();
         vm.loadLevel4Orgs();
         vm.loadLevel5Orgs();
@@ -217,6 +225,10 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.policyNoSearch = localStorageService.get("life-policyNoSearch") ? localStorageService.get("life-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-fromDate") ? localStorageService.get("life-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-toDate") ? localStorageService.get("life-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("life-approvedFromDate") ? localStorageService.get("life-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("life-approvedToDate") ? localStorageService.get("life-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("life-paidFromDate") ? localStorageService.get("life-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("life-paidToDate") ? localStorageService.get("life-paidToDate") : undefined;
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
@@ -231,6 +243,11 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.policyNoSearch = localStorageService.get("life-paid-policyNoSearch") ? localStorageService.get("life-paid-policyNoSearch") : undefined;
         vm.fromDate = localStorageService.get("life-paid-fromDate") ? localStorageService.get("life-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("life-paid-toDate") ? localStorageService.get("life-paid-toDate") : undefined;
+        vm.approvedFromDate = localStorageService.get("life-paid-approvedFromDate") ? localStorageService.get("life-paid-approvedFromDate") : undefined;
+        vm.approvedToDate = localStorageService.get("life-paid-approvedToDate") ? localStorageService.get("life-paid-approvedToDate") : undefined;
+        vm.paidFromDate = localStorageService.get("life-paid-paidFromDate") ? localStorageService.get("life-paid-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("life-paid-paidToDate") ? localStorageService.get("life-paid-paidToDate") : undefined;
+
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "applicant.name", "paid_at"];
@@ -269,7 +286,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.areAllSelected = false;
         //vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.policyNoSearch)
+        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -297,22 +314,38 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             localStorageService.set("life-review-filterSettings", vm.filterSettings);
             localStorageService.set('life-review-fromDate', vm.fromDate);
             localStorageService.set('life-review-toDate', vm.toDate);
+            localStorageService.set('life-review-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('life-review-approvedToDate', vm.approvedToDate);
+            localStorageService.set('life-review-paidFromDate', vm.paidFromDate);
+            localStorageService.set('life-review-paidToDate', vm.paidToDate);
             localStorageService.set('life-review-policyNoSearch', vm.policyNoSearch);
         }else if ($state.is("app.life-policy.to-be-paid")) {
-            localStorageService.set("life-filterSettings1", vm.filterSettings);
+            localStorageService.set("life-filterSettings", vm.filterSettings);
             localStorageService.set('life-fromDate', vm.fromDate);
             localStorageService.set('life-toDate', vm.toDate);
+            localStorageService.set('life-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('life-approvedToDate', vm.approvedToDate);
+            localStorageService.set('life-paidFromDate', vm.paidFromDate);
+            localStorageService.set('life-paidToDate', vm.paidToDate);
             localStorageService.set('life-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.life-policy.paid")) {
             localStorageService.set("life-paid-filterSettings", vm.filterSettings);
             localStorageService.set('life-paid-fromDate', vm.fromDate);
             localStorageService.set('life-paid-toDate', vm.toDate);
+            localStorageService.set('life-paid-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('life-paid-approvedToDate', vm.approvedToDate);
+            localStorageService.set('life-paid-paidFromDate', vm.paidFromDate);
+            localStorageService.set('life-paid-paidToDate', vm.paidToDate);
             localStorageService.set('life-paid-policyNoSearch', vm.policyNoSearch);
         }else if($state.is("app.life-policy.rejected")){
             localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
             localStorageService.set('life-rejected-fromDate', vm.fromDate);
             localStorageService.set('life-rejected-toDate', vm.toDate);
+            localStorageService.set('life-rejected-approvedFromDate', vm.approvedFromDate);
+            localStorageService.set('life-rejected-approvedToDate', vm.approvedToDate);
+            localStorageService.set('life-rejected-paidFromDate', vm.paidFromDate);
+            localStorageService.set('life-rejected-paidToDate', vm.paidToDate);
             localStorageService.set('life-rejected-policyNoSearch', vm.policyNoSearch);
         }
         
@@ -328,16 +361,16 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         }
 
         if ($state.is("app.life-policy.to-be-reviewed")) {
-            localStorageService.set("review-filterSettings", vm.filterSettings);
+            localStorageService.set("life-review-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.to-be-paid")) {
-            localStorageService.set("filterSettings", vm.filterSettings);
+            localStorageService.set("life-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.paid")) {
-            localStorageService.set("paid-filterSettings", vm.filterSettings);
+            localStorageService.set("life-paid-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.rejected")) {
-            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+            localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
     }
@@ -351,16 +384,16 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         }
 
         if ($state.is("app.life-policy.to-be-reviewed")) {
-            localStorageService.set("review-filterSettings", vm.filterSettings);
+            localStorageService.set("life-review-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.to-be-paid")) {
-            localStorageService.set("filterSettings", vm.filterSettings);
+            localStorageService.set("life-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.paid")) {
-            localStorageService.set("paid-filterSettings", vm.filterSettings);
+            localStorageService.set("life-paid-filterSettings", vm.filterSettings);
         }
         else if ($state.is("app.life-policy.rejected")) {
-            localStorageService.set("rejected-filterSettings", vm.filterSettings);
+            localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
     }
@@ -386,7 +419,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     poller();
 
     vm.exportFilteredPolicies = function () {
-        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.policyNoSearch)
+        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'
@@ -655,5 +688,18 @@ angular.module('app.life-policy')
     .filter("computeTotal", function () {
         return function (fieldValueUnused, item) {
             return (item.mandatory_fee + item.commercial_fee + item.tax_fee);
+        }
+    })
+    .filter("getApprovedTime", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            var approved_at = policy.approved_at ? policy.approved_at : policy.updated_at;
+            var d = new Date(approved_at),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
         }
     });

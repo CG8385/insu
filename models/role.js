@@ -119,6 +119,18 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    lifeSalary: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+    },
+    lifeStatement: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+    },
     lifePolicy: {
         edit: { type: Boolean, default: false },
         view: { type: Boolean, default: false },

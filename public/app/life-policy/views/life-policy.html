@@ -626,6 +626,7 @@
                             </div>
                             <div class="row" ng-show="vm.policy.policy_status!='待审核'">
                                 <section class="col col-9" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class='label' ng-show="vm.policy.policy_status=='已支付'">支付日期:{{vm.policy.paid_at|date:"yyyy-MM-dd"}}</label>
                                     <label class="label">备注</label>
                                     <label class="input">
                                         <input type="text" class="input-lg" name="comment" ng-model="vm.policy.comment">
