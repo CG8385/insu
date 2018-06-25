@@ -102,6 +102,71 @@ angular.module('app.client').controller('OrgClientEditorController', function ($
             }, function (err) { });
     };
 
+    vm.contractPhotoChanged = function (files) {
+        vm.uploadContractPhoto(files[0]);
+    };
+
+    vm.uploadContractPhoto = function (file) {
+        ClientService.uploadFile(file)
+            .then(function (fileName) {
+                vm.client.contract_photo = fileName;
+                if (vm.client._id) {
+                    ClientService.updatePhoto(vm.client)
+                }
+            })
+    }
+
+    vm.licensePhotoChanged = function (files) {
+        vm.uploadLicensePhoto(files[0]);
+    };
+
+    vm.uploadLicensePhoto = function (file) {
+        ClientService.uploadFile(file)
+            .then(function (fileName) {
+                vm.client.license_photo = fileName;
+                if (vm.client._id) {
+                    ClientService.updatePhoto(vm.client)
+                }
+            })
+    }
+
+    vm.agreementPhotoChanged = function (files) {
+        vm.uploadAgreementPhoto(files[0]);
+    };
+
+
+
+    vm.uploadAgreementPhoto = function (file) {
+        ClientService.uploadFile(file)
+            .then(function (fileName) {
+                vm.client.agreement_photo = fileName;
+                if (vm.client._id) {
+                    ClientService.updatePhoto(vm.policy)
+                }
+            })
+    }
+
+    vm.deleteContractPhoto = function () {
+        delete vm.client.contract_photo;
+        if (vm.client._id) {
+            ClientService.updatePhoto(vm.client)
+        }
+    };
+
+    vm.deleteLicensePhoto = function () {
+        delete vm.client.license_photo;
+        if (vm.client._id) {
+            ClientService.updatePhoto(vm.client)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.client.agreement_photo;
+        if (vm.client._id) {
+            ClientService.updatePhoto(vm.client)
+        }
+    };
+
 
 
 }); 

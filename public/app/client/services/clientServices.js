@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('app.client').factory('ClientService',
-['$q', '$http', 'uuid',
-function ($q, $http, uuid) {
+    ['$q', '$http', 'uuid',
+        function ($q, $http, uuid) {
             // return available functions for use in controllers
             return ({
                 saveClient: saveClient,
@@ -19,12 +19,13 @@ function ($q, $http, uuid) {
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
                 getCSV: getCSV,
+                updatePhoto: updatePhoto,
             });
 
             function getCSV() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                $http.post("/api/clients/excel",{requestTrapped: true})
+                $http.post("/api/clients/excel", { requestTrapped: true })
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -48,7 +49,7 @@ function ($q, $http, uuid) {
 
                 // send a post request to the server
                 $http.get('api/organizations/level2')
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -56,7 +57,7 @@ function ($q, $http, uuid) {
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (data) {
                         deferred.reject(status);
                     });
@@ -413,5 +414,25 @@ function ($q, $http, uuid) {
 
             }
 
+            function updatePhoto(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/update-photo", client)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
         }]);

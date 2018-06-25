@@ -56,10 +56,10 @@ router.get('/', function (req, res, next) {
     }
   }
 
-  if(req.user.userrole.client_status_scope == "仅可见正常状态代理人"){
-    query.client_status = {$ne: '已注销'};
+  if (req.user.userrole.client_status_scope == "仅可见正常状态代理人") {
+    query.client_status = { $ne: '已注销' };
   }
-  if(req.query.withorg){
+  if (req.query.withorg) {
     query.level5_org = { $exists: true };
   }
 
@@ -99,7 +99,7 @@ router.get('/sub', function (req, res, next) {
 
 
 router.post('/excel', async function (req, res) {
-  let clients = await Client.find({client_type: '个人'}).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
+  let clients = await Client.find({ client_type: '个人' }).populate('level1_org level2_org level3_org level4_org level5_org parent').exec();
   let json2csv = require('json2csv');
   let fields = [
     'name',
@@ -221,6 +221,8 @@ router.put('/:id', function (req, res) {
     client.level5_org = req.body.level5_org;
     client.organization = req.body.level5_org;
     client.license_photo = req.body.license_photo;
+    client.agreement_photo = req.body.agreement_photo;
+    client.contract_photo = req.body.contract_photo;
     client.license_no = req.body.license_no;
     client.identity1_filename = req.body.identity1_filename;
     client.identity2_filename = req.body.identity2_filename;
@@ -236,6 +238,24 @@ router.put('/:id', function (req, res) {
       }
       logger.info(req.user.name + " 更新业务员信息，业务员名为：" + client.name + "。" + req.clientIP);
       res.json({ message: '业务员信息已成功更新' });
+    });
+
+  });
+});
+
+router.post('/update-photo', function (req, res) {
+  Client.findById(req.body._id, function (err, client) {
+    if (err)
+      res.send(err);
+    client.license_photo = req.body.license_photo;
+    client.agreement_photo = req.body.agreement_photo;
+    client.contract_photo = req.body.contract_photo;
+    client.save(function (err) {
+      if (err) {
+        logger.error(err);
+        res.send(err);
+      }
+      res.json({ message: '扫描件已成功更新' });
     });
 
   });

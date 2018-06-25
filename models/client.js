@@ -20,6 +20,8 @@ var schema = new mongoose.Schema({
     payment_substract_rate: Number,
     organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     license_photo: String,
+    agreement_photo: String,
+    contract_photo: String,
     //added in v4
     openId: String,
     approved_at: { type: Date },
