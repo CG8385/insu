@@ -49,9 +49,10 @@ angular.module('app.policy').factory('OrgPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
-
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0,0,0,1);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
                 var config = {
@@ -63,7 +64,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd
                 };
 
