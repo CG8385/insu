@@ -263,6 +263,7 @@ router.post('/search', function (req, res) {
   } else if (req.body.paidToDate != undefined) {
     conditions['paid_at'] = { $lte: req.body.paidToDate };
   }
+  console.log(conditions);
   var query = OrgPolicy.find(conditions);
   query
     .sort(sortParam)
