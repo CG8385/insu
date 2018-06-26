@@ -39,6 +39,7 @@ angular.module('app.policy').factory('OrgPolicyService',
 
             function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
+                console.log(paidFromDate);
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
