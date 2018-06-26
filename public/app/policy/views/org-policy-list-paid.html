@@ -8,6 +8,11 @@
                     ng-model="vm.fromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-from-date" placeholder="起始支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.paidFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="paid-to-date" placeholder="截止支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.paidToDate" ng-change="vm.filterChanged()">
+                <br/>
                 <button ng-click="vm.refreshClicked()" class="btn btn-primary">
                     <i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-show="user.userrole.bulkDealerPolicy_paid.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
@@ -32,6 +37,8 @@
                             <thead>
                                 <tr>
                                     <th field-name="created_at" display-name="出单时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <<th field-name="paid_at" display-name="支付时间" display-format="date:'yyyy-MM-dd'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <!--<th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>-->

@@ -43,6 +43,8 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         }
         vm.fromDate = localStorageService.get("org-paid-fromDate") ? localStorageService.get("org-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("org-paid-toDate") ? localStorageService.get("org-paid-toDate") : undefined;
+        vm.paidFromDate = localStorageService.get("org-paid-paidFromDate") ? localStorageService.get("org-paid-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("org-paid-paidToDate") ? localStorageService.get("org-paid-paidToDate") : undefined;
         vm.tableHeader = "已支付车商保单";
     }
 
@@ -84,6 +86,8 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             localStorageService.set("org-paid-filterSettings", vm.filterSettings);
             localStorageService.set('org-paid-fromDate', vm.fromDate);
             localStorageService.set('org-paid-toDate', vm.toDate);
+            localStorageService.set('org-paid-paidFromDate', vm.paidFromDate);
+            localStorageService.set('org-paid-paidToDate', vm.paidToDate);
         }
         vm.refreshPolicies();
         // vm.refreshSummary();
