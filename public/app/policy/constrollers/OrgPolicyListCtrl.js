@@ -68,7 +68,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         
         vm.areAllSelected = false;
         vm.pageItems = pageItems;
-        OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.paidFromDate, vm.paidToDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -139,7 +139,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     }
 
     vm.exportFilteredPolicies = function () {
-        OrgPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.paidFromDate, vm.paidToDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

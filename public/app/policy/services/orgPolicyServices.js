@@ -37,7 +37,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -51,6 +51,9 @@ angular.module('app.policy').factory('OrgPolicyService',
                 }
 
                 var end = new Date(toDate);
+                end.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -59,7 +62,9 @@ angular.module('app.policy').factory('OrgPolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd
                 };
 
 
