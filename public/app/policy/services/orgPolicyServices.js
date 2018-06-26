@@ -52,7 +52,6 @@ angular.module('app.policy').factory('OrgPolicyService',
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var paidStart = new Date(paidFromDate);
-                console.log(paidStart);
                 paidStart.setHours(0,0,0,1);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
@@ -289,7 +288,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
