@@ -120,7 +120,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     };
 
     vm.refreshSummary = function () {
-        OrgPolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.padiFromDate, vm.paidToDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
                 vm.totalPayment = data.total_payment;

@@ -256,6 +256,13 @@ router.post('/search', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['paid_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['paid_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['paid_at'] = { $lte: req.body.paidToDate };
+  }
   var query = OrgPolicy.find(conditions);
   query
     .sort(sortParam)
@@ -305,6 +312,14 @@ router.post('/summary', function (req, res) {
     conditions['created_at'] = { $gte: req.body.fromDate };
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['paid_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['paid_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['paid_at'] = { $lte: req.body.paidToDate };
   }
 
   var query = OrgPolicy.find(conditions);
