@@ -779,10 +779,10 @@ angular.module('app.policy')
     .filter("getExpireDate", function () {
         return function (fieldValueUnused, item) {
             var policy = item
-            if(!policy.effective_at){
+            if(!policy.effective_date){
                 return '';
             }
-            var expireDate = new Date(policy.effective_at);
+            var expireDate = new Date(policy.effective_date);
             expireDate.setFullYear(expireDate.getFullYear + 1);
             var month = '' + (expireDate.getMonth() + 1),
                 day = '' + expireDate.getDate(),
