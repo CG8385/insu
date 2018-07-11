@@ -376,7 +376,7 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
                 } else if (type == "reminder") {
-                    filterSettings.policy_status = "待续期";
+                    filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
@@ -604,7 +604,7 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
                 } else if (type == "reminder") {
-                    filterSettings.policy_status = "待续期";
+                    filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
