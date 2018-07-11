@@ -247,7 +247,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         .state('app.policy.reminder', {
             url: '/policies/reminder',
             data: {
-                title: '续保提醒'
+                title: '续期提醒'
             },
             views: {
                 "content@app": {
