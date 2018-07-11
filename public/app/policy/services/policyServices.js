@@ -377,7 +377,8 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse = true;
                 } else if (type == "reminder") {
                     filterSettings.policy_status = "已支付";
-                    orderByReverse = true;
+                    orderByReverse = false;
+                    orderBy = "effective_date"
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
