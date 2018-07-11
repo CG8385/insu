@@ -776,6 +776,22 @@ angular.module('app.policy')
             return [year, month, day].join('-');
         }
     })
+    .filter("getExpireDate", function () {
+        return function (fieldValueUnused, item) {
+            var policy = item
+            if(!policy.effective_at){
+                return '';
+            }
+            var expireDate = new Date(policy.effective_at);
+            expireDate.setFullYear(expireDate.getFullYear + 1);
+            var month = '' + (expireDate.getMonth() + 1),
+                day = '' + expireDate.getDate(),
+                year = expireDate.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
+        }
+    })
     .filter("getCompany", function () {
         return function (fieldValueUnused, item) {
             var policy = item
