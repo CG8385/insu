@@ -3,9 +3,9 @@
     <div class="row">
         <article class="col-sm-12">
             <span>
-                <input type="text" class="input-md" name="from-date" placeholder="起始到期日期" data-smart-datepicker data-dateformat='yyyy-MM-dd' data-min-restrict="vm.minExpireDate"
+                <input type="text" class="input-md" name="from-date" placeholder="起始到期日期" data-smart-datepicker data-dateformat='yyyy-MM-dd' data-min-date="vm.minExpireDate"
                     ng-model="vm.expireFromDate" ng-change="vm.filterChanged()">
-                <input type="text" class="input-md" name="to-date" placeholder="截止到期日期" data-smart-datepicker data-dateformat='yyyy-MM-dd' data-max-restrict="vm.maxExpireDate"
+                <input type="text" class="input-md" name="to-date" placeholder="截止到期日期" data-smart-datepicker data-dateformat='yyyy-MM-dd' data-max-date="vm.maxExpireDate"
                     ng-model="vm.expireToDate" ng-change="vm.filterChanged()">
                 <br/>
                 <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
