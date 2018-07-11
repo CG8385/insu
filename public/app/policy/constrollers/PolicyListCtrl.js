@@ -783,7 +783,7 @@ angular.module('app.policy')
                 return '';
             }
             var expireDate = new Date(policy.effective_date);
-            expireDate.setFullYear(expireDate.getFullYear + 1);
+            expireDate.setFullYear(expireDate.getFullYear() + 1);
             var month = '' + (expireDate.getMonth() + 1),
                 day = '' + expireDate.getDate(),
                 year = expireDate.getFullYear();
