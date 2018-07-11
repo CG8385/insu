@@ -28,7 +28,8 @@ router.post('/', function (req, res) {
     if(policies[i].level4_company){
       policies[i].level4_company = new ObjectId(policies[i].level4_company);
     }
-    bulk.find({policy_no: policies[i].policy_no}).upsert().updateOne(policies[i]);
+    bulk.insert(policies[i]);
+    //bulk.find({policy_no: policies[i].policy_no}).upsert().updateOne(policies[i]);
   }
   bulk.execute();
   res.status(200).json({ message: '保单已成功批量添加' });
