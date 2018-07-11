@@ -17,8 +17,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.infiniteScroll.numToAdd = 20;
     vm.infiniteScroll.currentItems = 20;
     vm.minExpireDate = new Date();
-    vm.maxExpireDate = new Date();
-    vm.maxExpireDate = new Date(vm.maxExpireDate.setDate(vm.maxExpireDate.getDate() + 40)).toString();
+    var temp = new Date();
+    vm.maxExpireDate = new Date(temp.setDate(vtemp.getDate() + 40)).toString();
     console.log(vm.maxExpireDate)
 
     vm.resetInfScroll = function () {
