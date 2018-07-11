@@ -358,7 +358,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, policyNoSearch=undefined) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate,  expireFromDate, expireToDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -375,6 +375,9 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "reminder") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
@@ -386,6 +389,11 @@ angular.module('app.policy').factory('PolicyService',
                 approvedEnd.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
+                var effectiveStart = new Date(expireFromDate);
+                effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                var effectiveEnd = new Date(expireToDate);
+                effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
+                effectiveEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -399,6 +407,8 @@ angular.module('app.policy').factory('PolicyService',
                     approvedToDate: approvedEnd,
                     paidFromDate: paidFromDate,
                     paidToDate: paidEnd,
+                    effectiveFromDate: effectiveStart,
+                    effectiveToDate: effectiveEnd,
                     policyNoSearch: policyNoSearch
                 };
 
@@ -574,11 +584,13 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, policyNoSearch=undefined) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, policyNoSearch=undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
+                // var expireFromDate1 = expireFromDate;
+                // var expireToDate1 = expireToDate;
                 if (type == "to-be-reviewed") {
                     filterSettings.policy_status = "待审核";
                     orderByReverse = false;
@@ -591,6 +603,9 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "reminder") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = true;
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
@@ -601,7 +616,14 @@ angular.module('app.policy').factory('PolicyService',
                 approvedEnd.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
+                var effectiveStart = new Date(expireFromDate);
+                effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                var effectiveEnd = new Date(expireToDate);
+                effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
+                effectiveEnd.setHours(23,59,59,0);
                 var config = {
+                    pageSize: pageSize,
+                    currentPage: currentPage,
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
@@ -612,8 +634,11 @@ angular.module('app.policy').factory('PolicyService',
                     approvedToDate: approvedEnd,
                     paidFromDate: paidFromDate,
                     paidToDate: paidEnd,
+                    effectiveFromDate: effectiveStart,
+                    effectiveToDate: effectiveEnd,
                     policyNoSearch: policyNoSearch
                 };
+
                 $http.post("/api/policies/excel", config)
                     // handle success
                     .success(function (data, status) {
