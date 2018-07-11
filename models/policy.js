@@ -72,7 +72,11 @@ var schema = new mongoose.Schema({
   comment: String,
   agreement_photo: String,
   sign_photo: String,
-  other_photo: String
+  other_photo: String,
+
+  // for reminding
+  cloned_from: { type: mongoose.Schema.Types.ObjectId, ref: 'Policy' },
+  stop_reminder: Boolean
 });
 
 schema.index({policy_status: 1, client: 1, organization: 1, created_at: 1});

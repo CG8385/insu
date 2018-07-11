@@ -96,6 +96,14 @@ router.post('/excel', function (req, res) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
 
+  if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' && req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate, $lte: req.body.effectiveToDate };
+  } else if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' ) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate };
+  } else if (req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $lte: req.body.effectiveToDate };
+  }
+
   if(conditions.organization){
     delete conditions.organization;
   }
@@ -456,7 +464,13 @@ router.post('/search', function (req, res) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
 
-  console.log(conditions);
+  if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' && req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate, $lte: req.body.effectiveToDate };
+  } else if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' ) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate };
+  } else if (req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $lte: req.body.effectiveToDate };
+  }
 
   if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
     let searchText = '/' + req.body.policyNoSearch + '/';

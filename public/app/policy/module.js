@@ -244,6 +244,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 }
             }
         })
+        .state('app.policy.reminder', {
+            url: '/policies/reminder',
+            data: {
+                title: '续保提醒'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-list-reminder.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
         .state('app.policy.org-policy', {
             abstract: true,
             data: {

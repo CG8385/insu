@@ -256,7 +256,28 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
         }
+    }else if ($state.is("app.policy.reminder")) {
+        PolicyService.getLevel2Companies()
+            .then(function (level2Companies) {
+                vm.level2Companies = level2Companies;
+
+            })
+        vm.listType = "reminder";
+        vm.filterSettings = localStorageService.get("reminder-filterSettings") ? localStorageService.get("reminder-filterSettings") : {};
+        vm.loadLevel3Companies();
+        vm.loadLevel4Companies();
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.policyNoSearch = localStorageService.get("reminder-policyNoSearch") ? localStorageService.get("reminder-policyNoSearch") : undefined;
+        vm.expireFromDate = localStorageService.get("reminder-expireFromDate") ? localStorageService.get("reminder-expireFromDate") : undefined;
+        vm.expireToDate = localStorageService.get("reminder-expireToDate") ? localStorageService.get("reminder-expireToDate") : undefined;
+        vm.tableHeader = "待续期保单";
     }
+    
     else if ($state.is("app.policy.rejected")) {
         vm.listType = "rejected";
         vm.filterSettings = localStorageService.get("rejected") ? localStorageService.get("rejected") : {};
@@ -308,7 +329,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.pageItems = pageItems;
         vm.areAllSelected = false;
-        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.policyNoSearch)
+        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate,  vm.paidFromDate, vm.paidToDate, vm.expireFromDate, vm.expireToDate, vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -346,6 +367,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('paid-paidFromDate', vm.paidFromDate);
             localStorageService.set('paid-paidToDate', vm.paidToDate);
             localStorageService.set('paid-policyNoSearch', vm.policyNoSearch);
+        }
+        else if ($state.is("app.policy.reminder")) {
+            localStorageService.set("reminder-filterSettings", vm.filterSettings);
+            localStorageService.set('reminder-expireFromDate', vm.　expireFromDate);
+            localStorageService.set('reminder-expireToDate', vm.expireToDate);
+            localStorageService.set('reminder-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.policy.rejected")) {
             localStorageService.set("rejected-filterSettings", vm.filterSettings);
@@ -411,7 +438,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     }
 
     vm.exportFilteredPolicies = function () {
-        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.policyNoSearch)
+        PolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.expireFromDate, vm.expireToDate, vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'
