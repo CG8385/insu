@@ -415,10 +415,8 @@ router.delete('/:id', function (req, res) {
 router.post('/search', function (req, res) {
   var conditions = {};
 
-  console.log(req.body.filterByFields);
-
   for (var key in req.body.filterByFields) {
-    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] !== null && req.body.filterByFields[key] !== "") {
       conditions[key] = req.body.filterByFields[key];
     }
   }
