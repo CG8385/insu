@@ -387,6 +387,8 @@ router.put('/:id', function (req, res) {
     policy.has_warning = req.body.has_warning;
     policy.organization = req.body.organization;
     policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
+    policy.cloned_from = req.body.cloned_from;
+    policy.stop_reminder = req.body.stop_reminder;
     policy.save(function (err) {
       if (err) {
         logger.error(err);
