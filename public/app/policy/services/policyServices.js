@@ -623,8 +623,6 @@ angular.module('app.policy').factory('PolicyService',
                 effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
                 effectiveEnd.setHours(23,59,59,0);
                 var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
