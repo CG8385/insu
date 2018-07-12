@@ -614,6 +614,7 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse = true;
                 } else if (type == "reminder") {
                     filterSettings.policy_status = "已支付";
+                    filterSettings.stop_reminder = false;
                     orderByReverse = true;
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";

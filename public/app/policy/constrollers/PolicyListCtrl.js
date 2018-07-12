@@ -634,7 +634,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
                     .then(function (data) {
                         $.smallBox({
                             title: "服务器确认信息",
-                            content: "该报道不会再提醒续期",
+                            content: "该保单不会再提醒续期",
                             color: "#739E73",
                             iconSmall: "fa fa-check",
                             timeout: 5000
