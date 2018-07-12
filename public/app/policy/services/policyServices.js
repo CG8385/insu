@@ -397,12 +397,14 @@ angular.module('app.policy').factory('PolicyService',
                 }
                 effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
                 var effectiveEnd = new Date(expireToDate);
+                console.log(effectiveEnd)
                 if(!effectiveEnd){
                     effectiveEnd = new Date();
                     effectiveEnd.setDate(effectiveEnd.getDate()+40);
                 }
                 effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
                 effectiveEnd.setHours(23,59,59,0);
+                console.log(effectiveEnd)
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
