@@ -72,6 +72,12 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    policy_reminder: {
+        view: { type: Boolean, default: false },
+        clone: { type: Boolean, default: false },
+        ignore: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     policy_rejected: {
         edit: { type: Boolean, default: false }, 
         view: { type: Boolean, default: false },
