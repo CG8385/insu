@@ -622,6 +622,33 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         });
     };
 
+    vm.ignore = function (policy) {
+        $.SmartMessageBox({
+            title: "忽略续期提醒",
+            content: "确认忽略该续期提醒？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                policy.stop_reminder = true;
+                PolicyService.savePolicy(policy)
+                    .then(function (data) {
+                        $.smallBox({
+                            title: "服务器确认信息",
+                            content: "该报道不会再提醒续期",
+                            color: "#739E73",
+                            iconSmall: "fa fa-check",
+                            timeout: 5000
+                        });
+                        vm.refreshPolicies();
+                    }, function (err) { });
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    };
+
 
     vm.approve = function (policy) {
         if ($state.is("app.policy.to-be-reviewed")) {
