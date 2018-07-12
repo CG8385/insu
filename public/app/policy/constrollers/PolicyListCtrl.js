@@ -278,13 +278,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         var today = new Date();
         today.setHours(0,0,0,1);
 
-        if(!vm.expireFromDate || vm.expireFromDate < today){
+        if(vm.expireFromDate && vm.expireFromDate < today){
             vm.expireFromDate = today;
         }
         var fourtyDaysLater = today;
         fourtyDaysLater.setDate(today.getDate() + 40);
         fourtyDaysLater.setHours(23,59,59,0);
-        if(!vm.expireToDate || vm.expireToDate > fourtyDaysLater){
+        if(vm.expireToDate && vm.expireToDate > fourtyDaysLater){
             vm.expireToDate = fourtyDaysLater;
         }
         vm.tableHeader = "待续期保单";

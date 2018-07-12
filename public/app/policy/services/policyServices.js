@@ -390,9 +390,17 @@ angular.module('app.policy').factory('PolicyService',
                 approvedEnd.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
+
                 var effectiveStart = new Date(expireFromDate);
+                if(!effectiveStart){
+                    effectiveStart = new Date();
+                }
                 effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
                 var effectiveEnd = new Date(expireToDate);
+                if(!effectiveEnd){
+                    effectiveEnd = new Date();
+                    effectiveEnd.setDate(effectiveEnd.getDate()+40);
+                }
                 effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
                 effectiveEnd.setHours(23,59,59,0);
                 var config = {
