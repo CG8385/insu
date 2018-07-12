@@ -256,10 +256,15 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "plate", "paid_at"];
         }
-    }else if ($state.is("app.policy.reminder")) {
+    } else if ($state.is("app.policy.reminder")) {
         PolicyService.getLevel2Companies()
             .then(function (level2Companies) {
                 vm.level2Companies = level2Companies;
+
+            })
+        PolicyService.getLevel2Orgs()
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
 
             })
         vm.listType = "reminder";
@@ -276,20 +281,20 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.expireFromDate = localStorageService.get("reminder-expireFromDate") ? localStorageService.get("reminder-expireFromDate") : undefined;
         vm.expireToDate = localStorageService.get("reminder-expireToDate") ? localStorageService.get("reminder-expireToDate") : undefined;
         var today = new Date();
-        today.setHours(0,0,0,1);
+        today.setHours(0, 0, 0, 1);
 
-        if(vm.expireFromDate && vm.expireFromDate < today){
+        if (vm.expireFromDate && vm.expireFromDate < today) {
             vm.expireFromDate = today;
         }
         var fourtyDaysLater = today;
         fourtyDaysLater.setDate(today.getDate() + 40);
-        fourtyDaysLater.setHours(23,59,59,0);
-        if(vm.expireToDate && vm.expireToDate > fourtyDaysLater){
+        fourtyDaysLater.setHours(23, 59, 59, 0);
+        if (vm.expireToDate && vm.expireToDate > fourtyDaysLater) {
             vm.expireToDate = fourtyDaysLater;
         }
         vm.tableHeader = "待续期保单";
     }
-    
+
     else if ($state.is("app.policy.rejected")) {
         vm.listType = "rejected";
         vm.filterSettings = localStorageService.get("rejected") ? localStorageService.get("rejected") : {};
@@ -341,7 +346,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.pageItems = pageItems;
         vm.areAllSelected = false;
-        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate,  vm.paidFromDate, vm.paidToDate, vm.expireFromDate, vm.expireToDate, vm.policyNoSearch)
+        PolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.expireFromDate, vm.expireToDate, vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -818,7 +823,7 @@ angular.module('app.policy')
     .filter("getExpireDate", function () {
         return function (fieldValueUnused, item) {
             var policy = item
-            if(!policy.effective_date){
+            if (!policy.effective_date) {
                 return '';
             }
             var expireDate = new Date(policy.effective_date);
