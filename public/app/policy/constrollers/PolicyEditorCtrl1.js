@@ -221,9 +221,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             });
     }
 
-    var parentPolicy = $stateParams.parentPolicy;
+    var parentPolicy = $state.params.parentPolicy;
     console.log("ccchee");
-    console.log($stateParams);
+    console.log($state.params);
     if (parentPolicy) {
         vm.policy = Object.assign({}, parentPolicy);
         console.log(vm.policy);
