@@ -186,7 +186,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                         for (var k = 0; k < row.length; k++) {
                             if (k<=7 && (!row[k] || row[k] == "")) {
                                 if(k == 7){ // default date is today
-                                    row[k] = new Date();
+                                    row[k] = new Date().toLocaleDateString();
                                 }
                                 else{
                                     deferred.reject("导入失败，第"+k+"行保单信息不全，请检查导入文件！");
@@ -202,7 +202,10 @@ angular.module('app.policy').factory('OrgPolicyService',
                         policy.fee = row[4];
                         policy.income_rate = row[5] > 1 ? row[5] : row[5] * 100;
                         policy.income = row[6];
-                        policy.created_at = new Date(row[7]);
+                        //policy.created_at = new Date(row[7]);
+                        //2018-07-12 and 2018/07/12 have different results
+                        //converted to 2018-07-12 format
+                        policy.created_at = new Date(Date.parse(row[7].replace(/\//g,  "-")));
                         policy.level1_company = level1_company;
                         policy.level2_company = level2_company;
                         policy.level3_company = level3_company;
