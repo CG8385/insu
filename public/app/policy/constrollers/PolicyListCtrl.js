@@ -742,7 +742,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         console.log("there");
         console.log(policy._id);
-        $state.go("app.policy.new1", { parentPolicyId: policy._id });
+        $state.go("app.policy.new1", { parentPolicy: policy });
     };
 
     vm.selectionChanged = function () {
