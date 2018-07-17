@@ -741,8 +741,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set("reminder-currentPage", vm.currentPage);
         }
         console.log("there");
-        console.log(policy);
-        $state.go("app.policy.new1", { parentPolicy: policy });
+        console.log(policy._id);
+        $state.go("app.policy.new1", { parentPolicyId: policy._id });
     };
 
     vm.selectionChanged = function () {

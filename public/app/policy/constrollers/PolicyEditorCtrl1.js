@@ -221,13 +221,9 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             });
     }
 
-    var parentPolicy = $stateParams.parentPolicy;
+    var parentPolicyID = $stateParams.parentPolicyID;
     console.log("hee");
-    console.log($stateParams);
-    if (parentPolicy) {
-        vm.policy = Object.assign({}, parentPolicy);
-        console.log(vm.policy);
-    }
+    console.log($parentPolicyID);
 
 
     vm.toggleEdit = function () {
