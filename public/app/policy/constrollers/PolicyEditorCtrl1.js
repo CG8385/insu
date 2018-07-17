@@ -223,7 +223,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     var parentPolicy = $stateParams.parentPolicy;
     console.log("hee");
-    console.log(parentPolicy);
+    console.log($stateParams);
     if (parentPolicy) {
         vm.policy = Object.assign({}, parentPolicy);
         console.log(vm.policy);
