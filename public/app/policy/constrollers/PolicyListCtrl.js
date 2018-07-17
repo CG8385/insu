@@ -740,6 +740,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         else if ($state.is("app.policy.reminder")) {
             localStorageService.set("reminder-currentPage", vm.currentPage);
         }
+        console.log("there");
+        console.log(policy);
         $state.go("app.policy.new1", { parentPolicy: policy });
     };
 

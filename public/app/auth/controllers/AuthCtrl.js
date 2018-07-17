@@ -22,7 +22,9 @@ angular.module('app.auth').controller('AuthCtrl',
                     // handle success
                     .then(function(user) {
                         $rootScope.user = user;
-                        if(user.userrole.policy_to_be_reviewed.append){
+                        if(user.userrole.policy_reminder.view){
+                            $state.go('app.policy.reminder');
+                        } if(user.userrole.policy_to_be_reviewed.append){
                             $state.go('app.policy.new1');
                         } else if(user.userrole.dealerPolicy_to_be_reviewed.append){
                             $state.go('app.policy.dealer.new');
