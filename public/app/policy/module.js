@@ -31,6 +31,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
             data: {
                 title: '保单录入(新版测试)'
             },
+            params: {parentPolicy: null},
             views: {
                 "content@app": {
                     controller: 'PolicyEditorController1 as vm',
