@@ -329,6 +329,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             else if ($state.is("app.policy.rejected")) {
                 vm.currentPage = localStorageService.get("rejected-currentPage");
             }
+            else if ($state.is("app.policy.reminder")) {
+                vm.currentPage = localStorageService.get("reminder-currentPage");
+            }
             vm.entries = vm.entries + 1;
         } else {
             if ($state.is("app.policy.to-be-reviewed")) {
@@ -342,6 +345,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }
             else if ($state.is("app.policy.rejected")) {
                 localStorageService.set("rejected-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.reminder")) {
+                localStorageService.set("rejected-reminder", vm.currentPage);
             }
         }
         vm.pageItems = pageItems;
@@ -627,6 +633,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         });
     };
 
+
+
     vm.ignore = function (policy) {
         $.SmartMessageBox({
             title: "忽略续期提醒",
@@ -700,6 +708,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         else if ($state.is("app.policy.rejected")) {
             localStorageService.set("rejected-currentPage", vm.currentPage);
         }
+        else if ($state.is("app.policy.reminder")) {
+            localStorageService.set("reminder-currentPage", vm.currentPage);
+        }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);
             if (created.getFullYear() < 2017) {
@@ -711,6 +722,25 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             $state.go("app.policy.view1", { policyId: policy._id });
         }
 
+    };
+
+    vm.clone = function (policy) {
+        if ($state.is("app.policy.to-be-reviewed")) {
+            localStorageService.set("review-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.to-be-paid")) {
+            localStorageService.set("currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.paid")) {
+            localStorageService.set("paid-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.rejected")) {
+            localStorageService.set("rejected-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.reminder")) {
+            localStorageService.set("reminder-currentPage", vm.currentPage);
+        }
+        $state.go("app.policy.new1", { parentPolicy: policy });
     };
 
     vm.selectionChanged = function () {

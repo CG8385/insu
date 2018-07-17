@@ -221,6 +221,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             });
     }
 
+    var parentPolicy = $stateParams.parentPolicy;
+    if (parentPolicy) {
+        vm.policy = Object.assign({}, parentPolicy);
+        console.log(vm.policy);
+    }
+
+
     vm.toggleEdit = function () {
         vm.editable = !vm.editable;
     }
