@@ -223,28 +223,28 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     var parentPolicy = $state.params.parentPolicy;
     if (parentPolicy) {
-        vm.clientInfo = policy.client;
+        vm.clientInfo = parentPolicy.client;
         if (policy.client) {
-            vm.policy.client = policy.client._id;
+            vm.policy.client = parentPolicy.client._id;
         }
-        vm.policy.cloned_from = policy._id;
-        vm.policy.applicant = policy.applicant;
-        vm.policy.level1_company = policy.level1_company;
-        vm.policy.level2_company = policy.level2_company;
-        vm.policy.level3_company = policy.level3_company;
-        vm.policy.level4_company = policy.level4_company;
-        vm.policy.level1_org = policy.level1_org;
-        vm.policy.level2_org = policy.level2_org;
-        vm.policy.level3_org = policy.level3_org;
-        vm.policy.level4_org = policy.level4_org;
-        vm.policy.level5_org = policy.level5_org;
-        vm.policy.organization = policy.organization._id;
-        vm.policy.plate_no = policy.plate_no;
-        vm.policy.plate_no = policy.plate_no;
+        vm.policy.cloned_from = parentPolicy._id;
+        vm.policy.applicant = parentPolicy.applicant;
+        vm.policy.level1_company = parentPolicy.level1_company;
+        vm.policy.level2_company = parentPolicy.level2_company;
+        vm.policy.level3_company = parentPolicy.level3_company;
+        vm.policy.level4_company = parentPolicy.level4_company;
+        vm.policy.level1_org = parentPolicy.level1_org;
+        vm.policy.level2_org = parentPolicy.level2_org;
+        vm.policy.level3_org = parentPolicy.level3_org;
+        vm.policy.level4_org = parentPolicy.level4_org;
+        vm.policy.level5_org = parentPolicy.level5_org;
+        vm.policy.organization = parentPolicy.organization._id;
+        vm.policy.plate_no = parentPolicy.plate_no;
+        vm.policy.plate_no = parentPolicy.plate_no;
         vm.policy.policy_status = "待审核";
-        vm.policy.rates_based_on_taxed = policy.rates_based_on_taxed;
-        vm.policy.rule = policy.rule;
-        vm.policy.rule_rates = policy.rule_rates;
+        vm.policy.rates_based_on_taxed = parentPolicy.rates_based_on_taxed;
+        vm.policy.rule = parentPolicy.rule;
+        vm.policy.rule_rates = parentPolicy.rule_rates;
         console.log(vm.policy);
         vm.loadLevel3Companies();
         vm.loadLevel4Companies();
