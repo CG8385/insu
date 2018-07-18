@@ -179,7 +179,8 @@ router.post('/excel', function (req, res) {
         'policy_status',
         'approved_at',
         'paid_at',
-        'payment_bank'
+        'payment_bank',
+        'expired_at',
       ];
       var fieldNames = [
         '提交日期',
@@ -233,7 +234,8 @@ router.post('/excel', function (req, res) {
         '保单状态',
         '审核日期',
         '支付日期',
-        '支付银行'
+        '支付银行',
+        '到期日期',
       ];
 
       var dateFormat = require('dateformat');
@@ -307,6 +309,18 @@ router.post('/excel', function (req, res) {
         row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
+        if (!policy.effective_date) {
+          row.expired_at = '';
+        } else{
+          var expireDate = new Date(policy.effective_date);
+            expireDate.setFullYear(expireDate.getFullYear() + 1);
+            var month = '' + (expireDate.getMonth() + 1),
+                day = '' + expireDate.getDate(),
+                year = expireDate.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            row.expired_at = [month,day,year].join('/');
+        }
         arr.push(row);
       }
       json2csv({ data: arr, fields: fields, fieldNames: fieldNames }, function (err, csv) {
