@@ -229,6 +229,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
         vm.policy.cloned_from = parentPolicy._id;
         vm.policy.applicant = parentPolicy.applicant;
+        vm.policy.frame_no = parentPolicy.frame_no;
         vm.policy.level1_company = parentPolicy.level1_company ? parentPolicy.level1_company._id : null;
         vm.policy.level2_company = parentPolicy.level2_company ? parentPolicy.level2_company._id : null;
         vm.policy.level3_company = parentPolicy.level3_company ? parentPolicy.level3_company._id : null;
@@ -245,7 +246,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.policy.rates_based_on_taxed = parentPolicy.rates_based_on_taxed;
         vm.policy.rule = parentPolicy.rule;
         vm.policy.rule_rates = parentPolicy.rule_rates;
-        console.log(vm.policy);
         vm.loadLevel3Companies();
         vm.loadLevel4Companies();
         vm.loadRules();

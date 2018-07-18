@@ -32,8 +32,20 @@ router.post('/', function (req, res) {
             logger.error(err);
             res.status(500).send(err);
           } else {
-            logger.info(req.user.name + " 提交了一份保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
-            res.status(200).json({ message: '保单已成功添加' });
+            if(data.cloned_from){
+              logger.info(req.user.name + " 续期了一份保单，新保单号为：" + policy.policy_no + "。" + req.clientIP);
+              Policy.findOne({ _id: data.cloned_from }, function(err, parentPolicy){
+                if(parentPolicy){
+                  parentPolicy.stop_reminder = true;
+                  parentPolicy.save();
+                  res.status(200).json({ message: '保单已成功续期' });
+                }
+            })
+            }else{
+              logger.info(req.user.name + " 提交了一份保单，保单号为：" + policy.policy_no + "。" + req.clientIP);
+              res.status(200).json({ message: '保单已成功添加' });
+            }
+
           }
         });
       }
