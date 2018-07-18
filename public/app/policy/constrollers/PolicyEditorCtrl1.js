@@ -229,10 +229,10 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
         vm.policy.cloned_from = parentPolicy._id;
         vm.policy.applicant = parentPolicy.applicant;
-        vm.policy.level1_company = parentPolicy.level1_company;
-        vm.policy.level2_company = parentPolicy.level2_company;
-        vm.policy.level3_company = parentPolicy.level3_company;
-        vm.policy.level4_company = parentPolicy.level4_company;
+        vm.policy.level1_company = parentPolicy.level1_company ? parentPolicy.level1_company._id : null;
+        vm.policy.level2_company = parentPolicy.level2_company ? parentPolicy.level2_company._id : null;
+        vm.policy.level3_company = parentPolicy.level3_company ? parentPolicy.level3_company._id : null;
+        vm.policy.level4_company = parentPolicy.level4_company ? parentPolicy.level4_company._id : null;
         vm.policy.level1_org = parentPolicy.level1_org;
         vm.policy.level2_org = parentPolicy.level2_org;
         vm.policy.level3_org = parentPolicy.level3_org;
