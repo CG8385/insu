@@ -47,6 +47,8 @@ angular.module('SmartAdmin.Forms').directive('smartDatepicker', function () {
                 }
             };
 
+            if (attributes.minDate) options.minDate = attributes.minDate;
+            if (attributes.maxDate) options.maxDate = attributes.maxDate;
 
             if (attributes.numberOfMonths) options.numberOfMonths = parseInt(attributes.numberOfMonths);
 

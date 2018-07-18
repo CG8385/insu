@@ -47,9 +47,15 @@ var schema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level1_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level2_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level3_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level4_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
+  level5_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
   policy_status: String,
   created_at: { type: Date },
   updated_at: { type: Date },
+  approved_at: {type: Date},
   paid_at: {type: Date},
   total_income: Number,
   payment_addition: Number,
@@ -66,7 +72,11 @@ var schema = new mongoose.Schema({
   comment: String,
   agreement_photo: String,
   sign_photo: String,
-  other_photo: String
+  other_photo: String,
+
+  // for reminding
+  cloned_from: { type: mongoose.Schema.Types.ObjectId, ref: 'Policy' },
+  stop_reminder: Boolean
 });
 
 schema.index({policy_status: 1, client: 1, organization: 1, created_at: 1});

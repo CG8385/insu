@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('app.policy').factory('PolicyService',
-    ['$q', '$http','uuid',
-        function ($q, $http,uuid) {
+    ['$q', '$http', 'uuid',
+        function ($q, $http, uuid) {
             // return available functions for use in controllers
             return ({
                 savePolicy: savePolicy,
@@ -33,15 +33,18 @@ angular.module('app.policy').factory('PolicyService',
                 processImagePolicy: processImagePolicy,
                 deleteImagePolicy: deleteImagePolicy,
                 downloadToBeProcessedImages: downloadToBeProcessedImages,
-                downloadProcessedImages: downloadProcessedImages
+                downloadProcessedImages: downloadProcessedImages,
+                getLevel2Orgs: getLevel2Orgs,
+                getSubOrgs: getSubOrgs,
             });
 
-            function getRules(companyId) {
+            function getLevel2Orgs() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
-                $http.get(`api/companies/${companyId}/rules`)
-                // handle success
+                // send a post request to the server
+                $http.get('api/organizations/level2')
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -49,7 +52,53 @@ angular.module('app.policy').factory('PolicyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubOrgs(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/sub/' + parentId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getRules(companyId) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                $http.get(`api/companies/${companyId}/rules`)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -57,13 +106,13 @@ angular.module('app.policy').factory('PolicyService',
                 // return promise object
                 return deferred.promise;
             }
-            
+
             function getCompany(companyId) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
 
                 $http.get('api/companies/' + companyId)
-                // handle success
+                    // handle success
                     .success(function (data, status) {
                         if (status === 200) {
                             deferred.resolve(data);
@@ -71,7 +120,7 @@ angular.module('app.policy').factory('PolicyService',
                             deferred.reject(status);
                         }
                     })
-                // handle error
+                    // handle error
                     .error(function (err) {
                         deferred.reject(status);
                     });
@@ -309,7 +358,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, policyNoSearch = undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -326,13 +375,34 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "reminder") {
+                    filterSettings.policy_status = "已支付";
+                    orderByReverse = false;
+                    filterSettings.stop_reminder = { $ne: true };
+                    orderBy = "effective_date"
+                    var effectiveStart = new Date();
+                    if (expireFromDate) {
+                        effectiveStart = new Date(expireFromDate);
+                    }
+                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    var effectiveEnd = new Date();
+                    effectiveEnd.setDate(effectiveEnd.getDate() + 40);
+                    if (expireToDate) {
+                        effectiveEnd = new Date(expireToDate);
+                    }
+                    effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
+                    effectiveEnd.setHours(23, 59, 59, 0);
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23, 59, 59, 0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23, 59, 59, 0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23, 59, 59, 0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -341,7 +411,14 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
+                    effectiveFromDate: effectiveStart,
+                    effectiveToDate: effectiveEnd,
+                    policyNoSearch: policyNoSearch
                 };
 
 
@@ -379,7 +456,7 @@ angular.module('app.policy').factory('PolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23, 59, 59, 0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -470,9 +547,9 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function downloadToBeProcessedImages(){
+            function downloadToBeProcessedImages() {
                 var deferred = $q.defer();
-                $http.get("/api/image-policies/download", {responseType: 'arraybuffer'})
+                $http.get("/api/image-policies/download", { responseType: 'arraybuffer' })
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -490,15 +567,15 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function downloadProcessedImages(fromDate, toDate){
+            function downloadProcessedImages(fromDate, toDate) {
                 var deferred = $q.defer();
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23, 59, 59, 0);
                 var config = {
                     fromDate: fromDate,
                     toDate: end
                 };
-                $http.post("/api/image-policies/download", config, {responseType: 'arraybuffer'})
+                $http.post("/api/image-policies/download", config, { responseType: 'arraybuffer' })
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {
@@ -516,11 +593,13 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, policyNoSearch = undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
+                // var expireFromDate1 = expireFromDate;
+                // var expireToDate1 = expireToDate;
                 if (type == "to-be-reviewed") {
                     filterSettings.policy_status = "待审核";
                     orderByReverse = false;
@@ -533,20 +612,50 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "checked") {
                     filterSettings.policy_status = "已核对";
                     orderByReverse = true;
+                } else if (type == "reminder") {
+                    filterSettings.policy_status = "已支付";
+                    filterSettings.stop_reminder = { $ne: true };
+                    orderByReverse = false;
+                    orderBy = "effective_date";
+                    var effectiveStart = new Date();
+                    if (expireFromDate) {
+                        effectiveStart = new Date(expireFromDate);
+                    }
+                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    var effectiveEnd = new Date();
+                    effectiveEnd.setDate(effectiveEnd.getDate() + 40);
+                    if (expireToDate) {
+                        effectiveEnd = new Date(expireToDate);
+                    }
+                    effectiveEnd.setFullYear(effectiveEnd.getFullYear() - 1)
+                    effectiveEnd.setHours(23, 59, 59, 0);
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23, 59, 59, 0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23, 59, 59, 0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23, 59, 59, 0);
+
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd,
+                    effectiveFromDate: effectiveStart,
+                    effectiveToDate: effectiveEnd,
+                    policyNoSearch: policyNoSearch
                 };
+
                 $http.post("/api/policies/excel", config)
                     // handle success
                     .success(function (data, status) {
@@ -664,7 +773,7 @@ angular.module('app.policy').factory('PolicyService',
             function getStsCredential() {
                 // create a new instance of deferred
                 var deferred = $q.defer();
-                if (false){
+                if (false) {
                 }
                 else {
                     // send a post request to the server
@@ -687,50 +796,51 @@ angular.module('app.policy').factory('PolicyService',
             }
 
             function uploadFile(file) {
-                document.body.style.cursor='wait';
+                document.body.style.cursor = 'wait';
                 var deferred = $q.defer();
                 getStsCredential()
-                .then(function(credentials){
-                    var client = new OSS.Wrapper({
-                    region: 'oss-cn-shanghai',
-                    accessKeyId: credentials.AccessKeyId,
-                    accessKeySecret: credentials.AccessKeySecret,
-                    stsToken: credentials.SecurityToken,
-                    // bucket: 'cwang1'
-                    bucket: 'hy-policy'
-                }, function(err){
-                    document.body.style.cursor='default';   
-                    $.bigBox({
-                        title: "上传文件",
-                        content: "上传失败，请检查网络",
-                        color: "#C46A69",
-                        icon: "fa fa-warning shake animated",
-                        timeout: 6000
-                    });
-                    return;
-                });
-
-                var ext = /\.[^\.]+$/.exec(file.name); 
-                var fileName = uuid.v1() + ext;
-
-                client.multipartUpload(fileName, file).then(function (result) {
-                    var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
-                    // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
-                    $.smallBox({
-                            title: "服务器确认信息",
-                            content: "扫描件已成功上传",
-                            color: "#739E73",
-                            iconSmall: "fa fa-check",
-                            timeout: 5000
+                    .then(function (credentials) {
+                        var client = new OSS.Wrapper({
+                            region: appConfig.policyOssRegion,
+                            accessKeyId: credentials.AccessKeyId,
+                            accessKeySecret: credentials.AccessKeySecret,
+                            stsToken: credentials.SecurityToken,
+                            // bucket: 'cwang1'
+                            bucket: appConfig.policyOssBucket,
+                            secure: appConfig.policyOssUseSSL
+                        }, function (err) {
+                            document.body.style.cursor = 'default';
+                            $.bigBox({
+                                title: "上传文件",
+                                content: "上传失败，请检查网络",
+                                color: "#C46A69",
+                                icon: "fa fa-warning shake animated",
+                                timeout: 6000
+                            });
+                            return;
                         });
-                    document.body.style.cursor='default';    
-                    deferred.resolve(fileName);
-                    }).catch(function (err) {
-                    deferred.reject(err);
+
+                        var ext = /\.[^\.]+$/.exec(file.name);
+                        var fileName = uuid.v1() + ext;
+
+                        client.multipartUpload(fileName, file).then(function (result) {
+                            var url = appConfig.policyOssUrl + fileName;
+                            // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                            $.smallBox({
+                                title: "服务器确认信息",
+                                content: "扫描件已成功上传",
+                                color: "#739E73",
+                                iconSmall: "fa fa-check",
+                                timeout: 5000
+                            });
+                            document.body.style.cursor = 'default';
+                            deferred.resolve(fileName);
+                        }).catch(function (err) {
+                            deferred.reject(err);
+                        });
                     });
-                });
                 return deferred.promise;
-                
+
             }
 
             function updatePhoto(policy) {
@@ -768,7 +878,7 @@ angular.module('app.policy').factory('PolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23, 59, 59, 0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,

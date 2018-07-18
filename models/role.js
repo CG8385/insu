@@ -6,6 +6,44 @@ var schema = new mongoose.Schema({
     name: String,
     created_at: { type: Date },
     updated_at: { type: Date },
+    property_policy_to_be_reviewed: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+        reject: { type: Boolean, default: false }
+    },
+    property_policy_to_be_paid: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+    property_policy_paid: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+    property_policy_rejected: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+
     policy_to_be_reviewed: {
         edit: { type: Boolean, default: false }, 
         view: { type: Boolean, default: false },
@@ -34,6 +72,12 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    policy_reminder: {
+        view: { type: Boolean, default: false },
+        clone: { type: Boolean, default: false },
+        ignore: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     policy_rejected: {
         edit: { type: Boolean, default: false }, 
         view: { type: Boolean, default: false },
@@ -43,8 +87,58 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    lifePolicy_to_be_reviewed: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+        reject: { type: Boolean, default: false }
+    },
+    lifePolicy_to_be_paid: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+        reject: { type: Boolean, default: false }
+    },
+    lifePolicy_paid: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+    lifePolicy_rejected: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+    lifeSalary: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+    },
+    lifeStatement: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+    },
     lifePolicy: {
-        edit: { type: Boolean, default: false }, 
+        edit: { type: Boolean, default: false },
         view: { type: Boolean, default: false },
         delete: { type: Boolean, default: false },
         append: { type: Boolean, default: false },
@@ -100,6 +194,26 @@ var schema = new mongoose.Schema({
         import: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    bulkPropertyPolicy_to_be_paid: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        import: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
+    bulkPropertyPolicy_paid: {
+        edit: { type: Boolean, default: false }, 
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        aprove: { type: Boolean, default: false },
+        pay: { type: Boolean, default: false },
+        import: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     imagePolicy:{
         view: { type: Boolean, default: false },
         edit: { type: Boolean, default: false },
@@ -139,7 +253,12 @@ var schema = new mongoose.Schema({
         view: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
-    scope: String
+    scope: {type: String, default: '本人'},
+    organization_scope:  {type: String, default: '一级' }, // 一级，二级，三级，四级，五级, 无
+    company_scope: {type: String, default: '全国' }, // 全国，本省，本市，本区县
+    client_status_scope: {type: String, default: '包含已注销代理人' }, // "包含已注销代理人","仅可见正常状态代理人"
+    user_scope: String, // 一级，二级，三级，四级，五级，无
+    policy_scope: {type: String, default: '本人'}, // 一级，二级，三级，四级，五级，无
 });
 
 mongoose.model('Role', schema);

@@ -49,7 +49,7 @@
                                             <label class="checkbox">
                                                 <input type="checkbox" name="rates_based_on_taxed" ng-model="vm.policy.rates_based_on_taxed" ng-change="vm.updateFee()">
                                                 <i></i>费率基于不含税保费</label>
-                                            </section>
+                                        </section>
                                     </div>
                                     <div class="row">
                                         <section class="col col-3">
@@ -287,14 +287,14 @@
                                             <label class="label">银行</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-bank"></i>
-                                                <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank" validator="required">
+                                                <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank">
                                             </label>
                                         </section>
                                         <section class="col col-4" ng-disabled="vm.policy.policy_status=='已支付'">
                                             <label class="label">支付凭证号</label>
                                             <label class="input">
                                                 <i class="icon-append fa fa-key"></i>
-                                                <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof" validator="required">
+                                                <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof">
                                             </label>
                                         </section>
                                         <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
@@ -304,6 +304,18 @@
                                         <!--<section class="col col-3" ng-show="vm.policy.policy_status=='待审核'">
                                             <button style="margin-top:1.5em" ng-click="vm.approve()" validation-submit="payForm" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
                                         </section>-->
+                                    </div>
+                                    <div class="row" ng-show="vm.policy.policy_status!='待审核'">
+                                        <section class="col col-9" ng-disabled="vm.policy.policy_status=='已支付'">
+                                            <label class="label">备注</label>
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="comment" ng-model="vm.policy.comment">
+                                            </label>
+                                        </section>
+                                        <section class="col col-2" ng-show="vm.policy.policy_status=='待支付'">
+                                            <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付'" validation-submit="payForm" ng-click="vm.reject()"
+                                                class="btn btn-primary btn-lg">驳回</button>
+                                        </section>
                                     </div>
                                     <div class="row" ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove">
                                         <section class="col col-3">
@@ -320,12 +332,10 @@
         </article>
     </div>
 
-
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="vm.shouldShowEditButton()"
-                    ng-click="vm.toggleEdit()" class="btn btn-primary">
+                <button ng-show="vm.shouldShowEditButton()" ng-click="vm.toggleEdit()" class="btn btn-primary">
                     <i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
@@ -399,7 +409,7 @@
                                                     infinite-scroll-distance="2">
                                                     <!--<ui-select-choices repeat="client in vm.clients| filter: $select.search">-->
                                                     <!--<div ng-bind-html="client.name | highlight: $select.search"></div>-->
-                                                    <div ng-bind-html="client.name"></div>
+                                                    <div ng-bind-html="client.name + ' (' + client.organization.name + ')' "></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
@@ -467,6 +477,14 @@
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-9">
+                                        <label class="label">备注</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="comment" ng-model="vm.policy.comment">
+                                        </label>
+                                    </section>
+                                </div>
                             </fieldset>
                             <fieldset ng-show="!vm.shouldShowFinanceSection()" class="optional-input-field-set" ng-disabled="!vm.editable">
                                 <header>
@@ -485,8 +503,10 @@
                                             <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="mandatory_file_selector" name="mandatory_file_selector"
                                                 onchange="angular.element(this).scope().vm.mandatoryPhotoChanged(this.files);"
                                             />
-
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="mandatory_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.mandatory_policy_photo" type="button" class="btn btn-primary" id="select_file"
+                                                onclick="mandatory_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.mandatory_policy_photo" type="button" class="btn btn-primary" ng-click="vm.deleteMandatoryPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.mandatory_policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.mandatory_policy_photo)">查看扫描件</a>
                                         </label>
@@ -541,7 +561,10 @@
                                                 onchange="angular.element(this).scope().vm.commercialPhotoChanged(this.files);"
                                             />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="commercial_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.commercial_policy_photo" type="button" class="btn btn-primary" id="select_file"
+                                                onclick="commercial_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.commercial_policy_photo" type="button" class="btn btn-primary" ng-click="vm.deleteCommercialPhoto()">删除扫描件
                                             </button>
                                             <a ng-show="vm.policy.commercial_policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.commercial_policy_photo)">查看扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
@@ -696,10 +719,10 @@
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">减(跟单费，结算费)</label>
-                                            <label class="input" ng-disabled=true>
-                                                <i class="icon-append fa fa-cny"></i>
-                                                <input type="text" class="input-lg" name="payment_substraction" price ng-model="vm.policy.payment_substraction" ng-change="vm.updateFee()">
-                                            </label>
+                                        <label class="input" ng-disabled=true>
+                                            <i class="icon-append fa fa-cny"></i>
+                                            <input type="text" class="input-lg" name="payment_substraction" price ng-model="vm.policy.payment_substraction" ng-change="vm.updateFee()">
+                                        </label>
                                     </section>
                                     <section class="col col-3">
                                         <label class="label">情况说明</label>
@@ -740,14 +763,15 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="agreement_file_selector" name="agreement_file_selector"
-                                                onchange="angular.element(this).scope().vm.agreementPhotoChanged(this.files);"
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="agreement_file_selector"
+                                                name="agreement_file_selector" onchange="angular.element(this).scope().vm.agreementPhotoChanged(this.files);"
                                             />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="agreement_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.agreement_photo" type="button" class="btn btn-primary" id="select_file" onclick="agreement_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.agreement_photo" href="" ng-click="vm.reviewPhoto(vm.policy.agreement_photo, true)">查看扫描件</a>
-                                            <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                            <button ng-show="vm.editable && vm.policy.agreement_photo" type="button" class="btn btn-primary" ng-click="vm.deleteAgreementPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.agreement_photo" ng-href={{vm.getAttachmentUrl(vm.policy.agreement_photo)}} target="_blank">查看客户告知书</a>
                                         </label>
                                     </section>
                                 </div>
@@ -757,13 +781,14 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="sign_file_selector" name="sign_file_selector"
-                                                onchange="angular.element(this).scope().vm.signPhotoChanged(this.files);" />
-
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="sign_file_selector.click()">上传扫描件
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="sign_file_selector"
+                                                name="sign_file_selector" onchange="angular.element(this).scope().vm.signPhotoChanged(this.files);"
+                                            />
+                                            <button ng-show="vm.editable && !vm.policy.sign_photo" type="button" class="btn btn-primary" id="select_file" onclick="sign_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.sign_photo" href="" ng-click="vm.reviewPhoto(vm.policy.sign_photo, true)">查看扫描件</a>
-                                            <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                            <button ng-show="vm.editable && vm.policy.sign_photo" type="button" class="btn btn-primary" ng-click="vm.deleteSignPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.sign_photo" ng-href={{vm.getAttachmentUrl(vm.policy.sign_photo)}} target="_blank">查看客户签字照</a>
                                         </label>
                                     </section>
                                 </div>
@@ -773,13 +798,15 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="other_file_selector" name="other_file_selector"
-                                                onchange="angular.element(this).scope().vm.otherPhotoChanged(this.files);" />
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="other_file_selector"
+                                                name="other_file_selector" onchange="angular.element(this).scope().vm.otherPhotoChanged(this.files);"
+                                            />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.other_photo" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.other_photo" href="" ng-click="vm.reviewPhoto(vm.policy.other_photo, true)">查看扫描件</a>
-                                            <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                            <button ng-show="vm.editable && vm.policy.other_photo" type="button" class="btn btn-primary" ng-click="vm.deleteOtherPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.other_photo" ng-href={{vm.getAttachmentUrl(vm.policy.other_photo)}} target="_blank">查看其它扫描件</a>
                                         </label>
                                     </section>
                                 </div>
@@ -810,7 +837,8 @@
                                     </button>
                                     <button validation-submit="policyForm" class="btn btn-primary" ng-show="vm.editable" ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
-                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()"
+                                        class="btn btn-primary btn-lg">审核通过，处理下一条</button>
                                     <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                     <!-- <button ng-show="user.role != '出单员' && vm.policy.policy_status=='已支付'" style="margin-top:1.5em" ng-click="vm.check()" class="btn btn-primary btn-lg">核对通过，处理下一条</button> -->
                                 </span>

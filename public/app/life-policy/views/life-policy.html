@@ -3,7 +3,7 @@
     <div class="row">
         <article class="col-sm-12">
             <div>
-                <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                <button ng-show="vm.shouldShowEditButton()" ng-click="vm.toggleEdit()" class="btn btn-primary"><i class="fa fa-fw fa-unlock"></i>编辑</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -22,7 +22,34 @@
                                     基本信息
                                 </header>
                                 <div class="row">
-                                    <section class="col col-4">
+                                    <label class="label" style="margin-left:1em">保险公司</label>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.level1Changed()" ng-model="vm.policy.level1_company"
+                                            ng-options="c._id as c.name for c in vm.level1Companies">
+                                            <option value="">选择一级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.policy.level2_company"
+                                            ng-options="c._id as c.name for c in vm.level2Companies">
+                                            <option value="">选择二级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level2_company" data-ng-change="vm.level3Changed()"
+                                            ng-model="vm.policy.level3_company" ng-options="c._id as c.name for c in vm.level3Companies">
+                                            <option value="">选择三级保险公司</option>
+                                        </select>
+                                    </section>
+                                    <section class="col col-3">
+                                        <select style="min-width: 340px;" name='cat' class="input-sm" ng-disabled="!vm.policy.level3_company" data-ng-change="vm.level4Changed()"
+                                            ng-model="vm.policy.level4_company" ng-options="c._id as c.name for c in vm.level4Companies">
+                                            <option value="">选择四级保险公司(如有)</option>
+                                        </select>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <!-- <section class="col col-4">
                                         <label class="label">保险公司</label>
                                         <label class="select">
                                             <select name='insu_company' class="input-lg" ng-model="vm.policy.company" ng-options="c._id as c.name group by c.catogory.name for c in vm.companies | orderBy:['catogory.name','name']"
@@ -30,7 +57,7 @@
                                                 <option value="">请选择保险公司</option>
                                             </select> <i></i>
                                         </label>
-                                    </section>
+                                    </section> -->
                                     <section class="col col-3">
                                         <label class="label">保单号</label>
                                         <label class="input">
@@ -115,13 +142,14 @@
                                             <input type="text" class="input-lg" name="insurant" ng-model="subPolicy.insurant" validator="required">
                                         </label>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-5">
                                         <label class="label">险种名称</label>
                                         <label class="select">
-                                            <select name='policy_name' class="input-lg" ng-model="subPolicy.policy_name" ng-options="c._id as c.name for c in vm.policyNames | orderBy:['name']"
-                                            validator="required">
-                                                <option value="">请选择险种名称</option>
-                                            </select> <i></i>
+                                            <select name='policy_name' class="input-lg" data-ng-change="vm.productChanged(subPolicy)" ng-model="subPolicy.product"
+                                                ng-options="p._id as p.name for p in vm.products | orderBy:['name']" validator="required">
+                                                <option value="">请选择寿险种名称</option>
+                                            </select>
+                                            <i></i>
                                         </label>
                                     </section>
                                     <section class="col col-2">
@@ -133,23 +161,57 @@
                                     <section class="col col-2">
                                         <label class="label">保费</label>
                                         <label class="input">
-                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateZYFee(subPolicy)" validator="required">
+                                            <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()" validator="required">
                                         </label>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label">结算费</label>
-                                        <section class="col col-3 no-padding">
+                                        <label class="label">跟单费</label>
+                                        <section class="col col-4 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="payment_rate" price ng-model="subPolicy.payment_rate" ng-change="vm.updateFee(subPolicy)"
+                                                <input type="text" class="input-lg" name="income_rate" price ng-model="subPolicy.income_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
                                                 validator="required">
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
                                             <label class="percent">%</label>
                                         </section>
-                                        <section class="col col-8 no-padding">
+                                        <section class="col col-5 no-padding">
                                             <label class="input" ng-disabled=true>
-                                                <input type="text" class="input-lg" name="payment" price ng-model="subPolicy.payment" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="income" price ng-model="subPolicy.income" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">直接佣金</label>
+                                        <section class="col col-4 no-padding">
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="subPolicy.direct_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
+                                                validator="required">
+                                            </label>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-5 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="direct_payment" price ng-model="subPolicy.direct_payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">职级佣金</label>
+                                        <section class="col col-4 no-padding">
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="class_payment_rate" price ng-model="subPolicy.class_payment_rate" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()"
+                                                validator="required">
+                                            </label>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-5 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="class_payment" price ng-model="subPolicy.class_payment" ng-disabled=true>
                                             </label>
                                         </section>
                                     </section>
@@ -157,17 +219,48 @@
                                 <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addSubPolicy()">添加一行</button>
                                 <button class="btn btn-primary" ng-show="vm.editable && vm.policy.sub_policies.length > 1" ng-click="vm.removeSubPolicy()">减少一行</button>
                                 <div class="row">
+                                    <section class="col col-3">
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="rates_based_on_taxed" ng-model="vm.policy.rates_based_on_taxed" ng-change="vm.updateFee();vm.updateZYPayment()">
+                                                <i></i>费率基于不含税保费</label>
+                                    </section>
+                                </div>
+                                <div class="row">
                                     <section class="col col-2">
-                                        <label class="label">结算费(税前合计)</label>
+                                        <label class="label">跟单费</label>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" name="total_income" price ng-model="vm.policy.total_income" ng-disabled=true>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">结算费{{vm.getRatesBasedString()}}</label>
                                         <label class="input">
                                             <input type="text" class="input-lg" name="payment_total" price ng-model="vm.policy.payment_total" ng-disabled=true>
                                         </label>
                                     </section>
                                     <section class="col col-2">
-                                        <label class="label">结算费(扣税后)</label>
-                                        <label class="input">
-                                            <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true>
-                                        </label>
+                                            <label class="label">增员奖合计{{vm.getRatesBasedString()}}</label>
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="zy_payment" price ng-model="vm.policy.zy_payment" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">毛利润{{vm.getRatesBasedString()}}</label>
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="profit" price ng-model="vm.policy.profit" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">直接佣金合计{{vm.getRatesBasedString()}}</label>
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="direct_payment_total" price ng-model="vm.policy.direct_payment_total" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">职级佣金合计{{vm.getRatesBasedString()}}</label>
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="class_payment_total" price ng-model="vm.policy.class_payment_total" ng-disabled=true>
+                                            </label>
                                     </section>
                                 </div>
 
@@ -289,50 +382,40 @@
                                 </header>
                                 <div class="row">
                                     <section class="col col-2">
-                                        <label class="label">结算费(税后)</label>
+                                        <label class="label">结算费{{vm.getRatesBasedString()}}</label>
                                         <label class="input">
-                                            <input type="text" class="input-lg" name="taxed_payment_total" price ng-model="vm.policy.taxed_payment_total" ng-disabled=true>
+                                            <input type="text" class="input-lg" name="payment_total" price ng-model="vm.policy.payment_total" ng-disabled=true validator="required">
                                         </label>
                                     </section>
-                                    <section class="col col-3">
+                                    <section class="col col-2">
                                         <label class="label">业务员</label>
                                         <label class="input">
                                             <ui-select style="min-width: 164px;" ng-model="vm.clientInfo" theme="select2" ng-disabled="!vm.editable">
                                                 <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
                                                 <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
+                                                    <div ng-bind-html="client.name + ' (' + client.organization.name + ')' "></div>
                                                 </ui-select-choices>
                                             </ui-select>
                                         </label>
                                     </section>
-                                    <section class="col col-3">
-                                        <label class="label">增员奖(税后)</label>
-                                        <section class="col col-3 no-padding">
+                                    <section class="col col-2">
+                                            <label class="label">收款人</label>
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="zy_rate" price ng-model="vm.policy.zy_rate" ng-change="vm.updateZYPayment()"
-                                                validator="required">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.payee" ng-disabled=true>
                                             </label>
-                                        </section>
-                                        <section class="col col-1 no-padding">
-                                            <label class="percent">%</label>
-                                        </section>
-                                        <section class="col col-8 no-padding">
-                                            <label class="input" ng-disabled=true>
-                                                <input type="text" class="input-lg" name="zy_payment" price ng-model="vm.policy.zy_payment" ng-disabled=true>
-                                            </label>
-                                        </section>
                                     </section>
                                     <section class="col col-3">
-                                        <label class="label">增员人</label>
-                                        <label class="input">
-                                            <ui-select style="min-width: 164px;" ng-model="vm.zy_clientInfo" theme="select2" ng-disabled="!vm.editable">
-                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
-                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
-                                                    <div ng-bind-html="client.name | highlight: $select.search"></div>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                        </label>
-                                    </section>              
+                                            <label class="label">开户行</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.bank" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">账号</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="vm.clientInfo.account" ng-disabled=true>
+                                            </label>
+                                    </section>
                                 </div>
                                 <div class="row">
                                     <section class="col col-2">
@@ -357,16 +440,72 @@
                                             </ui-select>
                                         </label>
                                     </section>
-                                    <section class="col col-5">
+                                    <section class="col col-3">
                                         <label class="label">所属机构</label>
-                                        <label class="select">
-                                            <select name='organization' class="input-lg" ng-model="vm.policy.organization"
-                                                    ng-options="o._id as o.name for o in vm.organizations" validator="required">
-                                                <option value="">请选择所属机构</option>
-                                            </select> <i></i>
+                                        <label class="input">
+                                            <input type="text" class="input-lg" ng-model="vm.clientInfo.organization.name" ng-disabled=true>
                                         </label>
                                     </section>
                                 </div>
+                                <div class="row">
+                                    <section class="col col-3">
+                                        <label class="label">增员奖合计{{vm.getRatesBasedString()}}</label>
+                                        <section class="col col-8 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="zy_payment_total" price ng-model="vm.policy.zy_payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                </div>
+                                <div class="row" data-ng-repeat="zyInfo in vm.policy.zy_infos">
+                                    <section class="col col-3">
+                                        <label class="label">增员奖{{vm.getRatesBasedString()}}</label>
+                                        <section class="col col-4 no-padding">
+                                            <label class="input">
+                                                <input type="text" class="input-lg" name="zy_rate" price ng-model="zyInfo.zy_rate" ng-change="vm.updateFee();vm.updateZYPayment()">
+                                            </label>
+                                        </section>
+                                        <section class="col col-1 no-padding">
+                                            <label class="percent">%</label>
+                                        </section>
+                                        <section class="col col-5 no-padding">
+                                            <label class="input" ng-disabled=true>
+                                                <input type="text" class="input-lg" name="zy_payment" price ng-model="zyInfo.zy_payment" ng-disabled=true>
+                                            </label>
+                                        </section>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="label">增员人</label>
+                                        <label class="input">
+                                            <ui-select style="min-width: 164px;" ng-model="zyInfo.zy_clientInfo" theme="select2" ng-disabled="!vm.editable">
+                                                <ui-select-match class="input-lg">{{$select.selected.name}}</ui-select-match>
+                                                <ui-select-choices repeat="client in vm.clients| filter: $select.search">
+                                                    <div ng-bind-html="client.name + ' (' + client.organization.name + ')' "></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </label>
+                                    </section>
+                                    <section class="col col-2">
+                                            <label class="label">收款人</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.payee" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">开户行</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.bank" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                    <section class="col col-3">
+                                            <label class="label">账号</label>
+                                            <label class="input">
+                                                    <input type="text" class="input-lg" ng-model="zyInfo.zy_clientInfo.account" ng-disabled=true>
+                                            </label>
+                                    </section>
+                                </div>
+                                    <button class="btn btn-primary" ng-show="vm.editable" ng-click="vm.addZyInfo()">添加一行</button>
+                                    <button class="btn btn-primary" ng-show="vm.editable && vm.policy.zy_infos.length > 1" ng-click="vm.removeZyInfo()">减少一行</button>
                             </fieldset>
 
                             <fieldset class="optional-input-field-set">
@@ -380,13 +519,14 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="policy_file_selector" name="policy_file_selector"
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="policy_file_selector" name="policy_file_selector"
                                                 onchange="angular.element(this).scope().vm.policyPhotoChanged(this.files);"
                                             />
-
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="policy_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.policy_photo" type="button" class="btn btn-primary" id="select_file" onclick="policy_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.policy_photo" href="" ng-click="vm.reviewPhoto(vm.policy.policy_photo, true)">查看扫描件</a>
+                                            <button ng-show="vm.editable && vm.policy.policy_photo" type="button" class="btn btn-primary" ng-click="vm.deletePolicyPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.policy_photo" ng-href={{vm.getAttachmentUrl(vm.policy.policy_photo)}} target="_blank">查看保单扫描件</a>
                                         </label>
                                     </section>
                                 </div>
@@ -396,13 +536,33 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="client_info_file_selector" name="client_info_file_selector"
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="client_info_file_selector" name="client_info_file_selector"
                                                 onchange="angular.element(this).scope().vm.clientInfoPhotoChanged(this.files);" />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="client_info_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.client_info_photo" type="button" class="btn btn-primary" id="select_file" onclick="client_info_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.client_info_photo" href="" ng-click="vm.reviewPhoto(vm.policy.client_info_photo, true)">查看扫描件</a>
+                                            <button ng-show="vm.editable && vm.policy.client_info_photo" type="button" class="btn btn-primary" ng-click="vm.deleteClientInfoPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.client_info_photo" ng-href={{vm.getAttachmentUrl(vm.policy.client_info_photo)}} target="_blank">查看客户信息扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-2">
+                                        <label class="label">客户告知书</label>
+                                    </section>
+                                    <section class="col col-2">
+                                        <label class="input">
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.xlsx,.doc,.docx" id="agreement_file_selector" name="agreement_file_selector"
+                                                onchange="angular.element(this).scope().vm.agreementPhotoChanged(this.files);"
+                                            />
+
+                                            <button ng-show="vm.editable && !vm.policy.agreement_photo" type="button" class="btn btn-primary" id="select_file" onclick="agreement_file_selector.click()">上传扫描件
+                                            </button>
+                                            <button ng-show="vm.editable && vm.policy.agreement_photo" type="button" class="btn btn-primary" ng-click="vm.deleteAgreementPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.agreement_photo" ng-href={{vm.getAttachmentUrl(vm.policy.agreement_photo)}} target="_blank">查看客户告知书</a>
                                         </label>
                                     </section>
                                 </div>
@@ -412,19 +572,19 @@
                                     </section>
                                     <section class="col col-2">
                                         <label class="input">
-                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp" id="other_file_selector" name="other_file_selector"
+                                            <input type="file" style="display: none;" class="input-lg" accept=".jpg,.png,.bmp,.pdf,.docx,.doc,.xlsx" id="other_file_selector" name="other_file_selector"
                                                 onchange="angular.element(this).scope().vm.otherPhotoChanged(this.files);" />
 
-                                            <button ng-show="vm.editable" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
+                                            <button ng-show="vm.editable && !vm.policy.other_photo" type="button" class="btn btn-primary" id="select_file" onclick="other_file_selector.click()">上传扫描件
                                             </button>
-                                            <a ng-show="vm.policy.other_photo" href="" ng-click="vm.reviewPhoto(vm.policy.other_photo, true)">查看扫描件</a>
+                                            <button ng-show="vm.editable && vm.policy.other_photo" type="button" class="btn btn-primary" ng-click="vm.deleteOtherPhoto()">删除扫描件
+                                            </button>
+                                            <a ng-show="vm.policy.other_photo" ng-href={{vm.getAttachmentUrl(vm.policy.other_photo)}} target="_blank">查看其它扫描件</a>
                                             <!--<a ng-show="vm.policy.commercial_policy_photo" target="_blank" href={{vm.getCommercialPhotoLink()}}>查看扫描件</a>-->
                                         </label>
                                     </section>
                                 </div>
                             </fieldset>
-
-
 
                             <fieldset class="optional-input-field-set" ng-disabled=true>
                                 <div class="row">
@@ -435,9 +595,48 @@
                                             <input class="input-lg" name="cdy" ng-model="vm.sellerInfo.name">
                                         </label>
                                     </section>
+                                    <section class="col col-6">
+                                        <label class="label">营业部</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-group"></i>
+                                            <input class="input-lg" name="organization" ng-model="vm.sellerInfo.org.name">
+                                        </label>
+                                    </section>
                                 </div>
                             </fieldset>
-
+                            <div class="row" ng-show="vm.policy.policy_status!='待审核'">
+                                <!--section class="col col-3" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class="label">银行</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-bank"></i>
+                                        <input type="text" class="input-lg" placeholder="请输入转账所用银行" name="payment_bank" ng-model="vm.policy.payment_bank" validator="required">
+                                    </label>
+                                </section>
+                                <section class="col col-4" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class="label">支付凭证号</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-key"></i>
+                                        <input type="text" class="input-lg" placeholder="请输入支付凭证号" name="payment_proof" ng-model="vm.policy.payment_proof" validator="required">
+                                    </label>
+                                </section-->
+                                <section class="col col-3" ng-show="vm.policy.policy_status=='待支付'">
+                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付' && user.userrole.lifePolicy_to_be_paid.pay" ng-click="vm.pay()"
+                                        class="btn btn-primary btn-lg">修改保单状态为已支付</button>
+                                </section>
+                            </div>
+                            <div class="row" ng-show="vm.policy.policy_status!='待审核'">
+                                <section class="col col-9" ng-disabled="vm.policy.policy_status=='已支付'">
+                                    <label class='label' ng-show="vm.policy.policy_status=='已支付'">支付日期:{{vm.policy.paid_at|date:"yyyy-MM-dd"}}</label>
+                                    <label class="label">备注</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="comment" ng-model="vm.policy.comment">
+                                    </label>
+                                </section>
+                                <section class="col col-2" ng-show="vm.policy.policy_status=='待支付'">
+                                    <button style="margin-top:1.5em" ng-show="vm.policy.policy_status=='待支付' && user.userrole.lifePolicy_to_be_paid.reject" ng-click="vm.reject()"
+                                        class="btn btn-primary btn-lg">驳回</button>
+                                </section>
+                            </div>
                             <footer>
                                 <span>
                                     <button ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后录入下一条
@@ -445,6 +644,8 @@
                                     <button class="btn btn-primary" ng-show="vm.editable"
                                             ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.lifePolicy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()" class="btn btn-primary btn-lg">审核通过，处理下一条</button>
+                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.lifePolicy_to_be_reviewed.reject" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                 </span>
                             </footer>
                         </form>

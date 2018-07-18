@@ -8,6 +8,8 @@ var logger = require('../utils/logger.js');
 var iconv = require('iconv-lite');
 var CompanyCatogory = require('../models/companyCatogory.js')(db);
 var Rule = require('../models/rule.js')(db);
+var LifeProduct = Promise.promisifyAll(require('../models/life-product.js')(db));
+var PropertyProduct = Promise.promisifyAll(require('../models/property-product.js')(db));
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var makePy = require('../utils/pinyin');
 
@@ -25,8 +27,26 @@ router.get('/', function (req, res, next) {
     )
 });
 
+router.get('/level1', function (req, res) {
+  CompanyCatogory.find()
+    .sort({py: -1})
+    .exec()
+    .then(function (companies) {
+      res.json(companies);
+    },
+    function (err) {
+      res.status(500).end();
+    }
+    )
+});
+
 router.get('/level2', function (req, res) {
-  Company.find({ level: "二级" })
+  let query = { level: "二级" };
+  let company_scope = req.user.userrole.company_scope;
+  if(company_scope != '全国'){
+    query.province = req.user.org.province;
+  }
+  Company.find(query)
     .populate('catogory')
     .sort({py: -1})
     .exec()
@@ -163,14 +183,14 @@ router.put('/rules/:id', asyncMiddleware(async (req, res, next) => {
   let rule = await Rule.findOne({ _id: req.params.id }).exec();
   rule.name = data.name;
   rule.py = makePy(data.name);
-  rule.mandatory_income=data.mandatory_income,
-  rule.mandatory_payment=data.mandatory_payment,
-  rule.commercial_income=data.commercial_income,
-  rule.commercial_payment=data.commercial_payment,
-  rule.tax_income= data.tax_income,
-  rule.tax_payment=data.tax_payment,
-  rule.other_income=data.other_income,
-  rule.other_payment=data.other_payment
+  rule.mandatory_income=data.mandatory_income;
+  rule.mandatory_payment=data.mandatory_payment;
+  rule.commercial_income=data.commercial_income;
+  rule.commercial_payment=data.commercial_payment;
+  rule.tax_income= data.tax_income;
+  rule.tax_payment=data.tax_payment;
+  rule.other_income=data.other_income;
+  rule.other_payment=data.other_payment;
   await rule.save();
   res.json({ message: '费率政策已成功更新' });
 }));
@@ -180,14 +200,14 @@ router.post('/rules', asyncMiddleware(async (req, res, next) => {
   let rule = new Rule();
   rule.name = data.name;
   rule.py = makePy(data.name);
-  rule.mandatory_income=data.mandatory_income,
-  rule.mandatory_payment=data.mandatory_payment,
-  rule.commercial_income=data.commercial_income,
-  rule.commercial_payment=data.commercial_payment,
-  rule.tax_income= data.tax_income,
-  rule.tax_payment=data.tax_payment,
-  rule.other_income=data.other_income,
-  rule.other_payment=data.other_payment
+  rule.mandatory_income=data.mandatory_income;
+  rule.mandatory_payment=data.mandatory_payment;
+  rule.commercial_income=data.commercial_income;
+  rule.commercial_payment=data.commercial_payment;
+  rule.tax_income= data.tax_income;
+  rule.tax_payment=data.tax_payment;
+  rule.other_income=data.other_income;
+  rule.other_payment=data.other_payment;
   rule.company = data.company._id;
   await rule.save();
   res.json({ message: '费率政策已成功保存' });
@@ -198,6 +218,100 @@ router.delete('/rules/:id', asyncMiddleware(async (req, res, next) => {
   logger.info(req.user.name + " 删除了一条费率政策，费率政策名称为：" + rule.name + "。" + req.clientIP);
   await rule.remove();
   res.json({ message: '费率政策已成功删除' });
+}));
+
+router.get('/:id/rules', function (req, res) {
+  Rule.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (rules) {
+      res.status(200).json(rules);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+router.get('/:id/life-products', function (req, res) {
+  LifeProduct.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (products) {
+      res.status(200).json(products);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  let producet = await LifeProduct.findOne({ _id: req.params.id }).populate('company').exec();
+  res.status(200).json(producet);
+}));
+
+router.put('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  await LifeProduct.findOneAndUpdateAsync({_id:req.params.id}, req.body);
+  res.json({ message: '寿险险种已成功更新' });
+}));
+
+router.post('/life-products', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let product = new LifeProduct();
+  product.name = data.name;
+  product.py = makePy(data.name);
+  product.company=data.company;
+  product.direct_payment_rate=data.direct_payment_rate;
+  product.company = data.company._id;
+  await product.save();
+  res.json({ message: '寿险险种已成功保存' });
+}));
+
+router.delete('/life-products/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await LifeProduct.findOne({_id: req.params.id}).exec();
+  logger.info(req.user.name + " 删除了一条寿险险种，寿险险种名称为：" + rule.name + "。" + req.clientIP);
+  await rule.remove();
+  res.json({ message: '财险险种已成功删除' });
+}));
+
+router.get('/:id/property-products', function (req, res) {
+  PropertyProduct.find({ company: req.params.id })
+    .sort({py: 1})
+    .exec()
+    .then(function (products) {
+      res.status(200).json(products);
+    }, function (err) {
+      logger.error(err);
+      res.status(500).send(err);
+    });
+});
+
+router.get('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  let producet = await PropertyProduct.findOne({ _id: req.params.id }).populate('company').exec();
+  res.status(200).json(producet);
+}));
+
+router.put('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  await PropertyProduct.findOneAndUpdateAsync({_id:req.params.id}, req.body);
+  res.json({ message: '财险险种已成功更新' });
+}));
+
+router.post('/property-products', asyncMiddleware(async (req, res, next) => {
+  let data = req.body;
+  let product = new PropertyProduct();
+  product.name = data.name;
+  product.py = makePy(data.name);
+  product.company=data.company;
+  product.income_rate=data.income_rate;
+  product.payment_rate=data.payment_rate;
+  product.company = data.company._id;
+  await product.save();
+  res.json({ message: '财险险种已成功保存' });
+}));
+
+router.delete('/property-products/:id', asyncMiddleware(async (req, res, next) => {
+  let rule = await PropertyProduct.findOne({_id: req.params.id}).exec();
+  logger.info(req.user.name + " 删除了一条财险险种，财险险种名称为：" + rule.name + "。" + req.clientIP);
+  await rule.remove();
+  res.json({ message: '财险险种已成功删除' });
 }));
 
 router.post('/', function (req, res) {
@@ -230,7 +344,11 @@ router.put('/:id', function (req, res) {
     company.contact = req.body.contact;
     company.phone = req.body.phone;
     company.catogory = req.body.catogory;
-    company.rates = req.body.rates;
+    company.province = req.body.province;
+    company.city = req.body.city;
+    company.district = req.body.district;
+    company.area_code = req.body.area_code;
+    // company.rates = req.body.rates;
     // company.rates_based_on_taxed = req.body.rates_based_on_taxed;
     company.save(function (err) {
       if (err) {
@@ -255,28 +373,40 @@ router.delete('/:id', function (req, res) {
   });
 });
 
-router.get('/sub/:parentId', function (req, res) {
-  Company.find({ parent: req.params.parentId })
-    .sort({py: -1})
-    .exec()
-    .then(function (companies) {
-      if (companies.length > 0) {
-        res.status(200).json(companies);
-      } else {
-        Company.find({ catogory: req.params.parentId, level: "二级" })
-          .exec()
-          .then(function (companies) {
-            res.status(200).json(companies);
-          }, function (err) {
-            logger.error(err);
-            res.status(500).send(err);
-          });
-      }
-    }, function (err) {
-      logger.error(err);
-      res.status(500).send(err);
-    });
-});
+router.get('/sub/:parentId', asyncMiddleware(async (req, res, next) => {
+  let parent = await Company.findById(req.params.parentId).exec();
+  let parentLevel = '';
+  if(!parent){
+    parent = await CompanyCatogory.findById(req.params.parentId);
+    parentLevel = '一级';
+  }else{
+    parentLevel = parent.level;
+  }
+  let company_scope = req.user.userrole.company_scope;
+  let query = {};
+  if(parentLevel == '一级'){
+    query.catogory = req.params.parentId;
+    query.level = '二级';
+    if(company_scope != '全国'){
+      query.province = req.user.org.province;
+    }
+  }else if(parentLevel == '二级'){
+    query.parent = req.params.parentId;
+    if(['本市','本区县'].indexOf(company_scope) != -1){
+      query.province = req.user.org.province;
+      query.city = req.user.org.city;
+    }
+  }else if(parentLevel == '三级'){
+    query.parent = req.params.parentId;
+    if(['本区县'].indexOf(company_scope) != -1){
+      query.province = req.user.org.province;
+      query.city = req.user.org.city;
+      query.district = req.user.org.district;
+    }
+  }
+  let companies = await Company.find(query).sort({py: -1}).exec();
+  res.status(200).json(companies);
+}));
 
 
 

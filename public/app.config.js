@@ -257,6 +257,15 @@ if (appConfig.voice_command) {
 }
 
 appConfig.apiRootUrl = '/api';
+appConfig.policyOssUrl = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/";
+appConfig.policyOssBucket = "hy-policy";
+appConfig.policyOssRegion = "oss-cn-shanghai";
+appConfig.policyOssUseSSL = true;
+//appConfig.policyOssUrl = "http://ln-policy.oss-cn-hangzhou.aliyuncs.com/";
+//appConfig.policyOssBucket = "ln-policy";
+//appConfig.policyOssRegion = "oss-cn-hangzhou";
+//appConfig.policyOssUseSSL = false;
+
 
 window.appConfig = appConfig;
 

@@ -31,10 +31,43 @@
                                 </div>
                                 <div class="row">
                                     <section class="col col-6">
-                                        <label class="label">权限范围</label>
+                                        <label class="label">保单可见范围</label>
                                         <label class="select">
-                                            <select name='scope' class="input-lg" ng-model="vm.role.scope" ng-options="s for s in vm.scopes" validator="required">
-                                                <option value="">请选择权限范围</option>
+                                            <select name='scope' class="input-lg" ng-model="vm.role.policy_scope" ng-options="s for s in vm.policy_scopes">
+                                                <option value="">请选择保单可见范围</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">分支机构可见范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.organization_scope" ng-options="s for s in vm.organization_scopes">
+                                                <option value="">请选择分支机构可见范围</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">保险公司可见范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.company_scope" ng-options="s for s in vm.company_scopes">
+                                                <option value="">请选择保险公司可见范围</option>
+                                            </select>
+                                            <i></i>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-6">
+                                        <label class="label">代理人状态可见范围</label>
+                                        <label class="select">
+                                            <select name='scope' class="input-lg" ng-model="vm.role.client_status_scope" ng-options="s for s in vm.client_status_scopes">
+                                                <option value="">请选择代理人状态可见范围</option>
                                             </select>
                                             <i></i>
                                         </label>
@@ -56,6 +89,8 @@
                                                 <th>驳回</th>
                                                 <th>导入</th>
                                                 <th>导出/下载</th>
+                                                <th>续期</th>
+                                                <th>忽略</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -94,6 +129,10 @@
                                                 <td>
                                                     <td>
                                                     </td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -143,6 +182,14 @@
                                                 <td>
                                                 </td>
                                                 <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.client.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -184,6 +231,10 @@
                                                 </td>
                                                 <td>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -219,6 +270,10 @@
                                                 <td>
                                                     <td>
                                                     </td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -276,6 +331,10 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -320,6 +379,10 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -351,6 +414,14 @@
                                                 <td>
                                                 </td>
                                                 <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_rejected.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -393,6 +464,53 @@
                                                 <td>
                                                     <label class="checkbox">
                                                         <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    车险（个人）【续期提醒】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_reminder.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_reminder.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_reminder.clone" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.policy_reminder.ignore" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
                                                 </td>
@@ -444,6 +562,10 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -488,6 +610,10 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -527,6 +653,10 @@
                                                         <input type="checkbox" name="checkbox-inline" ng-model="vm.role.dealerPolicy_paid.export" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -572,6 +702,10 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -588,6 +722,10 @@
                                                 <td>
                                                 </td>
                                                 <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -602,6 +740,10 @@
                                                         <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkDealerPolicy_paid.export" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -643,32 +785,140 @@
                                                         <i></i>
                                                     </label>
                                                 </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    寿险
+                                                    寿险【待审核】
                                                 </td>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy.view" ng-disabled="!vm.editable">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.view" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
                                                 </td>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy.edit" ng-disabled="!vm.editable">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.edit" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
                                                 </td>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy.append" ng-disabled="!vm.editable">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.append" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
                                                 </td>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy.delete" ng-disabled="!vm.editable">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.aprove" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.reject" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_reviewed.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    寿险【待支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                    <td>
+                                                    </td>
+                                                </td>
+
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.pay" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.reject" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_to_be_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    寿险【被驳回】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_rejected.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_rejected.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_rejected.delete" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
 
@@ -678,14 +928,148 @@
                                                 <td>
                                                 </td>
                                                 <td>
-                                                    <td>
-                                                    </td>
+                                                </td>
+                                                <td>
                                                 </td>
                                                 <td>
                                                     <label class="checkbox">
-                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy.export" ng-disabled="!vm.editable">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_rejected.export" ng-disabled="!vm.editable">
                                                         <i></i>
                                                     </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    寿险【已支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_paid.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifePolicy_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    寿险【主管薪酬结算】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeSalary.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeSalary.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeSalary.append" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeSalary.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    寿险【保险公司对账单】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeStatement.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeStatement.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeStatement.append" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.lifeStatement.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -711,6 +1095,290 @@
 
                                                 </td>
                                                 <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险【待审核】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.append" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.aprove" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.reject" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_reviewed.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险【待支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_paid.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                    <td>
+                                                    </td>
+                                                </td>
+
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_paid.pay" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_to_be_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险【被驳回】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_rejected.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_rejected.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_rejected.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_rejected.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险【已支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_paid.edit" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.property_policy_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险（批量）【待支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_to_be_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_to_be_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_to_be_paid.pay" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_to_be_paid.import" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_to_be_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    财险（批量）【已支付】
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_paid.view" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_paid.delete" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
+
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="checkbox-inline" ng-model="vm.role.bulkPropertyPolicy_paid.export" ng-disabled="!vm.editable">
+                                                        <i></i>
+                                                    </label>
                                                 </td>
                                                 <td>
                                                 </td>

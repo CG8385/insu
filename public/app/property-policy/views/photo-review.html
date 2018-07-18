@@ -1,0 +1,17 @@
+<div class="row">
+	<section class="col col-md-8">
+		<div id="policy-photo" 
+		data-ng-magnify1
+		data-glass-width="300"
+    	data-glass-height="300"
+		image-src={{vm.getImageUrl()}} 
+		width="800"></div>
+	</section>
+	<section class="col col-md-4" ng-show="!vm.photoOnly">
+			<label>{{vm.companyName}}</label>
+			<br>
+			<label>{{vm.policy.payer_name}}</label>
+			<br>
+			<label>保费：{{vm.policy.total_fee.toFixed(2)}}</label>
+	</section>
+</div>

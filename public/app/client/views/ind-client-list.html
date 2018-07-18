@@ -4,6 +4,10 @@
     <div class="row">
         <article class="col-sm-12">
 
+            <span>
+                    <button ng-show="user.userrole.client.export" ng-click="vm.exportClients()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+            </span>
+
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
@@ -12,7 +16,7 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.clients" page-items="15" enable-filtering="false">
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.clients" page-items="15" enable-filtering="false" current-page="vm.setting.currentPage">
                             <thead>
                                 <tr>
                                     <th field-name="name" display-name="业务员姓名" enable-filtering="true" enable-sorting="false">
@@ -27,10 +31,12 @@
                                     </th>
                                     <th field-name="phone" display-name="联系电话" enable-filtering="true" enable-sorting="false">
                                     </th>
+                                    <th field-name="client_status" display-name="状态" enable-filtering="true" enable-sorting="false">
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-class="{'txt-color-red':gridItem.client_status=='已注销'}">
                                     <td>
                                         <button ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
                                         <button ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm" ng-show="user.userrole.client.delete">删除</button>                                   

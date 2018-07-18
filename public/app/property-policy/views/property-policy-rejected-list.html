@@ -1,0 +1,75 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <!--<big-breadcrumbs items="['Table', 'Data Tables']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <div smart-include="app/layout/partials/sub-header.tpl.html"></div>-->
+    </div>
+    <!-- widget grid -->
+    <!--<section widget-grid id="widget-grid">-->
+
+    <div class="row">
+        <article class="col-sm-12">
+            <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-show="user.userrole.property_policy_rejected.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
+
+            </span>
+
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize" enable-filtering="false"
+                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            <thead>
+                                <tr>
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payer_name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="total_fee" display-name="总保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="income_rate" display-name="跟单费率(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_rate" display-name="结算费率(%)" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_addition" display-name="结算加" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_substraction" display-name="结算减" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="total_payment" display-name="总结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-class="{'txt-color-red':gridItem.has_warning}">
+                                    <td field-name="organization.name"></td>
+                                    <td>
+                                        <button ng-show="user.userrole.property_policy_rejected.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.property_policy_rejected.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

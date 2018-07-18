@@ -28,42 +28,6 @@ router.get('/me', function (req, res, next) {
 });
 
 // 临时接口
-router.get('/register-cdy01', function (req, res) {
-  User.register(new User({ username: 'cdy01', name: '李静', role: '出单员', organization: '红叶徐州分公司睢宁营业部' }), 'cdy01123', function (err, user) {
-    if (err) {
-      logger.error(err);
-      res.redirect('/#/login');
-    } else {
-      res.status(200).json({ status: 'registered' });
-    }
-  });
-});
-
-// 临时接口
-router.get('/register-cdy02', function (req, res) {
-  User.register(new User({ username: 'cdy02', name: '凌玲', role: '出单员', organization: '红叶徐州分公司睢宁营业部' }), 'cdy02234', function (err, user) {
-    if (err) {
-      logger.error(err);
-      res.redirect('/#/login');
-    } else {
-      res.status(200).json({ status: 'registered' });
-    }
-  });
-});
-
-// 临时接口
-router.get('/register-cn01', function (req, res) {
-  User.register(new User({ username: 'cn01', name: '出纳', role: '财务' }), 'cn01987', function (err, user) {
-    if (err) {
-      logger.error(err);
-      res.redirect('/#/login');
-    } else {
-      res.status(200).json({ status: 'registered' });
-    }
-  });
-});
-
-// 临时接口
 router.get('/register-admin', function (req, res) {
   User.register(new User({ username: 'superadmin', name: '管理员', role: '管理员' }), 'admin2016hy', function (err, user) {
     if (err) {
@@ -134,7 +98,19 @@ router.post('/', function (req, res) {
     if (users.length > 0) {
       res.status(400).send('系统中已存在该账号');
     } else {
-      User.register(new User({ username: data.username, name: data.name, role: data.role, org: data.org, userrole:data.userrole, phone: data.phone, client: data.client}), data.password, function (err, user) {
+      User.register(new User({ 
+        username: data.username, 
+        name: data.name, 
+        role: data.role, 
+        org: data.org, 
+        level1_org: data.level1_org, 
+        level2_org: data.level2_org,
+        level3_org: data.level3_org, 
+        level4_org: data.level4_org, 
+        level5_org: data.level5_org, 
+        userrole:data.userrole, 
+        phone: data.phone, 
+        client: data.client}), data.password, function (err, user) {
         if (err) {
           logger.error(err);
           res.status(500).send(err);
@@ -207,6 +183,11 @@ router.put('/:id', asyncMiddleware(async (req, res, next) => {
   user.name = req.body.name;
   user.username = req.body.username;
   user.org = req.body.org;
+  user.level1_org = req.body.level1_org;
+  user.level2_org = req.body.level2_org;
+  user.level3_org = req.body.level3_org;
+  user.level4_org = req.body.level4_org;
+  user.level5_org = req.body.level5_org;
   user.phone = req.body.phone;
   user.client = req.body.client;
   user.userrole = req.body.userrole;

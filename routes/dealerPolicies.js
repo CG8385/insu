@@ -44,6 +44,20 @@ router.post('/excel', function (req, res) {
     }
   }
 
+  if (req.user.userrole.policy_scope =='本人') {
+    conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
+  }
+
   var sortParam = "";
   if (req.body.orderByReverse) {
     sortParam = "-" + req.body.orderBy.toString();
@@ -57,6 +71,26 @@ router.post('/excel', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
+  
+  if(conditions.organization){
+    delete conditions.organization;
+  }
+
 
   var query = DealerPolicy.find(conditions);
   query
@@ -259,8 +293,19 @@ router.post('/search', function (req, res) {
     }
   }
 
-  if (req.user.userrole.scope != '全公司') {
+
+  if (req.user.userrole.policy_scope =='本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";
@@ -276,6 +321,21 @@ router.post('/search', function (req, res) {
     conditions['created_at'] = { $gte: req.body.fromDate };
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
+  }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
   var query = DealerPolicy.find(conditions);
   query
@@ -396,7 +456,7 @@ router.post('/bulk-approve', function (req, res) {
     .then(function (policies) {
       for (var i = 0; i < policies.length; i++) {
         policies[i].policy_status = '待支付';
-        policies[i].paid_at = Date.now();
+        policies[i].approved_at = Date.now();
         policies[i].save();
         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };

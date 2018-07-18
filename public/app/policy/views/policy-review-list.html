@@ -10,27 +10,51 @@
     <div class="row">
         <article class="col-sm-12">
             <span>
-               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
-                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
-                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
-                <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>              
-                 <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}}  结算费总额:{{vm.summary.total_payment.toFixed(2)}}  毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
-                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>                       
+                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
+                    ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                    <option value="">选择二级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org"
+                    data-ng-change="vm.level3OrgChanged()" ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                    <option value="">选择三级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org"
+                    data-ng-change="vm.level4OrgChanged()" ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                    <option value="">选择四级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org"
+                    data-ng-change="vm.level5OrgChanged()" ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                    <option value="">选择五级机构</option>
+                </select>
+                <br/>
+                <input type="text" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
+                <br/>
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
+                    <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}
+                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>
             </span>
 
 
             <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
                 <header>
-                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <span class="widget-icon">
+                        <i class="fa fa-table"></i>
+                    </span>
                     <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
                 </header>
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize" enable-filtering="false"
-                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="vm.pageSize"
+                            enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th ng-show="user.userrole.policy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
@@ -54,24 +78,14 @@
                                             </ui-select>
                                         </div>
                                     </th>-->
-                                    <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="contact" cell-width="6em" display-name="对接人" display-format="getContact:gridItem" enable-filtering="false"
+                                        enable-sorting="false">
                                     </th>
                                     <th field-name="applicant.name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="plate" display-name="车牌号" display-format="combinePlate:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
-                                        <div class="tr-ng-title">
-                                            营业部
-                                        </div>
-                                        <div ng-show="user.userrole.policy_to_be_reviewed.aprove">
-                                            <div class="tr-ng-column-filter">
-                                                <select class="form-control input-sm" ng-model="vm.filterSettings.organization" ng-options="o._id as o.name for o in vm.organizations | orderBy:['name']"
-                                                    ng-change="vm.filterChanged()">
-                                                    <option value="" selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </th>
                                     <th field-name="mandatory_fee" display-name="交强保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
@@ -109,10 +123,10 @@
                                         </div>
                                     </td>
                                     <!--<td field-name="client.name"></td>-->
-                                    <td field-name="organization.name"></td>
                                     <td>
                                         <button ng-show="user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
-                                        <button ng-show="!user.userrole.policy_to_be_reviewed.aprove && user.userrole.policy_to_be_reviewed.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="!user.userrole.policy_to_be_reviewed.aprove && user.userrole.policy_to_be_reviewed.view" ng-click="vm.view(gridItem)"
+                                            class="btn btn-primary btn-sm">查看</button>
                                         <button ng-show="user.userrole.policy_to_be_reviewed.reject" ng-click="vm.reject(gridItem)" class="btn btn-primary btn-sm">驳回</button>
                                         <button ng-show="user.userrole.policy_to_be_reviewed.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 

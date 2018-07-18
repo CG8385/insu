@@ -1,0 +1,55 @@
+<div id="content">
+    <div class="row">
+        <article class="col-sm-12">
+            <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon">
+                        <i class="fa fa-info"></i>
+                    </span>
+                    <h2>寿险险种</h2>
+                </header>
+                <div>
+                    <div class="widget-body">
+                        <form name="productForm" id="productForm" class="smart-form" novalidate>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">所属保险公司</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" ng-disabled="true" name="company" ng-model="vm.product.company.name">
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="label">险种名称</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="name"  ng-model="vm.product.name">
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
+                                    <label class="label">直接佣金系数默认(%)</label>
+                                    <label class="input">
+                                        <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="vm.product.direct_payment_rate">
+                                    </label>
+                                </section>
+                            </div>
+                            <footer class="clear">
+                                <span>
+                                    <button validation-submit="productForm" class="btn btn-primary" ng-click="vm.submitAndBack()">保存
+                                    </button>
+                                </span>
+                            </footer>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+</div>

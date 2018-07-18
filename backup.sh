@@ -18,11 +18,7 @@ uploadToOSS()
     $PYTHON $BASE_DIR/oss.upload.py LTAIAeRG47QcIkh0 ao9TlY0TJaKPzsnWy39j9E5RXBTXMt oss-cn-hangzhou-internal.aliyuncs.com insubackup $1
 }
  
-# mongo admin --eval "printjson(db.fsyncLock())"
-# $MONGODUMP_PATH -h $MONGO_HOST:$MONGO_PORT -d $MONGO_DATABASE
-# $MONGODUMP_PATH --db $MONGO_DATABASE --archive=$ARCHIVE_PATH --gzip
 $MONGODUMP_PATH --db $MONGO_DATABASE
-# mongo admin --eval "printjson(db.fsyncUnlock())"
  
 mkdir -p $BACKUPS_DIR
 mv dump $BACKUP_NAME

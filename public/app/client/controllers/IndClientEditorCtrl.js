@@ -10,6 +10,80 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.isInReviewMode = false;
     vm.dealers = [];
 
+    vm.level2Orgs = [];
+    vm.level3Orgs = [];
+    vm.level4Orgs = [];
+    vm.level5Orgs = [];
+    vm.statusList = ['正常', '已注销'];
+
+    vm.loadLevel2Orgs = function () {
+        ClientService.getLevel2Orgs()
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
+            }, function (err) {
+            });
+    }
+
+    vm.loadLevel3Orgs = function () {
+        if (!vm.client.level2_org) {
+            vm.level3Orgs = [];
+        } else {
+            ClientService.getSubOrgs(vm.client.level2_org)
+                .then(function (level3Orgs) {
+                    vm.level3Orgs = level3Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel4Orgs = function () {
+        if (!vm.client.level3_org) {
+            vm.level4Orgs = [];
+        } else {
+            ClientService.getSubOrgs(vm.client.level3_org)
+                .then(function (level4Orgs) {
+                    vm.level4Orgs = level4Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel5Orgs = function () {
+        if (!vm.client.level4_org) {
+            vm.level5Orgs = [];
+        } else {
+            ClientService.getSubOrgs(vm.client.level4_org)
+                .then(function (level5Orgs) {
+                    vm.level5Orgs = level5Orgs;
+                }, function (err) {
+
+                });
+        }
+    }
+
+    vm.loadLevel2Orgs();
+
+
+    vm.level2Changed = function () {
+        delete vm.client.level3_org;
+        delete vm.client.level4_org;
+        delete vm.client.level5_org;
+        vm.loadLevel3Orgs();
+    }
+
+    vm.level3Changed = function () {
+        delete vm.client.level4_org;
+        delete vm.client.level5_org;
+        vm.loadLevel4Orgs();
+    }
+
+    vm.level4Changed = function () {
+        delete vm.client.level5_org;
+        vm.loadLevel5Orgs();
+    }
+
     if ($state.is("app.client.individual.new")) {
         vm.editable = true;
     }else if ($state.is("app.client.pending.review")) {
@@ -17,10 +91,10 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         vm.isInReviewMode = true;
     }
 
-    ClientService.getOrganizations()
-        .then(function (organizations) {
-            vm.organizations = organizations;
-        })
+    // ClientService.getOrganizations()
+    //     .then(function (organizations) {
+    //         vm.organizations = organizations;
+    //     })
     
     ClientService.getOrgClients()
         .then(function (dealers) {
@@ -35,7 +109,15 @@ angular.module('app.client').controller('IndClientEditorController', function ($
         ClientService.getClient(clientId)
             .then(function (client) {
                 vm.client = client;
-                // LoadWechats();
+                vm.loadLevel3Orgs();
+                vm.loadLevel4Orgs();
+                vm.loadLevel5Orgs();
+                if(client.parent){
+                    ClientService.getClient(client.parent)
+                    .then(function (dealer) {
+                        vm.dealerInfo = dealer;
+                    })
+                }
             });
     }
     
@@ -93,6 +175,9 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     vm.approve = function(){
         vm.client.client_type = "个人";
         vm.client.pending = false;
+        if(vm.dealerInfo){
+            vm.client.parent = vm.dealerInfo._id;
+        }
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -110,6 +195,9 @@ angular.module('app.client').controller('IndClientEditorController', function ($
 
     vm.submit = function () {
         vm.client.client_type = "个人";
+        if(vm.dealerInfo){
+            vm.client.parent = vm.dealerInfo._id;
+        }
         ClientService.saveClient(vm.client)
             .then(function (data) {
                 $.smallBox({
@@ -152,12 +240,12 @@ angular.module('app.client').controller('IndClientEditorController', function ($
     }
 
     vm.getPhotoUrl = function () {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
+        return appConfig.policyOssUrl + vm.client.license_photo + "?x-oss-process=style/resize";
         // return "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + vm.client.license_photo + "?x-oss-process=style/resize";
     }
 
-    vm.getImageUrl = function (fileName) {
-        return "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName + "?x-oss-process=style/resize";
+    vm.getAttachmentUrl = function (fileName) {
+        return appConfig.policyOssUrl + fileName;
     }
 
 

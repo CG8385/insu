@@ -221,6 +221,13 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             });
     }
 
+    var parentPolicy = $state.params.parentPolicy;
+    if (parentPolicy) {
+        vm.policy = Object.assign({}, parentPolicy);
+        console.log(vm.policy);
+    }
+
+
     vm.toggleEdit = function () {
         vm.editable = !vm.editable;
     }
@@ -288,6 +295,21 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
         if (vm.policy.policy_status == "被驳回") {
             vm.policy.policy_status = "待审核";
+        }
+        if (!vm.policy.organization) {
+            // vm.policy.client = vm.clientInfo._id;
+            // vm.policy.level2_org = vm.clientInfo.level2_org;
+            // vm.policy.level3_org = vm.clientInfo.level3_org;
+            // vm.policy.level4_org = vm.clientInfo.level4_org;
+            // vm.policy.level5_org = vm.clientInfo.level5_org;
+            // vm.policy.organization = vm.clientInfo.level5_org;
+            vm.policy.seller = vm.sellerInfo._id;
+            vm.policy.level1_org = vm.sellerInfo.level1_org;
+            vm.policy.level2_org = vm.sellerInfo.level2_org;
+            vm.policy.level3_org = vm.sellerInfo.level3_org;
+            vm.policy.level4_org = vm.sellerInfo.level4_org;
+            vm.policy.level5_org = vm.sellerInfo.level5_org;
+            vm.policy.organization = vm.sellerInfo.org._id;
         }
         PolicyService.savePolicy(vm.policy)
             .then(function (data) {
@@ -409,6 +431,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }, function (ButtonPressed) {
             if (ButtonPressed === "确认") {
                 vm.policy.policy_status = "待支付";
+                vm.policy.approved_at = Date.now();
                 PolicyService.savePolicy(vm.policy)
                     .then(function (data) {
                         $.smallBox({
@@ -456,7 +479,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                             var id = ids.shift();
                             $state.go("app.policy.approve1", { policyId: id, ids: ids });
                         } else {
-                            $state.go("app.policy.to-be-reviewed");
+                            if ($state.is("app.policy.pay1")) {
+                                $state.go("app.policy.to-be-paid");
+                            }else{
+                                $state.go("app.policy.to-be-reviewed");
+                            }
                         }
 
                     }, function (err) { });
@@ -501,76 +528,81 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
+    function RoundNum(num, length) { 
+        var number = Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
+        return number;
+    }
+
     vm.updateFee = function () {
         vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee / 1.06;
         if (vm.policy.mandatory_fee_taxed) {
-            vm.policy.mandatory_fee_taxed = vm.policy.mandatory_fee_taxed.toFixed(2);
+            vm.policy.mandatory_fee_taxed = RoundNum(vm.policy.mandatory_fee_taxed, 2);
         }
         vm.policy.commercial_fee_taxed = vm.policy.commercial_fee / 1.06;
         if (vm.policy.commercial_fee_taxed) {
-            vm.policy.commercial_fee_taxed = vm.policy.commercial_fee_taxed.toFixed(2);
+            vm.policy.commercial_fee_taxed = RoundNum(vm.policy.commercial_fee_taxed, 2);
         }
         vm.policy.other_fee_taxed = vm.policy.other_fee / 1.06;
         if (vm.policy.other_fee_taxed) {
-            vm.policy.other_fee_taxed = vm.policy.other_fee_taxed.toFixed(2);
+            vm.policy.other_fee_taxed = RoundNum(vm.policy.other_fee_taxed, 2);
         }
 
         var divideBy = vm.policy.rates_based_on_taxed ? 106 : 100;
 
         vm.policy.mandatory_fee_income = vm.policy.mandatory_fee * vm.policy.mandatory_fee_income_rate / divideBy;
         if (vm.policy.mandatory_fee_income) {
-            vm.policy.mandatory_fee_income = vm.policy.mandatory_fee_income.toFixed(2);
+            vm.policy.mandatory_fee_income = RoundNum(vm.policy.mandatory_fee_income, 2);
         }
         vm.policy.commercial_fee_income = vm.policy.commercial_fee * vm.policy.commercial_fee_income_rate / divideBy;
         if (vm.policy.commercial_fee_income) {
-            vm.policy.commercial_fee_income = vm.policy.commercial_fee_income.toFixed(2);
+            vm.policy.commercial_fee_income = RoundNum(vm.policy.commercial_fee_income, 2);
         }
         vm.policy.tax_fee_income = vm.policy.tax_fee * vm.policy.tax_fee_income_rate / 100;
         if (vm.policy.tax_fee_income) {
-            vm.policy.tax_fee_income = vm.policy.tax_fee_income.toFixed(2);
+            vm.policy.tax_fee_income = RoundNum(vm.policy.tax_fee_income, 2);
         }
         vm.policy.other_fee_income = vm.policy.other_fee * vm.policy.other_fee_income_rate / divideBy;
         if (vm.policy.other_fee_income) {
-            vm.policy.other_fee_income = vm.policy.other_fee_income.toFixed(2);
+            vm.policy.other_fee_income = RoundNum(vm.policy.other_fee_income, 2);
         }
 
         if (!isNaN(vm.policy.mandatory_fee_income) && !isNaN(vm.policy.commercial_fee_income) && !isNaN(vm.policy.tax_fee_income) && !isNaN(vm.policy.other_fee_income)) {
             vm.policy.total_income = parseFloat(vm.policy.mandatory_fee_income) + parseFloat(vm.policy.commercial_fee_income) + parseFloat(vm.policy.tax_fee_income) + parseFloat(vm.policy.other_fee_income);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
         vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee * vm.policy.mandatory_fee_payment_rate / divideBy;
 
         if (vm.policy.mandatory_fee_payment) {
-            vm.policy.mandatory_fee_payment = vm.policy.mandatory_fee_payment.toFixed(2);
+            vm.policy.mandatory_fee_payment = RoundNum(vm.policy.mandatory_fee_payment, 2);
         }
         vm.policy.commercial_fee_payment = vm.policy.commercial_fee * vm.policy.commercial_fee_payment_rate / divideBy;
         if (vm.policy.commercial_fee_payment) {
-            vm.policy.commercial_fee_payment = vm.policy.commercial_fee_payment.toFixed(2);
+            vm.policy.commercial_fee_payment = RoundNum(vm.policy.commercial_fee_payment, 2);
         }
         vm.policy.tax_fee_payment = vm.policy.tax_fee * vm.policy.tax_fee_payment_rate / 100;
         if (vm.policy.tax_fee_payment) {
-            vm.policy.tax_fee_payment = vm.policy.tax_fee_payment.toFixed(2);
+            vm.policy.tax_fee_payment = RoundNum(vm.policy.tax_fee_payment, 2);
         }
         vm.policy.other_fee_payment = vm.policy.other_fee * vm.policy.other_fee_payment_rate / divideBy;
         if (vm.policy.other_fee_payment) {
-            vm.policy.other_fee_payment = vm.policy.other_fee_payment.toFixed(2);
+            vm.policy.other_fee_payment = RoundNum(vm.policy.other_fee_payment, 2);
         }
         if (!isNaN(vm.policy.mandatory_fee_payment) && !isNaN(vm.policy.commercial_fee_payment) && !isNaN(vm.policy.tax_fee_payment) && !isNaN(vm.policy.other_fee_payment)) {
             vm.policy.total_payment = parseFloat(vm.policy.mandatory_fee_payment) + parseFloat(vm.policy.commercial_fee_payment) + parseFloat(vm.policy.tax_fee_payment) + parseFloat(vm.policy.other_fee_payment);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
         }
         if (vm.policy.payment_addition) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
             vm.policy.total_income = parseFloat(vm.policy.total_income) + parseFloat(vm.policy.payment_addition);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
         if (vm.policy.payment_substraction) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
-            vm.policy.total_payment = vm.policy.total_payment.toFixed(2);
+            vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
             vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_substraction);
-            vm.policy.total_income = vm.policy.total_income.toFixed(2);
+            vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
     }
@@ -607,6 +639,8 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         vm.uploadAgreementPhoto(files[0]);
     };
 
+
+
     vm.uploadAgreementPhoto = function (file) {
         PolicyService.uploadFile(file)
             .then(function (fileName) {
@@ -620,6 +654,41 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     vm.commercialPhotoChanged = function (files) {
         vm.uploadCommercialPhoto(files[0]);
     };
+
+    vm.deleteSignPhoto = function () {
+        delete vm.policy.sign_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteOtherPhoto = function () {
+        delete vm.policy.other_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteAgreementPhoto = function () {
+        delete vm.policy.agreement_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+    vm.deleteCommercialPhoto = function () {
+        delete vm.policy.commercial_policy_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
+    vm.deleteMandatoryPhoto = function () {
+        delete vm.policy.mandatory_policy_photo;
+        if (vm.policy._id) {
+            PolicyService.updatePhoto(vm.policy)
+        }
+    };
+
 
     vm.uploadCommercialPhoto = function (file) {
         PolicyService.uploadFile(file)
@@ -663,6 +732,10 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                 }
             }
         });
+    }
+
+    vm.getAttachmentUrl = function (fileName) {
+        return appConfig.policyOssUrl + fileName;
     }
 
 });

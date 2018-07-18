@@ -5,10 +5,47 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     vm.company = {};
     vm.companyCatogories = [];
     vm.rules = [];
+    vm.lifeProducts = [];
+    vm.propertyProducts = [];
     vm.editable = false;
     vm.currentLevel = "";
     vm.parentName = "";
     vm.showRateEditor = false;
+
+    CompanyService.getLocations()
+    .then(function(locations){
+        vm.locations = locations;
+        vm.provinces = locations;
+        if(vm.company.province){
+            vm.provinceChanged();
+            vm.cityChanged();
+        }
+    })
+
+    vm.provinceChanged = function() {
+        var province = vm.provinces.filter(p=>p.name == vm.company.province)[0];
+        vm.company.area_code = "0" + province.code;
+        vm.cities = province.children;
+        vm.disctricts = [];
+    }
+
+    vm.cityChanged = function() {
+        var city = vm.cities.filter(c=>c.name == vm.company.city)[0];
+        if(city){
+            vm.company.area_code = "0" + city.code;
+            vm.districts = city.children;
+        }else{
+            vm.disctricts = [];
+        }
+
+    }
+
+    vm.districtChanged = function() {
+        var district = vm.districts.filter(d=>d.name == vm.company.district)[0];
+        if(district){
+            vm.company.area_code = "0" + district.code;
+        }
+    }
 
     if ($state.is('app.company.company2.new')) {
         vm.company.level = "二级";
@@ -34,18 +71,18 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             CompanyService.getCompany(vm.company.parent)
                 .then(function (parentCompany) {
                     vm.parentName = parentCompany.name;
+                    if(vm.editable){
+                        vm.company.province = parentCompany.province;
+                        vm.company.city = parentCompany.city;
+                        vm.company.district = parentCompany.district;
+                        vm.company.area_code = parentCompany.area_code;
+                    }
                 })
         }
     }
 
     vm.setParentName();
 
-
-
-    // CompanyService.getCompanyCatogories()
-    //     .then(function (companyCatogories) {
-    //         vm.companyCatogories = companyCatogories;
-    //     })
 
 
 
@@ -61,10 +98,22 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
             .then(function (company) {
                 vm.company = company;
                 vm.setParentName();
+                if(vm.provinces && vm.provinces.length > 0 && vm.company.province){
+                    vm.provinceChanged();
+                    vm.cityChanged();
+                }
             });
         CompanyService.getRules(companyId)
             .then(function (rules) {
                 vm.rules = rules;
+            });
+        CompanyService.getLifeProducts(companyId)
+            .then(function (lifeProducts) {
+                vm.lifeProducts = lifeProducts;
+            });
+        CompanyService.getPropertyProducts(companyId)
+            .then(function (propertyProducts) {
+                vm.propertyProducts = propertyProducts;
             });
     }
 
@@ -90,12 +139,12 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
     }
 
     vm.submit = function () {
-        if (vm.current_rate) {
-            if (!vm.company.rates) {
-                vm.company.rates = [];
-            }
-            vm.company.rates.unshift(vm.current_rate);
-        }
+        // if (vm.current_rate) {
+        //     if (!vm.company.rates) {
+        //         vm.company.rates = [];
+        //     }
+        //     vm.company.rates.unshift(vm.current_rate);
+        // }
         CompanyService.saveCompany(vm.company)
             .then(function (data) {
                 $.smallBox({
@@ -117,8 +166,11 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
                     if (vm.currentLevel == "二级") {
                         $state.go("app.company.company2.all");
                     } else if (vm.currentLevel == "三级") {
+                        vm.company.province = temp.province;
                         $state.go("app.company.company3.all");
                     } else if (vm.currentLevel == "四级") {
+                        vm.company.province = temp.province;
+                        vm.company.city = temp.city;
                         $state.go("app.company.company4.all");
                     } else {
                         $state.go("app.company.all");
@@ -161,6 +213,76 @@ angular.module('app.company').controller('CompanyEditorController', function ($s
         $state.go("app.company.rule.new", { companyId: vm.company._id, previousState: $state.current.name });
        
     }
+    vm.addLifeProduct = function () {
+        $state.go("app.company.life-product.new", { companyId: vm.company._id, previousState: $state.current.name });
+    }
+
+    vm.refreshLifeProducts = function () {
+        CompanyService.getLifeProducts(vm.company._id)
+        .then(function (lifeProducts) {
+            vm.lifeProducts = lifeProducts;
+        });
+    };
+
+    vm.editLifeProduct = function (productId) {
+        $state.go("app.company.life-product.view", { productId: productId, previousState: $state.current.name });
+    }
+
+    vm.deleteLifeProduct= function (productId) {
+        $.SmartMessageBox({
+            title: "删除寿险险种",
+            content: "确认删除该寿险险种？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deleteLifeProduct(productId)
+                    .then(function () {
+                        vm.refreshLifeProducts();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    }
+
+    vm.addPropertyProduct = function () {
+        $state.go("app.company.property-product.new", { companyId: vm.company._id, previousState: $state.current.name });
+       
+    }
+
+    vm.refreshPropertyProducts = function () {
+        CompanyService.getPropertyProducts(vm.company._id)
+        .then(function (propertyProducts) {
+            vm.propertyProducts = propertyProducts;
+        });
+    };
+
+    vm.editPropertyProduct = function (productId) {
+        $state.go("app.company.property-product.view", { productId: productId, previousState: $state.current.name });
+    }
+
+    vm.deletePropertyProduct= function (productId) {
+        $.SmartMessageBox({
+            title: "删除财险险种",
+            content: "确认删除该财险险种？",
+            buttons: '[取消][确认]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "确认") {
+                CompanyService.deletePropertyProduct(productId)
+                    .then(function () {
+                        vm.refreshPropertyProducts();
+                    })
+            }
+            if (ButtonPressed === "取消") {
+
+            }
+
+        });
+    }
+
+
 
 
 });

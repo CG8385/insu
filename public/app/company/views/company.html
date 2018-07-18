@@ -6,6 +6,10 @@
                     <i class="fa fa-fw fa-unlock"></i>编辑</button>
                 <button ng-click="vm.addRule()" class="btn btn-primary" ng-show="user.userrole.company.append">
                     <i class="fa fa-calculator"></i>添加费率政策</button>
+                <button ng-click="vm.addLifeProduct()" class="btn btn-primary" ng-show="user.userrole.company.append">
+                    <i class="fa fa-calculator"></i>添加寿险险种</button>
+                <button ng-click="vm.addPropertyProduct()" class="btn btn-primary" ng-show="user.userrole.company.append">
+                    <i class="fa fa-calculator"></i>添加财险险种</button>
             </div>
             <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
                 <header>
@@ -28,12 +32,6 @@
                                             <i class="icon-append fa fa-group"></i>
                                             <input type="text" class="input-lg" ng-disabled="true" name="parent" ng-model="vm.parentName">
                                         </label>
-                                        <!--<label class="select" ng-show = "vm.level == "二级">
-                                            <select name='cat' class="input-lg"  ng-model="vm.company.catogory"
-                                                    ng-options="c._id as c.name for c in vm.companyCatogories" validator="required">
-                                                <option value="">请选择所属一级保险公司</option>
-                                            </select> <i></i>
-                                        </label>-->
                                     </div>
                                     <div class="row">
                                         <label class="label">级别</label>
@@ -68,6 +66,26 @@
                                             <input type="checkbox" name="rates_based_on_taxed" ng-model="vm.company.rates_based_on_taxed">
                                             <i></i>费率基于不含税保费</label>
                                     </div>-->
+                                    <div class="row">
+                                        <label class="label">所在区域</label>
+                                        <section class="col col-3">
+                                            <select name='cat' class="input-sm" data-ng-change="vm.provinceChanged()" ng-model="vm.company.province" ng-options="p.name as p.name for p in vm.provinces">
+                                                <option value="">选择所在省</option>
+                                            </select>
+                                        </section>
+                                        <section class="col col-3">
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.province" data-ng-change="vm.cityChanged()" ng-model="vm.company.city"
+                                                ng-options="c.name as c.name for c in vm.cities">
+                                                <option value="">选择所在市</option>
+                                            </select>
+                                        </section>
+                                        <section class="col col-3">
+                                            <select name='cat' class="input-sm" ng-disabled="!vm.company.city" data-ng-change="vm.districtChanged()" ng-model="vm.company.district"
+                                                ng-options="c.name as c.name for c in vm.districts">
+                                                <option value="">选择所在区县</option>
+                                            </select>
+                                        </section>
+                                    </div>
                                 </fieldset>
                             </section>
 
@@ -148,47 +166,132 @@
                                 </div>
                             </section> -->
 
+
                         <div class="rules-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
-                            <header>
-                                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                    <h2>费率政策</h2>
-                            </header>
                             <div>
-                                <div class="widget-body no-padding table-responsive">
-                                    <table class="table-striped table-condensed" tr-ng-grid items="vm.rules" page-items="15" enable-filtering="false">
-                                        <thead>
-                                            <tr>
-                                                <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="mandatory_income" display-name="交强险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="mandatory_payment" display-name="交强险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="commercial_income" display-name="商业险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="commercial_payment" display-name="商业险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="tax_income" display-name="车船税跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="tax_payment" display-name="车船税结算(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="other_income" display-name="其他险跟单(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                                <th field-name="other_payment" display-name="其他险结算(%)" enable-filtering="false" enable-sorting="false">
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <button ng-click="vm.editRule(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
-                                                    <button ng-click="vm.deleteRule(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#auto-product" data-toggle="tab">车险费率政策</a>
+                                    </li>
+                                    <li>
+                                        <a href="#life-product" data-toggle="tab">寿险险种</a>
+                                    </li>
+                                    <li>
+                                        <a href="#property-product" data-toggle="tab">财险险种</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content padding-10">
+                                    <div class="tab-pane active" id="auto-product">
+                                        <header>
+                                            <span class="widget-icon">
+                                                <i class="fa fa-table"></i>
+                                            </span>
+                                            <h2>费率政策</h2>
+                                        </header>
+                                        <div>
+                                            <div class="widget-body no-padding table-responsive">
+                                                <table class="table-striped table-condensed" tr-ng-grid items="vm.rules" page-items="15" enable-filtering="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="mandatory_income" display-name="交强险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="mandatory_payment" display-name="交强险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="commercial_income" display-name="商业险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="commercial_payment" display-name="商业险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="tax_income" display-name="车船税跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="tax_payment" display-name="车船税结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="other_income" display-name="其他险跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="other_payment" display-name="其他险结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <button ng-click="vm.editRule(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                                                <button ng-click="vm.deleteRule(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="life-product">
+                                        <header>
+                                            <span class="widget-icon">
+                                                <i class="fa fa-table"></i>
+                                            </span>
+                                            <h2>寿险险种</h2>
+                                        </header>
+                                        <div>
+                                            <div class="widget-body no-padding table-responsive">
+                                                <table class="table-striped table-condensed" tr-ng-grid items="vm.lifeProducts" page-items="15" enable-filtering="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="direct_payment_rate" display-name="直接佣金系数默认(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <button ng-click="vm.editLifeProduct(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                                                <button ng-click="vm.deleteLifeProduct(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="property-product">
+                                        <header>
+                                            <span class="widget-icon">
+                                                <i class="fa fa-table"></i>
+                                            </span>
+                                            <h2>财险险种</h2>
+                                        </header>
+                                        <div>
+                                            <div class="widget-body no-padding table-responsive">
+                                                <table class="table-striped table-condensed" tr-ng-grid items="vm.propertyProducts" page-items="15" enable-filtering="false">
+                                                    <thead>
+                                                        <tr>
+                                                            <th field-name="name" display-name="名称" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="income_rate" display-name="跟单(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                            <th field-name="payment_rate" display-name="结算(%)" enable-filtering="false" enable-sorting="false">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <button ng-click="vm.editPropertyProduct(gridItem._id)" class="btn btn-primary btn-sm">编辑</button>
+                                                                <button ng-click="vm.deletePropertyProduct(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
+
                         </div>
 
 

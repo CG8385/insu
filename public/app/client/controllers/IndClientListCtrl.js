@@ -1,26 +1,42 @@
 'use strict'
 
-angular.module('app.client').controller('IndClientListController', function(screenSize, $rootScope, $state, $scope, ClientService){
+angular.module('app.client').controller('IndClientListController', function(screenSize, $timeout, $rootScope, $state, $scope, ClientService, localStorageService){
     var vm = this;
     vm.clients = [];
-
-
-
     vm.refreshClients = function(){
        ClientService.getIndClients()
        .then(function(clients){
            vm.clients = clients;
-       }, function(err){
-           
+           $timeout(function(){ 
+                 vm.setting = localStorageService.get('ind-client-list') ? localStorageService.get('ind-client-list') : {currentPage: 0};
+            }, 300);
+       }, function(err){ 
        });
     };
     
     vm.refreshClients();
-	
+
     vm.view = function(clientId){
+        localStorageService.set('ind-client-list', vm.setting );
         $state.go("app.client.individual.view", {clientId: clientId});
     };
 
+
+    vm.exportClients = function () {
+        ClientService.getCSV()
+            .then(function (csv) {
+                var file = new Blob(['\ufeff', csv], {
+                    type: 'application/csv'
+                });
+                var fileURL = window.URL.createObjectURL(file);
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: fileURL,
+                    target: '_blank',
+                    download: 'clients.csv'
+                })[0].click();
+            })
+    };
     /*
      * SmartAlerts
      */

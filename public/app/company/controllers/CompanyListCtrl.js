@@ -56,7 +56,6 @@ angular.module('app.company').controller('CompanyListController', function (scre
     }
 
     vm.refreshCompanies = function () {
-
         if (!vm.setting.parentId) {
             vm.companies = [];
         } else {
@@ -81,7 +80,6 @@ angular.module('app.company').controller('CompanyListController', function (scre
         } else if (vm.level == "四级") {
             $state.go("app.company.company4.view", { companyId: companyId });
         }
-        // $state.go("app.company.view", { companyId: companyId });
     };
 
     vm.level1Changed = function () {
@@ -159,23 +157,11 @@ angular.module('app.company').controller('CompanyListController', function (scre
 });
 
 angular.module('app.company')
-.filter("getIncomeRatesString", function () {
+.filter("getAreaString", function () {
     return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_income + "%, " + "商业险:" + item.rates[0].commercial_income + "%, "
-                + "车船税:" + item.rates[0].tax_income + "%, " + "其他险:" + item.rates[0].other_income + "%";
-        return str;  
-    };
-})
-.filter("getPaymentRatesString", function () {
-    return function (fieldValueUnused, item) {
-        if(!item.rates){
-            return "";
-        }
-        var str = "交强险:" + item.rates[0].mandatory_payment + "%, " + "商业险:" + item.rates[0].commercial_payment + "%, "
-                + "车船税:" + item.rates[0].tax_payment + "%, " + "其他险:" + item.rates[0].other_payment + "%";
-        return str;  
+        var province = item.province ? item.province : '';
+        var city = item.city ?  item.city : '';
+        var district = item.district ?  item.district : '';
+        return province + city + district;  
     };
 });

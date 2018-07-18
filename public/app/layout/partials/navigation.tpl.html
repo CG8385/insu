@@ -38,12 +38,12 @@
                     <li data-ui-sref-active="active" ng-show="user.userrole.policy_paid.view">
                         <a data-ui-sref="app.policy.paid">已支付保单</a>
                     </li>
-                    <!-- <li data-ui-sref-active="active" ng-show="user.userrole.policy_paid.view">
-                        <a data-ui-sref="app.policy.checked">已核对保单</a>
+                    <!-- <li data-ui-sref-active="active" ng-show="user.userrole.policy_reminder.view">
+                        <a data-ui-sref="app.policy.reminder">续期保单提醒</a>
                     </li> -->
                 </ul>
             </li>
-            <li data-menu-collapse ng-show="user.userrole.dealerPolicy_to_be_reviewed.view">
+            <li data-menu-collapse ng-show="user.userrole.dealerPolicy_to_be_reviewed.view || user.userrole.bulkDealerPolicy_to_be_paid.view">
                 <a href="#">
                     <i class="fa fa-lg fa-fw fa-car"></i>
                     <span class="menu-item-parent">车险（渠道）</span>
@@ -72,29 +72,79 @@
                     </li>
                 </ul>
             </li>
-            <li data-menu-collapse ng-show="user.userrole.lifePolicy.view">
+            <li data-menu-collapse ng-show="user.userrole.lifePolicy.view
+                 || user.userrole.lifePolicy.append
+                 || user.userrole.lifePolicy_to_be_reviewed.append
+                 || user.userrole.lifePolicy_to_be_reviewed.view
+                 || user.userrole.lifePolicy_rejected.view
+                 || user.userrole.lifePolicy_to_be_paid.view
+                 || user.userrole.lifePolicy_paid.view">
                 <a href="#">
                     <i class="fa fa-lg fa-fw fa-user"></i>
                     <span class="menu-item-parent">寿险</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy_to_be_reviewed.append">
                         <a data-ui-sref="app.life-policy.new">保单录入</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
-                        <a data-ui-sref="app.life-policy.to-be-paid">保单列表</a>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy_rejected.view">
+                        <a data-ui-sref="app.life-policy.rejected">被驳回保单</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy_to_be_reviewed.view">
+                        <a data-ui-sref="app.life-policy.to-be-reviewed">待审核保单</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy_to_be_paid.view">
+                        <a data-ui-sref="app.life-policy.to-be-paid">待支付保单</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy_paid.view">
+                        <a data-ui-sref="app.life-policy.paid">已支付保单</a>
+                    </li>
+                    <!--li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
+                        <a data-ui-sref="app.life-policy.to-be-paid">保单列表</a>
+                    </li-->
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifeSalary.append">
                         <a data-ui-sref="app.life-policy.salary.new">主管薪酬结算单录入</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifeSalary.view">
                         <a data-ui-sref="app.life-policy.salary.list">主管薪酬结算单列表</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.append">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifeStatement.append">
                         <a data-ui-sref="app.life-policy.statement.new">保险公司对账单录入</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.lifePolicy.view">
+                    <li data-ui-sref-active="active" ng-show="user.userrole.lifeStatement.view">
                         <a data-ui-sref="app.life-policy.statement.list">保险公司对账单列表</a>
+                    </li>
+                </ul>
+            </li>
+            <li data-menu-collapse ng-show="user.userrole.property_policy_to_be_reviewed.view">
+                <a href="#">
+                    <i class="fa fa-lg fa-fw fa-user"></i>
+                    <span class="menu-item-parent">财险</span>
+                </a>
+                <ul>
+                    <li ng-show="user.userrole.property_policy_to_be_reviewed.append">
+                        <a data-ui-sref="app.property-policy.new">保单录入</a>
+                    </li>
+                    <li ng-show="user.userrole.property_policy_rejected.view">
+                        <a data-ui-sref="app.property-policy.rejected">被驳回保单</a>
+                    </li>
+                    <li ng-show="user.userrole.property_policy_to_be_reviewed.view">
+                        <a data-ui-sref="app.property-policy.to-be-reviewed">待审核保单</a>
+                    </li>
+                    <li ng-show="user.userrole.property_policy_to_be_paid.view">
+                        <a data-ui-sref="app.property-policy.to-be-paid">待支付保单</a>
+                    </li>
+                    <li ng-show="user.userrole.property_policy_paid.view">
+                        <a data-ui-sref="app.property-policy.paid">已支付保单</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_to_be_paid.import" data-ui-sref-active="active">
+                        <a data-ui-sref="app.property-policy.bulk-property-policy.import">保单批量导入</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_to_be_paid.view" data-ui-sref-active="active">
+                        <a data-ui-sref="app.property-policy.bulk-property-policy.to-be-paid">待支付批量保单</a>
+                    </li>
+                    <li ng-show="user.userrole.bulkPropertyPolicy_paid.view" data-ui-sref-active="active">
+                        <a data-ui-sref="app.property-policy.bulk-property-policy.paid">已支付批量保单</a>
                     </li>
                 </ul>
             </li>
@@ -155,11 +205,17 @@
                     <span class="menu-item-parent">分支机构管理</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.organization.all">分支机构</a>
+                    <li data-ui-sref-active="active" ng-show="['一级','二级'].indexOf(user.userrole.organization_scope) != -1">
+                        <a data-ui-sref="app.organization.org2.all">二级机构</a>
                     </li>
-                    <li data-ui-sref-active="active" ng-show="user.userrole.organization.append">
-                        <a data-ui-sref="app.organization.new">添加分支机构</a>
+                    <li data-ui-sref-active="active" ng-show="['一级','二级','三级'].indexOf(user.userrole.organization_scope) != -1">
+                        <a data-ui-sref="app.organization.org3.all">三级机构</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="['一级','二级','三级','四级'].indexOf(user.userrole.organization_scope) != -1">
+                        <a data-ui-sref="app.organization.org4.all">四级机构</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.organization.org5.all">五级机构</a>
                     </li>
                 </ul>
             </li>
@@ -170,17 +226,17 @@
                     <span class="menu-item-parent">保险公司管理</span>
                 </a>
                 <ul>
-                    <li data-ui-sref-active="active">
+                    <li data-ui-sref-active="active" ng-show="['全国'].indexOf(user.userrole.company_scope) != -1">
                         <a data-ui-sref="app.company.companycatogory.all">一级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company2.all">二级保险公司</a>
+                        <a data-ui-sref="app.company.company2.all" ng-show="['全国','本省'].indexOf(user.userrole.company_scope) != -1">二级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company3.all">三级保险公司</a>
+                        <a data-ui-sref="app.company.company3.all" ng-show="['全国','本省', '本市'].indexOf(user.userrole.company_scope) != -1">三级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
-                        <a data-ui-sref="app.company.company4.all">四级保险公司</a>
+                        <a data-ui-sref="app.company.company4.all" ng-show="['全国','本省', '本市', '本区县'].indexOf(user.userrole.company_scope) != -1">四级保险公司</a>
                     </li>
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.company.policyname.all">险种名称</a>

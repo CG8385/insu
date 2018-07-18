@@ -6,6 +6,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     vm.areAllSelected = false;
     vm.summary = {income:0, payment:0, profit:0};
     vm.pageSize = 15;
+    vm.entries = 0;
 
     vm.totalIncome = 0;
     vm.totalPayment = 0;
@@ -42,14 +43,32 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         }
         vm.fromDate = localStorageService.get("org-paid-fromDate") ? localStorageService.get("org-paid-fromDate") : undefined;
         vm.toDate = localStorageService.get("org-paid-toDate") ? localStorageService.get("org-paid-toDate") : undefined;
+        vm.paidFromDate = localStorageService.get("org-paid-paidFromDate") ? localStorageService.get("org-paid-paidFromDate") : undefined;
+        vm.paidToDate = localStorageService.get("org-paid-paidToDate") ? localStorageService.get("org-paid-paidToDate") : undefined;
         vm.tableHeader = "已支付车商保单";
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        if(vm.entries < 3 && currentPage == 0){
+            if ($state.is("app.policy.org-policy.to-be-paid")) {
+                vm.currentPage = localStorageService.get("org-currentPage");
+            }
+            else if ($state.is("app.policy.org-policy.paid")) {
+                vm.currentPage = localStorageService.get("org-paid-currentPage");
+            }
+            vm.entries = vm.entries + 1;
+        }else{
+            if ($state.is("app.policy.org-policy.to-be-paid")) {
+                localStorageService.set("org-currentPage", vm.currentPage);
+            }
+            else if ($state.is("app.policy.org-policy.paid")) {
+                localStorageService.set("org-paid-currentPage", vm.currentPage);
+            }
+        }
+        
         vm.areAllSelected = false;
-        vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.paidFromDate, vm.paidToDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -67,6 +86,8 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
             localStorageService.set("org-paid-filterSettings", vm.filterSettings);
             localStorageService.set('org-paid-fromDate', vm.fromDate);
             localStorageService.set('org-paid-toDate', vm.toDate);
+            localStorageService.set('org-paid-paidFromDate', vm.paidFromDate);
+            localStorageService.set('org-paid-paidToDate', vm.paidToDate);
         }
         vm.refreshPolicies();
         // vm.refreshSummary();
@@ -99,7 +120,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     };
 
     vm.refreshSummary = function () {
-        OrgPolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.getSummary(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.padiFromDate, vm.paidToDate)
             .then(function (data) {
                 vm.totalIncome = data.total_income;
                 vm.totalPayment = data.total_payment;
@@ -118,7 +139,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
     }
 
     vm.exportFilteredPolicies = function () {
-        OrgPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate)
+        OrgPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.paidFromDate, vm.paidToDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'
@@ -241,7 +262,7 @@ angular.module('app.policy').controller('OrgPolicyListController', function (scr
         vm.summary = vm.selectedPolicies.reduce(function(a,b){
             return {income: a.income + b.income, payment: a.payment + b.payment, profit: a.income + b.income - a.payment - b.payment}
         }, {income:0, payment:0, profit:0});
-        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0 && $rootScope.user.userrole.dealerPolicy_to_be_paid.pay;
+        vm.isShowBulkPayButton = vm.selectedPolicies.length > 0;
     }
 
     vm.selectAll = function () {

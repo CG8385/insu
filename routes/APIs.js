@@ -10,12 +10,15 @@ var companies = require('./companies.js');
 var companyCatogories = require('./companyCatogories.js');
 var policyNames = require('./policyNames.js');
 var orgPolicies = require('./orgPolicies.js');
+var propertyPolicies = require('./propertyPolicies.js');
 var imagePolicies = require('./imagePolicies');
 var dealerPolicies = require('./dealerPolicies.js');
+var bulkPropertyPolicies = require('./bulkPropertyPolicies.js');
 var migrate = require('./migrate.js');
 var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
+var locations = require('./locations');
 var router = express.Router();
 
 /* GET home page. */
@@ -33,10 +36,13 @@ router.use('/policy-names', policyNames);
 router.use('/org-policies', orgPolicies);
 router.use('/image-policies', imagePolicies);
 router.use('/dealer-policies', dealerPolicies);
+router.use('/property-policies', propertyPolicies);
+router.use('/bulk-property-policies', bulkPropertyPolicies);
 router.use('/migrate', migrate);
 router.use('/sts', sts);
 router.use('/logs', logs);
 router.use('/roles', roles);
+router.use('/locations', locations);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

@@ -20,13 +20,22 @@ var schema = new mongoose.Schema({
     payment_substract_rate: Number,
     organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
     license_photo: String,
+    agreement_photo: String,
+    contract_photo: String,
     //added in v4
     openId: String,
     approved_at: { type: Date },
     identity1_filename: String,
     identity2_filename: String,
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-    pending: Boolean
+    pending: Boolean,
+    level1_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level2_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level3_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level4_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    level5_org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    client_status: {type: String, default: '正常'}, // 正常,已注销
+    remark: String
 });
 
 mongoose.model('Client', schema);

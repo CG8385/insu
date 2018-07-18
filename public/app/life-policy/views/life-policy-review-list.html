@@ -1,0 +1,141 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+    <div class="row">
+        <!--<big-breadcrumbs items="['Table', 'Data Tables']" icon="table" class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></big-breadcrumbs>
+        <div smart-include="app/layout/partials/sub-header.tpl.html"></div>-->
+    </div>
+    <!-- widget grid -->
+    <!--<section widget-grid id="widget-grid">-->
+
+
+    <div class="row">
+       <article class="col-sm-12">
+            <span>
+               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.fromDate" ng-change="vm.filterChanged()">
+               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.toDate" ng-change="vm.filterChanged()">
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
+                    ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
+                    <option value="">选择二级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level3Org' class="input-sm" ng-disabled="!vm.filterSettings.level2_org"
+                    data-ng-change="vm.level3OrgChanged()" ng-model="vm.filterSettings.level3_org" ng-options="c._id as c.name for c in vm.level3Orgs">
+                    <option value="">选择三级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level4Org' class="input-sm" ng-disabled="!vm.filterSettings.level3_org"
+                    data-ng-change="vm.level4OrgChanged()" ng-model="vm.filterSettings.level4_org" ng-options="c._id as c.name for c in vm.level4Orgs">
+                    <option value="">选择四级机构</option>
+                </select>
+                <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level5Org' class="input-sm" ng-disabled="!vm.filterSettings.level4_org"
+                    data-ng-change="vm.level5OrgChanged()" ng-model="vm.filterSettings.level5_org" ng-options="c._id as c.name for c in vm.level5Orgs">
+                    <option value="">选择五级机构</option>
+                </select>
+                <input type="text" ng-show="user.userrole.policy_scope!='本人'" class="input-md" name="policy-no-filter" placeholder="保单号模糊查询" ng-model="vm.policyNoSearch" ng-change="vm.filterChanged()">
+                <ng-show="user.userrole.policy_scope!='本人'" br/>
+                <button ng-click="vm.refreshPolicies()" class="btn btn-primary"><i class="fa fa-fw fa-refresh"></i>刷新</button>
+                <button ng-click="vm.exportFilteredPolicies()" class="btn btn-primary" ng-show="user.userrole.lifePolicy_to_be_reviewed.export"><i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费合计:{{vm.summary.total_income}} 结算费合计:{{vm.summary.payment_total}} 增员奖合计:{{vm.summary.zy_payment}} 毛利润合计:{{vm.summary.profit}}</label>
+                <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>
+            </span>
+
+
+            <div class="policies-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>{{vm.tableHeader+' 共'+vm.policyTotalCount+'条'}}</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            <thead>
+                                <tr>
+                                    <th ng-show="user.userrole.lifePolicy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
+                                        <div class="tr-ng-title">&nbsp;</div>
+                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                    </th>
+                                    <th field-name="submit_date" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+
+                                    <th field-name="applicant.name" cell-width="6em" display-name="投保人" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <!--<th field-name="applicant.phone" display-name="电话" enable-filtering="false" enable-sorting="false">
+                                    </th>-->
+                                    <th field-name="client.name" cell-width="8em" display-name="业务员" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            业务员
+                                        </div>
+                                    </th>
+                                     <th field-name="zy_client.name" cell-width="8em" display-name="增员人" enable-filtering="false" enable-sorting="false">
+                                        <!--<div class="tr-ng-title">-->
+                                            <!--增员人-->
+                                        <!--</div>-->
+                                        <!--<div ng-show="user.role!='出单员'">-->
+                                            <!--<div class="tr-ng-column-filter">-->
+                                                <!--&lt;!&ndash;<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">&ndash;&gt;-->
+
+                                                <!--<select class="form-control input-sm" ng-model="vm.filterSettings.zy_client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"-->
+                                                <!--ng-change="vm.filterChanged()">-->
+                                                    <!--<option value="" selected></option>-->
+                                                <!--</select>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    </th>
+                                    <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            营业部
+                                        </div>
+                                    </th>
+                                    <th field-name="seller.name" display-name="出单员" enable-filtering="false" enable-sorting="false">
+                                        <div class="tr-ng-title">
+                                            出单员
+                                        </div>
+                                    </th>
+                                    <th field-name="total_income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="payment_total" display-name="结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="zy_payment" display-name="增员奖" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="profit" display-name="毛利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-class="{'txt-color-red':gridItem.has_warning}">
+                                    <td ng-show="user.userrole.lifePolicy_to_be_reviewed.aprove">
+                                        <div>
+                                            <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
+                                        </div>
+                                    </td>
+                                    <td field-name="submit_date"></td>
+                                    <td field-name="policy_no"></td>
+                                    <td field-name="applicant.name"></td>
+                                    <td field-name="client.name"></td>
+                                    <td field-name="zy_client.name"></td>
+                                    <td field-name="organization.name"></td>
+                                    <td field-name="seller.name"></td>
+                                    <td>
+                                        <!--<button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>-->
+                                        <!-- <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button> -->
+                                        <!--button ng-show="user.userrole.lifePolicy.view" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button-->
+                                        <!--button ng-show="user.userrole.lifePolicy.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button-->
+                                        <button ng-show="user.userrole.lifePolicy_to_be_reviewed.aprove" ng-click="vm.approve(gridItem)" class="btn btn-primary btn-sm">审核</button>
+                                        <button ng-show="!user.userrole.lifePolicy_to_be_reviewed.aprove && user.userrole.lifePolicy_to_be_reviewed.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.lifePolicy_to_be_reviewed.reject" ng-click="vm.reject(gridItem)" class="btn btn-primary btn-sm">驳回</button>
+                                        <button ng-show="user.userrole.lifePolicy_to_be_reviewed.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

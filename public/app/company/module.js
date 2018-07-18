@@ -5,7 +5,7 @@ angular.module('app.company', ['ui.router','validation'])
 
 
 angular.module('app.company').config(function ($stateProvider, localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('insu');
+    localStorageServiceProvider.setPrefix('company');
 
     $stateProvider
        .state('app.company', {
@@ -251,6 +251,77 @@ angular.module('app.company').config(function ($stateProvider, localStorageServi
                 "content@app": {
                     controller: 'RuleEditorController as vm',
                     templateUrl: 'app/company/views/rule.html'
+                }
+            }
+        }).state('app.company.life-product', {
+            abstract: true,
+            data: {
+                title: '寿险险种管理'
+            }
+        })
+        .state('app.company.life-product.view', {
+            url: '/companies/life-product/:productId',
+            data: {
+                title: '寿险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeProductEditorController as vm',
+                    templateUrl: 'app/company/views/life-product.html'
+                }
+            }
+        })
+        .state('app.company.life-product.new', {
+            url: '/companies/life-product/new/:companyId',
+            data: {
+                title: '添加寿险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'LifeProductEditorController as vm',
+                    templateUrl: 'app/company/views/life-product.html'
+                }
+            }
+        })
+        .state('app.company.property-product', {
+            abstract: true,
+            data: {
+                title: '财险险种管理'
+            }
+        })
+        .state('app.company.property-product.view', {
+            url: '/companies/property-product/:productId',
+            data: {
+                title: '财险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'PropertyProductEditorController as vm',
+                    templateUrl: 'app/company/views/property-product.html'
+                }
+            }
+        })
+        .state('app.company.property-product.new', {
+            url: '/companies/property-product/new/:companyId',
+            data: {
+                title: '添加财险险种'
+            },
+            params:{
+                previousState: null
+            },
+            views: {
+                "content@app": {
+                    controller: 'PropertyProductEditorController as vm',
+                    templateUrl: 'app/company/views/property-product.html'
                 }
             }
         })

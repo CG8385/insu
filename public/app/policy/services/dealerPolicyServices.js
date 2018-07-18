@@ -223,7 +223,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -240,7 +240,11 @@ angular.module('app.policy').factory('DealerPolicyService',
                 }
 
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -249,7 +253,11 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd
                 };
 
 
@@ -287,7 +295,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -357,7 +365,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -373,15 +381,24 @@ angular.module('app.policy').factory('DealerPolicyService',
                     orderByReverse = true;
                 }
                 var end = new Date(toDate);
-                end.setDate(end.getDate() + 1);
+                end.setHours(23,59,59,0);
+                var approvedEnd = new Date(approvedToDate);
+                approvedEnd.setHours(23,59,59,0);
+                var paidEnd = new Date(paidToDate);
+                paidEnd.setHours(23,59,59,0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
                     fromDate: fromDate,
-                    toDate: end
+                    toDate: end,
+                    approvedFromDate: approvedFromDate,
+                    approvedToDate: approvedEnd,
+                    paidFromDate: paidFromDate,
+                    paidToDate: paidEnd
                 };
+                
                 $http.post("/api/dealer-policies/excel", config)
                     // handle success
                     .success(function (data, status) {
@@ -479,11 +496,12 @@ angular.module('app.policy').factory('DealerPolicyService',
                 getStsCredential()
                     .then(function (credentials) {
                         var client = new OSS.Wrapper({
-                            region: 'oss-cn-shanghai',
+                            region: appConfig.policyOssRegion,
                             accessKeyId: credentials.AccessKeyId,
                             accessKeySecret: credentials.AccessKeySecret,
                             stsToken: credentials.SecurityToken,
-                            bucket: 'hy-policy'
+                            bucket: appConfig.policyOssBucket,
+                            secure: appConfig.policyOssUseSSL
                         }, function (err) {
                             document.body.style.cursor = 'default';
                             $.bigBox({
@@ -500,7 +518,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                         var fileName = uuid.v1() + ext;
 
                         client.multipartUpload(fileName, file).then(function (result) {
-                            var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                            var url = appConfig.policyOssUrl + fileName;
                             $.smallBox({
                                 title: "服务器确认信息",
                                 content: "扫描件已成功上传",

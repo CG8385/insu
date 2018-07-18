@@ -27,8 +27,6 @@ router.post('/', function (req, res) {
         res.status(400).send('二级保险公司必须填写');
       } else {
         var policy = new Policy(data);
-        policy.seller = req.user._id;
-        policy.organization = req.user.org;
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
           if (err) {
@@ -48,23 +46,6 @@ router.post('/', function (req, res) {
 });
 
 
-router.get('/upgrade', function (req, res) {
-  var query = Policy.find({ policy_status: '已支付' });
-  query
-    .populate('seller')
-    .exec()
-    .then(function (policies) {
-      // console.log(policies);
-      for (var i = 0; i < policies.length; i++) {
-        var policy = policies[i];
-        policy.organization = policy.seller.org;
-        // console.log(policy.organization);
-        policy.save();
-      }
-
-    });
-});
-
 router.post('/excel', function (req, res) {
   var conditions = {};
   for (var key in req.body.filterByFields) {
@@ -73,8 +54,18 @@ router.post('/excel', function (req, res) {
     }
   }
 
-  if (req.user.userrole.scope != '全公司') {
+  if (req.user.userrole.policy_scope =='本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";
@@ -90,6 +81,34 @@ router.post('/excel', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
+
+  if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' && req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate, $lte: req.body.effectiveToDate };
+  } else if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' ) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate };
+  } else if (req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $lte: req.body.effectiveToDate };
+  }
+
+  if(conditions.organization){
+    delete conditions.organization;
+  }
+  
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
@@ -147,6 +166,7 @@ router.post('/excel', function (req, res) {
         'total_payment',
         'total_profit',
         'policy_status',
+        'approved_at',
         'paid_at',
         'payment_bank'
       ];
@@ -200,6 +220,7 @@ router.post('/excel', function (req, res) {
         '结算费总额',
         '总毛利润',
         '保单状态',
+        '审核日期',
         '支付日期',
         '支付银行'
       ];
@@ -226,7 +247,7 @@ router.post('/excel', function (req, res) {
         row.plate_no = policy.plate_no;
         row.applicant.phone = "'" + policy.applicant.phone;
         row.organization.name = policy.organization ? policy.organization.name : "";
-        row.seller.name = policy.seller.name;
+        row.seller.name = policy.seller ? policy.seller.name : "";
         row.client.name = policy.client ? policy.client.name : '';
         row.client.bank = policy.client ? policy.client.bank : '';
         row.client.account = policy.client ? "'" + policy.client.account : '';
@@ -272,6 +293,7 @@ router.post('/excel', function (req, res) {
         row.total_profit = policy.total_income - policy.total_payment;
         row.total_profit = row.total_profit.toFixed(2);
         row.policy_status = policy.policy_status;
+        row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
         arr.push(row);
@@ -310,6 +332,7 @@ router.put('/:id', function (req, res) {
     if (err)
       res.send(err);
     policy.policy_no = req.body.policy_no;
+    policy.mandatory_policy_no = req.body.mandatory_policy_no;
     policy.plate_no = req.body.plate_no;
     policy.applicant = req.body.applicant;
     policy.frame_no = req.body.frame_no;
@@ -340,6 +363,7 @@ router.put('/:id', function (req, res) {
     policy.client = req.body.client;
     policy.seller = req.body.seller;
     policy.policy_status = req.body.policy_status;
+    policy.approved_at = req.body.approved_at;
     policy.paid_at = req.body.paid_at;
     policy.total_income = req.body.total_income;
     policy.payment_addition = req.body.payment_addition;
@@ -354,6 +378,7 @@ router.put('/:id', function (req, res) {
     policy.payment_proof = req.body.payment_proof;
     policy.company = req.body.company;
     policy.rule = req.body.rule;
+    policy.comment = req.body.comment;
 
     policy.level1_company = req.body.level1_company;
     policy.level2_company = req.body.level2_company;
@@ -363,6 +388,8 @@ router.put('/:id', function (req, res) {
     policy.has_warning = req.body.has_warning;
     policy.organization = req.body.organization;
     policy.rates_based_on_taxed = req.body.rates_based_on_taxed;
+    policy.cloned_from = req.body.cloned_from;
+    policy.stop_reminder = req.body.stop_reminder;
     policy.save(function (err) {
       if (err) {
         logger.error(err);
@@ -390,13 +417,23 @@ router.post('/search', function (req, res) {
   var conditions = {};
 
   for (var key in req.body.filterByFields) {
-    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] != null && req.body.filterByFields[key] != "") {
+    if (req.body.filterByFields.hasOwnProperty(key) && req.body.filterByFields[key] !== null && req.body.filterByFields[key] !== "") {
       conditions[key] = req.body.filterByFields[key];
     }
   }
 
-  if (req.user.userrole.scope != '全公司') {
+  if (req.user.userrole.policy_scope == '本人') {
     conditions['seller'] = req.user._id;
+  }else if (req.user.userrole.policy_scope =='无') {
+    conditions['level1_org'] = "-999";
+  }else if (req.user.userrole.policy_scope =='二级') {
+    conditions['level2_org'] = req.user.level2_org;
+  }else if (req.user.userrole.policy_scope =='三级') {
+    conditions['level3_org'] = req.user.level3_org;
+  }else if (req.user.userrole.policy_scope =='四级') {
+    conditions['level4_org'] = req.user.level4_org;
+  }else if (req.user.userrole.policy_scope =='五级') {
+    conditions['level5_org'] = req.user.level5_org;
   }
 
   var sortParam = "";
@@ -413,6 +450,44 @@ router.post('/search', function (req, res) {
   } else if (req.body.toDate != undefined) {
     conditions['created_at'] = { $lte: req.body.toDate };
   }
+
+  if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' && req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate, $lte: req.body.approvedToDate };
+  } else if (req.body.approvedFromDate != undefined && req.body.approvedFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.approvedFromDate };
+  } else if (req.body.approvedToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.approvedToDate };
+  }
+
+  if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' && req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate, $lte: req.body.paidToDate };
+  } else if (req.body.paidFromDate != undefined && req.body.paidFromDate !='' ) {
+    conditions['updated_at'] = { $gte: req.body.paidFromDate };
+  } else if (req.body.paidToDate != undefined) {
+    conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
+
+  if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' && req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate, $lte: req.body.effectiveToDate };
+  } else if (req.body.effectiveFromDate != undefined && req.body.effectiveFromDate !='' ) {
+    conditions['effective_date'] = { $gte: req.body.effectiveFromDate };
+  } else if (req.body.effectiveToDate != undefined) {
+    conditions['effective_date'] = { $lte: req.body.effectiveToDate };
+  }
+
+  if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
+    let searchText = '/' + req.body.policyNoSearch + '/';
+    // conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
+    conditions.$or = [{ policy_no: {$regex : req.body.policyNoSearch, $options : 'i'} },{mandatory_policy_no: {$regex : req.body.policyNoSearch, $options : 'i'}}]
+  }
+  
+
+  if(conditions.organization){
+    delete conditions.organization;
+  }
+
+  console.log(conditions);
+
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
@@ -536,7 +611,7 @@ router.post('/bulk-approve', function (req, res) {
     .then(function (policies) {
       for (var i = 0; i < policies.length; i++) {
         policies[i].policy_status = '待支付';
-        policies[i].paid_at = Date.now();
+        policies[i].approved_at = Date.now();
         policies[i].save();
         logger.info(req.user.name + " 更新了一份保单，保单号为：" + policies[i].policy_no + "。" + req.clientIP);
       };

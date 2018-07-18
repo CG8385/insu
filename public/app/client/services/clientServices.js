@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('app.client').factory('ClientService',
-['$q', '$http', 'uuid',
-function ($q, $http, uuid) {
+    ['$q', '$http', 'uuid',
+        function ($q, $http, uuid) {
             // return available functions for use in controllers
             return ({
                 saveClient: saveClient,
@@ -16,7 +16,79 @@ function ($q, $http, uuid) {
                 getWechatsByIds: getWechatsByIds,
                 getOrganizations: getOrganizations,
                 uploadFile: uploadFile,
+                getLevel2Orgs: getLevel2Orgs,
+                getSubOrgs: getSubOrgs,
+                getCSV: getCSV,
+                updatePhoto: updatePhoto,
             });
+
+            function getCSV() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/excel", { requestTrapped: true })
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getLevel2Orgs() {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/level2')
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function getSubOrgs(parentId) {
+
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                // send a post request to the server
+                $http.get('api/organizations/sub/' + parentId)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
             function getOrganizations() {
 
@@ -300,12 +372,13 @@ function ($q, $http, uuid) {
                 getStsCredential()
                     .then(function (credentials) {
                         var client = new OSS.Wrapper({
-                            region: 'oss-cn-shanghai',
+                            region: appConfig.policyOssRegion,
                             accessKeyId: credentials.AccessKeyId,
                             accessKeySecret: credentials.AccessKeySecret,
                             stsToken: credentials.SecurityToken,
                             // bucket: 'cwang1'
-                            bucket: 'hy-policy'
+                            bucket: appConfig.policyOssBucket,
+                            secure: appConfig.policyOssUseSSL
                         }, function (err) {
                             document.body.style.cursor = 'default';
                             $.bigBox({
@@ -322,7 +395,7 @@ function ($q, $http, uuid) {
                             fileName = uuid.v1() + ext;
                         }
                         client.multipartUpload(fileName, file).then(function (result) {
-                            var url = "http://hy-policy.oss-cn-shanghai.aliyuncs.com/" + fileName;
+                            var url = appConfig.policyOssUrl + fileName;
                             // var url = "http://cwang1.oss-cn-shanghai.aliyuncs.com/" + fileName;
                             $.smallBox({
                                 title: "服务器确认信息",
@@ -341,5 +414,25 @@ function ($q, $http, uuid) {
 
             }
 
+            function updatePhoto(client) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+                $http.post("/api/clients/update-photo", client)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
 
         }]);

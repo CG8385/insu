@@ -31,6 +31,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
             data: {
                 title: '保单录入(新版测试)'
             },
+            params: {parentPolicy: null},
             views: {
                 "content@app": {
                     controller: 'PolicyEditorController1 as vm',
@@ -229,6 +230,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 "content@app": {
                     controller: 'PolicyListController as vm',
                     templateUrl: 'app/policy/views/policy-list-checked.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
+        .state('app.policy.reminder', {
+            url: '/policies/reminder',
+            data: {
+                title: '续期提醒'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-list-reminder.html'
                 }
             },
             resolve: {
