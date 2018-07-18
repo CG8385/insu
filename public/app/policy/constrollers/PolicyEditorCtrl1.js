@@ -321,12 +321,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             vm.policy.policy_status = "待审核";
         }
         if (!vm.policy.organization) {
-            // vm.policy.client = vm.clientInfo._id;
-            // vm.policy.level2_org = vm.clientInfo.level2_org;
-            // vm.policy.level3_org = vm.clientInfo.level3_org;
-            // vm.policy.level4_org = vm.clientInfo.level4_org;
-            // vm.policy.level5_org = vm.clientInfo.level5_org;
-            // vm.policy.organization = vm.clientInfo.level5_org;
             vm.policy.seller = vm.sellerInfo._id;
             vm.policy.level1_org = vm.sellerInfo.level1_org;
             vm.policy.level2_org = vm.sellerInfo.level2_org;
@@ -364,11 +358,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                                         level4_company: old.level4_company
                                     };
                                     if (vm.back) {
-                                        // if ($rootScope.user.userrole == "后台录单员") {
-                                        //     $state.go("app.policy.to-be-paid");
-                                        // } else {
-                                        $state.go("app.policy.to-be-reviewed");
-                                        // }
+                                        if (old.cloned_from) {
+                                            $state.go("app.policy.reminder");
+                                        } else {
+                                            $state.go("app.policy.to-be-reviewed");
+                                        }
                                     }
                                 })
                         }
@@ -408,11 +402,11 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         payment_substraction: 0
                     };
                     if (vm.back) {
-                        // if ($rootScope.user.role == "后台录单员") {
-                        //     $state.go("app.policy.to-be-paid");
-                        // } else {
-                        $state.go("app.policy.to-be-reviewed");
-                        // }
+                        if (old.cloned_from) {
+                            $state.go("app.policy.reminder");
+                        } else {
+                            $state.go("app.policy.to-be-reviewed");
+                        }
                     }
                 }
             }, function (err) { });
