@@ -224,7 +224,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     var parentPolicy = $state.params.parentPolicy;
     if (parentPolicy) {
         vm.clientInfo = parentPolicy.client;
-        if (policy.client) {
+        if (parentPolicy.client) {
             vm.policy.client = parentPolicy.client._id;
         }
         vm.policy.cloned_from = parentPolicy._id;
