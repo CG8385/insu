@@ -6,7 +6,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         tax_fee: 0,
         tax_fee_income_rate: 0,
         tax_fee_payment_rate: 0,
-        tax_fee_income:0,
+        tax_fee_income: 0,
         tax_fee_payment: 0,
         other_fee: 0,
         other_fee_taxed: 0,
@@ -158,26 +158,26 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
 
-    vm.shouldShowEditButton = function (){
-        if(vm.editable) return false;
-        if(vm.policy.policy_status == "待审核"){
+    vm.shouldShowEditButton = function () {
+        if (vm.editable) return false;
+        if (vm.policy.policy_status == "待审核") {
             return $rootScope.user.userrole.policy_to_be_reviewed.edit;
-        }else if(vm.policy.policy_status == "待支付"){
+        } else if (vm.policy.policy_status == "待支付") {
             return $rootScope.user.userrole.policy_to_be_paid.edit;
-        }else if(vm.policy.policy_status == "已支付"){
+        } else if (vm.policy.policy_status == "已支付") {
             return $rootScope.user.userrole.policy_paid.edit;
-        }else if(vm.policy.policy_status == "已核对"){
+        } else if (vm.policy.policy_status == "已核对") {
             return $rootScope.user.userrole.policy_paid.edit;
-        }else if(vm.policy.policy_status == "被驳回"){
+        } else if (vm.policy.policy_status == "被驳回") {
             return $rootScope.user.userrole.policy_rejected.edit;
         }
     }
 
     vm.shouldShowFinanceSection = function () {
         var ret = false;
-        if(vm.policy.policy_status == "待审核"){
+        if (vm.policy.policy_status == "待审核") {
             ret = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
-        }else if(["待支付","已支付"].indexOf(vm.policy.policy_status) != -1){
+        } else if (["待支付", "已支付"].indexOf(vm.policy.policy_status) != -1) {
             ret = $rootScope.user.userrole.policy_to_be_paid.pay;
         }
         return ret;
@@ -223,8 +223,32 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     var parentPolicy = $state.params.parentPolicy;
     if (parentPolicy) {
-        vm.policy = Object.assign({}, parentPolicy);
+        vm.clientInfo = policy.client;
+        if (policy.client) {
+            vm.policy.client = policy.client._id;
+        }
+        vm.policy.cloned_from = policy._id;
+        vm.policy.applicant = policy.applicant;
+        vm.policy.level1_company = policy.level1_company;
+        vm.policy.level2_company = policy.level2_company;
+        vm.policy.level3_company = policy.level3_company;
+        vm.policy.level4_company = policy.level4_company;
+        vm.policy.level1_org = policy.level1_org;
+        vm.policy.level2_org = policy.level2_org;
+        vm.policy.level3_org = policy.level3_org;
+        vm.policy.level4_org = policy.level4_org;
+        vm.policy.level5_org = policy.level5_org;
+        vm.policy.organization = policy.organization._id;
+        vm.policy.plate_no = policy.plate_no;
+        vm.policy.plate_no = policy.plate_no;
+        vm.policy.policy_status = "待审核";
+        vm.policy.rates_based_on_taxed = policy.rates_based_on_taxed;
+        vm.policy.rule = policy.rule;
+        vm.policy.rule_rates = policy.rule_rates;
         console.log(vm.policy);
+        vm.loadLevel3Companies();
+        vm.loadLevel4Companies();
+        vm.loadRules();
     }
 
 
@@ -343,7 +367,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                                         // if ($rootScope.user.userrole == "后台录单员") {
                                         //     $state.go("app.policy.to-be-paid");
                                         // } else {
-                                            $state.go("app.policy.to-be-reviewed");
+                                        $state.go("app.policy.to-be-reviewed");
                                         // }
                                     }
                                 })
@@ -371,7 +395,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         tax_fee: 0,
                         tax_fee_income_rate: 0,
                         tax_fee_payment_rate: 0,
-                        tax_fee_income:0,
+                        tax_fee_income: 0,
                         tax_fee_payment: 0,
                         other_fee: 0,
                         other_fee_taxed: 0,
@@ -387,7 +411,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         // if ($rootScope.user.role == "后台录单员") {
                         //     $state.go("app.policy.to-be-paid");
                         // } else {
-                            $state.go("app.policy.to-be-reviewed");
+                        $state.go("app.policy.to-be-reviewed");
                         // }
                     }
                 }
@@ -481,7 +505,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                         } else {
                             if ($state.is("app.policy.pay1")) {
                                 $state.go("app.policy.to-be-paid");
-                            }else{
+                            } else {
                                 $state.go("app.policy.to-be-reviewed");
                             }
                         }
@@ -528,7 +552,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     };
 
-    function RoundNum(num, length) { 
+    function RoundNum(num, length) {
         var number = Math.round(num * Math.pow(10, length)) / Math.pow(10, length);
         return number;
     }
@@ -601,7 +625,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         if (vm.policy.payment_substraction) {
             vm.policy.total_payment = parseFloat(vm.policy.total_payment) - parseFloat(vm.policy.payment_substraction);
             vm.policy.total_payment = RoundNum(vm.policy.total_payment, 2);
-            vm.policy.total_income = parseFloat(vm.policy.total_income) -  parseFloat(vm.policy.payment_substraction);
+            vm.policy.total_income = parseFloat(vm.policy.total_income) - parseFloat(vm.policy.payment_substraction);
             vm.policy.total_income = RoundNum(vm.policy.total_income, 2);
         }
 
