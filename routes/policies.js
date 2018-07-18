@@ -479,6 +479,7 @@ router.post('/search', function (req, res) {
     // conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
     conditions.$or = [{ policy_no: {$regex : req.body.policyNoSearch, $options : 'i'} },{mandatory_policy_no: {$regex : req.body.policyNoSearch, $options : 'i'}}]
   }
+  
 
   if(conditions.organization){
     delete conditions.organization;
