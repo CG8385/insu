@@ -269,6 +269,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             })
         vm.listType = "reminder";
         vm.filterSettings = localStorageService.get("reminder-filterSettings") ? localStorageService.get("reminder-filterSettings") : {};
+
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
         vm.loadLevel3Companies();
         vm.loadLevel4Companies();
         if (vm.filterSettings.client) {
