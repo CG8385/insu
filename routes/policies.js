@@ -25,6 +25,9 @@ router.post('/', function (req, res) {
       if (!data.company && !data.level2_company) {
         res.status(400).send('二级保险公司必须填写');
       } else {
+        if(!data.rule){
+          res.status(400).send('费率政策必须选择');
+        }
         var policy = new Policy(data);
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {

@@ -525,7 +525,7 @@
                                         <section class="col col-3 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="mandatory_fee_income_rate" price ng-model="vm.policy.mandatory_fee_income_rate"
-                                                    ng-change="vm.updateFee()" validator="required">
+                                                 ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -541,7 +541,7 @@
                                         <section class="col col-3 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="mandatory_fee_payment_rate" price ng-model="vm.policy.mandatory_fee_payment_rate"
-                                                    ng-change="vm.updateFee()" validator="required">
+                                                     ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -584,7 +584,7 @@
                                         <section class="col col-3 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="commercial_fee_income_rate" price ng-model="vm.policy.commercial_fee_income_rate"
-                                                    ng-change="vm.updateFee()" validator="required">
+                                                ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -600,7 +600,7 @@
                                         <section class="col col-3 no-padding">
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="commercial_fee_payment_rate" price ng-model="vm.policy.commercial_fee_payment_rate"
-                                                    ng-change="vm.updateFee()" validator="required">
+                                                    ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -640,8 +640,8 @@
                                         <label class="label">结算费</label>
                                         <section class="col col-3 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="tax_fee_payment_rate" price ng-model="vm.policy.tax_fee_payment_rate" ng-change="vm.updateFee()"
-                                                    validator="required">
+                                                <input type="text" class="input-lg" name="tax_fee_payment_rate" price ng-model="vm.policy.tax_fee_payment_rate"
+                                                ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -669,8 +669,7 @@
                                         <label class="label">跟单费({{vm.getRatesBasedString()}})</label>
                                         <section class="col col-3 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="other_fee_income_rate" price ng-model="vm.policy.other_fee_income_rate" ng-change="vm.updateFee()"
-                                                    validator="required">
+                                                <input type="text" class="input-lg" name="other_fee_income_rate" price ng-model="vm.policy.other_fee_income_rate" ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -685,8 +684,7 @@
                                         <label class="label">结算费({{vm.getRatesBasedString()}})</label>
                                         <section class="col col-3 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="other_fee_payment_rate" price ng-model="vm.policy.other_fee_payment_rate" ng-change="vm.updateFee()"
-                                                    validator="required">
+                                                <input type="text" class="input-lg" name="other_fee_payment_rate" price ng-model="vm.policy.other_fee_payment_rate" ng-disabled=true>
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
