@@ -20,13 +20,13 @@ router.post('/', function (req, res) {
   }
   Policy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
     if (policies.length > 0 && !data.ignore_duplicate) {
-      res.status(200).json({duplicate: true});
+      return res.status(200).json({duplicate: true});
     } else {
       if (!data.company && !data.level2_company) {
-        res.status(400).send('二级保险公司必须填写');
+        return res.status(400).send('二级保险公司必须填写');
       } else {
         if(!data.rule){
-          res.status(400).send('费率政策必须选择');
+          return res.status(400).send('费率政策必须选择');
         }
         var policy = new Policy(data);
         policy.policy_status = '待审核';
