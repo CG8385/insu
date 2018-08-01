@@ -22,7 +22,7 @@ var locations = require('./locations');
 var router = express.Router();
 
 /* GET home page. */
-// router.use('/', ensureAuthenticated);
+router.use('/', ensureAuthenticated);
 router.use('/orders', orders);
 router.use('/clients', clients);
 router.use('/policies', policies);
