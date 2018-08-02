@@ -56,7 +56,7 @@
                             enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
                             <thead>
                                 <tr>
-                                    <th ng-show="user.userrole.policy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
+                                    <th field-name="select" ng-show="user.userrole.policy_to_be_reviewed.aprove" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>

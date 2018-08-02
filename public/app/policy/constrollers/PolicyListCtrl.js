@@ -198,10 +198,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.paidToDate = localStorageService.get("review-paidToDate") ? localStorageService.get("review-paidToDate") : undefined;
         vm.tableHeader = "待审核保单";
         if($rootScope.user.userrole.can_view_income){
-            vm.displayFields = ["created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_income_rate", "mandatory_fee_payment_rate",
+            vm.displayFields = ["select", "created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_income_rate", "mandatory_fee_payment_rate",
             "commercial_fee", "commercial_fee_income_rate", "commercial_fee_payment_rate", "payment_substraction_rate", "total_income", "total_payment"];
         }else{
-            vm.displayFields = ["created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_payment_rate",
+            vm.displayFields = ["select", "created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_payment_rate",
             "commercial_fee", "commercial_fee_payment_rate", "payment_substraction_rate", "total_payment"];
         }
     }
