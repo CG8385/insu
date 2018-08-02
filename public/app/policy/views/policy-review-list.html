@@ -37,8 +37,7 @@
                     <i class="fa fa-fw fa-refresh"></i>刷新</button>
                 <button ng-show="user.userrole.policy_to_be_reviewed.export" ng-click="vm.exportFilteredPolicies()" class="btn btn-primary">
                     <i class="fa fa-fw fa-cloud-download"></i>导出Excel</button>
-                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}
-                    毛利润总额:{{vm.summary.total_profit.toFixed(2)}}</label>
+                <label ng-show="vm.isShowBulkOperationButton"> 选中{{vm.selectedPolicies.length}}条保单 跟单费总额:{{vm.summary.total_income.toFixed(2)}} 结算费总额:{{vm.summary.total_payment.toFixed(2)}}</label>
                 <button ng-show="vm.isShowBulkOperationButton" ng-click="vm.bulkApprove()" class="btn btn-primary">批量审核选中的保单</button>
             </span>
 
@@ -89,7 +88,7 @@
                                     </th>
                                     <th field-name="mandatory_fee" display-name="交强保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <!--<th field-name="mandatory_fee_income" display-name="交强跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>-->
@@ -99,7 +98,7 @@
                                     </th>-->
                                     <th field-name="commercial_fee" display-name="商业保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="commercial_fee_income_rate" display-name="商跟(%)" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="commercial_fee_income_rate" display-name="商跟(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <!--<th field-name="commercial_fee_income" display-name="商业跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>-->
@@ -109,7 +108,7 @@
                                     </th>-->
                                     <th field-name="payment_substraction_rate" display-name="结算扣减(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="total_payment" display-name="总结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>

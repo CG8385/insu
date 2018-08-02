@@ -67,7 +67,7 @@
                                     </th>
                                     <th field-name="mandatory_fee" display-name="交强保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="mandatory_fee_income_rate" display-name="交跟(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <!--<th field-name="mandatory_fee_income" display-name="交强跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>-->
@@ -77,7 +77,7 @@
                                     </th>-->
                                     <th field-name="commercial_fee" display-name="商业保费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="commercial_fee_income_rate" display-name="商跟(%)" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="commercial_fee_income_rate" display-name="商跟(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <!--<th field-name="commercial_fee_income" display-name="商业跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>-->
@@ -87,7 +87,7 @@
                                     </th>-->
                                     <th field-name="payment_substraction_rate" display-name="结算扣减(%)" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th ng-show="user.userrole.can_view_income" field-name="total_income" display-name="总跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="total_payment" display-name="总结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>

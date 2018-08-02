@@ -12,6 +12,8 @@ angular.module('app.policy').controller('PolicyListController', function (screen
     vm.pageSize = 15;
     vm.entries = 0;
 
+    vm.displayFields = ['']
+
     //Infinite Scroll Magic
     vm.infiniteScroll = {};
     vm.infiniteScroll.numToAdd = 20;
