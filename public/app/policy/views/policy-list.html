@@ -65,7 +65,7 @@
                             current-page="vm.currentPage">
                             <thead>
                                 <tr>
-                                    <th ng-show="user.userrole.policy_to_be_paid.pay" display-align="center" cell-width="2em">
+                                    <th field-name="select" ng-show="user.userrole.policy_to_be_paid.pay" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
@@ -109,7 +109,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td ng-show="user.userrole.policy_to_be_paid.pay">
+                                    <td field-name="select" ng-show="user.userrole.policy_to_be_paid.pay">
                                         <div>
                                             <input type="checkbox" ng-model="gridItem.isSelected" ng-change="vm.selectionChanged()">
                                         </div>

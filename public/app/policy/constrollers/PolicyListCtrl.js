@@ -230,8 +230,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.paidFromDate = localStorageService.get("paidFromDate") ? localStorageService.get("paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("paidToDate") ? localStorageService.get("paidToDate") : undefined;
         vm.tableHeader = "待支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate"];
+        if($rootScope.user.userrole.can_view_income){
+            vm.displayFields = ["select", "created_at", "approved_at", "applicant.name", "plate", "client.name", "client.bank",
+            "client.account", "organization.name", "total_income", "total_payment"];
+        }else{
+            vm.displayFields = ["select", "created_at", "approved_at", "applicant.name", "plate", "client.name", "client.bank",
+            "client.account", "organization.name", "total_payment"];
         }
     } else if ($state.is("app.policy.paid")) {
         PolicyService.getLevel2Companies()
@@ -257,8 +261,12 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.paidFromDate = localStorageService.get("paid-paidFromDate") ? localStorageService.get("paid-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("paid-paidToDate") ? localStorageService.get("paid-paidToDate") : undefined;
         vm.tableHeader = "已支付保单";
-        if (screenSize.is('xs, sm')) {
-            vm.displayFields = ["client.name", "plate", "paid_at"];
+        if($rootScope.user.userrole.can_view_income){
+            vm.displayFields = ["select", "created_at", "paid_at", "final_company", "contact", "applicant.name", "plate", "client.name", "organization.name",
+            "mandatory_fee_income_rate", "commercial_fee_income_rate", "total_income", "total_payment"];
+        }else{
+            vm.displayFields = ["select", "created_at", "paid_at", "final_company", "contact", "applicant.name", "plate", "client.name", "organization.name",
+            "total_payment"];
         }
     } else if ($state.is("app.policy.reminder")) {
         PolicyService.getLevel2Companies()
@@ -320,6 +328,13 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         vm.paidFromDate = localStorageService.get("rejected-paidFromDate") ? localStorageService.get("rejected-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("rejected-paidToDate") ? localStorageService.get("rejected-paidToDate") : undefined;
         vm.tableHeader = "被驳回保单";
+        if($rootScope.user.userrole.can_view_income){
+            vm.displayFields = ["select", "created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_income_rate", "mandatory_fee_payment_rate",
+            "commercial_fee", "commercial_fee_income_rate", "commercial_fee_payment_rate", "payment_substraction_rate", "total_income", "total_payment"];
+        }else{
+            vm.displayFields = ["select", "created_at", "contact", "applicant.name", "plate", "organization.name", "mandatory_fee", "mandatory_fee_payment_rate",
+            "commercial_fee", "commercial_fee_payment_rate", "payment_substraction_rate", "total_payment"];
+        }
     }
 
     vm.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
