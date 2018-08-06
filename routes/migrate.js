@@ -29,7 +29,7 @@ router.get('/rulec', asyncMiddleware(async (req, res, next) => {
         let start = moment();
         let end = 
         rule.start_date = start;
-        rule.start_date = moment("2018-08-01")
+        rule.end_date = moment("2018-08-01")
         rule.save()
     }
     res.json('done');
