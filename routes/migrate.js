@@ -26,10 +26,12 @@ router.get('/rulec', asyncMiddleware(async (req, res, next) => {
     let rules = await Rule.find().exec();
     for(let i = 0; i < rules.length; i++){
         let rule = rules[i];
-        let start = moment("2017-08-01");
-        let end = 
-        rule.start_date = start;
-        rule.end_date = moment("2018-08-01")
+        if(!rule.start_date){
+            rule.start_date = moment("2017-08-01");
+        }
+        if(!rule.end_date){
+            rule.start_date = moment("2018-08-01");
+        }
         rule.save()
     }
     res.json('done');

@@ -106,6 +106,15 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             PolicyService.getRules(companyId)
                 .then(function (rules) {
                     vm.rules = rules;
+                    if(!$stateParams.policyId){
+                        vm.rules = rules.filter(function(r){
+                            if(!r.end_date || !r.start_date){
+                                return true;
+                            }
+                            var today = new Date()
+                            return (today >= r.start_date && today < r.end_date)
+                        })
+                    }
                 })
         } else {
             vm.rules = [];
