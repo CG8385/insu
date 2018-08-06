@@ -31,6 +31,25 @@
 
                             <div class="row">
                                 <section class="col col-3">
+                                    <label class="label">生效日期</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" class="input-lg" name="start_date" placeholder="请输入生效日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.rule.start_date" validator="required">
+                                    </label>
+                                </section>
+                                <section class="col col-3">
+                                    <label class="label">失效日期</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" class="input-lg" name="end_date" placeholder="请输入失效日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.end_date" validator="required">
+                                    </label>
+                                </section>
+                            </div>
+
+                            <div class="row">
+                                <section class="col col-3">
                                     <label class="label">跟单(%)</label>
                                     <label class="input">
                                         <input type="text" class="input-lg" name="income_rate" price ng-model="vm.product.income_rate">

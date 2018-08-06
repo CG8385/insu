@@ -19,15 +19,19 @@ var Organization = Promise.promisifyAll(require('../models/organization.js')(db)
 var User = Promise.promisifyAll(require('../models/user.js')(db));
 var Role = Promise.promisifyAll(require('../models/role.js')(db));
 var User = Promise.promisifyAll(require('../models/user.js')(db));
+var moment = require('moment');
 
 
-router.get('/step1', asyncMiddleware(async (req, res, next) => {
-    let sellers = await User.find().exec();
-    for(let i = 0; i < sellers.length; i++){
-        let s = sellers[i];
-        await Policy.update({ seller: s._id}, { level1_org: s.level1_org, level2_org: s.level2_org, level3_org: s.level3_org, level4_org: s.level4_org, level5_org: s.level5_org }, { multi: true });
+router.get('/rulec', asyncMiddleware(async (req, res, next) => {
+    let rules = await Rule.find().exec();
+    for(let i = 0; i < rules.length; i++){
+        let r = rules[i];
+        let start = moment();
+        let end = 
+        rule.start_date = start;
+        rule.start_date = moment("2018-08-01")
+        rule.save()
     }
-
     res.json('done');
 }));
 
