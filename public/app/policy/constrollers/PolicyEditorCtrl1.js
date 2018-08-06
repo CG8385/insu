@@ -112,11 +112,6 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
                                 return true;
                             }
                             var today = new Date()
-                            console.log(today);
-                            console.log(new Date(r.start_date));
-                            console.log(new Date(r.end_date));
-                            console.log(today >= Date(r.start_date));
-                            console.log(today < Date(r.end_date));
                             return (today >= new Date(r.start_date) && today < new Date(r.end_date))
                         })
                     }
