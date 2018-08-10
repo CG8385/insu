@@ -49,7 +49,8 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
-
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var config = {
@@ -59,7 +60,7 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end
                 };
 
@@ -302,6 +303,8 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var config = {
@@ -309,7 +312,7 @@ angular.module('app.property-policy').factory('BulkPropertyPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end
                 };
                 $http.post("/api/bulk-property-policies/excel", config)

@@ -49,6 +49,8 @@ angular.module('app.policy').factory('OrgPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var paidStart = new Date(paidFromDate);
@@ -62,7 +64,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
                     paidFromDate: paidStart,
                     paidToDate: paidEnd
@@ -303,6 +305,8 @@ angular.module('app.policy').factory('OrgPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
@@ -312,7 +316,7 @@ angular.module('app.policy').factory('OrgPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
                     paidFromDate: paidFromDate,
                     paidToDate: paidEnd
