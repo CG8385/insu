@@ -399,6 +399,7 @@ angular.module('app.policy').factory('PolicyService',
                 console.log(fromDate);
                 console.log(toDate);
                 var end = new Date(toDate);
+                console.log(end);
                 end.setHours(23, 59, 59, 0);
                 console.log(end);
                 var approvedEnd = new Date(approvedToDate);
