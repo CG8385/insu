@@ -96,6 +96,9 @@ router.post('/excel', function (req, res) {
   } else if (req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
+  console.log("==============")
+  console.log(conditions);
+  console.log("==============")
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
