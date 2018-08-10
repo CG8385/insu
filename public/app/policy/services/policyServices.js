@@ -396,8 +396,8 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
-                console.log(fromDate);
-                console.log(toDate);
+                console.log(typeof(fromDate));
+                console.log(typeof(toDate));
                 var end = new Date(toDate);
                 console.log(end);
                 end.setHours(23, 59, 59, 0);
