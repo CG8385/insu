@@ -396,9 +396,10 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
-
+                console.log(fromDate);
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
+                console.log(end);
                 var approvedEnd = new Date(approvedToDate);
                 approvedEnd.setHours(23, 59, 59, 0);
                 var paidEnd = new Date(paidToDate);
