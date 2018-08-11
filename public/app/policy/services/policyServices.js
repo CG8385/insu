@@ -657,8 +657,6 @@ angular.module('app.policy').factory('PolicyService',
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23, 59, 59, 0);
                 var config = {
-                    pageSize: pageSize,
-                    currentPage: currentPage,
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
