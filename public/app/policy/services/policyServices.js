@@ -385,6 +385,7 @@ angular.module('app.policy').factory('PolicyService',
                         effectiveStart = new Date(expireFromDate);
                     }
                     effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    effectiveStart.setHours(0, 0, 0, 1);
                     var effectiveEnd = new Date();
                     effectiveEnd.setDate(effectiveEnd.getDate() + 40);
                     if (expireToDate) {
@@ -396,6 +397,14 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
+
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
+                console.log(start);
 
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
@@ -410,11 +419,11 @@ angular.module('app.policy').factory('PolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
@@ -621,7 +630,8 @@ angular.module('app.policy').factory('PolicyService',
                     if (expireFromDate) {
                         effectiveStart = new Date(expireFromDate);
                     }
-                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1);
+                    effectiveStart.setHours(0, 0, 0, 1);
                     var effectiveEnd = new Date();
                     effectiveEnd.setDate(effectiveEnd.getDate() + 40);
                     if (expireToDate) {
@@ -633,23 +643,29 @@ angular.module('app.policy').factory('PolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
+
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
                 var approvedEnd = new Date(approvedToDate);
                 approvedEnd.setHours(23, 59, 59, 0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23, 59, 59, 0);
-
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
