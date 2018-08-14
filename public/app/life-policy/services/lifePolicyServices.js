@@ -41,6 +41,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getLevel2Companies: getLevel2Companies,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
+                checkML: checkML,
             });
 
             function getLevel2Orgs() {
@@ -1102,6 +1103,37 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     })
                     // handle error
                     .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function checkML(identities,date = undefined) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if(date == undefined){
+                    var checkDate = new Date();
+                }else{
+                    var checkDate = new Date(date);
+                }
+                var config = {
+                    identities:identities,
+                    checkDate:checkDate
+                };
+                $http.post('/api/susptransaction/check',config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
                         deferred.reject(status);
                     });
 

@@ -36,6 +36,7 @@ angular.module('app.policy').factory('PolicyService',
                 downloadProcessedImages: downloadProcessedImages,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
+                checkML: checkML,
             });
 
             function getLevel2Orgs() {
@@ -954,6 +955,37 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
 
                 $http.delete('/api/image-policies/' + id)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function checkML(identities,date = undefined) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if(date == undefined){
+                    var checkDate = new Date();
+                }else{
+                    var checkDate = new Date(date);
+                }
+                var config = {
+                    identities:identities,
+                    checkDate:checkDate
+                };
+                $http.post('/api/susptransaction/check',config)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

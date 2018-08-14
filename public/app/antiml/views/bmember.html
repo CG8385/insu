@@ -1,0 +1,89 @@
+<div id="content">
+        <div class="row">
+            <article class="col-sm-12">
+                <div>
+                    <button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="user.userrole.antiml.edit"><i class="fa fa-fw fa-unlock"></i>编辑</button>
+                </div>
+                <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                        <h2>黑名单用户</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                                <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                            </div>
+                            <form name="blacklistForm" id="blacklistForm" class="smart-form" novalidate>
+                                <section class="col col-6">
+                                        <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                                <div class="row">
+                                                    <label class="label">姓名</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="name" ng-model="vm.bmember.name">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">性别</label>
+                                                    <label class="select">
+                                                        <select name="sex" class="input-lg" ng-model="vm.bmember.sex">
+                                                            <option value=""></option>
+                                                            <option value="男">男</option>
+                                                            <option value="女">女</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">出生日期</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="birthday" placeholder="yyyy-mm-dd"  ng-model="vm.bmember.birthday" validator="date">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">身份证号</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="identity" ng-model="vm.bmember.identity">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">电话</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="phone" ng-model="vm.bmember.phone" validator="phone">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">联系地址</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="address" ng-model="vm.bmember.address">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">关注日期</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" ng-disabled="true" name="created_at" ng-model="vm.bmember.created_at" date-format>
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">关注原因</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="remark" ng-model="vm.bmember.remark">
+                                                    </label>
+                                                </div>
+                                            </fieldset>
+                                </section>
+                                <footer class="clear">
+                                    <span>
+                                        <button validation-submit="blacklistForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                        </button>
+                                        <button validation-submit="blacklistForm" class="btn btn-primary" ng-show="vm.editable"
+                                                ng-click="vm.submitAndBack()">提交后查看列表
+                                        </button>
+                                    </span>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>

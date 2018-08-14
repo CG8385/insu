@@ -19,6 +19,8 @@ var sts = require('./sts.js');
 var logs = require('./logs');
 var roles = require('./roles');
 var locations = require('./locations');
+var bmember = require('./bmember');
+var suspTransaction = require('./suspTransaction');
 var router = express.Router();
 
 /* GET home page. */
@@ -43,6 +45,8 @@ router.use('/sts', sts);
 router.use('/logs', logs);
 router.use('/roles', roles);
 router.use('/locations', locations);
+router.use('/blacklist', bmember);
+router.use('/susptransaction', suspTransaction);
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

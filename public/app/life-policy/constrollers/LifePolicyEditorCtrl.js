@@ -361,10 +361,62 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
         vm.submit();
     }
 
+    vm.submit = function(){
+        let ml_do_check = false;
+        var identities = [];
+        if(vm.policy._id==undefined){
+            if(vm.policy.applicant.identity!=undefined){
+                identities.push(vm.policy.applicant.identity);
+            }
+            for(var i=0;i<vm.policy.insurants.length;i++){
+                if(vm.policy.insurants[i].identity!=undefined){
+                    var exsit = false;
+                    for(var j=0;j<identities.length;j++){
+                        if(vm.policy.insurants[i].identity == identities[j]){
+                            exsit = true;
+                            break;
+                        }
+                    }
+                    if(!exsit){
+                        identities.push(vm.policy.insurants[i].identity);
+                    }
+                }
+            }
+            //console.log(identities);
+            if(identities.length>0){
+                ml_do_check = true;
+                LifePolicyService.checkML(identities)
+                .then(function (message) {
+                    if(message.message != "反洗钱检查通过"){
+                        $.SmartMessageBox({
+                            title: "反洗钱检查结果",
+                            content: message.message+" 是否仍然提交？",
+                            buttons: '[取消][确认]'
+                        }, function (ButtonPressed) {
+                            if (ButtonPressed === "确认") {
+                                //console.log("submit path4");
+                                vm.submitPolicy();
+                            }
+                            if (ButtonPressed === "取消") {
+                            }
+                        });
+                    }else{
+                        //console.log("submit path2");
+                        vm.submitPolicy();
+                    }
+                }, function (err) {
+                    //console.log("submit path3");
+                    vm.submitPolicy();
+                });
+            }
+        }
+        if(!ml_do_check){
+            //console.log("submit path1");
+            vm.submitPolicy();
+        }
+    }
 
-
-
-    vm.submit = function () {
+    vm.submitPolicy = function () {
         vm.policy.client = vm.clientInfo._id;
         //if (vm.zy_clientInfo){
         //    vm.policy.zy_client = vm.zy_clientInfo._id;

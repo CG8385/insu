@@ -312,7 +312,49 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
     }
 
-    vm.submit = function () {
+    vm.submit = function(){
+        let ml_do_check = false;
+        var identities = [];
+        if(vm.policy._id==undefined){
+            if(vm.policy.applicant.identity!=undefined){
+                identities.push(vm.policy.applicant.identity);
+            }
+            console.log(identities);
+            if(identities.length>0){
+                ml_do_check = true;
+                PolicyService.checkML(identities)
+                .then(function (response) {
+                    if(response.message != "反洗钱检查通过"){
+                        $.SmartMessageBox({
+                            title: "反洗钱检查结果",
+                            content: response.message+" 是否仍然提交？",
+                            buttons: '[取消][确认]'
+                        }, function (pressed) {
+                            if (pressed === "确认") {
+                                //console.log("submit path4");
+                                vm.submitPolicy();
+                                //console.log("submit path4 finish");
+                            }
+                            if (pressed === "取消") {
+                            }
+                        });
+                    }else{
+                        //console.log("submit path2");
+                        vm.submitPolicy();
+                    }
+                }, function (err) {
+                    //console.log("submit path3");
+                    vm.submitPolicy();
+                });
+            }
+        }
+        if(!ml_do_check){
+            //console.log("submit path1");
+            vm.submitPolicy();
+        }
+    }
+
+    vm.submitPolicy = function () {
         vm.checkRuleRates();
         if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;

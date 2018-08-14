@@ -249,6 +249,14 @@ var schema = new mongoose.Schema({
         append: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    antiml: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        import: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     log: {
         view: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
