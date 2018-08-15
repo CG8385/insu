@@ -269,7 +269,6 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             })
         vm.listType = "reminder";
         vm.filterSettings = localStorageService.get("reminder-filterSettings") ? localStorageService.get("reminder-filterSettings") : {};
-
         vm.loadLevel3Orgs();
         vm.loadLevel4Orgs();
         vm.loadLevel5Orgs();
@@ -298,7 +297,36 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         vm.tableHeader = "待续期保单";
     }
+    else if ($state.is("app.policy.all")) {
+        PolicyService.getLevel2Companies()
+            .then(function (level2Companies) {
+                vm.level2Companies = level2Companies;
 
+            })
+        PolicyService.getLevel2Orgs()
+            .then(function (level2Orgs) {
+                vm.level2Orgs = level2Orgs;
+
+            })
+        vm.listType = "all";
+        vm.filterSettings = localStorageService.get("all-filterSettings") ? localStorageService.get("all-filterSettings") : {};
+
+        vm.loadLevel3Orgs();
+        vm.loadLevel4Orgs();
+        vm.loadLevel5Orgs();
+        vm.loadLevel3Companies();
+        vm.loadLevel4Companies();
+        if (vm.filterSettings.client) {
+            PolicyService.getClient(vm.filterSettings.client)
+                .then(function (clientInfo) {
+                    vm.clientInfo = clientInfo;
+                })
+        }
+        vm.policyNoSearch = localStorageService.get("all-policyNoSearch") ? localStorageService.get("all-policyNoSearch") : undefined;
+        vm.fromDate = localStorageService.get("all-fromDate") ? localStorageService.get("all-fromDate") : undefined;
+        vm.toDate = localStorageService.get("all-toDate") ? localStorageService.get("all-toDate") : undefined;
+        vm.tableHeader = "综合查看";
+    }
     else if ($state.is("app.policy.rejected")) {
         vm.listType = "rejected";
         vm.filterSettings = localStorageService.get("rejected") ? localStorageService.get("rejected") : {};
@@ -336,6 +364,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             else if ($state.is("app.policy.reminder")) {
                 vm.currentPage = localStorageService.get("reminder-currentPage");
             }
+            else if ($state.is("app.policy.all")) {
+                vm.currentPage = localStorageService.get("all-currentPage");
+            }
             vm.entries = vm.entries + 1;
         } else {
             if ($state.is("app.policy.to-be-reviewed")) {
@@ -352,6 +383,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             }
             else if ($state.is("app.policy.reminder")) {
                 localStorageService.set("rejected-reminder", vm.currentPage);
+            }
+            else if ($state.is("app.policy.all")) {
+                localStorageService.set("rejected-all", vm.currentPage);
             }
         }
         vm.pageItems = pageItems;
@@ -411,6 +445,11 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             localStorageService.set('rejected-paidToDate', vm.paidToDate);
             localStorageService.set('rejected-policyNoSearch', vm.policyNoSearch);
         }
+        else if ($state.is("app.policy.all")) {
+            localStorageService.set("all-filterSettings", vm.filterSettings);
+            localStorageService.set('all-fromDate', vm.　fromDate);
+            localStorageService.set('all-toDate', vm.toDate);
+        }
         vm.refreshPolicies();
     };
 
@@ -436,6 +475,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         else if ($state.is("app.policy.rejected")) {
             localStorageService.set("rejected-filterSettings", vm.filterSettings);
+        }
+        else if ($state.is("app.policy.all")) {
+            localStorageService.set("all-filterSettings", vm.filterSettings);
         }
         vm.refreshPolicies();
     }
@@ -714,6 +756,9 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
         else if ($state.is("app.policy.reminder")) {
             localStorageService.set("reminder-currentPage", vm.currentPage);
+        }
+        else if ($state.is("app.policy.all")) {
+            localStorageService.set("all-currentPage", vm.currentPage);
         }
         if (!policy.level2_company) {
             var created = new Date(policy.created_at);

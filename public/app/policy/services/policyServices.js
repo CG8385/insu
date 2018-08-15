@@ -642,6 +642,8 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
+                } else if (type == "all"){
+                    orderByReverse = true;
                 }
                 var start = new Date(fromDate);
                 start.setHours(0, 0, 0, 1);

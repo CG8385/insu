@@ -87,6 +87,10 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    policy_all: {
+        view: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     lifePolicy_to_be_reviewed: {
         edit: { type: Boolean, default: false },
         view: { type: Boolean, default: false },
