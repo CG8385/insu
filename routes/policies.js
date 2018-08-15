@@ -19,6 +19,8 @@ router.post('/', function (req, res) {
     mandatory_policy_no = "-999";
   }
   Policy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
+    console.log(policies);
+    console.log(data);
     if (policies.length > 0 && !data.ignore_duplicate) {
       res.status(200).json({duplicate: true});
     } else {
