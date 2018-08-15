@@ -126,6 +126,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         })
         .state('app.policy.view1', {
             url: '/policies/view1/:policyId',
+            params: {readonly: null},
             data: {
                 title: '保单查看'
             },

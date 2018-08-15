@@ -168,7 +168,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
 
     vm.shouldShowEditButton = function () {
-        if (vm.editable) return false;
+        if (vm.editable || vm.readonly) return false;
         if (vm.policy.policy_status == "待审核") {
             return $rootScope.user.userrole.policy_to_be_reviewed.edit;
         } else if (vm.policy.policy_status == "待支付") {
@@ -184,6 +184,8 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.shouldShowFinanceSection = function () {
         var ret = false;
+        if(vm.readonly) return ret;
+
         if (vm.policy.policy_status == "待审核") {
             ret = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
         } else if (["待支付", "已支付"].indexOf(vm.policy.policy_status) != -1) {
@@ -212,6 +214,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
 
+    vm.readonly = $stateParams.readonly;
 
     var policyId = $stateParams.policyId;
     if (policyId) {

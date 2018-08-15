@@ -741,7 +741,7 @@ angular.module('app.policy').controller('PolicyListController', function (screen
         }
     };
 
-    vm.view = function (policy) {
+    vm.view = function (policy, readonly=false) {
         if ($state.is("app.policy.to-be-reviewed")) {
             localStorageService.set("review-currentPage", vm.currentPage);
         }
@@ -765,10 +765,10 @@ angular.module('app.policy').controller('PolicyListController', function (screen
             if (created.getFullYear() < 2017) {
                 $state.go("app.policy.view", { policyId: policy._id }); //this is from old version
             } else {
-                $state.go("app.policy.view1", { policyId: policy._id, ids: ids });
+                $state.go("app.policy.view1", { policyId: policy._id, ids: ids, readonly: readonly });
             }
         } else {
-            $state.go("app.policy.view1", { policyId: policy._id });
+            $state.go("app.policy.view1", { policyId: policy._id, readonly: readonly });
         }
 
     };
