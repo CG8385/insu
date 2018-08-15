@@ -15,6 +15,8 @@ var schema = new mongoose.Schema({
     other_payment: Number,
     py: String,
     updated_at: { type: Date },
+    start_date: { type: Date },
+    end_date: { type: Date },
 });
 
 schema.pre('save', function(next){

@@ -191,6 +191,8 @@ router.put('/rules/:id', asyncMiddleware(async (req, res, next) => {
   rule.tax_payment=data.tax_payment;
   rule.other_income=data.other_income;
   rule.other_payment=data.other_payment;
+  rule.start_date=data.start_date;
+  rule.end_date=data.end_date;
   await rule.save();
   res.json({ message: '费率政策已成功更新' });
 }));
@@ -209,6 +211,8 @@ router.post('/rules', asyncMiddleware(async (req, res, next) => {
   rule.other_income=data.other_income;
   rule.other_payment=data.other_payment;
   rule.company = data.company._id;
+  rule.start_date=data.start_date;
+  rule.end_date=data.end_date;
   await rule.save();
   res.json({ message: '费率政策已成功保存' });
 }));
@@ -303,6 +307,8 @@ router.post('/property-products', asyncMiddleware(async (req, res, next) => {
   product.income_rate=data.income_rate;
   product.payment_rate=data.payment_rate;
   product.company = data.company._id;
+  product.start_date=data.start_date;
+  product.end_date=data.end_date;
   await product.save();
   res.json({ message: '财险险种已成功保存' });
 }));

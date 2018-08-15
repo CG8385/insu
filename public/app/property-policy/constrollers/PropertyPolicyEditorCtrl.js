@@ -80,6 +80,15 @@ angular.module('app.property-policy').controller('PropertyPolicyEditorController
             PropertyPolicyService.getProducts(companyId)
                 .then(function (products) {
                     vm.products = products;
+                    if(!$stateParams.policyId){
+                        vm.products = products.filter(function(p){
+                            if(!p.end_date || !p.start_date){
+                                return true;
+                            }
+                            var today = new Date()
+                            return (today >= new Date(p.start_date) && today < new Date(p.end_date))
+                        })
+                    }
                 })
         } else {
             vm.products = [];

@@ -682,7 +682,12 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
-
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -697,11 +702,11 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
