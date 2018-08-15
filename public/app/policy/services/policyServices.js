@@ -396,6 +396,8 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
+                } else if (type == "all"){
+                    orderByReverse = true;
                 }
 
                 var start = new Date(fromDate);
@@ -607,8 +609,6 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                // var expireFromDate1 = expireFromDate;
-                // var expireToDate1 = expireToDate;
                 if (type == "to-be-reviewed") {
                     filterSettings.policy_status = "待审核";
                     orderByReverse = false;
