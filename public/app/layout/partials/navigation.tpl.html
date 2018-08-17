@@ -41,6 +41,9 @@
                     <li data-ui-sref-active="active" ng-show="user.userrole.policy_reminder.view">
                         <a data-ui-sref="app.policy.reminder">续期保单提醒</a>
                     </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_all.view">
+                        <a data-ui-sref="app.policy.all">综合查看</a>
+                    </li>
                 </ul>
             </li>
             <li data-menu-collapse ng-show="user.userrole.dealerPolicy_to_be_reviewed.view || user.userrole.bulkDealerPolicy_to_be_paid.view">

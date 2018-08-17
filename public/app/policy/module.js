@@ -14,6 +14,30 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
                 title: '车险'
             }
         })
+        .state('app.policy.all', {
+            url: '/policies/all',
+            data: {
+                title: '综合查看'
+            },
+            views: {
+                "content@app": {
+                    controller: 'PolicyListController as vm',
+                    templateUrl: 'app/policy/views/policy-all-list.html'
+                }
+            },
+            resolve: {
+                srcipts: function(lazyScript){
+                    return lazyScript.register([
+                        'datatables',
+                        'datatables-bootstrap',
+                        'datatables-colvis',
+                        'datatables-tools',
+                        'datatables-responsive'
+                    ])
+
+                }
+            }
+        })
         .state('app.policy.new', {
             url: '/policies/new',
             data: {
@@ -102,6 +126,7 @@ angular.module('app.policy').config(function ($stateProvider, localStorageServic
         })
         .state('app.policy.view1', {
             url: '/policies/view1/:policyId',
+            params: {readonly: null},
             data: {
                 title: '保单查看'
             },

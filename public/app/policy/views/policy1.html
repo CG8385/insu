@@ -837,9 +837,9 @@
                                     </button>
                                     <button validation-submit="policyForm" class="btn btn-primary" ng-show="vm.editable" ng-click="vm.submitAndBack()">提交后查看列表
                                     </button>
-                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()"
+                                    <button ng-show="!vm.readonly && vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" style="margin-top:1.5em" ng-click="vm.approve()"
                                         class="btn btn-primary btn-lg">审核通过，处理下一条</button>
-                                    <button ng-show="vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
+                                    <button ng-show="!vm.readonly && vm.policy.policy_status=='待审核' && user.userrole.policy_to_be_reviewed.aprove" ng-click="vm.reject()" class="btn btn-primary btn-lg">驳回，处理下一条</button>
                                     <!-- <button ng-show="user.role != '出单员' && vm.policy.policy_status=='已支付'" style="margin-top:1.5em" ng-click="vm.check()" class="btn btn-primary btn-lg">核对通过，处理下一条</button> -->
                                 </span>
 
