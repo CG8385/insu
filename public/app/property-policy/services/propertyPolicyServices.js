@@ -314,7 +314,12 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
-
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -328,12 +333,12 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
-                    paidToDate: paidEnd
+                    paidFromDate: paidStart,
+                    paidToDate: paidEnd,
                 };
 
 
@@ -415,6 +420,12 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -426,12 +437,12 @@ angular.module('app.property-policy').factory('PropertyPolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
-                    paidToDate: paidEnd
+                    paidFromDate: paidStart,
+                    paidToDate: paidEnd,
                 };
                 $http.post("/api/property-policies/excel", config)
                     // handle success

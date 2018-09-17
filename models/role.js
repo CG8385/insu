@@ -87,6 +87,10 @@ var schema = new mongoose.Schema({
         pay: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    policy_all: {
+        view: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     lifePolicy_to_be_reviewed: {
         edit: { type: Boolean, default: false },
         view: { type: Boolean, default: false },
@@ -249,6 +253,14 @@ var schema = new mongoose.Schema({
         append: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
     },
+    antiml: {
+        edit: { type: Boolean, default: false },
+        view: { type: Boolean, default: false },
+        delete: { type: Boolean, default: false },
+        append: { type: Boolean, default: false },
+        import: { type: Boolean, default: false },
+        export: { type: Boolean, default: false },
+    },
     log: {
         view: { type: Boolean, default: false },
         export: { type: Boolean, default: false },
@@ -259,6 +271,7 @@ var schema = new mongoose.Schema({
     client_status_scope: {type: String, default: '包含已注销代理人' }, // "包含已注销代理人","仅可见正常状态代理人"
     user_scope: String, // 一级，二级，三级，四级，五级，无
     policy_scope: {type: String, default: '本人'}, // 一级，二级，三级，四级，五级，无
+    can_view_payment: { type: Boolean, default: false },
 });
 
 mongoose.model('Role', schema);

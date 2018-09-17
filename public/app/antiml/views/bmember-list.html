@@ -1,0 +1,47 @@
+<!-- MAIN CONTENT -->
+<div id="content">
+
+    <div class="row">
+        <article class="col-sm-12">
+
+            <div class="roles-table" jarvis-widget id="standard-datatable-widget" data-widget-color="darken" data-widget-editbutton="false">
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>黑名单列表</h2>
+                </header>
+                <div>
+                    <div class="widget-body no-padding table-responsive">
+
+                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.bmembers" page-items="15" enable-filtering="false">
+                            <thead>
+                                <tr>
+                                    <th field-name="name" display-name="姓名" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="sex" display-name="性别" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="birthday" display-name="出生年月" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="identity" display-name="身份证号" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                    <th field-name="created_at" display-name="关注时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="remark" display-name="关注原因" enable-filtering="false" enable-sorting="false">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <button ng-show="user.userrole.antiml.view" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="user.userrole.antiml.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+</div>

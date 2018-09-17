@@ -8,6 +8,8 @@ var schema = new mongoose.Schema({
     direct_payment_rate: Number,
     py: String,
     updated_at: { type: Date },
+    start_date: { type: Date },
+    end_date: { type: Date },
 });
 
 schema.pre('save', function(next){

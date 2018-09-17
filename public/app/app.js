@@ -48,6 +48,7 @@ angular.module('app', [
     'app.employee',
     'app.organization',
     'app.company',
+    'app.antiml',
     'app.log'
 ])
     .config(function ($provide, $httpProvider) {

@@ -1,0 +1,94 @@
+<div id="content">
+        <div class="row">
+            <article class="col-sm-12">
+                <div>
+                    <!--button ng-click="vm.toggleEdit()" class="btn btn-primary" ng-show="user.userrole.antiml.edit"><i class="fa fa-fw fa-unlock"></i>编辑</button-->
+                </div>
+                <div class="policies-table" jarvis-widget data-widget-color="darken" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-info"></i> </span>
+                        <h2>可疑交易详情</h2>
+                    </header>
+                    <div>
+                        <div class="widget-body no-padding">
+                            <div class="alert alert-block alert-warning" ng-show="vm.editable">
+                                <h3 class="alert-heading"> 提交前请务必仔细核对！</h3>
+                            </div>
+                            <form name="suspTransactionForm" id="suspTransactionForm" class="smart-form" novalidate>
+                                <section class="col col-6">
+                                        <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">
+                                                <div class="row">
+                                                    <label class="label">姓名</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="name" ng-model="vm.transaction.name">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">性别</label>
+                                                    <label class="select">
+                                                        <select name="sex" class="input-lg" ng-model="vm.transaction.sex">
+                                                            <option value=""></option>
+                                                            <option value="男">男</option>
+                                                            <option value="女">女</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">出生日期</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="birthday" placeholder="yyyy-mm-dd"  ng-model="vm.transaction.birthday" validator="date">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">身份证号</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="identity" ng-model="vm.transaction.identity">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">电话</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="phone" ng-model="vm.transaction.phone" validator="phone">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">联系地址</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" name="address" ng-model="vm.transaction.address">
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">关注日期</label>
+                                                    <label class="input">
+                                                        <input class="input-lg" ng-disabled="true" name="created_at" ng-model="vm.transaction.created_at" date-format>
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="label">可疑交易总保费</label>
+                                                    <input class="input-lg" ng-disabled="true" name="total_fee" ng-model="vm.transaction.total_fee">
+                                                    <span ng-repeat="x in vm.transaction.transactions">
+                                                        <div class="row">
+                                                            <a ng-href= {{vm.getPolicyUrl(x)}} target="_blank">{{vm.getPolicyViewString(x)}}</a>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </fieldset>
+                                </section>
+                                <footer class="clear">
+                                    <span>
+                                        <button validation-submit="suspTransactionForm" ng-click="vm.submit()" class="btn btn-primary" ng-show="vm.editable">提交后添加下一条
+                                        </button>
+                                        <button validation-submit="suspTransactionForm" class="btn btn-primary" ng-show="vm.editable"
+                                                ng-click="vm.submitAndBack()">提交后查看列表
+                                        </button>
+                                        <button class="btn btn-primary" ng-click="vm.submitBmember()">转入黑名单
+                                        </button>
+                                    </span>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>

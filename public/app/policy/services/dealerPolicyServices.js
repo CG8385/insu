@@ -238,7 +238,12 @@ angular.module('app.policy').factory('DealerPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
-
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -254,10 +259,10 @@ angular.module('app.policy').factory('DealerPolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
-                    paidToDate: paidEnd
+                    paidFromDate: paidStart,
+                    paidToDate: paidEnd,
                 };
 
 
@@ -380,6 +385,14 @@ angular.module('app.policy').factory('DealerPolicyService',
                     filterSettings.policy_status = "已支付";
                     orderByReverse = true;
                 }
+
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
+
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -393,10 +406,10 @@ angular.module('app.policy').factory('DealerPolicyService',
                     requestTrapped: true,
                     fromDate: fromDate,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
-                    paidToDate: paidEnd
+                    paidFromDate: paidStart,
+                    paidToDate: paidEnd,
                 };
                 
                 $http.post("/api/dealer-policies/excel", config)

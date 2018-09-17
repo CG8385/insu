@@ -106,6 +106,15 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
             PolicyService.getRules(companyId)
                 .then(function (rules) {
                     vm.rules = rules;
+                    if(!$stateParams.policyId){
+                        vm.rules = rules.filter(function(r){
+                            if(!r.end_date || !r.start_date){
+                                return true;
+                            }
+                            var today = new Date()
+                            return (today >= new Date(r.start_date) && today < new Date(r.end_date))
+                        })
+                    }
                 })
         } else {
             vm.rules = [];
@@ -159,7 +168,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
 
     vm.shouldShowEditButton = function () {
-        if (vm.editable) return false;
+        if (vm.editable || vm.readonly) return false;
         if (vm.policy.policy_status == "待审核") {
             return $rootScope.user.userrole.policy_to_be_reviewed.edit;
         } else if (vm.policy.policy_status == "待支付") {
@@ -175,6 +184,8 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
 
     vm.shouldShowFinanceSection = function () {
         var ret = false;
+        if(vm.readonly) return ret;
+
         if (vm.policy.policy_status == "待审核") {
             ret = $rootScope.user.userrole.policy_to_be_reviewed.aprove;
         } else if (["待支付", "已支付"].indexOf(vm.policy.policy_status) != -1) {
@@ -203,6 +214,7 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
     }
 
 
+    vm.readonly = $stateParams.readonly;
 
     var policyId = $stateParams.policyId;
     if (policyId) {
@@ -312,7 +324,49 @@ angular.module('app.policy').controller('PolicyEditorController1', function ($sc
         }
     }
 
-    vm.submit = function () {
+    vm.submit = function(){
+        let ml_do_check = false;
+        var identities = [];
+        if(vm.policy._id==undefined){
+            if(vm.policy.applicant.identity!=undefined){
+                identities.push(vm.policy.applicant.identity);
+            }
+            console.log(identities);
+            if(identities.length>0){
+                ml_do_check = true;
+                PolicyService.checkML(identities)
+                .then(function (response) {
+                    if(response.message != "反洗钱检查通过"){
+                        $.SmartMessageBox({
+                            title: "反洗钱检查结果",
+                            content: response.message+" 是否仍然提交？",
+                            buttons: '[取消][确认]'
+                        }, function (pressed) {
+                            if (pressed === "确认") {
+                                //console.log("submit path4");
+                                vm.submitPolicy();
+                                //console.log("submit path4 finish");
+                            }
+                            if (pressed === "取消") {
+                            }
+                        });
+                    }else{
+                        //console.log("submit path2");
+                        vm.submitPolicy();
+                    }
+                }, function (err) {
+                    //console.log("submit path3");
+                    vm.submitPolicy();
+                });
+            }
+        }
+        if(!ml_do_check){
+            //console.log("submit path1");
+            vm.submitPolicy();
+        }
+    }
+
+    vm.submitPolicy = function () {
         vm.checkRuleRates();
         if (vm.clientInfo) {
             vm.policy.client = vm.clientInfo._id;

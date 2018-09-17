@@ -41,6 +41,9 @@
                     <li data-ui-sref-active="active" ng-show="user.userrole.policy_reminder.view">
                         <a data-ui-sref="app.policy.reminder">续期保单提醒</a>
                     </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.policy_all.view">
+                        <a data-ui-sref="app.policy.all">综合查看</a>
+                    </li>
                 </ul>
             </li>
             <li data-menu-collapse ng-show="user.userrole.dealerPolicy_to_be_reviewed.view || user.userrole.bulkDealerPolicy_to_be_paid.view">
@@ -243,6 +246,24 @@
                     </li>
                     <li data-ui-sref-active="active" ng-show="user.userrole.company.append">
                         <a data-ui-sref="app.company.policyname.new">添加险种名称</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li ng-show="user.userrole.antiml.view" data-menu-collapse>
+                <a href="#">
+                    <i class="fa fa-lg fa-fw fa-user"></i>
+                    <span class="menu-item-parent">反洗钱管理</span>
+                </a>
+                <ul>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.antiml.view">
+                        <a data-ui-sref="app.antiml.blacklist">黑名单</a>
+                    </li>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.antiml.susp-transaction" ng-show="user.userrole.antiml.view">可疑交易</a>
+                    </li>
+                    <li data-ui-sref-active="active" ng-show="user.userrole.antiml.append">
+                        <a data-ui-sref="app.antiml.blacklist.new">添加黑名单</a>
                     </li>
                 </ul>
             </li>

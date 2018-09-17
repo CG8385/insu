@@ -36,6 +36,7 @@ angular.module('app.policy').factory('PolicyService',
                 downloadProcessedImages: downloadProcessedImages,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
+                checkML: checkML,
             });
 
             function getLevel2Orgs() {
@@ -385,6 +386,7 @@ angular.module('app.policy').factory('PolicyService',
                         effectiveStart = new Date(expireFromDate);
                     }
                     effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    effectiveStart.setHours(0, 0, 0, 1);
                     var effectiveEnd = new Date();
                     effectiveEnd.setDate(effectiveEnd.getDate() + 40);
                     if (expireToDate) {
@@ -395,7 +397,17 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
+                } else if (type == "all"){
+                    orderByReverse = true;
                 }
+
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
+                console.log(start);
 
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
@@ -410,11 +422,11 @@ angular.module('app.policy').factory('PolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
@@ -598,8 +610,6 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
                 var orderBy = "created_at";
                 var orderByReverse = false;
-                // var expireFromDate1 = expireFromDate;
-                // var expireToDate1 = expireToDate;
                 if (type == "to-be-reviewed") {
                     filterSettings.policy_status = "待审核";
                     orderByReverse = false;
@@ -621,7 +631,8 @@ angular.module('app.policy').factory('PolicyService',
                     if (expireFromDate) {
                         effectiveStart = new Date(expireFromDate);
                     }
-                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1)
+                    effectiveStart.setFullYear(effectiveStart.getFullYear() - 1);
+                    effectiveStart.setHours(0, 0, 0, 1);
                     var effectiveEnd = new Date();
                     effectiveEnd.setDate(effectiveEnd.getDate() + 40);
                     if (expireToDate) {
@@ -632,24 +643,32 @@ angular.module('app.policy').factory('PolicyService',
                 } else if (type == "rejected") {
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
+                } else if (type == "all"){
+                    orderByReverse = true;
                 }
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
+
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
                 var approvedEnd = new Date(approvedToDate);
                 approvedEnd.setHours(23, 59, 59, 0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23, 59, 59, 0);
-
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
@@ -954,6 +973,37 @@ angular.module('app.policy').factory('PolicyService',
                 var deferred = $q.defer();
 
                 $http.delete('/api/image-policies/' + id)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function checkML(identities,date = undefined) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if(date == undefined){
+                    var checkDate = new Date();
+                }else{
+                    var checkDate = new Date(date);
+                }
+                var config = {
+                    identities:identities,
+                    checkDate:checkDate
+                };
+                $http.post('/api/susptransaction/check',config)
                     // handle success
                     .success(function (data, status) {
                         if (status === 200) {

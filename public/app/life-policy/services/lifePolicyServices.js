@@ -41,6 +41,7 @@ angular.module('app.life-policy').factory('LifePolicyService',
                 getLevel2Companies: getLevel2Companies,
                 getLevel2Orgs: getLevel2Orgs,
                 getSubOrgs: getSubOrgs,
+                checkML: checkML,
             });
 
             function getLevel2Orgs() {
@@ -681,7 +682,12 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     filterSettings.policy_status = "被驳回";
                     orderByReverse = false;
                 }
-
+                var start = new Date(fromDate);
+                start.setHours(0, 0, 0, 1);
+                var approvedStart = new Date(approvedFromDate);
+                approvedStart.setHours(0, 0, 0, 1);
+                var paidStart = new Date(paidFromDate);
+                paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
@@ -696,11 +702,11 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     orderBy: orderBy,
                     orderByReverse: orderByReverse,
                     requestTrapped: true,
-                    fromDate: fromDate,
+                    fromDate: start,
                     toDate: end,
-                    approvedFromDate: approvedFromDate,
+                    approvedFromDate: approvedStart,
                     approvedToDate: approvedEnd,
-                    paidFromDate: paidFromDate,
+                    paidFromDate: paidStart,
                     paidToDate: paidEnd,
                     policyNoSearch: policyNoSearch
                 };
@@ -1102,6 +1108,37 @@ angular.module('app.life-policy').factory('LifePolicyService',
                     })
                     // handle error
                     .error(function (data) {
+                        deferred.reject(status);
+                    });
+
+                // return promise object
+                return deferred.promise;
+            }
+
+            function checkML(identities,date = undefined) {
+                // create a new instance of deferred
+                var deferred = $q.defer();
+
+                if(date == undefined){
+                    var checkDate = new Date();
+                }else{
+                    var checkDate = new Date(date);
+                }
+                var config = {
+                    identities:identities,
+                    checkDate:checkDate
+                };
+                $http.post('/api/susptransaction/check',config)
+                    // handle success
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            deferred.resolve(data);
+                        } else {
+                            deferred.reject(status);
+                        }
+                    })
+                    // handle error
+                    .error(function (err) {
                         deferred.reject(status);
                     });
 
