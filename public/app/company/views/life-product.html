@@ -29,13 +29,28 @@
                                 </section>
                             </div>
 
-                            <div class="row">
-                                <section class="col col-3">
-                                    <label class="label">直接佣金系数默认(%)</label>
-                                    <label class="input">
-                                        <input type="text" class="input-lg" name="direct_payment_rate" price ng-model="vm.product.direct_payment_rate">
-                                    </label>
-                                </section>
+                            <div class="row" ng-repeat="rate in vm.product.payment_rate">
+                                    <section class="col col-3">
+                                            <label class="label">缴费年限:{{$index+1}}年</label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">跟单费系数默认(%)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-sm" name="income_rate" price ng-model="rate.income_rate">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">直接佣金系数默认(%)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-sm" name="direct_payment_rate" price ng-model="rate.direct_payment_rate">
+                                        </label>
+                                    </section>
+                                    <section class="col col-3">
+                                        <label class="label">间接佣金系数默认(%)</label>
+                                        <label class="input">
+                                            <input type="text" class="input-sm" name="indirect_payment_rate" price ng-model="rate.indirect_payment_rate">
+                                        </label>
+                                    </section>
                             </div>
                             <footer class="clear">
                                 <span>

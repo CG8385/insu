@@ -4,14 +4,17 @@ angular.module('app.company').controller('LifeProductEditorController', function
     var vm = this;
     vm.product = {};
 
-
-
     var productId = $stateParams.productId;
     var companyId = $stateParams.companyId;
     if (productId) {
         CompanyService.getLifeProduct(productId)
             .then(function (product) {
                 vm.product = product;
+                if(vm.product.payment_rate.length ==0){
+                    for(var i=0;i<30;i++){
+                        vm.product.payment_rate.push({'income_rate':0,'direct_payment_rate':0,'indirect_payment_rate':0,});
+                    }
+                }
             });
     }else if(companyId) {
         CompanyService.getCompany(companyId)

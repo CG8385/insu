@@ -118,14 +118,22 @@ angular.module('app.life-policy').controller('LifePolicyEditorController', funct
     }
 
     vm.productChanged = function (subPolicy) {
+        subPolicy.income_rate = 0;
+        subPolicy.class_payment_rate = 0;
+        subPolicy.direct_payment_rate = 0;
         for(var i=0;i<vm.products.length;i++){
             if(vm.products[i]._id == subPolicy.product){
-                subPolicy.direct_payment_rate = vm.products[i].direct_payment_rate;
-                vm.updateFee(subPolicy);
-                vm.updateZYPayment();
-                break;
+                var year = parseInt(subPolicy.year);
+                if(vm.products[i].payment_rate.length!=0 && year>0 && year<=30){
+                    subPolicy.income_rate = vm.products[i].payment_rate[year-1].income_rate;
+                    subPolicy.class_payment_rate = vm.products[i].payment_rate[year-1].indirect_payment_rate;
+                    subPolicy.direct_payment_rate = vm.products[i].payment_rate[year-1].direct_payment_rate;
+                    break;
+                }
             }
         }
+        vm.updateFee(subPolicy);
+        vm.updateZYPayment();
     }
 
     LifePolicyService.getClients()
