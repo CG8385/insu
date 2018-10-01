@@ -20,11 +20,14 @@ router.post('/', function (req, res) {
   }
   Policy.find({$or: [{ policy_no: policy_no },{mandatory_policy_no: mandatory_policy_no}]}, function (err, policies) {
     if (policies.length > 0 && !data.ignore_duplicate) {
-      res.status(200).json({duplicate: true});
+      return res.status(200).json({duplicate: true});
     } else {
       if (!data.company && !data.level2_company) {
-        res.status(400).send('二级保险公司必须填写');
+        return res.status(400).send('二级保险公司必须填写');
       } else {
+        if(!data.rule){
+          return res.status(400).send('费率政策必须选择');
+        }
         var policy = new Policy(data);
         policy.policy_status = '待审核';
         policy.save(function (err, policy, numAffected) {
@@ -237,6 +240,91 @@ router.post('/excel', function (req, res) {
         '支付银行',
         '到期日期',
       ];
+
+      if(!req.user.userrole.can_view_income){
+        fields = [
+          'created_at',
+          'mandatory_policy_no',
+          'policy_no',
+          'company.name',
+          'company.contact',
+          'applicant.payer',
+          'applicant.name',
+          'applicant.identity',
+          'plate_no',
+          'applicant.phone',
+          'organization.name',
+          'seller.name',
+          'client.name',
+          'client.bank',
+          'client.account',
+          'client.payee',
+          'mandatory_fee',
+          'mandatory_fee_taxed',
+          'mandatory_fee_payment_rate',
+          'mandatory_fee_payment',
+          'commercial_fee',
+          'commercial_fee_taxed',
+          'commercial_fee_payment_rate',
+          'commercial_fee_payment',
+          'tax_fee',
+          'tax_fee_payment_rate',
+          'tax_fee_payment',
+          'other_fee',
+          'other_fee_taxed',
+          'other_fee_payment_rate',
+          'other_fee_payment',
+          'payment_addition',
+          'payment_substraction',
+          'total_payment',
+          'policy_status',
+          'approved_at',
+          'paid_at',
+          'payment_bank',
+          'expired_at',
+        ];
+        fieldNames = [
+          '提交日期',
+          '交强险保单号',
+          '商业险保单号',
+          '保险公司',
+          '对接人',
+          '投保人',
+          '被保险人',
+          '投保人身份证号',
+          '车牌号',
+          '投保人电话',
+          '营业部',
+          '出单员',
+          '业务渠道',
+          '开户行',
+          '收款账号',
+          '收款人',
+          '交强险',
+          '交强险(不含税)',
+          '交强险结算费比例',
+          '交强险结算费',
+          '商业险',
+          '商业险(不含税)',
+          '商业险结算费比例',
+          '商业险结算费',
+          '车船税',
+          '车船税结算费',
+          '车船税结算费',
+          '其他险',
+          '其他险(不含税)',
+          '其他险结算费',
+          '其他险结算费',
+          '结算费加项',
+          '结算费减项',
+          '结算费总额',
+          '保单状态',
+          '审核日期',
+          '支付日期',
+          '支付银行',
+          '到期日期',
+        ];
+      }
 
       var dateFormat = require('dateformat');
       var arr = [];

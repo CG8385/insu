@@ -271,7 +271,7 @@ var schema = new mongoose.Schema({
     client_status_scope: {type: String, default: '包含已注销代理人' }, // "包含已注销代理人","仅可见正常状态代理人"
     user_scope: String, // 一级，二级，三级，四级，五级，无
     policy_scope: {type: String, default: '本人'}, // 一级，二级，三级，四级，五级，无
-    can_view_payment: { type: Boolean, default: false },
+    can_view_income: { type: Boolean, default: false },
 });
 
 mongoose.model('Role', schema);
