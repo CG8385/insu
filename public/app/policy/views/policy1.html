@@ -542,8 +542,7 @@
                                         <label class="label">结算费({{vm.getRatesBasedString()}})</label>
                                         <section class="col col-3 no-padding">
                                             <label class="input">
-                                                <input type="text" class="input-lg" name="mandatory_fee_payment_rate" price ng-model="vm.policy.mandatory_fee_payment_rate"
-                                                    ng-disabled=true>
+                                                <input type="text" class="input-lg" name="mandatory_fee_payment_rate" price ng-model="vm.policy.mandatory_fee_payment_rate">
                                             </label>
                                         </section>
                                         <section class="col col-1 no-padding">
@@ -585,7 +584,7 @@
                                         <div ng-hide="!user.userrole.can_view_income">
                                             <label class="label">跟单费({{vm.getRatesBasedString()}})</label>
                                             <section class="col col-3 no-padding">
-                                                <label class="input">
+                                                <label class="input" ng-disabled=true>
                                                     <input type="text" class="input-lg" name="commercial_fee_income_rate" price ng-model="vm.policy.commercial_fee_income_rate">
                                                 </label>
                                             </section>
