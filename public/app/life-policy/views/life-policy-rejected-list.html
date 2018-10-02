@@ -110,13 +110,13 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th field-name="total_income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th ng-hide="!user.userrole.can_view_income" field-name="total_income" display-name="跟单费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="payment_total" display-name="结算费" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                     <th field-name="zy_payment" display-name="增员奖" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
-                                    <th field-name="profit" display-name="毛利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
+                                    <th ng-hide="!user.userrole.can_view_income" field-name="profit" display-name="毛利润" display-format="currency:'￥'" enable-filtering="false" enable-sorting="false">
                                     </th>
                                 </tr>
                             </thead>
@@ -129,6 +129,8 @@
                                     <td field-name="zy_client.name"></td>
                                     <td field-name="organization.name"></td>
                                     <td field-name="seller.name"></td>
+                                    <td ng-hide="!user.userrole.can_view_income" field-name="total_income"></td>
+                                    <td ng-hide="!user.userrole.can_view_income" field-name="profit"></td>
                                     <td>
                                         <!--<button ng-show="vm.isShowPayButton(gridItem)" ng-click="vm.pay(gridItem._id)" class="btn btn-primary btn-sm">处理</button>-->
                                         <!-- <button ng-show="user.userrole.lifePolicy.edit" ng-click="vm.edit(gridItem._id)" class="btn btn-primary btn-sm">编辑</button> -->

@@ -215,6 +215,11 @@ router.post('/excel', function (req, res) {
                 'approved_at',
                 'paid_at',
             ];
+            if(!req.user.userrole.can_view_income){
+                fields.splice(fields.indexOf('profit'),1);
+                fields.splice(fields.indexOf('total_income'),1);
+                fields.splice(fields.indexOf('sub_policies.income'),1);
+            }
             var fieldNames = [
                 '交单日',
                 '保单号',
@@ -272,6 +277,11 @@ router.post('/excel', function (req, res) {
                 '审核日期',
                 '支付日期',
             ];
+            if(!req.user.userrole.can_view_income){
+                fieldNames.splice(fieldNames.indexOf('毛利润'),1);
+                fieldNames.splice(fieldNames.indexOf('跟单费总额'),1);
+                fieldNames.splice(fieldNames.indexOf('跟单费'),1);
+            }
 
             var dateFormat = require('dateformat');
             var arr = [];
@@ -306,8 +316,10 @@ router.post('/excel', function (req, res) {
                 row.applicant.birthday = policy.applicant.birthday;
                 row.total_fee = policy.total_fee;
                 row.standard_fee = policy.standard_fee;
-                row.total_income = policy.total_income;
-                row.profit = policy.profit;
+                if(req.user.userrole.can_view_income){
+                    row.total_income = policy.total_income;
+                    row.profit = policy.profit;
+                }
                 row.payment_total = parseFloat(policy.payment_total?policy.payment_total:0)
                     + parseFloat(policy.zy_payment?policy.zy_payment:0);
                 row.direct_and_class_payment = parseFloat(policy.direct_payment_total?policy.direct_payment_total:0)
@@ -364,7 +376,9 @@ router.post('/excel', function (req, res) {
                         }
                         newRow.sub_policies.year = policy.sub_policies[j].year?policy.sub_policies[j].year:'';
                         newRow.sub_policies.fee = policy.sub_policies[j].fee?policy.sub_policies[j].fee:'';
-                        newRow.sub_policies.income = policy.sub_policies[j].income?policy.sub_policies[j].income:'';
+                        if(req.user.userrole.can_view_income){
+                            newRow.sub_policies.income = policy.sub_policies[j].income?policy.sub_policies[j].income:'';
+                        }
                         newRow.sub_policies.direct_payment = policy.sub_policies[j].direct_payment?policy.sub_policies[j].direct_payment:'';
                         newRow.sub_policies.class_payment = policy.sub_policies[j].class_payment?policy.sub_policies[j].class_payment:'';
                         arr.push(newRow);
