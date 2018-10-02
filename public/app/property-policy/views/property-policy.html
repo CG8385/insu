@@ -352,7 +352,7 @@
                                                 <i class="icon-append fa fa-cny"></i>
                                                 <input type="text" class="input-lg" name="total_fee_taxed" price ng-model="vm.policy.total_fee_taxed" ng-disabled=true>
                                             </label>
-                                            <div ng-hide="!user.userrole.can_view_income">
+                                            <div ng-hide="!user.userrole.can_view_property_income">
                                                 <label class="label">跟单费({{vm.getRatesBasedString()}})</label>
                                                 <section class="col col-3 no-padding">
                                                     <label class="input">

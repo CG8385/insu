@@ -164,7 +164,7 @@
                                             <input type="text" class="input-lg" name="fee" price ng-model="subPolicy.fee" ng-change="vm.updateFee(subPolicy);vm.updateZYPayment()" validator="required">
                                         </label>
                                     </section>
-                                    <section class="col col-3" ng-hide="!user.userrole.can_view_income">
+                                    <section class="col col-3" ng-hide="!user.userrole.can_view_life_income">
                                         <label class="label">跟单费</label>
                                         <section class="col col-4 no-padding">
                                             <label class="input">
@@ -226,7 +226,7 @@
                                     </section>
                                 </div>
                                 <div class="row">
-                                    <section class="col col-2" ng-hide="!user.userrole.can_view_income">
+                                    <section class="col col-2" ng-hide="!user.userrole.can_view_life_income">
                                         <label class="label">跟单费</label>
                                         <label class="input">
                                             <input type="text" class="input-lg" name="total_income" price ng-model="vm.policy.total_income" ng-disabled=true>
@@ -244,7 +244,7 @@
                                                 <input type="text" class="input-lg" name="zy_payment" price ng-model="vm.policy.zy_payment" ng-disabled=true>
                                             </label>
                                     </section>
-                                    <section class="col col-2" ng-hide="!user.userrole.can_view_income">
+                                    <section class="col col-2" ng-hide="!user.userrole.can_view_life_income">
                                             <label class="label">毛利润{{vm.getRatesBasedString()}}</label>
                                             <label class="input">
                                                 <input type="text" class="input-lg" name="profit" price ng-model="vm.policy.profit" ng-disabled=true>

@@ -13,6 +13,12 @@ router.post('/', function (req, res) {
         res.status(400).send('保单关键信息缺失，请填写完整信息');
         return;
     };
+    for(var i=0;i<data.sub_policies.length;i++){
+        if(data.sub_policies[i].product == '' || data.sub_policies[i].product ==undefined){
+            res.status(400).send('寿险险种必须选择');
+            return;
+        }
+    }
 
     var policy = new Policy(data);
     policy.seller = req.user._id;
@@ -215,7 +221,7 @@ router.post('/excel', function (req, res) {
                 'approved_at',
                 'paid_at',
             ];
-            if(!req.user.userrole.can_view_income){
+            if(!req.user.userrole.can_view_life_income){
                 fields.splice(fields.indexOf('profit'),1);
                 fields.splice(fields.indexOf('total_income'),1);
                 fields.splice(fields.indexOf('sub_policies.income'),1);
@@ -277,7 +283,7 @@ router.post('/excel', function (req, res) {
                 '审核日期',
                 '支付日期',
             ];
-            if(!req.user.userrole.can_view_income){
+            if(!req.user.userrole.can_view_life_income){
                 fieldNames.splice(fieldNames.indexOf('毛利润'),1);
                 fieldNames.splice(fieldNames.indexOf('跟单费总额'),1);
                 fieldNames.splice(fieldNames.indexOf('跟单费'),1);
@@ -316,7 +322,7 @@ router.post('/excel', function (req, res) {
                 row.applicant.birthday = policy.applicant.birthday;
                 row.total_fee = policy.total_fee;
                 row.standard_fee = policy.standard_fee;
-                if(req.user.userrole.can_view_income){
+                if(req.user.userrole.can_view_life_income){
                     row.total_income = policy.total_income;
                     row.profit = policy.profit;
                 }
@@ -376,7 +382,7 @@ router.post('/excel', function (req, res) {
                         }
                         newRow.sub_policies.year = policy.sub_policies[j].year?policy.sub_policies[j].year:'';
                         newRow.sub_policies.fee = policy.sub_policies[j].fee?policy.sub_policies[j].fee:'';
-                        if(req.user.userrole.can_view_income){
+                        if(req.user.userrole.can_view_life_income){
                             newRow.sub_policies.income = policy.sub_policies[j].income?policy.sub_policies[j].income:'';
                         }
                         newRow.sub_policies.direct_payment = policy.sub_policies[j].direct_payment?policy.sub_policies[j].direct_payment:'';
