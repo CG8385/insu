@@ -165,6 +165,65 @@ router.post('/excel', function (req, res) {
         '备注'
       ];
 
+      if(!req.user.userrole.can_view_property_income){
+        fields = [
+          'created_at',
+          'policy_no',
+          'company.name',
+          'company.contact',
+          'product_name',
+          'payer_name',
+          'insured_name',
+          'phone',
+          'start_date',
+          'end_date',
+          'organization.name',
+          'seller_name',
+          'client.name',
+          'client.bank',
+          'client.account',
+          'client.payee',
+          'total_fee',
+          'total_fee_taxed',
+          'payment_rate',
+          'payment_addition',
+          'payment_substraction',
+          'total_payment',
+          'policy_status',
+          'approved_at',
+          'paid_at',
+          'remark',
+        ];
+        fieldNames = [
+          '提交日期',
+          '保单号',
+          '保险公司',
+          '对接人',
+          '险种名称',
+          '投保人',
+          '被保险人',
+          '投保人电话',
+          '其实日期',
+          '结束日期',
+          '营业部',
+          '出单员',
+          '代理人',
+          '开户行',
+          '收款账号',
+          '收款人',
+          '保费',
+          '保费(不含税)',
+          '结算费比例',
+          '结算费加项',
+          '结算费减项',
+          '结算费',
+          '保单状态',
+          '审核日期',
+          '支付日期',
+          '备注'
+        ];
+      }
+
       var dateFormat = require('dateformat');
       var arr = [];
 
