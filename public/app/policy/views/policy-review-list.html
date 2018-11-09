@@ -18,6 +18,7 @@
                     ng-model="vm.swipedFromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="swiped-to-date" placeholder="截止刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.swipedToDate" ng-change="vm.filterChanged()">
+                <br/>
                 <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
                     ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                     <option value="">选择二级机构</option>
