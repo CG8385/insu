@@ -359,7 +359,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, policyNoSearch = undefined) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, swipedFromDate, swipedToDate, policyNoSearch = undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -407,7 +407,8 @@ angular.module('app.policy').factory('PolicyService',
                 approvedStart.setHours(0, 0, 0, 1);
                 var paidStart = new Date(paidFromDate);
                 paidStart.setHours(0, 0, 0, 1);
-                console.log(start);
+                var swipedStart = new Date(swipedFromDate);
+                swipedStart.setHours(0, 0, 0, 1);
 
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
@@ -415,6 +416,8 @@ angular.module('app.policy').factory('PolicyService',
                 approvedEnd.setHours(23, 59, 59, 0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23, 59, 59, 0);
+                var swipedEnd = new Date(swipedToDate);
+                swipedEnd.setHours(23, 59, 59, 0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -428,6 +431,8 @@ angular.module('app.policy').factory('PolicyService',
                     approvedToDate: approvedEnd,
                     paidFromDate: paidStart,
                     paidToDate: paidEnd,
+                    swipedFromDate: swipedStart,
+                    swipedToDate: swipedEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
                     policyNoSearch: policyNoSearch
@@ -605,7 +610,7 @@ angular.module('app.policy').factory('PolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, policyNoSearch = undefined) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, expireFromDate, expireToDate, swipedFromDate, swipedToDate, policyNoSearch = undefined) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -652,6 +657,8 @@ angular.module('app.policy').factory('PolicyService',
                 approvedStart.setHours(0, 0, 0, 1);
                 var paidStart = new Date(paidFromDate);
                 paidStart.setHours(0, 0, 0, 1);
+                var swipedStart = new Date(swipedFromDate);
+                swipedStart.setHours(0, 0, 0, 1);
 
                 var end = new Date(toDate);
                 end.setHours(23, 59, 59, 0);
@@ -659,6 +666,8 @@ angular.module('app.policy').factory('PolicyService',
                 approvedEnd.setHours(23, 59, 59, 0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23, 59, 59, 0);
+                var swipedEnd = new Date(swipedToDate);
+                swipedEnd.setHours(23, 59, 59, 0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -672,6 +681,8 @@ angular.module('app.policy').factory('PolicyService',
                     paidToDate: paidEnd,
                     effectiveFromDate: effectiveStart,
                     effectiveToDate: effectiveEnd,
+                    swipedFromDate: swipedStart,
+                    swipedToDate: swipedEnd,
                     policyNoSearch: policyNoSearch
                 };
 

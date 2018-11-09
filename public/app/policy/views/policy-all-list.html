@@ -8,6 +8,7 @@
                 <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.toDate" ng-change="vm.filterChanged()">
                 <br/>
+                <br/>
                 <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
                     ng-options="c._id as c.name for c in vm.level2Companies">
                     <option value="">选择二级保险公司</option>

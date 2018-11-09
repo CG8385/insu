@@ -28,8 +28,8 @@ router.get('/me', function (req, res, next) {
 });
 
 // 临时接口
-router.get('/register-admin', function (req, res) {
-  User.register(new User({ username: 'superadmin', name: '管理员', role: '管理员' }), 'admin2016hy', function (err, user) {
+router.get('/register-cg', function (req, res) {
+  User.register(new User({ username: 'cg', name: '管理员', role: '管理员' }), '088583', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');
