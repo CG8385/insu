@@ -113,6 +113,8 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         vm.approvedToDate = localStorageService.get("dealer-approvedToDate") ? localStorageService.get("dealer-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("dealer-paidFromDate") ? localStorageService.get("dealer-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("dealer-paidToDate") ? localStorageService.get("dealer-paidToDate") : undefined;
+        vm.swipedFromDate = localStorageService.get("dealer-swipedFromDate") ? localStorageService.get("dealer-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("dealer-swipedToDate") ? localStorageService.get("dealer-swipedToDate") : undefined;
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.policy.dealer.paid")) {
         DealerPolicyService.getLevel2Companies()
@@ -136,6 +138,8 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         vm.approvedToDate = localStorageService.get("dealer-paid-approvedToDate") ? localStorageService.get("dealer-paid-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("dealer-paid-paidFromDate") ? localStorageService.get("dealer-paid-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("dealer-paid-paidToDate") ? localStorageService.get("dealer-paid-paidToDate") : undefined;
+        vm.swipedFromDate = localStorageService.get("dealer-paid-swipedFromDate") ? localStorageService.get("dealer-paid-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("dealer-paid-swipedToDate") ? localStorageService.get("dealer-paid-swipedToDate") : undefined;
         vm.tableHeader = "已支付保单";
     }
 
@@ -170,7 +174,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
         }
         vm.areAllSelected = false;
         vm.pageItems = pageItems;
-        DealerPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
+        DealerPolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.swipedFromDate, vm.swipedToDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -196,6 +200,8 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
             localStorageService.set('dealer-approvedToDate', vm.approvedToDate);
             localStorageService.set('dealer-paidFromDate', vm.paidFromDate);
             localStorageService.set('dealer-paidToDate', vm.paidToDate);
+            localStorageService.set('dealer-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('dealer-swipedToDate', vm.swipedToDate);
         }
         else if ($state.is("app.policy.dealer.paid")) {
             localStorageService.set("dealer-paid-filterSettings", vm.filterSettings);
@@ -205,6 +211,8 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
             localStorageService.set('dealer-paid-approvedToDate', vm.approvedToDate);
             localStorageService.set('dealer-paid-paidFromDate', vm.paidFromDate);
             localStorageService.set('dealer-paid-paidToDate', vm.paidToDate);
+            localStorageService.set('dealer-paid-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('dealer-paid-swipedToDate', vm.swipedToDate);
         }
         vm.refreshPolicies();
     };
@@ -243,7 +251,7 @@ angular.module('app.policy').controller('DealerPolicyListController', function (
     }
 
     vm.exportFilteredPolicies = function () {
-        DealerPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
+        DealerPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.swipedFromDate, vm.swipedToDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

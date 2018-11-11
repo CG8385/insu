@@ -96,9 +96,13 @@ router.post('/excel', function (req, res) {
   } else if (req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
   }
-  console.log("=====excel=========")
-  console.log(conditions);
-  console.log("==============")
+  if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+  } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+  } else if (req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $lte: req.body.swipedToDate };
+  }
   var query = Policy.find(conditions);
   query
     .sort(sortParam)
@@ -135,6 +139,7 @@ router.post('/excel', function (req, res) {
         'policy_status',
         'approved_at',
         'paid_at',
+        'swiped_at',
         'remark',
       ];
       var fieldNames = [
@@ -166,6 +171,7 @@ router.post('/excel', function (req, res) {
         '保单状态',
         '审核日期',
         '支付日期',
+        '刷卡日期',
         '备注'
       ];
 
@@ -211,6 +217,7 @@ router.post('/excel', function (req, res) {
         row.policy_status = policy.policy_status;
         row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
+        row.swiped_at = policy.swiped_at ? (dateFormat(policy.swiped_at, "mm/dd/yyyy")) : '';
         row.remark = policy.remark ? policy.remark : '';
         arr.push(row);
       }
@@ -311,6 +318,14 @@ router.post('/search', function (req, res) {
     conditions['updated_at'] = { $gte: req.body.paidFromDate };
   } else if (req.body.paidToDate != undefined) {
     conditions['updated_at'] = { $lte: req.body.paidToDate };
+  }
+
+  if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+  } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+  } else if (req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $lte: req.body.swipedToDate };
   }
 
   var query = Policy.find(conditions);

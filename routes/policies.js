@@ -190,7 +190,6 @@ router.post('/excel', function (req, res) {
         'paid_at',
         'payment_bank',
         'expired_at',
-
         'remark',
       ];
       var fieldNames = [

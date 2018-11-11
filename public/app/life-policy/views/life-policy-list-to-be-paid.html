@@ -9,16 +9,21 @@
 
 
     <div class="row">
-       <article class="col-sm-12">
+        <article class="col-sm-12">
             <span>
-               <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                <input type="text" class="input-md" name="from-date" placeholder="起始日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.fromDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                <input type="text" class="input-md" name="to-date" placeholder="截止日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.toDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="approved-from-date" placeholder="起始审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                 <input type="text" class="input-md" name="approved-from-date" placeholder="起始审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.approvedFromDate" ng-change="vm.filterChanged()">
-               <input type="text" class="input-md" name="approved-to-date" placeholder="截止审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                <input type="text" class="input-md" name="approved-to-date" placeholder="截止审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.approvedToDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-from-date" placeholder="起始刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.swipedFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-to-date" placeholder="截止刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.swipedToDate" ng-change="vm.filterChanged()">
+                </br>
                 <select ng-show="user.userrole.policy_scope!='本人'" style="min-width: 240px;" name='level2Org' class="input-sm" data-ng-change="vm.level2OrgChanged()"
                     ng-model="vm.filterSettings.level2_org" ng-options="c._id as c.name for c in vm.level2Orgs">
                     <option value="">选择二级机构</option>
@@ -53,17 +58,20 @@
                     <div class="widget-body no-padding table-responsive">
 
                         <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
-                        total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)"
+                            current-page="vm.currentPage">
                             <thead>
                                 <tr>
                                     <th ng-show="user.userrole.lifePolicy_to_be_paid.pay" display-align="center" cell-width="2em">
                                         <div class="tr-ng-title">&nbsp;</div>
-                                            <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
+                                        <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
                                     <th field-name="submit_date" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
+                                    <th field-name="swiped_at" display-name="刷卡时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
                                     <th field-name="approved_at" display-name="审核时间" display-format="getApprovedTime:gridItem" enable-filtering="false" enable-sorting="false">
-                                        </th>
+                                    </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>
 
@@ -76,19 +84,19 @@
                                             业务员
                                         </div>
                                     </th>
-                                     <th field-name="zy_client.name" cell-width="8em" display-name="增员人" enable-filtering="false" enable-sorting="false">
+                                    <th field-name="zy_client.name" cell-width="8em" display-name="增员人" enable-filtering="false" enable-sorting="false">
                                         <!--<div class="tr-ng-title">-->
-                                            <!--增员人-->
+                                        <!--增员人-->
                                         <!--</div>-->
                                         <!--<div ng-show="user.role!='出单员'">-->
-                                            <!--<div class="tr-ng-column-filter">-->
-                                                <!--&lt;!&ndash;<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">&ndash;&gt;-->
+                                        <!--<div class="tr-ng-column-filter">-->
+                                        <!--&lt;!&ndash;<input type="text" class="form-control input-sm" ng-model="vm.filterSettings.client" ng-change="vm.filterChanged()">&ndash;&gt;-->
 
-                                                <!--<select class="form-control input-sm" ng-model="vm.filterSettings.zy_client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"-->
-                                                <!--ng-change="vm.filterChanged()">-->
-                                                    <!--<option value="" selected></option>-->
-                                                <!--</select>-->
-                                            <!--</div>-->
+                                        <!--<select class="form-control input-sm" ng-model="vm.filterSettings.zy_client" ng-options="c._id as c.name for c in vm.clients | orderBy:['name']"-->
+                                        <!--ng-change="vm.filterChanged()">-->
+                                        <!--<option value="" selected></option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
                                         <!--</div>-->
                                     </th>
                                     <th field-name="organization.name" display-name="营业部" enable-filtering="false" enable-sorting="false">
@@ -131,7 +139,8 @@
                                         <!--button ng-show="user.userrole.lifePolicy.view" ng-click="vm.view(gridItem._id)" class="btn btn-primary btn-sm">查看</button-->
                                         <!--button ng-show="user.userrole.lifePolicy.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button-->
                                         <button ng-show="user.userrole.lifePolicy_to_be_paid.pay" ng-click="vm.pay(gridItem)" class="btn btn-primary btn-sm">处理</button>
-                                        <button ng-show="!user.userrole.lifePolicy_to_be_paid.pay && user.userrole.lifePolicy_to_be_paid.view" ng-click="vm.view(gridItem)" class="btn btn-primary btn-sm">查看</button>
+                                        <button ng-show="!user.userrole.lifePolicy_to_be_paid.pay && user.userrole.lifePolicy_to_be_paid.view" ng-click="vm.view(gridItem)"
+                                            class="btn btn-primary btn-sm">查看</button>
                                         <button ng-show="user.userrole.lifePolicy_to_be_paid.delete" ng-click="vm.delete(gridItem._id)" class="btn btn-primary btn-sm">删除</button>
 
                                     </td>

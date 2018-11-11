@@ -223,7 +223,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
+            function searchPolicies(currentPage, pageSize, type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, swipedFromDate, swipedToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -245,11 +245,16 @@ angular.module('app.policy').factory('DealerPolicyService',
                 var paidStart = new Date(paidFromDate);
                 paidStart.setHours(0, 0, 0, 1);
                 var end = new Date(toDate);
+                var swipedStart = new Date(swipedFromDate);
+                swipedStart.setHours(0, 0, 0, 1);
+
                 end.setHours(23,59,59,0);
                 var approvedEnd = new Date(approvedToDate);
                 approvedEnd.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
+                var swipedEnd = new Date(swipedToDate);
+                swipedEnd.setHours(23, 59, 59, 0);
                 var config = {
                     pageSize: pageSize,
                     currentPage: currentPage,
@@ -263,6 +268,8 @@ angular.module('app.policy').factory('DealerPolicyService',
                     approvedToDate: approvedEnd,
                     paidFromDate: paidStart,
                     paidToDate: paidEnd,
+                    swipedFromDate: swipedStart,
+                    swipedToDate: swipedEnd
                 };
 
 
@@ -370,7 +377,7 @@ angular.module('app.policy').factory('DealerPolicyService',
                 return deferred.promise;
             }
 
-            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate) {
+            function getFilteredCSV(type, filterSettings, fromDate, toDate, approvedFromDate, approvedToDate, paidFromDate, paidToDate, swipedFromDate, swipedToDate) {
                 // create a new instance of deferred
                 var deferred = $q.defer();
                 var orderBy = "created_at";
@@ -392,6 +399,8 @@ angular.module('app.policy').factory('DealerPolicyService',
                 approvedStart.setHours(0, 0, 0, 1);
                 var paidStart = new Date(paidFromDate);
                 paidStart.setHours(0, 0, 0, 1);
+                var swipedStart = new Date(swipedFromDate);
+                swipedStart.setHours(0, 0, 0, 1);
 
                 var end = new Date(toDate);
                 end.setHours(23,59,59,0);
@@ -399,6 +408,8 @@ angular.module('app.policy').factory('DealerPolicyService',
                 approvedEnd.setHours(23,59,59,0);
                 var paidEnd = new Date(paidToDate);
                 paidEnd.setHours(23,59,59,0);
+                var swipedEnd = new Date(swipedToDate);
+                swipedEnd.setHours(23, 59, 59, 0);
                 var config = {
                     filterByFields: filterSettings,
                     orderBy: orderBy,
@@ -410,6 +421,8 @@ angular.module('app.policy').factory('DealerPolicyService',
                     approvedToDate: approvedEnd,
                     paidFromDate: paidStart,
                     paidToDate: paidEnd,
+                    swipedFromDate: swipedStart,
+                    swipedToDate: swipedEnd,
                 };
                 
                 $http.post("/api/dealer-policies/excel", config)
