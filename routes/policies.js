@@ -116,6 +116,14 @@ router.post('/excel', function (req, res) {
     conditions['effective_date'] = { $lte: req.body.effectiveToDate };
   }
 
+  if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+  } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+  } else if (req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $lte: req.body.swipedToDate };
+  }
+
   if(conditions.organization){
     delete conditions.organization;
   }
@@ -129,6 +137,7 @@ router.post('/excel', function (req, res) {
       var json2csv = require('json2csv');
       var fields = [
         'created_at',
+        'swiped_at',
         'mandatory_policy_no',
         'policy_no',
         'company.name',
@@ -181,9 +190,11 @@ router.post('/excel', function (req, res) {
         'paid_at',
         'payment_bank',
         'expired_at',
+        'remark',
       ];
       var fieldNames = [
         '提交日期',
+        '刷卡日期',
         '交强险保单号',
         '商业险保单号',
         '保险公司',
@@ -236,6 +247,7 @@ router.post('/excel', function (req, res) {
         '支付日期',
         '支付银行',
         '到期日期',
+        '备注',
       ];
 
       var dateFormat = require('dateformat');
@@ -250,6 +262,7 @@ router.post('/excel', function (req, res) {
         row.seller = {};
         row.client = {};
         row.created_at = (dateFormat(policy.created_at, "mm/dd/yyyy"));
+        row.swiped_at = policy.swiped_at ? (dateFormat(policy.swiped_at, "mm/dd/yyyy")) : '';
         row.mandatory_policy_no = "'" + policy.mandatory_policy_no;
         row.policy_no = "'" + policy.policy_no;
         row.company.name = policy.company ? policy.company.name : policy.level4_company ? policy.level4_company.name :  policy.level3_company? policy.level3_company.name :policy.level2_company? policy.level2_company.name : '';
@@ -309,6 +322,7 @@ router.post('/excel', function (req, res) {
         row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
         row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
         row.payment_bank = policy.payment_bank ? policy.payment_bank : '';
+        row.remark = policy.comment ? policy.comment : '';
         if (!policy.effective_date) {
           row.expired_at = '';
         } else{
@@ -398,6 +412,7 @@ router.put('/:id', function (req, res) {
     policy.payment_substraction_comment = req.body.payment_substraction_comment;
     policy.total_payment = req.body.total_payment;
     policy.effective_date = req.body.effective_date;
+    policy.swiped_at = req.body.swiped_at;
     policy.catogary = req.body.catogary;
     policy.payment_bank = req.body.payment_bank;
     policy.payment_proof = req.body.payment_proof;
@@ -498,6 +513,14 @@ router.post('/search', function (req, res) {
     conditions['effective_date'] = { $gte: req.body.effectiveFromDate };
   } else if (req.body.effectiveToDate != undefined) {
     conditions['effective_date'] = { $lte: req.body.effectiveToDate };
+  }
+
+  if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+  } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+    conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+  } else if (req.body.swipedToDate != undefined) {
+    conditions['swiped_at'] = { $lte: req.body.swipedToDate };
   }
 
   if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {

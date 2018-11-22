@@ -104,6 +104,14 @@
                                         <input class="input-lg" name="payer" ng-model="vm.policy.applicant.payer" validator="required">
                                     </label>
                                 </section>
+                                <section class="col col-2">
+                                    <label class="label">刷卡日期</label>
+                                    <label class="input">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" class="input-lg" name="swiped_at" placeholder="请输入刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.policy.swiped_at">
+                                    </label>
+                                </section>
                             </div>
                         </fieldset>
                         <fieldset class="optional-input-field-set" ng-disabled="!vm.editable">

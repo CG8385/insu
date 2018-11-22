@@ -11,6 +11,10 @@
                     ng-model="vm.approvedFromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="approved-to-date" placeholder="截止审核日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                     ng-model="vm.approvedToDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-from-date" placeholder="起始刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.swipedFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-to-date" placeholder="截止刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                    ng-model="vm.swipedToDate" ng-change="vm.filterChanged()">
                 <br/>
                 <button ng-click="vm.refreshClicked()" class="btn btn-primary">
                     <i class="fa fa-fw fa-refresh"></i>刷新</button>
@@ -41,6 +45,8 @@
                                         <input type="checkbox" ng-model="vm.areAllSelected" ng-change="vm.areAllSelected?vm.selectAll():vm.clearSelection()">
                                     </th>
                                     <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="swiped_at" display-name="刷卡时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="approved_at" display-name="审核时间" display-format="getApprovedTime:gridItem" enable-filtering="false" enable-sorting="false">
                                     </th>

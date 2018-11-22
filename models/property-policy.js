@@ -51,6 +51,7 @@ var schema = new mongoose.Schema({
   updated_at: { type: Date },
   approved_at: { type: Date },
   paid_at: { type: Date },
+  swiped_at: {type: Date},
   has_warning: Boolean
 });
 

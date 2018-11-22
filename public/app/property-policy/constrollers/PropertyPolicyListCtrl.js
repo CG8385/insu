@@ -216,6 +216,8 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.approvedToDate = localStorageService.get("property-approvedToDate") ? localStorageService.get("property-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("property-paidFromDate") ? localStorageService.get("property-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("property-paidToDate") ? localStorageService.get("property-paidToDate") : undefined;
+        vm.swipedFromDate = localStorageService.get("property-swipedFromDate") ? localStorageService.get("property-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("property-swipedToDate") ? localStorageService.get("property-swipedToDate") : undefined;
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.property-policy.paid")) {
         PropertyPolicyService.getLevel2Companies()
@@ -239,6 +241,8 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         vm.approvedToDate = localStorageService.get("property-paid-approvedToDate") ? localStorageService.get("property-paid-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("property-paid-paidFromDate") ? localStorageService.get("property-paid-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("property-paid-paidToDate") ? localStorageService.get("property-paid-paidToDate") : undefined;
+        vm.swipedFromDate = localStorageService.get("property-paid-swipedFromDate") ? localStorageService.get("property-paid-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("property-paid-swipedToDate") ? localStorageService.get("property-paid-swipedToDate") : undefined;
         vm.tableHeader = "已支付保单";
         vm.tableHeader = "已支付保单";
     } else if ($state.is("app.property-policy.rejected")) {
@@ -290,7 +294,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
         }
         vm.areAllSelected = false;
         vm.pageItems = pageItems;
-        PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
+        PropertyPolicyService.searchPolicies(vm.currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,  vm.swipedFromDate, vm.swipedToDate)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -316,6 +320,8 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             localStorageService.set('property-approvedToDate', vm.approvedToDate);
             localStorageService.set('property-paidFromDate', vm.paidFromDate);
             localStorageService.set('property-paidToDate', vm.paidToDate);
+            localStorageService.set('property-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('property-swipedToDate', vm.swipedToDate);
         }
         else if ($state.is("app.property-policy.paid")) {
             localStorageService.set("property-paid-filterSettings", vm.filterSettings);
@@ -325,6 +331,8 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
             localStorageService.set('property-paid-approvedToDate', vm.approvedToDate);
             localStorageService.set('property-paid-paidFromDate', vm.paidFromDate);
             localStorageService.set('property-paid-paidToDate', vm.paidToDate);
+            localStorageService.set('property-paid-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('property-paid-swipedToDate', vm.swipedToDate);
         }
         else if ($state.is("app.property-policy.rejected")) {
             localStorageService.set("property-rejected-filterSettings", vm.filterSettings);
@@ -387,7 +395,7 @@ angular.module('app.property-policy').controller('PropertyPolicyListController',
     }
 
     vm.exportFilteredPolicies = function () {
-        PropertyPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate)
+        PropertyPolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate, vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.swipedFromDate, vm.swipedToDate)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'

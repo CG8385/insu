@@ -19,6 +19,11 @@
                                             ng-model="vm.paidFromDate" ng-change="vm.filterChanged()">
                 <input type="text" class="input-md" name="paid-to-date" placeholder="截止支付日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
                                             ng-model="vm.paidToDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-from-date" placeholder="起始刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.swipedFromDate" ng-change="vm.filterChanged()">
+                <input type="text" class="input-md" name="swiped-to-date" placeholder="截止刷卡日期" data-smart-datepicker data-dateformat='yyyy-MM-dd'
+                                            ng-model="vm.swipedToDate" ng-change="vm.filterChanged()">
+                <br/>
                 <select style="min-width: 240px;" name='level2Company' class="input-sm" data-ng-change="vm.level2Changed()" ng-model="vm.filterSettings.level2_company"
                     ng-options="c._id as c.name for c in vm.level2Companies">
                     <option value="">选择二级保险公司</option>
@@ -50,11 +55,14 @@
                 <div>
                     <div class="widget-body no-padding table-responsive">
 
-                        <table class = "table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false" total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)" current-page="vm.currentPage">
+                        <table class="table-striped table-condensed" tr-ng-grid items="vm.policies" fields="vm.displayFields" page-items="15" enable-filtering="false"
+                            total-items="vm.policyTotalCount" on-data-required="vm.onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)"
+                            current-page="vm.currentPage">
                             <thead>
                                 <tr>
-                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false"
-                                    display-format="date:'yyyy-MM-dd'">
+                                    <th field-name="created_at" display-name="提交时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
+                                    </th>
+                                    <th field-name="swiped_at" display-name="刷卡时间" enable-filtering="false" enable-sorting="false" display-format="date:'yyyy-MM-dd'">
                                     </th>
                                     <th field-name="policy_no" display-name="保单号" enable-filtering="false" enable-sorting="false">
                                     </th>

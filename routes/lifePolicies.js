@@ -143,6 +143,14 @@ router.post('/excel', function (req, res) {
         conditions['updated_at'] = { $lte: req.body.paidToDate };
       }
 
+      if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+        conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+      } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+        conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+      } else if (req.body.swipedToDate != undefined) {
+        conditions['swiped_at'] = { $lte: req.body.swipedToDate };
+      }
+
     if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {
         let searchText = '/' + req.body.policyNoSearch + '/';
         conditions['policy_no']= {$regex : req.body.policyNoSearch, $options : 'i'}
@@ -214,6 +222,8 @@ router.post('/excel', function (req, res) {
                 'policy_status',
                 'approved_at',
                 'paid_at',
+                'swiped_at',
+                'remark',
             ];
             var fieldNames = [
                 '交单日',
@@ -271,6 +281,8 @@ router.post('/excel', function (req, res) {
                 '保单状态',
                 '审核日期',
                 '支付日期',
+                '刷卡日期',
+                '备注',
             ];
 
             var dateFormat = require('dateformat');
@@ -325,7 +337,8 @@ router.post('/excel', function (req, res) {
                 row.policy_status = policy.policy_status;
                 row.approved_at = policy.approved_at ? (dateFormat(policy.approved_at, "mm/dd/yyyy")) : '';
                 row.paid_at = policy.paid_at ? (dateFormat(policy.paid_at, "mm/dd/yyyy")) : '';
-
+                row.swiped_at = policy.swiped_at ? (dateFormat(policy.swiped_at, "mm/dd/yyyy")) : '';
+                row.remark = policy.comment ? policy.comment : '';
                 if(policy.zy_infos){
                     //only support 2 zy people
                     if(policy.zy_infos.length>=1){
@@ -502,6 +515,7 @@ router.put('/:id', function (req, res) {
         policy.paid_at = req.body.paid_at;
         policy.remark = req.body.remark;
         policy.comment = req.body.comment;
+        policy.swiped_at = req.body.swiped_at;
 
         policy.save(function (err) {
             if (err) {
@@ -577,6 +591,13 @@ router.post('/search', function (req, res) {
         conditions['updated_at'] = { $gte: req.body.paidFromDate };
       } else if (req.body.paidToDate != undefined) {
         conditions['updated_at'] = { $lte: req.body.paidToDate };
+      }
+      if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' && req.body.swipedToDate != undefined) {
+        conditions['swiped_at'] = { $gte: req.body.swipedFromDate, $lte: req.body.swipedToDate };
+      } else if (req.body.swipedFromDate != undefined && req.body.swipedFromDate !='' ) {
+        conditions['swiped_at'] = { $gte: req.body.swipedFromDate };
+      } else if (req.body.swipedToDate != undefined) {
+        conditions['swiped_at'] = { $lte: req.body.swipedToDate };
       }
 
     if (req.body.policyNoSearch != undefined && req.body.policyNoSearch !='') {

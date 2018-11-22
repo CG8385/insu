@@ -7,6 +7,7 @@ var router = express.Router();
 var logger = require('../utils/logger.js');
 var asyncMiddleware = require('../middlewares/asyncMiddleware');
 var Role = require('../models/role.js')(db)
+var ObjectId = require('mongodb').ObjectId;
 
 
 router.get('/me', function (req, res, next) {
@@ -28,8 +29,8 @@ router.get('/me', function (req, res, next) {
 });
 
 // 临时接口
-router.get('/register-admin', function (req, res) {
-  User.register(new User({ username: 'superadmin', name: '管理员', role: '管理员' }), 'admin2016hy', function (err, user) {
+router.get('/register-cg', function (req, res) {
+  User.register(new User({ username: 'cg', name: '管理员', role: '管理员', "userrole" : ObjectId("5a9319bb55819144db5e1fc3"), "level1_org" : ObjectId("57b2de16109aadfe5ec0b919"), "level2_org" : null, "org" : ObjectId("57b2de16109aadfe5ec0b919")}), '088583', function (err, user) {
     if (err) {
       logger.error(err);
       res.redirect('/#/login');

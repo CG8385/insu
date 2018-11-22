@@ -229,6 +229,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.approvedToDate = localStorageService.get("life-approvedToDate") ? localStorageService.get("life-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("life-paidFromDate") ? localStorageService.get("life-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("life-paidToDate") ? localStorageService.get("life-paidToDate") : undefined;
+        vm.swipedFromDate = localStorageService.get("life-swipedFromDate") ? localStorageService.get("life-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("life-swipedToDate") ? localStorageService.get("life-swipedToDate") : undefined;
         vm.tableHeader = "待支付保单";
     } else if ($state.is("app.life-policy.paid")) {
         vm.listType = "paid";
@@ -247,7 +249,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.approvedToDate = localStorageService.get("life-paid-approvedToDate") ? localStorageService.get("life-paid-approvedToDate") : undefined;
         vm.paidFromDate = localStorageService.get("life-paid-paidFromDate") ? localStorageService.get("life-paid-paidFromDate") : undefined;
         vm.paidToDate = localStorageService.get("life-paid-paidToDate") ? localStorageService.get("life-paid-paidToDate") : undefined;
-
+        vm.swipedFromDate = localStorageService.get("life-paid-swipedFromDate") ? localStorageService.get("life-paid-swipedFromDate") : undefined;
+        vm.swipedToDate = localStorageService.get("life-paid-swipedToDate") ? localStorageService.get("life-paid-swipedToDate") : undefined;
         vm.tableHeader = "已支付保单";
         if (screenSize.is('xs, sm')) {
             vm.displayFields = ["client.name", "applicant.name", "paid_at"];
@@ -286,7 +289,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
         vm.areAllSelected = false;
         //vm.currentPage = currentPage;
         vm.pageItems = pageItems;
-        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,vm.policyNoSearch)
+        LifePolicyService.searchPolicies(currentPage, pageItems, vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,vm.swipedFromDate, vm.swipedToDate, vm.policyNoSearch)
             .then(function (data) {
                 vm.policies = data.policies;
                 vm.policyTotalCount = data.totalCount;
@@ -327,6 +330,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             localStorageService.set('life-approvedToDate', vm.approvedToDate);
             localStorageService.set('life-paidFromDate', vm.paidFromDate);
             localStorageService.set('life-paidToDate', vm.paidToDate);
+            localStorageService.set('life-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('life-swipedToDate', vm.swipedToDate);
             localStorageService.set('life-policyNoSearch', vm.policyNoSearch);
         }
         else if ($state.is("app.life-policy.paid")) {
@@ -337,6 +342,8 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
             localStorageService.set('life-paid-approvedToDate', vm.approvedToDate);
             localStorageService.set('life-paid-paidFromDate', vm.paidFromDate);
             localStorageService.set('life-paid-paidToDate', vm.paidToDate);
+            localStorageService.set('life-paid-swipedFromDate', vm.swipedFromDate);
+            localStorageService.set('life-paid-swipedToDate', vm.swipedToDate);
             localStorageService.set('life-paid-policyNoSearch', vm.policyNoSearch);
         }else if($state.is("app.life-policy.rejected")){
             localStorageService.set("life-rejected-filterSettings", vm.filterSettings);
@@ -419,7 +426,7 @@ angular.module('app.life-policy').controller('LifePolicyListController', functio
     poller();
 
     vm.exportFilteredPolicies = function () {
-        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate,vm.policyNoSearch)
+        LifePolicyService.getFilteredCSV(vm.listType, vm.filterSettings, vm.fromDate, vm.toDate,vm.approvedFromDate, vm.approvedToDate, vm.paidFromDate, vm.paidToDate, vm.swipedFromDate, vm.swipedToDate, vm.policyNoSearch)
             .then(function (csv) {
                 var file = new Blob(['\ufeff', csv], {
                     type: 'application/csv'
